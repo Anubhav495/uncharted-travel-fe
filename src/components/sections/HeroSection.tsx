@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 // Import your video file
-import heroVideo from '../../assets/hero-video.mp4';
+import heroVideo from '../../assets/spiti-mobile.mp4'
 
 interface HeroSectionProps {
     onJoinWaitlist: () => void;
