@@ -1,0 +1,23 @@
+# ==================================================
+# Netlify Configuration for UnchartedTravel
+# ==================================================
+
+# --- Build Settings ---
+# These settings tell Netlify how to build our site.
+# It will run `npm run build` and find the output in the `dist` or `build` folder.
+[build]
+  command = "npm run build"
+  publish = "dist" # Or "build", depending on your React setup (Vite uses `dist`, CRA uses `build`)
+
+# --- Rewrite Rule for Serverless Functions ---
+# This is the critical part that fixes the 405 error.
+[[redirects]]
+  # The path the frontend will call:
+  from = "/api/*"
+  
+  # The actual location of the function Netlify should run:
+  to = "/.netlify/functions/:splat"
+  
+  # The magic key: 200 means this is a "rewrite," not a "redirect."
+  # It preserves the original HTTP method (e.g., POST).
+  status = 200
