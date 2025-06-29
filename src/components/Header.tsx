@@ -14,7 +14,6 @@ const Header: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
@@ -44,32 +43,52 @@ const Header: React.FC = () => {
         }
     `;
 
-    const NavLink: React.FC<{ href: string; children: React.ReactNode; onClick?: () => void }> = ({ 
+    // Reusable NavLink component with dynamic text color and new hover effect
+    const NavLink: React.FC<{ href: string; children: React.ReactNode; isMobile?: boolean; onClick?: () => void }> = ({ 
         href, 
-        children, 
+        children,
+        isMobile = false,
         onClick 
-    }) => (
-        <a
-            href={href}
-            className="block py-3 px-4 text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
-            onClick={onClick}
-        >
-            {children}
-        </a>
-    );
+    }) => {
+        // Mobile links have a simple hover effect
+        if (isMobile) {
+            return (
+                <a href={href} className="block py-3 px-4 text-gray-700 hover:text-blue-600 rounded-md hover:bg-gray-100 transition-colors duration-200 font-medium" onClick={onClick}>
+                    {children}
+                </a>
+            );
+        }
+
+        // Desktop links get the animated underline
+        const linkClasses = `
+            font-medium transition-colors duration-300 ease-out relative group py-2
+            ${scrolled 
+                ? 'text-gray-700' // Dark text for scrolled header
+                : 'text-white [text-shadow:0_1px_2px_rgb(0_0_0_/_0.3)]' // White text for transparent header
+            }
+        `;
+        
+        return (
+            <a href={href} className={linkClasses} onClick={onClick}>
+                {children}
+                {/* --- THIS IS THE ANIMATED UNDERLINE --- */}
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-yellow-400 transition-all duration-300 ease-out group-hover:w-full"></span>
+            </a>
+        );
+    };
 
     return (
         <header className={headerClasses}>
             <div className="container mx-auto px-4 flex justify-between items-center">
-                {/* Brand */}
+                {/* Brand Logo/Name */}
                 <a 
                     href="/" 
                     className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity z-10"
                 >
                     UnchartedTravel
                 </a>
-
-                {/* Desktop Navigation - Hidden on mobile */}
+                
+                {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center space-x-8">
                     <NavLink href="#destinations">Destinations</NavLink>
                     <NavLink href="#become-guide">Become a Guide</NavLink>
@@ -78,17 +97,17 @@ const Header: React.FC = () => {
                 {/* Mobile Menu Button */}
                 <button 
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="menu-button md:hidden p-2 rounded-lg hover:bg-black/5 transition-colors z-10"
+                    className="menu-button md:hidden p-2 rounded-lg hover:bg-black/10 transition-colors z-10"
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 >
                     {isMenuOpen ? (
                         <HiX className="h-6 w-6 text-gray-700" />
                     ) : (
-                        <HiMenu className="h-6 w-6 text-gray-700" />
+                        <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
                     )}
                 </button>
             </div>
-
+            
             {/* Mobile Menu Overlay */}
             {isMenuOpen && (
                 <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 md:hidden">
@@ -97,12 +116,14 @@ const Header: React.FC = () => {
                             <div className="space-y-1">
                                 <NavLink 
                                     href="#destinations" 
+                                    isMobile={true}
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     Destinations
                                 </NavLink>
                                 <NavLink 
                                     href="#become-guide" 
+                                    isMobile={true}
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     Become a Guide
@@ -110,12 +131,14 @@ const Header: React.FC = () => {
                                 <div className="border-t border-gray-200 my-4"></div>
                                 <NavLink 
                                     href="#about" 
+                                    isMobile={true}
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     About Us
                                 </NavLink>
                                 <NavLink 
                                     href="#contact" 
+                                    isMobile={true}
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     Contact
