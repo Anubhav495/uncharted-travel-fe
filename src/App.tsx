@@ -55,7 +55,7 @@ const App: React.FC = () => {
                 featurePreferences: selectedFeatureIDs,
             };
 
-            const response = await fetch("/.netlify/functions/submitWaitlist", {
+            const response = await fetch("/api/submitWaitlist", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
