@@ -1,6 +1,6 @@
 import React from 'react';
 import { Linkedin, Twitter, Instagram, Facebook } from 'lucide-react';
-import brandLogo from '../assets/placeholder-app-mockup.png';
+import brandLogo from '../assets/brand-logo.png';
 
 const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
     <li>

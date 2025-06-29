@@ -69,9 +69,13 @@ body {
   animation: spin 1s linear infinite;
 }
 
-/* Custom utilities */
+/* Enhanced text shadow utilities */
 .text-shadow {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .backdrop-blur-safari {

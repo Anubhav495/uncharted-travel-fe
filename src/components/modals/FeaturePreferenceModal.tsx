@@ -64,19 +64,19 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-50">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div 
-                className="bg-white w-full sm:w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-xl transform transition-all duration-300 ease-out max-h-[90vh] sm:max-h-[80vh] flex flex-col"
+                className="bg-white w-full max-w-lg rounded-2xl shadow-xl transform transition-all duration-300 ease-out max-h-[90vh] flex flex-col"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="feature-modal-title"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 flex-shrink-0">
+                <div className="flex items-center justify-between p-6 border-b border-gray-100 flex-shrink-0">
                     <div>
                         <h2 
                             id="feature-modal-title" 
-                            className="text-lg sm:text-xl font-bold text-gray-900"
+                            className="text-xl font-bold text-gray-900"
                         >
                             Help Us Shape UnchartedTravel!
                         </h2>
@@ -95,10 +95,10 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
                 </div>
 
                 {/* Content */}
-                <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
+                <form onSubmit={handleSubmit} className="flex flex-col flex-grow min-h-0">
                     <div 
                         ref={scrollRef}
-                        className="flex-grow overflow-y-auto p-4 sm:p-6"
+                        className="flex-grow overflow-y-auto p-6"
                     >
                         {error && (
                             <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
@@ -133,8 +133,8 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
                         </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className="p-4 sm:p-6 border-t border-gray-100 flex-shrink-0">
+                    {/* Footer - Fixed at bottom */}
+                    <div className="p-6 border-t border-gray-100 flex-shrink-0 bg-white rounded-b-2xl">
                         <button
                             type="submit"
                             disabled={isLoading}

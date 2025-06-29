@@ -196,16 +196,16 @@ const GuideStoriesSection: React.FC = () => {
                 </button>
             </div>
 
-            {/* Dots Indicator - Exactly matching ReviewsSection spacing */}
-            <div className="relative flex justify-center items-center space-x-1.5 mt-6">
+            {/* Much Smaller Dots for Mobile */}
+            <div className="relative flex justify-center items-center space-x-1 sm:space-x-1.5 mt-6">
                 {foundingGuides.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
                         className={`rounded-full transition-all duration-300 ${
                             currentIndex === index 
-                                ? 'bg-yellow-400 w-2 h-0.5 sm:w-2.5 sm:h-0.5' 
-                                : 'bg-white/50 w-0.5 h-0.5 sm:w-1 sm:h-1 hover:bg-white/70'
+                                ? 'bg-yellow-400 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3' 
+                                : 'bg-white/50 w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 hover:bg-white/70'
                         }`}
                         aria-label={`Go to guide ${index + 1}`}
                     />
