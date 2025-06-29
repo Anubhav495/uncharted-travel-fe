@@ -1,7 +1,5 @@
 import React from 'react';
-// --- STRATEGIC CHANGE: Using a clear, correct import path for our official logo ---
-// Please ensure your logo file is named 'brand-logo.png' and located correctly.
-import brandLogo from '../../assets/brand-logo.png'; 
+import brandLogo from '../../assets/brand-logo.png';
 
 const HowItWorksSection: React.FC = () => {
     return (
