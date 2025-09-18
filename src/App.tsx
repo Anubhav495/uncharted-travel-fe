@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header.tsx';
-import HomePage from './components/HomePage.tsx';
-import Footer from './components/Footer.tsx';
-import WaitlistModal from './components/modals/WaitlistModal.tsx';
-import FeaturePreferenceModal from './components/modals/FeaturePreferenceModal.tsx';
-import ConfirmationModal from './components/modals/ConfirmationModal.tsx';
+import Header from './components/Header';
+import HomePage from './components/HomePage';
+import Footer from './components/Footer';
+import WaitlistModal from './components/modals/WaitlistModal';
+import FeaturePreferenceModal from './components/modals/FeaturePreferenceModal';
+import ConfirmationModal from './components/modals/ConfirmationModal';
+import ErrorModal from './components/modals/ErrorModal';
 import { FeaturePreferences } from './types';
 
-type ModalType = 'waitlist' | 'features' | 'confirmed' | null;
+type ModalType = 'waitlist' | 'features' | 'confirmed' | 'error' | null;
 
 const App: React.FC = () => {
     const [activeModal, setActiveModal] = useState<ModalType>(null);
@@ -62,14 +63,15 @@ const App: React.FC = () => {
             });
 
             if (!response.ok) {
-                throw new Error(`API submission failed with status: ${response.status}`);
+                console.error(`API submission failed with status: ${response.status}`);
+                setActiveModal('error');
+                return;
             }
 
             setActiveModal('confirmed');
         } catch (err) {
             console.error("Error submitting feature preferences:", err);
-            // Still show confirmation for better UX
-            setActiveModal('confirmed');
+            setActiveModal('error');
         } finally {
             setIsLoading(false);
         }
@@ -78,6 +80,11 @@ const App: React.FC = () => {
     const handleCloseModals = () => {
         setActiveModal(null);
         setUserEmail('');
+    };
+
+    const handleErrorRetry = () => {
+        // Go back to features modal to let user retry
+        setActiveModal('features');
     };
 
     return (
@@ -102,6 +109,12 @@ const App: React.FC = () => {
             <ConfirmationModal
                 isOpen={activeModal === 'confirmed'}
                 onClose={handleCloseModals}
+            />
+
+            <ErrorModal
+                isOpen={activeModal === 'error'}
+                onClose={handleCloseModals}
+                onRetry={handleErrorRetry}
             />
         </div>
     );

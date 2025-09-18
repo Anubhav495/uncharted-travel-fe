@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-// Import your video file
-import heroVideo from '../../assets/spiti.mp4'
 
 interface HeroSectionProps {
     onJoinWaitlist: () => void;
@@ -11,6 +9,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,23 +23,36 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
+
         const handleLoadedData = () => {
             setIsVideoLoaded(true);
             video.play().catch(console.error);
         };
+
+        const handleError = (e) => {
+            console.error("Video failed to load", e);
+        };
+
         const handleEnded = () => {
             video.currentTime = 0;
             video.play().catch(console.error);
         };
+
         video.addEventListener('loadeddata', handleLoadedData);
+        video.addEventListener('error', handleError);
         video.addEventListener('ended', handleEnded);
+
+        // Force load the video
+        video.load();
+
         return () => {
             video.removeEventListener('loadeddata', handleLoadedData);
+            video.removeEventListener('error', handleError);
             video.removeEventListener('ended', handleEnded);
         };
     }, []);
 
-    const scrollToNext = () => {
+const scrollToNext = () => {
         const nextSection = document.querySelector('#why-us');
         nextSection?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -59,7 +71,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
                 preload="metadata"
                 poster="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop"
             >
-                <source src={heroVideo} type="video/mp4" />
+                <source src="/spiti.mp4" type="video/mp4" />
+                <source src="/assets/spiti.mp4" type="video/mp4" />
             </video>
             
             {/* Fallback background image (shown while video loads) */}
@@ -72,13 +85,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
                 />
             )}
             
-            {/* --- The Controlling Property: Opacity reduced from /40 to /30 --- */}
             <div className="absolute inset-0 bg-black/30 z-10" />
             
             {/* Content */}
             <div className="relative z-20 container mx-auto px-4 text-center text-white">
                 <div className="max-w-4xl mx-auto">
-                    {/* --- ADDED: Text shadow for guaranteed readability --- */}
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight [text-shadow:0_2px_4px_rgb(0_0_0_/_0.5)]">
                         Go <span className="text-yellow-400">Beyond</span> the Guidebook
                     </h1>
@@ -110,7 +121,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
                 </button>
             </div>
             
-            {/* Mobile-optimized gradient overlay at bottom, slightly lightened */}
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/15 to-transparent z-10" />
         </section>
     );

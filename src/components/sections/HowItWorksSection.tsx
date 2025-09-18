@@ -20,7 +20,7 @@ const HowItWorksSection: React.FC = () => {
                 
                 <div className="inline-block bg-amber-400 p-8 rounded-xl shadow-xl">
                     <img 
-                        src={brandLogo} 
+                        src="/assets/brand-logo.png"
                         alt="UnchartedTravel Stag Logo" 
                         className="h-24 w-auto"
                     />
