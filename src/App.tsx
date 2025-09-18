@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header.tsx';
-import HomePage from './components/HomePage.tsx';
-import Footer from './components/Footer.tsx';
-import WaitlistModal from './components/modals/WaitlistModal.tsx';
-import FeaturePreferenceModal from './components/modals/FeaturePreferenceModal.tsx';
-import ConfirmationModal from './components/modals/ConfirmationModal.tsx';
-import ErrorModal from './components/modals/ErrorModal.tsx';
+import Header from './components/Header';
+import HomePage from './components/HomePage';
+import Footer from './components/Footer';
+import WaitlistModal from './components/modals/WaitlistModal';
+import FeaturePreferenceModal from './components/modals/FeaturePreferenceModal';
+import ConfirmationModal from './components/modals/ConfirmationModal';
+import ErrorModal from './components/modals/ErrorModal';
 import { FeaturePreferences } from './types';
 
 type ModalType = 'waitlist' | 'features' | 'confirmed' | 'error' | null;
