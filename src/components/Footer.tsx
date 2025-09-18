@@ -1,6 +1,5 @@
 import React from 'react';
 import { Linkedin, Twitter, Instagram, Facebook } from 'lucide-react';
-import brandLogo from '../assets/brand-logo.png';
 
 const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
     <li>
@@ -111,7 +110,7 @@ const Footer: React.FC = () => {
                 <div className="border-t border-gray-700 pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
                     <div className="flex items-center">
                         <img 
-                            src={brandLogo} 
+                            src="/assets/brand-logo.png" 
                             alt="UnchartedTravel Logo" 
                             className="h-8 w-auto mr-3"
                         />
