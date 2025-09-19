@@ -15,6 +15,11 @@ const App: React.FC = () => {
     const [userEmail, setUserEmail] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    // ADD THIS EFFECT FOR THE PAGE TITLE
+    useEffect(() => {
+        document.title = 'Uncharted Travel';
+    }, []);
+
     // Prevent body scroll when modal is open
     useEffect(() => {
         if (activeModal) {
@@ -28,6 +33,7 @@ const App: React.FC = () => {
         };
     }, [activeModal]);
 
+    // ... rest of your excellent code
     const handleOpenWaitlist = () => {
         setActiveModal('waitlist');
     };
@@ -83,7 +89,6 @@ const App: React.FC = () => {
     };
 
     const handleErrorRetry = () => {
-        // Go back to features modal to let user retry
         setActiveModal('features');
     };
 
