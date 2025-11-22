@@ -7,7 +7,6 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
 
@@ -20,25 +19,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
 
-        const handleLoadedData = () => {
-            setIsVideoLoaded(true);
-        };
-
-        video.addEventListener('loadeddata', handleLoadedData);
-
-        // Check if video is already loaded (e.g. from cache)
-        if (video.readyState >= 3) {
-            setIsVideoLoaded(true);
-        }
-
-        return () => {
-            video.removeEventListener('loadeddata', handleLoadedData);
-        };
-    }, []);
 
     const scrollToNext = () => {
         const nextSection = document.querySelector('#why-us');
@@ -61,18 +42,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
                 preload="auto"
                 poster="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop"
             >
+                <source src="/assets/spiti-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
                 <source src="/assets/spiti.mp4" type="video/mp4" />
             </video>
-
-            {/* Fallback background image (shown while video loads) */}
-            {!isVideoLoaded && (
-                <div
-                    className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{
-                        backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
-                    }}
-                />
-            )}
 
             <div className="absolute inset-0 bg-black/30 z-10" />
 
