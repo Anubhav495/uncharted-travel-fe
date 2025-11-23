@@ -1,9 +1,9 @@
 import React from 'react';
-import HeroSection from './sections/HeroSection';
-import WhyUsSection from './sections/WhyUsSection';
-import GuideStoriesSection from './sections/GuideStoriesSection';
-import ReviewsSection from './sections/ReviewsSection';
-import HowItWorksSection from './sections/HowItWorksSection';
+import HeroSection from '../sections/home/HeroSection';
+import WhyUsSection from '../sections/home/WhyUsSection';
+import GuideStoriesSection from '../sections/home/GuideStoriesSection';
+import ReviewsSection from '../sections/home/ReviewsSection';
+import HowItWorksSection from '../sections/home/HowItWorksSection';
 
 interface HomePageProps {
     onJoinWaitlist: () => void;
