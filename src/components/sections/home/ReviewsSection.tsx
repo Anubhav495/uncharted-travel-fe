@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Review } from '../../types';
+import { Review } from '../../../types';
 
 const customerReviews: Review[] = [
     {
@@ -43,8 +43,8 @@ const customerReviews: Review[] = [
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
     <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg h-[280px] sm:h-[300px] flex flex-col">
         <div className="flex items-center mb-4">
-            <img 
-                src={review.avatarUrl} 
+            <img
+                src={review.avatarUrl}
                 alt={review.name}
                 className="w-12 h-12 rounded-full mr-4 object-cover"
                 loading="lazy"
@@ -54,18 +54,17 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
                 <p className="text-xs sm:text-sm text-gray-500">{review.tour}</p>
             </div>
         </div>
-        
+
         <div className="flex mb-4">
             {[...Array(5)].map((_, i) => (
-                <Star 
-                    key={i} 
-                    className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                    }`} 
+                <Star
+                    key={i}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                        }`}
                 />
             ))}
         </div>
-        
+
         <p className="text-gray-600 italic text-sm sm:text-base leading-relaxed flex-grow">
             "{review.quote}"
         </p>
@@ -115,7 +114,7 @@ const ReviewsSection: React.FC = () => {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
-        
+
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
@@ -131,7 +130,7 @@ const ReviewsSection: React.FC = () => {
         const total = customerReviews.length;
         const prevIndex = (currentIndex - 1 + total) % total;
         const nextIndex = (currentIndex + 1) % total;
-        
+
         let styles = 'absolute top-0 w-full max-w-xs sm:max-w-md transform transition-all duration-500 ease-out';
 
         if (index === currentIndex) {
@@ -147,12 +146,12 @@ const ReviewsSection: React.FC = () => {
             // Hidden cards
             styles += ' scale-75 opacity-0 z-0 left-1/2 -translate-x-1/2';
         }
-        
+
         return styles;
     };
 
     return (
-        <section 
+        <section
             className="relative py-16 sm:py-20 md:py-24 bg-cover bg-center bg-fixed overflow-hidden"
             style={{
                 backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
@@ -160,18 +159,18 @@ const ReviewsSection: React.FC = () => {
             id="reviews"
         >
             <div className="absolute inset-0 bg-black/50" />
-            
+
             <div className="relative container mx-auto px-4 text-center mb-8 sm:mb-12">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
                     <span className="text-yellow-400">Hear</span> From Our Travelers
                 </h2>
-                
+
                 <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
                     Real stories from travelers who discovered the heart of a city with our guides.
                 </p>
             </div>
 
-            <div 
+            <div
                 className="relative h-[350px] sm:h-[380px]"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
@@ -190,16 +189,16 @@ const ReviewsSection: React.FC = () => {
                 </div>
 
                 {/* Navigation Buttons - Hidden on mobile, visible on larger screens */}
-                <button 
-                    onClick={goToPrevious} 
-                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center" 
+                <button
+                    onClick={goToPrevious}
+                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
                     aria-label="Previous Review"
                 >
                     <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
                 </button>
-                <button 
-                    onClick={goToNext} 
-                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center" 
+                <button
+                    onClick={goToNext}
+                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
                     aria-label="Next Review"
                 >
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
@@ -212,11 +211,10 @@ const ReviewsSection: React.FC = () => {
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
-                        className={`rounded-full transition-all duration-300 ${
-                            currentIndex === index 
-                                ? 'bg-yellow-400 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3' 
+                        className={`rounded-full transition-all duration-300 ${currentIndex === index
+                                ? 'bg-yellow-400 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3'
                                 : 'bg-white/50 w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 hover:bg-white/70'
-                        }`}
+                            }`}
                         aria-label={`Go to review ${index + 1}`}
                     />
                 ))}

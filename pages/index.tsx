@@ -1,13 +1,9 @@
-import App from '../src/App';
+import HomePage from '../src/components/templates/HomePage';
 
-// If your main UI is in App.tsx, you can import and use it here:
-// import App from '../src/App';
+interface HomeProps {
+  onJoinWaitlist: () => void;
+}
 
-// export default function Home() {
-//   return <App />;
-// }
-
-// Or use a placeholder homepage:
-export default function Home() {
-  return <App />;
+export default function Home({ onJoinWaitlist }: HomeProps) {
+  return <HomePage onJoinWaitlist={onJoinWaitlist} />;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { HiX } from 'react-icons/hi';
-import { FeaturePreferences } from '../../types';
+import { FeaturePreferences } from '../../../types';
 
 interface FeaturePreferenceModalProps {
     isOpen: boolean;
@@ -47,9 +47,9 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (isLoading) return;
-        
+
         const selectedCount = Object.values(preferences).filter(Boolean).length;
         if (selectedCount === 0) {
             setError('Please select at least one feature you are interested in.');
@@ -65,7 +65,7 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
 
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div 
+            <div
                 className="bg-white w-full max-w-lg rounded-2xl shadow-xl transform transition-all duration-300 ease-out max-h-[90vh] flex flex-col"
                 role="dialog"
                 aria-modal="true"
@@ -74,8 +74,8 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-100 flex-shrink-0">
                     <div>
-                        <h2 
-                            id="feature-modal-title" 
+                        <h2
+                            id="feature-modal-title"
                             className="text-xl font-bold text-gray-900"
                         >
                             Help Us Shape UnchartedTravel!
@@ -96,7 +96,7 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
 
                 {/* Content */}
                 <form onSubmit={handleSubmit} className="flex flex-col flex-grow min-h-0">
-                    <div 
+                    <div
                         ref={scrollRef}
                         className="flex-grow overflow-y-auto p-6"
                     >
@@ -110,11 +110,10 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
                             {FEATURES_LIST.map((feature) => (
                                 <label
                                     key={feature.id}
-                                    className={`flex items-start p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 ${
-                                        preferences[feature.id]
+                                    className={`flex items-start p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 ${preferences[feature.id]
                                             ? 'bg-blue-50 border-blue-500 shadow-sm'
                                             : 'bg-gray-50 border-transparent hover:bg-gray-100'
-                                    } ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                        } ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                                 >
                                     <input
                                         type="checkbox"
@@ -123,9 +122,8 @@ const FeaturePreferenceModal: React.FC<FeaturePreferenceModalProps> = ({
                                         className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5 flex-shrink-0"
                                         disabled={isLoading}
                                     />
-                                    <span className={`ml-3 text-sm font-medium leading-relaxed ${
-                                        preferences[feature.id] ? 'text-blue-700' : 'text-gray-700'
-                                    }`}>
+                                    <span className={`ml-3 text-sm font-medium leading-relaxed ${preferences[feature.id] ? 'text-blue-700' : 'text-gray-700'
+                                        }`}>
                                         {feature.label}
                                     </span>
                                 </label>

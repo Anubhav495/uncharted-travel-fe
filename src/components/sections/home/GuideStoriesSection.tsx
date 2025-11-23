@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Guide } from '../../types';
+import { Guide } from '../../../types';
 
 const foundingGuides: Guide[] = [
     {
@@ -80,7 +80,7 @@ const GuideStoriesSection: React.FC = () => {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
-        
+
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
@@ -96,7 +96,7 @@ const GuideStoriesSection: React.FC = () => {
         const total = foundingGuides.length;
         const prevIndex = (currentIndex - 1 + total) % total;
         const nextIndex = (currentIndex + 1) % total;
-        
+
         let styles = 'absolute top-0 w-full max-w-xs sm:max-w-md transform transition-all duration-500 ease-out';
 
         if (index === currentIndex) {
@@ -112,12 +112,12 @@ const GuideStoriesSection: React.FC = () => {
             // Hidden cards
             styles += ' scale-75 opacity-0 z-0 left-1/2 -translate-x-1/2';
         }
-        
+
         return styles;
     };
 
     return (
-        <section 
+        <section
             className="relative py-16 sm:py-20 md:py-24 overflow-hidden bg-cover bg-center bg-fixed"
             style={{
                 backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
@@ -126,7 +126,7 @@ const GuideStoriesSection: React.FC = () => {
         >
             {/* Background overlay to match other sections */}
             <div className="absolute inset-0 bg-black/50" />
-            
+
             <div className="relative container mx-auto text-center px-4 mb-8 sm:mb-12">
                 <span className="inline-block bg-sky-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-6">
                     Real Local Experts
@@ -138,8 +138,8 @@ const GuideStoriesSection: React.FC = () => {
                     Meet some of the passionate storytellers, historians, and artists ready to make your next trip unforgettable.
                 </p>
             </div>
-            
-            <div 
+
+            <div
                 className="relative h-[500px] sm:h-[530px]"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
@@ -152,9 +152,9 @@ const GuideStoriesSection: React.FC = () => {
                         <div key={index} className={getCardStyle(index)}>
                             <div className="bg-white rounded-xl shadow-lg overflow-hidden h-[450px] flex flex-col mx-4">
                                 <div className="relative h-56">
-                                    <img 
-                                        src={guide.imageUrl} 
-                                        alt={guide.name} 
+                                    <img
+                                        src={guide.imageUrl}
+                                        alt={guide.name}
                                         className="absolute h-full w-full object-cover"
                                         loading="lazy"
                                     />
@@ -180,16 +180,16 @@ const GuideStoriesSection: React.FC = () => {
                 </div>
 
                 {/* Navigation Buttons - Hidden on mobile, visible on larger screens */}
-                <button 
-                    onClick={goToPrevious} 
-                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center" 
+                <button
+                    onClick={goToPrevious}
+                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
                     aria-label="Previous Guide"
                 >
                     <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
                 </button>
-                <button 
-                    onClick={goToNext} 
-                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center" 
+                <button
+                    onClick={goToNext}
+                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
                     aria-label="Next Guide"
                 >
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
@@ -202,11 +202,10 @@ const GuideStoriesSection: React.FC = () => {
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
-                        className={`rounded-full transition-all duration-300 ${
-                            currentIndex === index 
-                                ? 'bg-yellow-400 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3' 
+                        className={`rounded-full transition-all duration-300 ${currentIndex === index
+                                ? 'bg-yellow-400 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3'
                                 : 'bg-white/50 w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 hover:bg-white/70'
-                        }`}
+                            }`}
                         aria-label={`Go to guide ${index + 1}`}
                     />
                 ))}
