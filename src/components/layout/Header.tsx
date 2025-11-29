@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { HiMenu, HiX } from 'react-icons/hi';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    variant?: 'default' | 'minimal';
+}
+
+const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -80,7 +84,7 @@ const Header: React.FC = () => {
 
     return (
         <header className={headerClasses}>
-            <div className="container mx-auto px-4 flex justify-between items-center">
+            <div className="container mx-auto px-4 flex justify-between items-center h-10">
                 {/* Brand Logo/Name */}
                 <Link
                     href="/"
@@ -90,27 +94,31 @@ const Header: React.FC = () => {
                 </Link>
 
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center space-x-8">
-                    <NavLink href="/#destinations">Destinations</NavLink>
-                    <NavLink href="/become-a-guide">Become a Guide</NavLink>
-                </nav>
+                {variant === 'default' && (
+                    <nav className="hidden md:flex items-center space-x-8">
+                        <NavLink href="/#destinations">Destinations</NavLink>
+                        <NavLink href="/become-a-guide">Become a Guide</NavLink>
+                    </nav>
+                )}
 
                 {/* Mobile Menu Button */}
-                <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="menu-button md:hidden p-2 rounded-lg hover:bg-black/10 transition-colors z-10"
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                >
-                    {isMenuOpen ? (
-                        <HiX className="h-6 w-6 text-gray-700" />
-                    ) : (
-                        <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
-                    )}
-                </button>
+                {variant === 'default' && (
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="menu-button md:hidden p-2 rounded-lg hover:bg-black/10 transition-colors z-10"
+                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    >
+                        {isMenuOpen ? (
+                            <HiX className="h-6 w-6 text-gray-700" />
+                        ) : (
+                            <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+                        )}
+                    </button>
+                )}
             </div>
 
             {/* Mobile Menu Overlay */}
-            {isMenuOpen && (
+            {isMenuOpen && variant === 'default' && (
                 <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 md:hidden">
                     <div className="pt-20 pb-8">
                         <nav className="container mx-auto px-4">

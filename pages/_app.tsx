@@ -15,6 +15,7 @@ type ModalType = 'waitlist' | 'features' | 'confirmed' | 'error' | null;
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isRegistrationPage = router.pathname === '/register/guide';
+  const headerVariant = isRegistrationPage ? 'minimal' : 'default';
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [userEmail, setUserEmail] = useState<string>('');
@@ -96,7 +97,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div className="min-h-screen">
-      {!isRegistrationPage && <Header />}
+      <Header variant={headerVariant} />
       <Component {...pageProps} onJoinWaitlist={handleOpenWaitlist} />
       {!isRegistrationPage && <Footer />}
 

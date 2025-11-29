@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Upload, CheckCircle } from 'lucide-react';
@@ -6,25 +9,54 @@ import TrekSelect from './TrekSelect';
 import PasswordModal from '../../modals/registration/PasswordModal';
 import { supabase } from '../../../lib/supabaseClient';
 
+
+const guideSchema = z.object({
+    fullName: z.string().min(1, 'Full name is required'),
+    email: z.string().email('Invalid email address'),
+    countryCode: z.string(),
+    phone: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits'),
+    city: z.string().min(1, 'City is required'),
+    state: z.string().min(1, 'State is required'),
+    yearsExperience: z.string().min(1, 'Please select experience'),
+    languages: z.string().min(1, 'Languages are required'),
+    treks: z.array(z.string()),
+});
+
+type GuideFormData = z.infer<typeof guideSchema>;
+
 const GuideRegistrationWizard: React.FC = () => {
     const router = useRouter();
     const [step, setStep] = useState(1);
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [isChecking, setIsChecking] = useState(false);
-    const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        countryCode: '+91',
-        phone: '',
-        password: '',
-        city: '',
-        state: '',
-        yearsExperience: '',
-        languages: '',
-        treks: [] as string[]
+
+    const {
+        register,
+        handleSubmit,
+        trigger,
+        watch,
+        setValue,
+        setError,
+        getValues,
+        formState: { errors }
+    } = useForm<GuideFormData>({
+        resolver: zodResolver(guideSchema),
+        defaultValues: {
+            fullName: '',
+            email: '',
+            countryCode: '+91',
+            phone: '',
+            city: '',
+            state: '',
+            yearsExperience: '',
+            languages: '',
+            treks: []
+        },
+        mode: 'onChange'
     });
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+    const formData = watch();
 
     // Restore saved progress from localStorage on mount
     useEffect(() => {
@@ -34,7 +66,10 @@ const GuideRegistrationWizard: React.FC = () => {
         if (savedData) {
             try {
                 const parsed = JSON.parse(savedData);
-                setFormData(parsed);
+                // Set form values from local storage
+                Object.keys(parsed).forEach((key) => {
+                    setValue(key as any, parsed[key]);
+                });
                 console.log('Restored registration progress from localStorage');
             } catch (error) {
                 console.error('Failed to restore registration data:', error);
@@ -48,46 +83,18 @@ const GuideRegistrationWizard: React.FC = () => {
 
     // Auto-save to localStorage whenever formData changes
     useEffect(() => {
-        localStorage.setItem('guideRegistrationDraft', JSON.stringify(formData));
-    }, [formData]);
-
-    // Save current step to localStorage
-    useEffect(() => {
-        localStorage.setItem('guideRegistrationStep', step.toString());
-    }, [step]);
-
-    const updateField = (field: string, value: any) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
-        // Clear error for this field when user starts typing
-        if (errors[field]) {
-            setErrors(prev => ({ ...prev, [field]: '' }));
-        }
-    };
-
-    const validateStep = (currentStep: number): boolean => {
-        const newErrors: { [key: string]: string } = {};
-
-        if (currentStep === 1) {
-            // Full Name validation
-            if (!formData.fullName.trim()) {
-                newErrors.fullName = 'Full name is required';
-            }
-
-            // Phone validation
-            if (!formData.phone.trim()) {
-                newErrors.phone = 'Phone number is required';
-            } else if (!/^\d{10}$/.test(formData.phone.trim())) {
-                newErrors.phone = 'Invalid phone number';
-            }
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+        const subscription = watch((value) => {
+            localStorage.setItem('guideRegistrationDraft', JSON.stringify(value));
+        });
+        return () => subscription.unsubscribe();
+    }, [watch]);
 
     const nextStep = async () => {
-        if (validateStep(step)) {
-            if (step === 1) {
+        let isValid = false;
+
+        if (step === 1) {
+            isValid = await trigger(['fullName', 'email', 'phone', 'countryCode']);
+            if (isValid) {
                 setIsChecking(true);
                 try {
                     // Check for duplicate email or phone
@@ -98,32 +105,26 @@ const GuideRegistrationWizard: React.FC = () => {
 
                     if (error) {
                         console.error("Error checking duplicates:", error);
-                        // Proceed with caution or show generic error? 
-                        // For now, we'll log it and let them proceed to avoid blocking on network errors
                     }
 
                     if (data && data.length > 0) {
-                        const newErrors: { [key: string]: string } = {};
                         let hasError = false;
 
-                        // Check which one matched
-                        // Note: Supabase 'or' query returns rows that match either condition
-                        // We need to check the returned rows to see what matched
+                        // Check which one matched and set error
                         data.forEach(record => {
                             if (record.email === formData.email) {
-                                newErrors.email = 'Email is already registered';
+                                setError('email', { type: 'manual', message: 'Email is already registered' });
                                 hasError = true;
                             }
                             if (record.phone === formData.phone) {
-                                newErrors.phone = 'Phone number is already registered';
+                                setError('phone', { type: 'manual', message: 'Phone number is already registered' });
                                 hasError = true;
                             }
                         });
 
                         if (hasError) {
-                            setErrors(prev => ({ ...prev, ...newErrors }));
                             setIsChecking(false);
-                            return; // Stop navigation
+                            return;
                         }
                     }
                 } catch (err) {
@@ -132,13 +133,19 @@ const GuideRegistrationWizard: React.FC = () => {
                     setIsChecking(false);
                 }
             }
+        } else if (step === 2) {
+            isValid = await trigger(['city', 'state']);
+        } else if (step === 3) {
+            isValid = await trigger(['yearsExperience', 'languages']);
+        }
+
+        if (isValid) {
             setStep(prev => Math.min(prev + 1, 3));
         }
     };
     const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const onSubmit = (data: GuideFormData) => {
         // Only show password modal on final step
         if (step === 3) {
             setIsPasswordModalOpen(true);
@@ -257,7 +264,7 @@ const GuideRegistrationWizard: React.FC = () => {
             </div>
 
             <form
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
                 onKeyDown={(e) => {
                     // Prevent form submission via Enter key unless on final step
                     if (e.key === 'Enter' && step !== 3) {
@@ -284,30 +291,30 @@ const GuideRegistrationWizard: React.FC = () => {
                                         type="text"
                                         className={`w-full bg-gray-800 border ${errors.fullName ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
                                         placeholder="e.g. Rahul Sharma"
-                                        value={formData.fullName}
-                                        onChange={e => updateField('fullName', e.target.value)}
+                                        {...register('fullName')}
                                     />
                                     {errors.fullName && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+                                        <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
                                     )}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all"
+                                        className={`w-full bg-gray-800 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
                                         placeholder="rahul@example.com"
-                                        value={formData.email}
-                                        onChange={e => updateField('email', e.target.value)}
+                                        {...register('email')}
                                     />
+                                    {errors.email && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
                                     <div className="flex gap-2">
                                         <select
                                             className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all"
-                                            value={formData.countryCode}
-                                            onChange={e => updateField('countryCode', e.target.value)}
+                                            {...register('countryCode')}
                                         >
                                             <option value="+91">🇮🇳 +91</option>
                                             <option value="+1">🇺🇸 +1</option>
@@ -324,12 +331,11 @@ const GuideRegistrationWizard: React.FC = () => {
                                             type="tel"
                                             className={`flex-1 bg-gray-800 border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
                                             placeholder="XXXXX XXXXX"
-                                            value={formData.phone}
-                                            onChange={e => updateField('phone', e.target.value)}
+                                            {...register('phone')}
                                         />
                                     </div>
                                     {errors.phone && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                                        <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
                                     )}
                                 </div>
 
@@ -353,21 +359,25 @@ const GuideRegistrationWizard: React.FC = () => {
                                         <label className="block text-sm font-medium text-gray-300 mb-1">City</label>
                                         <input
                                             type="text"
-                                            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all"
+                                            className={`w-full bg-gray-800 border ${errors.city ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
                                             placeholder="e.g. Manali"
-                                            value={formData.city}
-                                            onChange={e => updateField('city', e.target.value)}
+                                            {...register('city')}
                                         />
+                                        {errors.city && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-300 mb-1">State</label>
                                         <input
                                             type="text"
-                                            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all"
+                                            className={`w-full bg-gray-800 border ${errors.state ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
                                             placeholder="e.g. Himachal Pradesh"
-                                            value={formData.state}
-                                            onChange={e => updateField('state', e.target.value)}
+                                            {...register('state')}
                                         />
+                                        {errors.state && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -399,9 +409,8 @@ const GuideRegistrationWizard: React.FC = () => {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-1">Years of Experience</label>
                                     <select
-                                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all appearance-none"
-                                        value={formData.yearsExperience}
-                                        onChange={e => updateField('yearsExperience', e.target.value)}
+                                        className={`w-full bg-gray-800 border ${errors.yearsExperience ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all appearance-none`}
+                                        {...register('yearsExperience')}
                                     >
                                         <option value="">Select experience...</option>
                                         <option value="0-2">0-2 years</option>
@@ -409,22 +418,27 @@ const GuideRegistrationWizard: React.FC = () => {
                                         <option value="5-10">5-10 years</option>
                                         <option value="10+">10+ years</option>
                                     </select>
+                                    {errors.yearsExperience && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.yearsExperience.message}</p>
+                                    )}
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-1">Languages Spoken</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all"
+                                        className={`w-full bg-gray-800 border ${errors.languages ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
                                         placeholder="e.g. English, Hindi, Pahari"
-                                        value={formData.languages}
-                                        onChange={e => updateField('languages', e.target.value)}
+                                        {...register('languages')}
                                     />
+                                    {errors.languages && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.languages.message}</p>
+                                    )}
                                 </div>
 
                                 <TrekSelect
-                                    selectedTreks={formData.treks}
-                                    onChange={(treks) => updateField('treks', treks)}
+                                    selectedTreks={formData.treks || []}
+                                    onChange={(treks) => setValue('treks', treks)}
                                 />
                             </div>
                         </motion.div>
