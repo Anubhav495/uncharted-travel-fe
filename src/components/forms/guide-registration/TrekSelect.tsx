@@ -26,6 +26,20 @@ interface TrekSelectProps {
 
 const TrekSelect: React.FC<TrekSelectProps> = ({ selectedTreks, onChange }) => {
     const [isOpen, setIsOpen] = React.useState(false);
+    const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const toggleTrek = (trek: string) => {
         if (selectedTreks.includes(trek)) {
@@ -36,7 +50,7 @@ const TrekSelect: React.FC<TrekSelectProps> = ({ selectedTreks, onChange }) => {
     };
 
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             <label className="block text-sm font-medium text-gray-300 mb-2">
                 Which treks do you guide?
             </label>
