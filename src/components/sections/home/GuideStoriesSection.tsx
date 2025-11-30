@@ -202,9 +202,10 @@ const GuideStoriesSection: React.FC = () => {
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
-                        className={`rounded-full transition-all duration-300 ${currentIndex === index
-                                ? 'bg-yellow-400 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3'
-                                : 'bg-white/50 w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 hover:bg-white/70'
+                        style={{ minWidth: 0, minHeight: 0 }}
+                        className={`rounded-full transition-all duration-300 flex-shrink-0 p-0 !min-w-0 !min-h-0 ${currentIndex === index
+                            ? 'bg-yellow-400 !w-[10px] !h-[10px] sm:!w-[12px] sm:!h-[12px] md:!w-[14px] md:!h-[14px]'
+                            : 'bg-white/50 !w-[8px] !h-[8px] sm:!w-[10px] sm:!h-[10px] md:!w-[12px] md:!h-[12px] hover:bg-white/70'
                             }`}
                         aria-label={`Go to guide ${index + 1}`}
                     />
