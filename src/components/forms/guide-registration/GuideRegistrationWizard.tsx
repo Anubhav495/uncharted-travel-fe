@@ -271,7 +271,7 @@ const GuideRegistrationWizard: React.FC = () => {
                         e.preventDefault();
                     }
                 }}
-                className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 sm:p-8 shadow-2xl"
+                className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-4 sm:p-8 shadow-2xl"
             >
                 <AnimatePresence mode="wait">
                     {step === 1 && (
@@ -354,7 +354,7 @@ const GuideRegistrationWizard: React.FC = () => {
                             <h2 className="text-2xl font-bold text-white mb-6">Where are you based?</h2>
 
                             <div className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-300 mb-1">City</label>
                                         <input

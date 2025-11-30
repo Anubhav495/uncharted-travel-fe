@@ -28,20 +28,20 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         };
 
         if (isMenuOpen) {
-            document.addEventListener('click', handleClickOutside);
+            document.addEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
         }
 
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = 'unset';
         };
     }, [isMenuOpen]);
 
     const headerClasses = `
-        fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out
+        fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out
         ${scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
             : 'bg-transparent py-4'
@@ -104,8 +104,11 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 {/* Mobile Menu Button */}
                 {variant === 'default' && (
                     <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="menu-button md:hidden p-2 rounded-lg hover:bg-black/10 transition-colors z-10"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsMenuOpen(!isMenuOpen);
+                        }}
+                        className="menu-button md:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50"
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     >
                         {isMenuOpen ? (

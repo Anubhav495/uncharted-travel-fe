@@ -12,7 +12,7 @@ const RegisterGuidePage: React.FC = () => {
 
 
             {/* Main Content */}
-            <main className="relative z-10 container mx-auto px-4 pb-12" style={{ paddingTop: '120px' }}>
+            <main className="relative z-10 container mx-auto px-4 pb-12 pt-28 lg:pt-48">
                 <div className="text-center mb-12">
                     <h1 className="text-3xl md:text-4xl font-bold mb-4">Join our Community of Guides</h1>
                     <p className="text-gray-400 max-w-xl mx-auto">
