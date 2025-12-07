@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -60,12 +61,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
                         UnchartedTravel connects you with vetted guides for truly personal tours.
                     </p>
 
-                    <button
-                        onClick={onJoinWaitlist}
-                        className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl"
-                    >
-                        Join the Waitlist
-                    </button>
+                    <div className="flex flex-row gap-3 justify-center items-center w-full px-2 sm:px-0">
+                        <button
+                            onClick={onJoinWaitlist}
+                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-3 sm:px-8 rounded-lg text-sm sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl whitespace-nowrap"
+                        >
+                            Join the Waitlist
+                        </button>
+                        <Link
+                            href="/become-a-guide"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-3 sm:px-8 rounded-lg text-sm sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl whitespace-nowrap"
+                        >
+                            Become a Guide
+                        </Link>
+                    </div>
                 </div>
             </div>
 
