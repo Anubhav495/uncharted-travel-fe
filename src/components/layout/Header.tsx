@@ -9,6 +9,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showPulse, setShowPulse] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,6 +19,11 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Control the pulse animation: run whenever header is transparent (not scrolled)
+    useEffect(() => {
+        setShowPulse(!scrolled);
+    }, [scrolled]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -96,6 +102,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 {/* Desktop Navigation */}
                 {variant === 'default' && (
                     <nav className="hidden md:flex items-center space-x-8">
+                        <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/#destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
                     </nav>
@@ -108,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             e.stopPropagation();
                             setIsMenuOpen(!isMenuOpen);
                         }}
-                        className="menu-button md:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50"
+                        className={`menu-button md:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     >
                         {isMenuOpen ? (
@@ -142,7 +149,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                 </NavLink>
                                 <div className="border-t border-gray-200 my-4"></div>
                                 <NavLink
-                                    href="#about"
+                                    href="/about"
                                     isMobile={true}
                                     onClick={() => setIsMenuOpen(false)}
                                 >
