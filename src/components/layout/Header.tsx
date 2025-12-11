@@ -103,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 {variant === 'default' && (
                     <nav className="hidden md:flex items-center space-x-8">
                         <NavLink href="/about">About Us</NavLink>
-                        <NavLink href="/#destinations">Destinations</NavLink>
+                        <NavLink href="/destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
                     </nav>
                 )}
@@ -134,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         <nav className="container mx-auto px-4">
                             <div className="space-y-1">
                                 <NavLink
-                                    href="/#destinations"
+                                    href="/destinations"
                                     isMobile={true}
                                     onClick={() => setIsMenuOpen(false)}
                                 >
