@@ -5,14 +5,12 @@ import GuideStoriesSection from '../sections/home/GuideStoriesSection';
 import ReviewsSection from '../sections/home/ReviewsSection';
 import HowItWorksSection from '../sections/home/HowItWorksSection';
 
-interface HomePageProps {
-    onJoinWaitlist: () => void;
-}
+interface HomePageProps { }
 
-const HomePage: React.FC<HomePageProps> = ({ onJoinWaitlist }) => {
+const HomePage: React.FC<HomePageProps> = () => {
     return (
         <main>
-            <HeroSection onJoinWaitlist={onJoinWaitlist} />
+            <HeroSection />
             <WhyUsSection />
             <GuideStoriesSection />
             <ReviewsSection />

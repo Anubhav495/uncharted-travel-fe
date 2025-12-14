@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ChevronDown } from 'lucide-react';
 
-interface HeroSectionProps {
-    onJoinWaitlist: () => void;
-}
+interface HeroSectionProps { }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
+const HeroSection: React.FC<HeroSectionProps> = () => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isScrolled, setIsScrolled] = useState(false);
 
+
+    const router = useRouter();
+
+    const handleExplore = () => {
+        router.push('/destinations');
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -33,6 +38,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
             id="hero"
         >
             {/* Video Background */}
+            <div
+                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0"
+                style={{
+                    backgroundImage: 'url(/assets/spiti-poster-mobile.png)',
+                }}
+            >
+                <div className="hidden md:block absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/spiti-poster-desktop.png)' }} />
+            </div>
             <video
                 ref={videoRef}
                 className="absolute inset-0 w-full h-full object-cover z-0"
@@ -41,7 +54,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
                 muted
                 playsInline
                 preload="auto"
-                poster="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop"
             >
                 <source src="/assets/spiti-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
                 <source src="/assets/spiti.mp4" type="video/mp4" />
@@ -63,14 +75,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onJoinWaitlist }) => {
 
                     <div className="flex flex-row gap-3 justify-center items-center w-full px-2 sm:px-0">
                         <button
-                            onClick={onJoinWaitlist}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-3 sm:px-8 rounded-lg text-sm sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl whitespace-nowrap"
+                            onClick={handleExplore}
+                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-3 sm:px-6 rounded-lg text-sm sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl whitespace-nowrap min-w-[160px] sm:min-w-[200px] flex justify-center items-center"
                         >
-                            Join the Waitlist
+                            Explore Adventures
                         </button>
                         <Link
                             href="/become-a-guide"
-                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-3 sm:px-8 rounded-lg text-sm sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl whitespace-nowrap"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-3 sm:px-6 rounded-lg text-sm sm:text-lg transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 shadow-lg hover:shadow-xl whitespace-nowrap min-w-[160px] sm:min-w-[200px] flex justify-center items-center"
                         >
                             Become a Guide
                         </Link>

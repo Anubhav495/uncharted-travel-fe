@@ -1,9 +1,7 @@
 import HomePage from '../src/components/templates/HomePage';
 
-interface HomeProps {
-  onJoinWaitlist: () => void;
-}
+interface HomeProps { }
 
-export default function Home({ onJoinWaitlist }: HomeProps) {
-  return <HomePage onJoinWaitlist={onJoinWaitlist} />;
+export default function Home({ }: HomeProps) {
+  return <HomePage />;
 }
