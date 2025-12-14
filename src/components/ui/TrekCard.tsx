@@ -6,9 +6,10 @@ import { Trek } from '@/data/treks';
 interface TrekCardProps {
     trek: Trek;
     isActive?: boolean;
+    onBook: (id: string, title: string) => void;
 }
 
-const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false }) => {
+const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) => {
     return (
         <div className={`group relative bg-slate-800/50 rounded-2xl overflow-hidden border border-slate-700/50 hover:border-yellow-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-yellow-400/10 ${isActive ? 'is-active border-yellow-400/50 shadow-2xl shadow-yellow-400/10' : ''}`}>
             {/* Image Container */}
@@ -66,8 +67,11 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false }) => {
                             <p className="text-xs text-slate-400 uppercase tracking-wider">Starting from</p>
                             <p className="text-xl font-bold text-white">{trek.price}</p>
                         </div>
-                        <button className="flex items-center gap-2 bg-yellow-400 text-slate-900 px-4 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 transition-colors">
-                            View Itinerary
+                        <button
+                            onClick={() => onBook(trek.id, trek.title)}
+                            className="flex items-center gap-2 bg-yellow-400 text-slate-900 px-4 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 transition-colors"
+                        >
+                            Request Info
                             <ArrowRight className="w-4 h-4" />
                         </button>
                     </div>

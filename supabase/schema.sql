@@ -34,3 +34,21 @@ CREATE POLICY "Enable read access for all users" ON guides FOR SELECT USING (tru
 
 CREATE POLICY "Enable insert for everyone" ON guide_treks FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable read access for all users" ON guide_treks FOR SELECT USING (true);
+
+
+create table booking_requests (
+  id uuid default gen_random_uuid() primary key,
+  created_at timestamp with time zone default timezone('Asia/Kolkata', now()) not null,
+  full_name text not null,
+  email text not null,
+  phone text not null,
+  trek_title text not null,
+  guests integer not null,
+  approx_date text not null,
+  status text default 'pending'
+);
+
+ALTER TABLE booking_requests ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable insert for everyone" ON booking_requests FOR INSERT WITH CHECK (true);
+

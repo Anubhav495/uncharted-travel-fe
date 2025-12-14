@@ -4,14 +4,59 @@ import { treks, Trek } from '@/data/treks';
 
 const categories = ['All', 'Expedition', 'Trekking', 'Cultural', 'Relaxed'];
 
+import BookingModal, { BookingFormData } from '@/components/modals/booking/BookingModal';
+import { useToast } from '@/context/ToastContext';
+
 const DestinationsGrid: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState('All');
     const [activeCardId, setActiveCardId] = useState<string | null>(null);
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
+    // Booking Modal State
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [selectedTrek, setSelectedTrek] = useState<{ id: string; title: string } | null>(null);
+    const { showToast } = useToast();
+
     const filteredTreks = activeCategory === 'All'
         ? treks
         : treks.filter(trek => trek.category === activeCategory);
+
+    const handleBook = (id: string, title: string) => {
+        setSelectedTrek({ id, title });
+        setIsBookingModalOpen(true);
+    };
+
+    const handleBookingSubmit = async (data: BookingFormData): Promise<boolean> => {
+        if (!selectedTrek) return false;
+
+        try {
+            const response = await fetch('/api/submitBooking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...data,
+                    trekTitle: selectedTrek.title,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Submission failed:', errorData);
+                showToast('Something went wrong. Please try again in sometime.', 'error');
+                return false;
+            }
+
+            console.log('Booking submitted successfully');
+            // Modal handles local success state (view switching)
+            return true;
+        } catch (error) {
+            console.error('Submission error:', error);
+            showToast('Something went wrong. Please try again in sometime.', 'error');
+            return false;
+        }
+    };
 
     // Intersection Observer for Mobile Scroll
     React.useEffect(() => {
@@ -75,7 +120,11 @@ const DestinationsGrid: React.FC = () => {
                             data-id={trek.id}
                             className="trek-card-wrapper min-w-[85vw] snap-center md:min-w-0"
                         >
-                            <TrekCard trek={trek} isActive={trek.id === activeCardId} />
+                            <TrekCard
+                                trek={trek}
+                                isActive={trek.id === activeCardId}
+                                onBook={handleBook}
+                            />
                         </div>
                     ))}
                 </div>
@@ -93,6 +142,13 @@ const DestinationsGrid: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            <BookingModal
+                isOpen={isBookingModalOpen}
+                onClose={() => setIsBookingModalOpen(false)}
+                trekTitle={selectedTrek?.title || ''}
+                onSubmit={handleBookingSubmit}
+            />
         </section>
     );
 };

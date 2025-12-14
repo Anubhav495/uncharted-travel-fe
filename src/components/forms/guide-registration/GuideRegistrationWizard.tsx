@@ -8,6 +8,7 @@ import { ChevronRight, ChevronLeft, Upload, CheckCircle } from 'lucide-react';
 import TrekSelect from './TrekSelect';
 import PasswordModal from '../../modals/registration/PasswordModal';
 import { supabase } from '../../../lib/supabaseClient';
+import { useToast } from '../../../context/ToastContext';
 
 
 const guideSchema = z.object({
@@ -143,6 +144,7 @@ const GuideRegistrationWizard: React.FC = () => {
             setStep(prev => Math.min(prev + 1, 3));
         }
     };
+    const { showToast } = useToast();
     const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
     const onSubmit = (data: GuideFormData) => {
@@ -208,7 +210,7 @@ const GuideRegistrationWizard: React.FC = () => {
 
         } catch (error: any) {
             console.error('Registration Error:', error);
-            alert(`Registration failed: ${error.message || 'Unknown error'}`);
+            showToast('Something went wrong. Please try again in sometime.', 'error');
         }
     };
 
