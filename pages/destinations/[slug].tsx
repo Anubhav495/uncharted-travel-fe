@@ -223,23 +223,25 @@ const TrekDetailsPage = () => {
                     </div>
 
                     {/* Sidebar / CTA */}
-                    <div className="lg:col-span-1">
-                        <div className="sticky top-24 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl">
-                            <h3 className="text-2xl font-bold text-white mb-2">Book This Adventure</h3>
-                            <p className="text-slate-400 mb-6">Ready to explore the uncharted?</p>
+                    <div className="lg:col-span-1 order-first lg:order-last mb-8 lg:mb-0">
+                        <div className="lg:sticky lg:top-24 lg:bg-slate-800 lg:border lg:border-slate-700 lg:rounded-2xl lg:p-6 lg:shadow-2xl">
+                            <div className="hidden lg:block">
+                                <h3 className="text-2xl font-bold text-white mb-2">Book This Adventure</h3>
+                                <p className="text-slate-400 mb-6">Ready to explore the uncharted?</p>
 
-                            <div className="space-y-4 mb-8">
-                                <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                    <span>Duration</span>
-                                    <span className="text-white font-medium">{trek.duration}</span>
-                                </div>
-                                <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                    <span>Difficulty</span>
-                                    <span className="text-white font-medium">{trek.difficulty}</span>
-                                </div>
-                                <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                    <span>Starting From</span>
-                                    <span className="text-2xl font-bold text-yellow-400">{trek.price}</span>
+                                <div className="space-y-4 mb-8">
+                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
+                                        <span>Duration</span>
+                                        <span className="text-white font-medium">{trek.duration}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
+                                        <span>Difficulty</span>
+                                        <span className="text-white font-medium">{trek.difficulty}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
+                                        <span>Starting From</span>
+                                        <span className="text-2xl font-bold text-yellow-400">{trek.price}</span>
+                                    </div>
                                 </div>
                             </div>
 
