@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import TrekCard from '@/components/ui/TrekCard';
-import { treks, Trek } from '@/data/treks';
+import { Trek } from '@/types/trek';
+import { treks } from '@/data/treks';
 
-const categories = ['All', 'Expedition', 'Trekking', 'Cultural', 'Relaxed'];
+const categories = ['All'];
 
 import BookingModal, { BookingFormData } from '@/components/modals/booking/BookingModal';
 import { useToast } from '@/context/ToastContext';
@@ -12,7 +14,8 @@ const DestinationsGrid: React.FC = () => {
     const [activeCardId, setActiveCardId] = useState<string | null>(null);
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
-    // Booking Modal State
+    const router = useRouter();
+    // Booking Modal State - Keeping strictly for direct access if needed later or we can remove
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [selectedTrek, setSelectedTrek] = useState<{ id: string; title: string } | null>(null);
     const { showToast } = useToast();
@@ -21,9 +24,8 @@ const DestinationsGrid: React.FC = () => {
         ? treks
         : treks.filter(trek => trek.category === activeCategory);
 
-    const handleBook = (id: string, title: string) => {
-        setSelectedTrek({ id, title });
-        setIsBookingModalOpen(true);
+    const handleBook = (slug: string) => {
+        router.push(`/destinations/${slug}`);
     };
 
     const handleBookingSubmit = async (data: BookingFormData): Promise<boolean> => {
@@ -60,29 +62,57 @@ const DestinationsGrid: React.FC = () => {
 
     // Intersection Observer for Mobile Scroll
     React.useEffect(() => {
-        const container = scrollContainerRef.current;
-        if (!container) return;
+        // Run only on client side
+        if (typeof window === 'undefined') return;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        // The card id is stored in a data attribute
-                        const id = entry.target.getAttribute('data-id');
-                        setActiveCardId(id);
-                    }
-                });
-            },
-            {
-                root: container,
-                threshold: 0.7, // Trigger when 70% of the card is visible
+        const checkMobileAndObserve = () => {
+            // Only enable intersection observer on mobile (< 768px)
+            if (window.innerWidth >= 768) {
+                setActiveCardId(null); // Reset active state on desktop
+                return;
             }
-        );
 
-        const cards = container.querySelectorAll('.trek-card-wrapper');
-        cards.forEach((card) => observer.observe(card));
+            const container = scrollContainerRef.current;
+            if (!container) return;
 
-        return () => observer.disconnect();
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            // The card id is stored in a data attribute
+                            const id = entry.target.getAttribute('data-id');
+                            setActiveCardId(id);
+                        }
+                    });
+                },
+                {
+                    root: container,
+                    threshold: 0.7, // Trigger when 70% of the card is visible
+                }
+            );
+
+            const cards = container.querySelectorAll('.trek-card-wrapper');
+            cards.forEach((card) => observer.observe(card));
+
+            return () => observer.disconnect();
+        };
+
+        // Initial check
+        const cleanup = checkMobileAndObserve();
+
+        // Handle resize
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setActiveCardId(null);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            if (typeof cleanup === 'function') cleanup();
+            window.removeEventListener('resize', handleResize);
+        };
     }, [filteredTreks]);
 
     return (

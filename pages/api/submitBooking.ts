@@ -9,7 +9,8 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { name, email, phone, date, guests, trekTitle } = req.body;
+    // Add user_id to destructuring (it might be undefined if guest)
+    const { name, email, phone, date, guests, trekTitle, user_id } = req.body;
 
     if (!name || !email || !phone || !trekTitle) {
         return res.status(400).json({ message: 'Missing required fields' });
@@ -26,7 +27,8 @@ export default async function handler(
                     approx_date: date,
                     guests,
                     trek_title: trekTitle,
-                    status: 'pending'
+                    status: 'pending',
+                    user_id: user_id || null
                 },
             ])
             .select();

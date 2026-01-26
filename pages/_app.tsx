@@ -10,6 +10,7 @@ import ConfirmationModal from '../src/components/modals/waitlist/ConfirmationMod
 import ErrorModal from '../src/components/modals/waitlist/ErrorModal';
 import { FeaturePreferences } from '../src/types';
 import { ToastProvider } from '../src/context/ToastContext';
+import { AuthProvider } from '../src/context/AuthContext';
 
 type ModalType = 'waitlist' | 'features' | 'confirmed' | 'error' | null;
 
@@ -98,35 +99,37 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen">
-        <Header variant={headerVariant} />
-        <Component {...pageProps} />
-        {!isRegistrationPage && <Footer />}
+      <AuthProvider>
+        <div className="min-h-screen">
+          <Header variant={headerVariant} />
+          <Component {...pageProps} />
+          {!isRegistrationPage && <Footer />}
 
-        <WaitlistModal
-          isOpen={activeModal === 'waitlist'}
-          onClose={handleCloseModals}
-          onSubmitEmail={handleWaitlistSubmit}
-        />
+          <WaitlistModal
+            isOpen={activeModal === 'waitlist'}
+            onClose={handleCloseModals}
+            onSubmitEmail={handleWaitlistSubmit}
+          />
 
-        <FeaturePreferenceModal
-          isOpen={activeModal === 'features'}
-          onClose={handleCloseModals}
-          onSubmitPreferences={handleFeatureSubmit}
-          isLoading={isLoading}
-        />
+          <FeaturePreferenceModal
+            isOpen={activeModal === 'features'}
+            onClose={handleCloseModals}
+            onSubmitPreferences={handleFeatureSubmit}
+            isLoading={isLoading}
+          />
 
-        <ConfirmationModal
-          isOpen={activeModal === 'confirmed'}
-          onClose={handleCloseModals}
-        />
+          <ConfirmationModal
+            isOpen={activeModal === 'confirmed'}
+            onClose={handleCloseModals}
+          />
 
-        <ErrorModal
-          isOpen={activeModal === 'error'}
-          onClose={handleCloseModals}
-          onRetry={handleErrorRetry}
-        />
-      </div>
+          <ErrorModal
+            isOpen={activeModal === 'error'}
+            onClose={handleCloseModals}
+            onRetry={handleErrorRetry}
+          />
+        </div>
+      </AuthProvider>
     </ToastProvider>
   );
 }

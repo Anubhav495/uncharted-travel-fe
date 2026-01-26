@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { HiMenu, HiX } from 'react-icons/hi';
+import { HiMenu, HiX, HiUserCircle } from 'react-icons/hi';
+import { useAuth } from '../../context/AuthContext';
 
 interface HeaderProps {
     variant?: 'default' | 'minimal';
 }
 
 const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
+    const { user, loginWithGoogle, signOut } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showPulse, setShowPulse] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -105,6 +108,47 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
+
+                        {user ? (
+                            <div className="relative ml-4 group">
+                                <button className="flex items-center space-x-2 focus:outline-none">
+                                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white overflow-hidden border-2 border-white shadow-md">
+                                        {user.user_metadata.avatar_url ? (
+                                            <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="text-sm font-bold">{user.email?.charAt(0).toUpperCase()}</span>
+                                        )}
+                                    </div>
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right">
+                                    <div className="px-4 py-2 border-b border-gray-100">
+                                        <p className="text-sm text-gray-900 font-medium truncate">{user.user_metadata.full_name || 'User'}</p>
+                                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                    </div>
+                                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Dashboard
+                                    </Link>
+                                    <button
+                                        onClick={() => signOut()}
+                                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                    >
+                                        Log out
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => loginWithGoogle()}
+                                className={`ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md ${scrolled
+                                    ? 'bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 text-white shadow-blue-500/25 border border-transparent bg-origin-border'
+                                    : 'bg-white/5 backdrop-blur-md border border-white/20 text-white hover:bg-white/10'
+                                    }`}
+                            >
+                                Login
+                            </button>
+                        )}
                     </nav>
                 )}
 
@@ -147,6 +191,44 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                 >
                                     Become a Guide
                                 </NavLink>
+
+                                <div className="border-t border-gray-200 my-4"></div>
+
+                                {user ? (
+                                    <>
+                                        <div className="px-4 py-2">
+                                            <div className="flex items-center space-x-3 mb-3">
+                                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                                                    {user.email?.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div className="text-sm font-medium text-gray-900">{user.email}</div>
+                                            </div>
+                                            <NavLink href="/dashboard" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                                Dashboard
+                                            </NavLink>
+                                            <button
+                                                onClick={() => {
+                                                    signOut();
+                                                    setIsMenuOpen(false);
+                                                }}
+                                                className="block w-full text-left py-3 px-4 text-red-600 hover:bg-red-50 rounded-md font-medium"
+                                            >
+                                                Log out
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            loginWithGoogle();
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="block w-full text-left py-3 px-4 text-blue-600 hover:bg-blue-50 rounded-md font-medium"
+                                    >
+                                        Login
+                                    </button>
+                                )}
+
                                 <div className="border-t border-gray-200 my-4"></div>
                                 <NavLink
                                     href="/about"
