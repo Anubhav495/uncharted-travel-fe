@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { HiX } from 'react-icons/hi';
 import { Calendar, Users, Mail, Phone, User, CheckCircle } from 'lucide-react';
 
+import { useAuth } from '@/context/AuthContext';
+
 interface BookingModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -15,6 +17,7 @@ export interface BookingFormData {
     phone: string;
     date: string;
     guests: number;
+    user_id?: string;
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({
@@ -23,6 +26,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     trekTitle,
     onSubmit,
 }) => {
+    const { user } = useAuth();
     const [step, setStep] = useState<'form' | 'success'>('form');
     const [formData, setFormData] = useState<BookingFormData>({
         name: '',
@@ -39,7 +43,18 @@ const BookingModal: React.FC<BookingModalProps> = ({
     useEffect(() => {
         if (isOpen) {
             setStep('form');
-            setFormData({ name: '', email: '', phone: '', date: '', guests: 1 });
+            if (user) {
+                setFormData({
+                    name: user.user_metadata.full_name || '',
+                    email: user.email || '',
+                    phone: '',
+                    date: '',
+                    guests: 1,
+                    user_id: user.id
+                });
+            } else {
+                setFormData({ name: '', email: '', phone: '', date: '', guests: 1 });
+            }
             setError('');
             setIsSubmitting(false);
             document.body.style.overflow = 'hidden';

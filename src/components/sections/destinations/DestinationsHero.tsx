@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search } from 'lucide-react';
+
 
 const DestinationsHero: React.FC = () => {
     return (
@@ -24,20 +24,7 @@ const DestinationsHero: React.FC = () => {
                     Explore the uncharted territories of the Himalayas. Handpicked trails, expert local guides, and unforgettable stories.
                 </p>
 
-                {/* Search Bar Mockup */}
-                <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-2 flex items-center shadow-2xl">
-                    <div className="flex-1 px-6 border-r border-white/10">
-                        <p className="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Location</p>
-                        <p className="text-white font-medium">Anywhere</p>
-                    </div>
-                    <div className="flex-1 px-6 border-r border-white/10 hidden sm:block">
-                        <p className="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Date</p>
-                        <p className="text-white font-medium">Anytime</p>
-                    </div>
-                    <button className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 p-4 rounded-full transition-colors shadow-lg hover:shadow-yellow-400/20">
-                        <Search className="w-6 h-6" />
-                    </button>
-                </div>
+
             </div>
 
             {/* Bottom Fade */}

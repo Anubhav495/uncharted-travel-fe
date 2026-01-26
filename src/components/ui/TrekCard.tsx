@@ -1,12 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import { MapPin, Clock, TrendingUp, ArrowRight } from 'lucide-react';
-import { Trek } from '@/data/treks';
+import { Trek } from '@/types/trek';
 
 interface TrekCardProps {
     trek: Trek;
     isActive?: boolean;
-    onBook: (id: string, title: string) => void;
+    onBook: (slug: string) => void;
 }
 
 const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) => {
@@ -68,10 +68,10 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                             <p className="text-xl font-bold text-white">{trek.price}</p>
                         </div>
                         <button
-                            onClick={() => onBook(trek.id, trek.title)}
+                            onClick={() => onBook(trek.slug)}
                             className="flex items-center gap-2 bg-yellow-400 text-slate-900 px-4 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 transition-colors"
                         >
-                            Request Info
+                            View Info
                             <ArrowRight className="w-4 h-4" />
                         </button>
                     </div>

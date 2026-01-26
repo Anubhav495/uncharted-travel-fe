@@ -40,8 +40,7 @@ const Footer: React.FC = () => {
                         <ul className="space-y-0.5 sm:space-y-2">
                             <FooterLink href="/">Home</FooterLink>
                             <FooterLink href="#why-us">Why Us</FooterLink>
-                            <FooterLink href="#reviews">Reviews</FooterLink>
-                            <FooterLink href="/guides">Find a Guide</FooterLink>
+
                         </ul>
                     </div>
 
@@ -52,8 +51,7 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-0.5 sm:space-y-2">
                             <FooterLink href="/about">About Us</FooterLink>
-                            <FooterLink href="/careers">Careers</FooterLink>
-                            <FooterLink href="/press">Press</FooterLink>
+
                             <FooterLink href="/blog">Blog</FooterLink>
                         </ul>
                     </div>
@@ -65,7 +63,7 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-0.5 sm:space-y-2">
                             <FooterLink href="/for-guides">Become a Guide</FooterLink>
-                            <FooterLink href="/referrals">Refer a Friend</FooterLink>
+
                             <FooterLink href="/faq">Help Center</FooterLink>
                         </ul>
                     </div>
