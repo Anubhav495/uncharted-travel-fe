@@ -37,16 +37,19 @@ CREATE POLICY "Enable read access for all users" ON guide_treks FOR SELECT USING
 
 
 create table booking_requests (
-  id uuid default gen_random_uuid() primary key,
-  created_at timestamp with time zone default timezone('Asia/Kolkata', now()) not null,
+  id uuid not null default gen_random_uuid (),
+  created_at timestamp with time zone not null default timezone ('Asia/Kolkata'::text, now()),
   full_name text not null,
   email text not null,
   phone text not null,
   trek_title text not null,
   guests integer not null,
   approx_date text not null,
-  status text default 'pending'
-);
+  status text null default 'pending'::text,
+  user_id uuid null,
+  constraint booking_requests_pkey primary key (id),
+  constraint booking_requests_user_id_fkey foreign KEY (user_id) references auth.users (id)
+) TABLESPACE pg_default;
 
 ALTER TABLE booking_requests ENABLE ROW LEVEL SECURITY;
 

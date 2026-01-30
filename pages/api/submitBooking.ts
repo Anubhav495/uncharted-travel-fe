@@ -1,5 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '@/lib/supabaseClient';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase Client (Prefer Service Role for robust lookups)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey || supabaseAnonKey);
 
 export default async function handler(
     req: NextApiRequest,
@@ -9,14 +16,37 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    // Add user_id to destructuring (it might be undefined if guest)
-    const { name, email, phone, date, guests, trekTitle, user_id } = req.body;
+    const { name, email, phone, date, guests, trekTitle, user_id: providedUserId } = req.body;
 
     if (!name || !email || !phone || !trekTitle) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
     try {
+        let finalUserId = providedUserId;
+
+        // If user_id wasn't provided directly (or is null), try to find the user by email
+        if (!finalUserId && email) {
+            const { data: userRecord, error: userError } = await supabase
+                .from('users')
+                .select('id')
+                .eq('email', email)
+                .single();
+
+            if (userRecord) {
+                finalUserId = userRecord.id;
+            } else {
+                console.log("No user found for email:", email);
+            }
+        }
+
+        // Validate constraint: user_id is now REQUIRED by schema
+        if (!finalUserId) {
+            return res.status(400).json({
+                message: 'User authentication required. Please ensure you are logged in or that your account exists.'
+            });
+        }
+
         const { data, error } = await supabase
             .from('booking_requests')
             .insert([
@@ -28,7 +58,7 @@ export default async function handler(
                     guests,
                     trek_title: trekTitle,
                     status: 'pending',
-                    user_id: user_id || null
+                    user_id: finalUserId
                 },
             ])
             .select();
@@ -39,8 +69,12 @@ export default async function handler(
         }
 
         return res.status(200).json({ message: 'Success', id: data[0].id });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Booking submission error:', error);
+        // Better error message for foreign key violation
+        if (error.code === '23503') {
+            return res.status(400).json({ message: 'Please try logging out and back in.' });
+        }
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }

@@ -71,7 +71,6 @@ const GuideRegistrationWizard: React.FC = () => {
                 Object.keys(parsed).forEach((key) => {
                     setValue(key as any, parsed[key]);
                 });
-                console.log('Restored registration progress from localStorage');
             } catch (error) {
                 console.error('Failed to restore registration data:', error);
             }
@@ -157,7 +156,6 @@ const GuideRegistrationWizard: React.FC = () => {
     const handleFinalSubmit = async (password: string) => {
         try {
             const finalData = { ...formData, password };
-            console.log("Submitting Registration to Supabase:", finalData);
 
             // 1. Insert into guides table
             const { data: guideData, error: guideError } = await supabase
