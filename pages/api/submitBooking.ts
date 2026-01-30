@@ -1,7 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
+import * as z from 'zod';
 
-// Initialize Supabase Client (Prefer Service Role for robust lookups)
+// Zod Schema for API Validation (Should alias strict Indian phone rule)
+const bookingApiSchema = z.object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email(),
+    phone: z.string().regex(/^[6-9]\d{9}$/, 'Invalid phone number format'),
+    date: z.string().min(1),
+    guests: z.number().min(1).max(20),
+    trekTitle: z.string().min(1),
+    user_id: z.string().optional().nullable()
+});
+
+// Initialize Supabase Client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
@@ -16,11 +28,19 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { name, email, phone, date, guests, trekTitle, user_id: providedUserId } = req.body;
+    // 1. Validate Input using Zod
+    const result = bookingApiSchema.safeParse(req.body);
 
-    if (!name || !email || !phone || !trekTitle) {
-        return res.status(400).json({ message: 'Missing required fields' });
+    if (!result.success) {
+        // Return 400 with first validation error
+        console.error("Validation Error:", result.error.format());
+        return res.status(400).json({
+            message: 'Invalid input data',
+            details: result.error.flatten().fieldErrors
+        });
     }
+
+    const { name, email, phone, date, guests, trekTitle, user_id: providedUserId } = result.data;
 
     try {
         let finalUserId = providedUserId;
