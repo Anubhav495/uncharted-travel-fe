@@ -1,6 +1,3 @@
-export interface FeaturePreferences {
-    [key: string]: boolean;
-}
 
 export interface Guide {
     name: string;
