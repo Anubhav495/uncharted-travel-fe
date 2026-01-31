@@ -30,6 +30,7 @@ const TrekDetailsPage = () => {
                 .select('id')
                 .eq('user_id', user.id)
                 .eq('trek_title', trek.title)
+                .neq('status', 'closed') // Consider 'active' only if not closed
                 .maybeSingle();
 
             if (data) setHasEnquired(true);
@@ -37,18 +38,37 @@ const TrekDetailsPage = () => {
         checkEnquiry();
     }, [user, trek]);
 
-    // Check for pending booking after login
+    // Check for pending booking after login or direct specific action
     useEffect(() => {
-        if (router.isReady && user && router.query.action === 'book') {
-            setIsBookingModalOpen(true);
-            // Clean up the query param
-            const { action, ...rest } = router.query;
-            router.replace({
-                pathname: router.pathname,
-                query: rest,
-            }, undefined, { shallow: true });
-        }
-    }, [router.isReady, user, router.query]);
+        const handleBookAction = async () => {
+            if (router.isReady && user && router.query.action === 'book' && trek) {
+                // Perform a fresh check to be sure (state might not be ready)
+                const { data } = await supabase
+                    .from('booking_requests')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .eq('trek_title', trek.title)
+                    .neq('status', 'closed') // Allow re-booking if previous was closed/rejected
+                    .maybeSingle();
+
+                if (data) {
+                    setHasEnquired(true);
+                    showToast('You already have an active request for this trek.', 'info');
+                } else {
+                    setIsBookingModalOpen(true);
+                }
+
+                // Clean up the query param
+                const { action, ...rest } = router.query;
+                router.replace({
+                    pathname: router.pathname,
+                    query: rest,
+                }, undefined, { shallow: true });
+            }
+        };
+
+        handleBookAction();
+    }, [router.isReady, user, router.query, trek, showToast]);
 
     if (!trek && router.isReady) {
         return (
@@ -239,7 +259,7 @@ const TrekDetailsPage = () => {
                                         <span className="text-white font-medium">{trek.difficulty}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Starting From</span>
+                                        <span>Price</span>
                                         <span className="text-2xl font-bold text-yellow-400">{trek.price}</span>
                                     </div>
                                 </div>

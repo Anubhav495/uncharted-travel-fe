@@ -1,23 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { HiX } from 'react-icons/hi';
 import { Calendar, Users, Mail, Phone, User, CheckCircle } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 import { useAuth } from '@/context/AuthContext';
+
+// Zod Schema for Validation
+const bookingSchema = z.object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    phone: z.string().regex(/^[6-9]\d{4}\s?\d{5}$/, 'Please enter a valid 10-digit Indian mobile number'),
+    date: z.string().min(1, 'Approximate date is required'),
+    guests: z.number().min(1, 'At least 1 guest required').max(20, 'Max 20 guests allowed'),
+    user_id: z.string().optional()
+});
+
+export type BookingSchemaType = z.infer<typeof bookingSchema>;
+
+// Only exporting for legacy compatibility if strict types needed elsewhere, 
+// but preferred usage is inferred schema
+export interface BookingFormData extends BookingSchemaType { }
 
 interface BookingModalProps {
     isOpen: boolean;
     onClose: () => void;
     trekTitle: string;
     onSubmit: (formData: BookingFormData) => Promise<boolean>;
-}
-
-export interface BookingFormData {
-    name: string;
-    email: string;
-    phone: string;
-    date: string;
-    guests: number;
-    user_id?: string;
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({
@@ -28,62 +38,66 @@ const BookingModal: React.FC<BookingModalProps> = ({
 }) => {
     const { user } = useAuth();
     const [step, setStep] = useState<'form' | 'success'>('form');
-    const [formData, setFormData] = useState<BookingFormData>({
-        name: '',
-        email: '',
-        phone: '',
-        date: '',
-        guests: 1,
+    const [submitError, setSubmitError] = useState('');
+
+    // React Hook Form Setup
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { errors, isSubmitting }
+    } = useForm<BookingFormData>({
+        resolver: zodResolver(bookingSchema),
+        defaultValues: {
+            name: '',
+            email: '',
+            phone: '',
+            date: '',
+            guests: 1,
+        },
+        mode: 'onChange' // Proactive validation: Validate on every keystroke
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState('');
 
     const modalContentRef = useRef<HTMLDivElement>(null);
 
+    // Effect to handle modal open state and pre-fill user data
     useEffect(() => {
         if (isOpen) {
             setStep('form');
+            setSubmitError('');
+
             if (user) {
-                setFormData({
-                    name: user.user_metadata.full_name || '',
-                    email: user.email || '',
-                    phone: '',
-                    date: '',
-                    guests: 1,
-                    user_id: user.id
-                });
+                setValue('name', user.user_metadata.full_name || '');
+                setValue('email', user.email || '');
+                setValue('user_id', user.id);
             } else {
-                setFormData({ name: '', email: '', phone: '', date: '', guests: 1 });
+                reset({ name: '', email: '', phone: '', date: '', guests: 1 });
             }
-            setError('');
-            setIsSubmitting(false);
+
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
         }
         return () => { document.body.style.overflow = 'unset'; };
-    }, [isOpen]);
+    }, [isOpen, user, setValue, reset]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-
-        if (!formData.name || !formData.email || !formData.phone) {
-            setError('Please fill in all required fields.');
-            return;
-        }
-
-        setIsSubmitting(true);
+    const onFormSubmit = async (data: BookingFormData) => {
+        setSubmitError('');
         try {
-            const success = await onSubmit(formData);
+            // Strip space from phone number before submission to match backend expectation
+            const cleanData = {
+                ...data,
+                phone: data.phone.replace(/\s/g, '')
+            };
+            const success = await onSubmit(cleanData);
             if (success) {
                 setStep('success');
+                reset(); // Clear form on success
             }
         } catch (err) {
             console.error(err);
-            setError('Something went wrong. Please try again.');
-        } finally {
-            setIsSubmitting(false);
+            setSubmitError('Something went wrong. Please try again.');
         }
     };
 
@@ -115,7 +129,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                 {/* Body */}
                 <div className="p-4 sm:p-6 overflow-y-auto">
                     {step === 'form' ? (
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
                             {/* Personal Details */}
                             <div className="space-y-4">
                                 <div>
@@ -124,13 +138,13 @@ const BookingModal: React.FC<BookingModalProps> = ({
                                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                         <input
                                             type="text"
-                                            required
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
+                                            disabled={!!user}
+                                            className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.name ? 'border-red-500' : 'border-gray-300'} ${user ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
                                             placeholder="John Doe"
-                                            value={formData.name}
-                                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                            {...register('name')}
                                         />
                                     </div>
+                                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -140,27 +154,43 @@ const BookingModal: React.FC<BookingModalProps> = ({
                                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                             <input
                                                 type="email"
-                                                required
-                                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
+                                                disabled={!!user}
+                                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.email ? 'border-red-500' : 'border-gray-300'} ${user ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
                                                 placeholder="john@example.com"
-                                                value={formData.email}
-                                                onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                                {...register('email')}
                                             />
                                         </div>
+                                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                                         <div className="relative">
                                             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                            <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-500 font-medium text-sm border-r border-gray-300 pr-2 mr-2">
+                                                +91
+                                            </div>
                                             <input
                                                 type="tel"
-                                                required
-                                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
-                                                placeholder="+91 98765 43210"
-                                                value={formData.phone}
-                                                onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                                maxLength={11}
+                                                className={`w-full pl-[4.5rem] pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+                                                placeholder="98765 43210"
+                                                {...(() => {
+                                                    const { onChange, ...rest } = register('phone');
+                                                    return {
+                                                        ...rest,
+                                                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                                                            let val = e.target.value.replace(/[^\d]/g, '');
+                                                            if (val.length > 5) {
+                                                                val = val.slice(0, 5) + ' ' + val.slice(5, 10);
+                                                            }
+                                                            e.target.value = val;
+                                                            onChange(e);
+                                                        }
+                                                    };
+                                                })()}
                                             />
                                         </div>
+                                        {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                                     </div>
                                 </div>
                             </div>
@@ -172,15 +202,15 @@ const BookingModal: React.FC<BookingModalProps> = ({
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Approx. Date</label>
                                     <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                         <input
-                                            type="text"
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
-                                            placeholder="e.g. May 2024"
-                                            value={formData.date}
-                                            onChange={e => setFormData({ ...formData, date: e.target.value })}
+                                            type="date"
+                                            className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.date ? 'border-red-500' : 'border-gray-300'} appearance-none`}
+                                            min={new Date().toISOString().split('T')[0]} // JSON date string format YYYY-MM-DD
+                                            {...register('date')}
                                         />
                                     </div>
+                                    {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
@@ -188,26 +218,24 @@ const BookingModal: React.FC<BookingModalProps> = ({
                                         <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                         <input
                                             type="number"
-                                            min="1"
-                                            max="20"
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
-                                            value={formData.guests}
-                                            onChange={e => setFormData({ ...formData, guests: parseInt(e.target.value) || 1 })}
+                                            className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.guests ? 'border-red-500' : 'border-gray-300'}`}
+                                            {...register('guests', { valueAsNumber: true })}
                                         />
                                     </div>
+                                    {errors.guests && <p className="text-red-500 text-xs mt-1">{errors.guests.message}</p>}
                                 </div>
                             </div>
 
-                            {error && (
+                            {submitError && (
                                 <p className="text-red-500 text-sm bg-red-50 p-3 rounded-lg border border-red-100">
-                                    {error}
+                                    {submitError}
                                 </p>
                             )}
 
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 mt-6"
+                                className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {isSubmitting ? (
                                     <>Processing...</>
@@ -223,7 +251,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Received!</h3>
                             <p className="text-gray-600 mb-8 max-w-xs mx-auto">
-                                Thanks, <span className="font-semibold text-gray-900">{formData.name}</span>!
+                                Thanks!
                                 <br />
                                 We have received your request and will contact you soon.
                             </p>

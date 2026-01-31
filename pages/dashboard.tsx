@@ -5,8 +5,10 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../src/context/AuthContext';
 import { supabase } from '../src/lib/supabaseClient';
 import Link from 'next/link';
-import { Calendar, Users, MapPin, Compass, ArrowRight, Clock, Edit2, X, Save } from 'lucide-react';
+import { Calendar, Users, MapPin, Compass, ArrowRight, Clock, Edit2, X, Save, Award } from 'lucide-react';
+import { HiStar } from 'react-icons/hi';
 import { useToast } from '../src/context/ToastContext';
+import ReviewModal from '@/components/modals/review/ReviewModal';
 
 interface BookingRequest {
     id: string;
@@ -15,6 +17,14 @@ interface BookingRequest {
     status: string;
     approx_date: string;
     guests: number;
+    guide_id?: string;
+}
+
+interface Review {
+    id: string;
+    booking_id: string;
+    rating: number;
+    comment: string;
 }
 
 export default function Dashboard() {
@@ -22,12 +32,17 @@ export default function Dashboard() {
     const router = useRouter();
     const { showToast } = useToast();
     const [bookings, setBookings] = useState<BookingRequest[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [fetching, setFetching] = useState(true);
 
     // Edit State
     const [editingBooking, setEditingBooking] = useState<BookingRequest | null>(null);
     const [editForm, setEditForm] = useState<{ date: string; guests: number | string }>({ date: '', guests: 1 });
     const [isUpdating, setIsUpdating] = useState(false);
+
+    // Review State
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+    const [selectedBookingForReview, setSelectedBookingForReview] = useState<BookingRequest | null>(null);
 
     useEffect(() => {
         if (!loading && !user) {
@@ -38,16 +53,22 @@ export default function Dashboard() {
     const fetchBookings = async () => {
         if (!user) return;
         try {
-            const { data, error } = await supabase
+            const { data: bookingsData, error: bookingsError } = await supabase
                 .from('booking_requests')
                 .select('*')
                 .eq('user_id', user.id)
                 .order('created_at', { ascending: false });
 
-            if (error) {
-                console.error('Error fetching bookings:', error);
+            const { data: reviewsData, error: reviewsError } = await supabase
+                .from('reviews')
+                .select('*')
+                .eq('user_id', user.id);
+
+            if (bookingsError || reviewsError) {
+                console.error('Error fetching data:', bookingsError, reviewsError);
             } else {
-                setBookings(data || []);
+                setBookings(bookingsData || []);
+                setReviews(reviewsData || []);
             }
         } catch (err) {
             console.error('Unexpected error:', err);
@@ -135,35 +156,30 @@ export default function Dashboard() {
 
                     {/* Content Section */}
                     <div className="space-y-6">
+                        {/* Active Bookings Section */}
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-bold text-white flex items-center gap-2">
                                 <Clock className="w-5 h-5 text-yellow-400" />
                                 Recent Enquiries
                             </h2>
                             <span className="text-sm text-slate-500 bg-slate-800 px-3 py-1 rounded-full">
-                                {bookings.length} Request{bookings.length !== 1 ? 's' : ''}
+                                {bookings.filter(b => b.status !== 'completed').length} Request{bookings.filter(b => b.status !== 'completed').length !== 1 ? 's' : ''}
                             </span>
                         </div>
 
-                        {bookings.length === 0 ? (
+                        {bookings.filter(b => b.status !== 'completed').length === 0 ? (
                             <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-12 text-center">
                                 <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <MapPin className="w-8 h-8 text-slate-500" />
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-2">No enquiries yet</h3>
+                                <h3 className="text-xl font-bold text-white mb-2">No active enquiries</h3>
                                 <p className="text-slate-400 mb-8 max-w-sm mx-auto">
-                                    You haven't planned any adventures with us yet. Ready to start your journey?
+                                    You don't have any pending requests. Ready to start your next journey?
                                 </p>
-                                <Link
-                                    href="/destinations"
-                                    className="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 font-medium hover:underline underline-offset-4"
-                                >
-                                    Browse Destinations <ArrowRight className="w-4 h-4" />
-                                </Link>
                             </div>
                         ) : (
                             <div className="grid gap-4">
-                                {bookings.map((booking) => (
+                                {bookings.filter(b => b.status !== 'completed').map((booking) => (
                                     <div
                                         key={booking.id}
                                         className="bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-yellow-400/30 rounded-xl p-6 transition-all group"
@@ -217,6 +233,75 @@ export default function Dashboard() {
                                     </div>
                                 ))}
                             </div>
+                        )}
+
+                        {/* Completed Bookings Section */}
+                        {bookings.filter(b => b.status === 'completed').length > 0 && (
+                            <>
+                                <div className="flex items-center justify-between pt-8 border-t border-slate-800 mt-8">
+                                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                                        <Award className="w-5 h-5 text-green-400" />
+                                        Past Adventures
+                                    </h2>
+                                    <span className="text-sm text-slate-500 bg-slate-800 px-3 py-1 rounded-full">
+                                        {bookings.filter(b => b.status === 'completed').length} Completed
+                                    </span>
+                                </div>
+
+                                <div className="grid gap-4">
+                                    {bookings.filter(b => b.status === 'completed').map((booking) => (
+                                        <div
+                                            key={booking.id}
+                                            className="bg-slate-800/30 border border-slate-800 rounded-xl p-6 transition-all group"
+                                        >
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                                <div>
+                                                    <div className="flex items-center gap-3 mb-2">
+                                                        <h3 className="text-xl font-bold text-slate-300 group-hover:text-white transition-colors">
+                                                            {booking.trek_title}
+                                                        </h3>
+                                                        <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-green-900/30 text-green-400 border border-green-500/20">
+                                                            Completed
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
+                                                        <span className="flex items-center gap-1.5">
+                                                            <Calendar className="w-4 h-4" />
+                                                            {booking.approx_date || 'Date TBD'}
+                                                        </span>
+                                                        <span className="w-1 h-1 bg-slate-700 rounded-full hidden sm:block" />
+                                                        <span className="flex items-center gap-1.5">
+                                                            <Users className="w-4 h-4" />
+                                                            {booking.guests} Guest{booking.guests !== 1 ? 's' : ''}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center justify-end gap-3">
+                                                    {booking.guide_id ? (
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedBookingForReview(booking);
+                                                                setIsReviewModalOpen(true);
+                                                            }}
+                                                            className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-bold transition-all ${reviews.some(r => r.booking_id === booking.id)
+                                                                ? 'bg-yellow-400/10 text-yellow-400 hover:bg-yellow-400 hover:text-slate-900'
+                                                                : 'bg-yellow-400 text-slate-900 hover:bg-yellow-500 shadow-md hover:shadow-yellow-400/20'
+                                                                }`}
+                                                        >
+                                                            <HiStar className="w-4 h-4" />
+                                                            {reviews.some(r => r.booking_id === booking.id) ? 'Edit Review' : 'Rate Guide'}
+                                                        </button>
+                                                    ) : (
+                                                        <span className="text-xs text-red-400 border border-red-400/30 px-2 py-1 rounded bg-red-400/10 dark:text-red-400">
+                                                            Guide info missing
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>
@@ -283,6 +368,23 @@ export default function Dashboard() {
                             </form>
                         </div>
                     </div>
+                )}
+
+                {/* Review Modal */}
+                {isReviewModalOpen && selectedBookingForReview && (
+                    <ReviewModal
+                        isOpen={isReviewModalOpen}
+                        onClose={() => {
+                            setIsReviewModalOpen(false);
+                            setSelectedBookingForReview(null);
+                        }}
+                        bookingId={selectedBookingForReview.id}
+                        trekTitle={selectedBookingForReview.trek_title}
+                        existingReview={reviews.find(r => r.booking_id === selectedBookingForReview.id)}
+                        onReviewSubmitted={() => {
+                            fetchBookings(); // Refresh to ensure review state is updated
+                        }}
+                    />
                 )}
             </div>
         </>

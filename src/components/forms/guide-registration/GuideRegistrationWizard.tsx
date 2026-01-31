@@ -14,8 +14,8 @@ import { useToast } from '../../../context/ToastContext';
 const guideSchema = z.object({
     fullName: z.string().min(1, 'Full name is required'),
     email: z.string().email('Invalid email address'),
-    countryCode: z.string(),
-    phone: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits'),
+    // countryCode field removed, implied +91
+    phone: z.string().regex(/^[6-9]\d{9}$/, 'Please enter a valid 10-digit Indian mobile number'),
     city: z.string().min(1, 'City is required'),
     state: z.string().min(1, 'State is required'),
     yearsExperience: z.string().min(1, 'Please select experience'),
@@ -46,7 +46,6 @@ const GuideRegistrationWizard: React.FC = () => {
         defaultValues: {
             fullName: '',
             email: '',
-            countryCode: '+91',
             phone: '',
             city: '',
             state: '',
@@ -69,7 +68,10 @@ const GuideRegistrationWizard: React.FC = () => {
                 const parsed = JSON.parse(savedData);
                 // Set form values from local storage
                 Object.keys(parsed).forEach((key) => {
-                    setValue(key as any, parsed[key]);
+                    // Skip countryCode since we removed it
+                    if (key !== 'countryCode') {
+                        setValue(key as any, parsed[key]);
+                    }
                 });
             } catch (error) {
                 console.error('Failed to restore registration data:', error);
@@ -93,7 +95,7 @@ const GuideRegistrationWizard: React.FC = () => {
         let isValid = false;
 
         if (step === 1) {
-            isValid = await trigger(['fullName', 'email', 'phone', 'countryCode']);
+            isValid = await trigger(['fullName', 'email', 'phone']);
             if (isValid) {
                 setIsChecking(true);
                 try {
@@ -165,7 +167,7 @@ const GuideRegistrationWizard: React.FC = () => {
                         full_name: formData.fullName,
                         email: formData.email,
                         phone: formData.phone,
-                        country_code: formData.countryCode,
+                        country_code: '+91', // Hardcoded as we only support Indian numbers
                         city: formData.city,
                         state: formData.state,
                         years_experience: formData.yearsExperience,
@@ -311,26 +313,14 @@ const GuideRegistrationWizard: React.FC = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
-                                    <div className="flex gap-2">
-                                        <select
-                                            className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all"
-                                            {...register('countryCode')}
-                                        >
-                                            <option value="+91">🇮🇳 +91</option>
-                                            <option value="+1">🇺🇸 +1</option>
-                                            <option value="+44">🇬🇧 +44</option>
-                                            <option value="+61">🇦🇺 +61</option>
-                                            <option value="+81">🇯🇵 +81</option>
-                                            <option value="+86">🇨🇳 +86</option>
-                                            <option value="+33">🇫🇷 +33</option>
-                                            <option value="+49">🇩🇪 +49</option>
-                                            <option value="+39">🇮🇹 +39</option>
-                                            <option value="+34">🇪🇸 +34</option>
-                                        </select>
+                                    <div className="relative">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium border-r border-gray-600 pr-3">
+                                            +91
+                                        </div>
                                         <input
                                             type="tel"
-                                            className={`flex-1 bg-gray-800 border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
-                                            placeholder="XXXXX XXXXX"
+                                            className={`w-full bg-gray-800 border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded-lg pl-16 pr-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                            placeholder="98765 43210"
                                             {...register('phone')}
                                         />
                                     </div>
