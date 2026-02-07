@@ -25,6 +25,7 @@ export interface Trek {
     difficulty: 'Easy' | 'Moderate' | 'Hard' | 'Expert';
     price: string;
     image: string;
+    imagePosition?: 'top' | 'center' | 'bottom';
     guideName: string; // Keeping for backward compatibility or primary guide
     guideAvatar: string;
     badges: string[];
@@ -33,4 +34,5 @@ export interface Trek {
     highlights?: string[];
     guides?: Guide[];
     itinerary?: ItineraryDay[];
+    gallery?: string[];
 }

@@ -1,48 +1,63 @@
-# Uncharted Travel
+# 🏔️ Uncharted Travel
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+A modern travel platform that connects adventure seekers with local trekking guides for unforgettable experiences. Users can discover treks, book adventures, and guides can register to offer their services.
 
-## Getting Started
+## ✨ Features
+
+- **Trek Discovery** - Browse and explore various trekking destinations
+- **Booking System** - Book treks with date selection and guest management
+- **User Authentication** - Sign up/login with Google OAuth
+- **Guide Registration** - Local guides can register and offer their services
+- **Reviews** - Users can submit reviews for their trekking experiences
+
+## 🛠️ Tech Stack
+
+- **Next.js 15** (Pages Router)
+- **TypeScript**
+- **TailwindCSS**
+- **Supabase** (Database)
+- **NextAuth.js** (Authentication)
+- **Framer Motion & GSAP** (Animations)
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or later recommended)
+- Node.js v18 or later
 - npm
 
 ### Installation
 
-Install the dependencies:
+1. Clone the repository
 
-```bash
-npm install
-```
+   ```bash
+   git clone https://github.com/your-username/uncharted-travel-fe.git
+   cd uncharted-travel-fe
+   ```
 
-### Running the Application
+2. Install dependencies
 
-Run the development server:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-```
+3. Run the development server
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   npm run dev
+   ```
 
-## API Routes
+4. Open [http://localhost:3000](http://localhost:3000) in your browser 🎉
 
-### Submit Waitlist
+### Available Scripts
 
-**Endpoint:** `/api/submitWaitlist`
-**Method:** `POST`
+| Command         | Description                  |
+| --------------- | ---------------------------- |
+| `npm run dev`   | Start development server     |
+| `npm run build` | Build for production         |
+| `npm start`     | Start production server      |
+| `npm test`      | Run tests                    |
 
-#### Testing with curl
+---
 
-You can test the waitlist submission endpoint using the following command:
-
-```bash
-curl -X POST \
-  http://localhost:3000/api/submitWaitlist \
-  -H "Content-Type: application/json" \
-  -d '{"email": "test@example.com", "featurePreferences": ["adventure", "luxury"]}'
-```
-
-**Note:** Ensure the development server is running before executing the curl command.
+<p align="center">Made with ❤️ by the Uncharted Travel Team</p>

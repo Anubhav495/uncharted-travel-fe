@@ -82,7 +82,7 @@ const DestinationsGrid: React.FC = () => {
             <div className="container mx-auto px-4">
                 {/* Filter Bar */}
                 <div className="relative mb-12 -mx-4 px-4 py-4 bg-transparent border-b border-white/5 md:mx-0 md:px-0 md:border-none">
-                    <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                    <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide pl-1">
                         {categories.map((category) => (
                             <button
                                 key={category}

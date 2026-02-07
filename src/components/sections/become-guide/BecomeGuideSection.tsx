@@ -67,14 +67,10 @@ const BecomeGuideSection: React.FC = () => {
 
             {/* Right Image Side */}
             <div className="w-full lg:w-1/2 relative min-h-[75vh] lg:min-h-screen">
-                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-900 to-transparent z-10 lg:hidden" />
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/20 to-transparent z-10 lg:w-1/2" />
-
-
                 <img
                     src="/assets/become-a-guide-main-page.jpg"
                     alt="Local Guide"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover [mask-image:linear-gradient(to_bottom,transparent,black_50%)] lg:[mask-image:linear-gradient(to_right,transparent,black_50%)]"
                 />
 
                 {/* Floating Testimonial Card */}

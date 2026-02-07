@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { MapPin, Clock, TrendingUp, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
+import GalleryPreview from '@/components/ui/GalleryPreview';
 import BookingModal, { BookingFormData } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
 import { useToast } from '@/context/ToastContext';
 import { supabase } from '@/lib/supabaseClient';
@@ -137,7 +138,10 @@ const TrekDetailsPage = () => {
                         src={trek.image}
                         alt={trek.title}
                         fill
-                        className="object-cover"
+                        className={`object-cover ${trek.imagePosition === 'top' ? 'object-top' :
+                                trek.imagePosition === 'bottom' ? 'object-bottom' :
+                                    'object-center'
+                            }`}
                         priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-black/30" />
@@ -225,6 +229,15 @@ const TrekDetailsPage = () => {
                                     ))}
                                 </div>
                             </section>
+                        )}
+
+                        {/* Gallery Preview */}
+                        {trek.gallery && trek.gallery.length > 0 && (
+                            <GalleryPreview
+                                images={trek.gallery}
+                                trekSlug={trek.slug}
+                                trekTitle={trek.title}
+                            />
                         )}
 
                         {/* Meet the Locals (Guides) */}

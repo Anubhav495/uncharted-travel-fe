@@ -50,8 +50,8 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
                 loading="lazy"
             />
             <div>
-                <p className="font-bold text-gray-800 text-sm sm:text-base">{review.name}</p>
-                <p className="text-xs sm:text-sm text-gray-500">{review.tour}</p>
+                <p className="font-bold text-gray-900 text-sm sm:text-base">{review.name}</p>
+                <p className="text-xs sm:text-sm text-gray-600">{review.tour}</p>
             </div>
         </div>
 
@@ -65,7 +65,7 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
             ))}
         </div>
 
-        <p className="text-gray-600 italic text-sm sm:text-base leading-relaxed flex-grow">
+        <p className="text-gray-700 italic text-sm sm:text-base leading-relaxed flex-grow">
             "{review.quote}"
         </p>
     </div>

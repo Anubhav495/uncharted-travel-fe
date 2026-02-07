@@ -64,7 +64,7 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                     {/* Price & Action */}
                     <div className="flex items-center justify-between pt-2 opacity-0 group-hover:opacity-100 group-[.is-active]:opacity-100 transform translate-y-4 group-hover:translate-y-0 group-[.is-active]:translate-y-0 transition-all duration-500 delay-100">
                         <div>
-                            <p className="text-xs text-slate-400 uppercase tracking-wider">Starting from</p>
+                            <p className="text-xs text-slate-400 uppercase tracking-wider">Price</p>
                             <p className="text-xl font-bold text-white">{trek.price}</p>
                         </div>
                         <button
