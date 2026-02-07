@@ -3,9 +3,9 @@ import React from 'react';
 
 const DestinationsHero: React.FC = () => {
     return (
-        <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-            {/* Background Image */}
-            <div className="absolute inset-0 z-0">
+        <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-900">
+            {/* Background Image with CSS Mask for smooth fade */}
+            <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]">
                 <div className="absolute inset-0 bg-black/40 z-10" />
                 <div
                     className="w-full h-full bg-cover bg-center bg-no-repeat transform scale-105 animate-slow-zoom"
@@ -26,9 +26,6 @@ const DestinationsHero: React.FC = () => {
 
 
             </div>
-
-            {/* Bottom Fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-900 to-transparent z-10" />
         </section>
     );
 };

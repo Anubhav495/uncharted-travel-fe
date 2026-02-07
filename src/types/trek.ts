@@ -33,4 +33,5 @@ export interface Trek {
     highlights?: string[];
     guides?: Guide[];
     itinerary?: ItineraryDay[];
+    gallery?: string[];
 }

@@ -97,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 {/* Brand Logo/Name */}
                 <Link
                     href="/"
-                    className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity z-10"
+                    className="text-xl sm:text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors z-10"
                 >
                     UnchartedTravel
                 </Link>
@@ -141,10 +141,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         ) : (
                             <button
                                 onClick={() => loginWithGoogle()}
-                                className={`ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md ${scrolled
-                                    ? 'bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 text-white shadow-blue-500/25 border border-transparent bg-origin-border'
-                                    : 'bg-white/5 backdrop-blur-md border border-white/20 text-white hover:bg-white/10'
-                                    }`}
+                                className="ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700 border border-transparent"
                             >
                                 Login
                             </button>
