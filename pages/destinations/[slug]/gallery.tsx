@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 
 const GalleryPage = () => {
@@ -13,6 +13,23 @@ const GalleryPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const trek = treks.find(t => t.slug === slug);
+
+    const closeLightbox = useCallback(() => {
+        setLightboxOpen(false);
+        document.body.style.overflow = 'auto';
+    }, []);
+
+    // Handle browser back button to close lightbox
+    useEffect(() => {
+        const handlePopState = () => {
+            if (lightboxOpen) {
+                closeLightbox();
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [lightboxOpen, closeLightbox]);
 
     if (!trek && router.isReady) {
         return (
@@ -38,11 +55,13 @@ const GalleryPage = () => {
         setCurrentIndex(index);
         setLightboxOpen(true);
         document.body.style.overflow = 'hidden';
+        // Push state so back button closes lightbox
+        window.history.pushState({ lightbox: true }, '');
     };
 
-    const closeLightbox = () => {
-        setLightboxOpen(false);
-        document.body.style.overflow = 'auto';
+    const handleCloseLightbox = () => {
+        // Go back in history (which triggers popstate and closes lightbox)
+        window.history.back();
     };
 
     const goToPrevious = () => {
@@ -113,8 +132,8 @@ const GalleryPage = () => {
             {lightboxOpen && (
                 <div
                     className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
-                    onClick={closeLightbox}
-                    onKeyDown={(e) => e.key === 'Escape' && closeLightbox()}
+                    onClick={handleCloseLightbox}
+                    onKeyDown={(e) => e.key === 'Escape' && handleCloseLightbox()}
                     tabIndex={0}
                     ref={(el) => el?.focus()}
                 >

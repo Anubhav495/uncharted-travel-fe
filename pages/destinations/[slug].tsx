@@ -138,7 +138,10 @@ const TrekDetailsPage = () => {
                         src={trek.image}
                         alt={trek.title}
                         fill
-                        className="object-cover object-top"
+                        className={`object-cover ${trek.imagePosition === 'top' ? 'object-top' :
+                                trek.imagePosition === 'bottom' ? 'object-bottom' :
+                                    'object-center'
+                            }`}
                         priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-black/30" />
@@ -196,15 +199,6 @@ const TrekDetailsPage = () => {
                             </ul>
                         </section>
 
-                        {/* Gallery Preview */}
-                        {trek.gallery && trek.gallery.length > 0 && (
-                            <GalleryPreview
-                                images={trek.gallery}
-                                trekSlug={trek.slug}
-                                trekTitle={trek.title}
-                            />
-                        )}
-
                         {/* Itinerary */}
                         {trek.itinerary && trek.itinerary.length > 0 && (
                             <section>
@@ -235,6 +229,15 @@ const TrekDetailsPage = () => {
                                     ))}
                                 </div>
                             </section>
+                        )}
+
+                        {/* Gallery Preview */}
+                        {trek.gallery && trek.gallery.length > 0 && (
+                            <GalleryPreview
+                                images={trek.gallery}
+                                trekSlug={trek.slug}
+                                trekTitle={trek.title}
+                            />
                         )}
 
                         {/* Meet the Locals (Guides) */}

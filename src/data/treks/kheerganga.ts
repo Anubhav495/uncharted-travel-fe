@@ -9,6 +9,7 @@ export const kheergangaTrek: Trek = {
     difficulty: 'Easy',
     price: '₹4,500',
     image: '/assets/kheerganga.jpg',
+    imagePosition: 'top',
     guideName: 'Raju',
     guideAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop',
     badges: ['Hot Springs', 'Scenic'],

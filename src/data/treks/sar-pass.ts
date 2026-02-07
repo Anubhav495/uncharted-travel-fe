@@ -9,6 +9,7 @@ export const sarPassTrek: Trek = {
     difficulty: 'Moderate',
     price: '₹9,500',
     image: '/assets/sar-pass.png',
+    imagePosition: 'center',
     guideName: 'Tenzin',
     guideAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop',
     badges: ['Snow', 'Forest'],
