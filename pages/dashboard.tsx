@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAuth } from '../src/context/AuthContext';
+import { useCommunity } from '../src/context/CommunityContext';
 import { supabase } from '../src/lib/supabaseClient';
 import Link from 'next/link';
-import { Calendar, Users, MapPin, Compass, ArrowRight, Clock, Edit2, X, Save, Award } from 'lucide-react';
+import { Calendar, Users, MapPin, Compass, ArrowRight, Clock, Edit2, X, Save, Award, Star, ChevronRight } from 'lucide-react';
 import { HiStar } from 'react-icons/hi';
 import { useToast } from '../src/context/ToastContext';
 import ReviewModal from '@/components/modals/review/ReviewModal';
+import LevelBadge from '@/components/ui/LevelBadge';
+import XPProgressBar from '@/components/ui/XPProgressBar';
+import { formatXP, LEVEL_NAMES } from '@/lib/levels';
 
 interface BookingRequest {
     id: string;
@@ -29,6 +33,7 @@ interface Review {
 
 export default function Dashboard() {
     const { user, loading } = useAuth();
+    const { profile, profileLoading, myGroups, createdGroups, canAccess, canCreate } = useCommunity();
     const router = useRouter();
     const { showToast } = useToast();
     const [bookings, setBookings] = useState<BookingRequest[]>([]);
@@ -156,6 +161,56 @@ export default function Dashboard() {
 
                     {/* Content Section */}
                     <div className="space-y-6">
+                        {/* Community Profile Card */}
+                        {profile && (
+                            <div className="bg-gradient-to-r from-slate-800 to-slate-800/50 border border-slate-700 rounded-2xl p-6 mb-8">
+                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden border-2 border-yellow-400/30">
+                                            {user?.user_metadata?.avatar_url ? (
+                                                <img src={user.user_metadata.avatar_url} alt="" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <span className="text-2xl font-bold text-yellow-400">
+                                                    {user?.user_metadata?.full_name?.[0]?.toUpperCase() || '?'}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <LevelBadge level={profile.level} size="md" />
+                                                {profile.is_verified && (
+                                                    <span className="text-xs text-green-400 flex items-center gap-1">
+                                                        ✓ Verified
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <p className="text-2xl font-bold text-white">{formatXP(profile.xp_points)} XP</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex-1 max-w-md">
+                                        <XPProgressBar xp={profile.xp_points} level={profile.level} showDetails={true} />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <Link
+                                            href="/community"
+                                            className="flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-slate-900 rounded-lg font-medium transition-colors"
+                                        >
+                                            <Users className="w-4 h-4" />
+                                            Community Hub
+                                            <ChevronRight className="w-4 h-4" />
+                                        </Link>
+                                        {canAccess && (myGroups.length > 0 || createdGroups.length > 0) && (
+                                            <span className="text-sm text-slate-400 text-center">
+                                                {createdGroups.length + myGroups.length} group{(createdGroups.length + myGroups.length) !== 1 ? 's' : ''}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Active Bookings Section */}
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-bold text-white flex items-center gap-2">

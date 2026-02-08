@@ -7,6 +7,7 @@ import Header from '../src/components/layout/Header';
 import Footer from '../src/components/layout/Footer';
 import { ToastProvider } from '../src/context/ToastContext';
 import { AuthProvider } from '../src/context/AuthContext';
+import { CommunityProvider } from '../src/context/CommunityContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -21,11 +22,13 @@ export default function App({ Component, pageProps }: AppProps) {
     <SessionProvider session={pageProps.session}>
       <ToastProvider>
         <AuthProvider>
-          <div className="min-h-screen">
-            <Header variant={headerVariant} />
-            <Component {...pageProps} />
-            {!isRegistrationPage && <Footer />}
-          </div>
+          <CommunityProvider>
+            <div className="min-h-screen">
+              <Header variant={headerVariant} />
+              <Component {...pageProps} />
+              {!isRegistrationPage && <Footer />}
+            </div>
+          </CommunityProvider>
         </AuthProvider>
       </ToastProvider>
     </SessionProvider>

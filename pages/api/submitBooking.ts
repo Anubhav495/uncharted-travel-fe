@@ -88,6 +88,49 @@ export default async function handler(
             throw error;
         }
 
+        // Award XP for first booking
+        // Check if this is the user's first booking request
+        const { count: bookingCount } = await supabase
+            .from('booking_requests')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', finalUserId);
+
+        // Get user's profile
+        const { data: profileData } = await supabase
+            .from('user_profiles')
+            .select('id, xp_points, level')
+            .eq('user_id', finalUserId)
+            .single();
+
+        if (profileData && bookingCount === 1) {
+            // First booking - award 100 XP
+            const XP_REWARDS = {
+                first_booking: 100,
+            };
+            const newXP = (profileData.xp_points || 0) + XP_REWARDS.first_booking;
+            const newLevel = newXP >= 1500 ? 'platinum' :
+                newXP >= 750 ? 'gold' :
+                    newXP >= 250 ? 'silver' :
+                        newXP >= 1 ? 'bronze' : 'newcomer';
+
+            // Update XP
+            await supabase
+                .from('user_profiles')
+                .update({ xp_points: newXP, level: newLevel })
+                .eq('id', profileData.id);
+
+            // Log XP transaction
+            await supabase
+                .from('xp_transactions')
+                .insert({
+                    user_profile_id: profileData.id,
+                    action: 'first_booking',
+                    xp_amount: XP_REWARDS.first_booking,
+                    reference_id: data[0].id,
+                    reference_type: 'booking',
+                });
+        }
+
         return res.status(200).json({ message: 'Success', id: data[0].id });
     } catch (error: any) {
         console.error('Booking submission error:', error);

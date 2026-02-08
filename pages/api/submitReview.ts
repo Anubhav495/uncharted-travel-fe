@@ -90,6 +90,48 @@ export default async function handler(
             throw reviewError;
         }
 
+        // 4. Award XP for review (only for new reviews, not edits)
+        // Check if this was an insert (created_at close to now) or update
+        const isNewReview = reviewData.created_at === reviewData.updated_at ||
+            new Date(reviewData.created_at).getTime() > Date.now() - 5000;
+
+        if (isNewReview) {
+            // Get user's profile and award XP
+            const { data: profileData } = await supabase
+                .from('user_profiles')
+                .select('id, xp_points, level')
+                .eq('user_id', user_id)
+                .single();
+
+            if (profileData) {
+                const XP_REWARDS = {
+                    review_given: 15,
+                };
+                const newXP = (profileData.xp_points || 0) + XP_REWARDS.review_given;
+                const newLevel = newXP >= 1500 ? 'platinum' :
+                    newXP >= 750 ? 'gold' :
+                        newXP >= 250 ? 'silver' :
+                            newXP >= 1 ? 'bronze' : 'newcomer';
+
+                // Update XP
+                await supabase
+                    .from('user_profiles')
+                    .update({ xp_points: newXP, level: newLevel })
+                    .eq('id', profileData.id);
+
+                // Log XP transaction
+                await supabase
+                    .from('xp_transactions')
+                    .insert({
+                        user_profile_id: profileData.id,
+                        action: 'review_given',
+                        xp_amount: XP_REWARDS.review_given,
+                        reference_id: reviewData.id,
+                        reference_type: 'review',
+                    });
+            }
+        }
+
         return res.status(200).json({ message: 'Review submitted successfully', review: reviewData });
 
     } catch (error: any) {

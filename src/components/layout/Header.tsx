@@ -107,6 +107,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                     <nav className="hidden md:flex items-center space-x-8">
                         <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/destinations">Destinations</NavLink>
+                        <NavLink href="/community">Community</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
 
                         {user ? (
@@ -180,6 +181,13 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     Destinations
+                                </NavLink>
+                                <NavLink
+                                    href="/community"
+                                    isMobile={true}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Community
                                 </NavLink>
                                 <NavLink
                                     href="/become-a-guide"
