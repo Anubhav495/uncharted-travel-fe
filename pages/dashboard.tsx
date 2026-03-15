@@ -217,10 +217,12 @@ export default function Dashboard() {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center justify-end gap-3">
-                                                <div className="text-slate-500 text-sm italic hidden sm:block">
-                                                    We'll contact you soon
-                                                </div>
+                                            <div className="flex items-center justify-between sm:justify-end gap-3">
+                                                {booking.status === 'pending' && (
+                                                    <div className="text-slate-500 text-sm italic">
+                                                        We will contact you shortly
+                                                    </div>
+                                                )}
                                                 <button
                                                     onClick={() => handleEditClick(booking)}
                                                     className="p-2 text-slate-400 hover:text-yellow-400 hover:bg-slate-700 rounded-lg transition-colors"
