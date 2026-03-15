@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import * as z from 'zod';
+import { sendBookingNotification } from '@/lib/telegram';
 
 // Zod Schema for API Validation (Should alias strict Indian phone rule)
 const bookingApiSchema = z.object({
@@ -87,6 +88,17 @@ export default async function handler(
             console.error('Supabase error:', error);
             throw error;
         }
+
+        // Send Telegram notification (fire-and-forget)
+        sendBookingNotification({
+            name,
+            email,
+            phone,
+            date,
+            guests,
+            trekTitle,
+            bookingId: data[0].id,
+        }).catch(() => { }); // Silently ignore notification errors
 
         return res.status(200).json({ message: 'Success', id: data[0].id });
     } catch (error: any) {
