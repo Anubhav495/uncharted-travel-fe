@@ -97,7 +97,11 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 {/* Brand Logo/Name */}
                 <Link
                     href="/"
-                    className="text-xl sm:text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors z-10"
+                    className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
+                        scrolled 
+                            ? 'text-yellow-500 hover:text-yellow-600' 
+                            : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
+                    }`}
                 >
                     UnchartedTravel
                 </Link>
@@ -108,6 +112,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
+                        <NavLink href="/community">Community</NavLink>
 
                         {user ? (
                             <div className="relative ml-4 group">
@@ -187,6 +192,13 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     Become a Guide
+                                </NavLink>
+                                <NavLink
+                                    href="/community"
+                                    isMobile={true}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Community
                                 </NavLink>
 
                                 <div className="border-t border-gray-200 my-4"></div>

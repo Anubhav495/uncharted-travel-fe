@@ -8,12 +8,23 @@ export interface Guide {
     description: string;
 }
 
+export interface Company {
+    id: string;
+    name: string;
+    logo: string;
+    description: string;
+    rating: number;
+    establishedYear: number;
+    itinerary?: ItineraryDay[];
+}
+
 export interface ItineraryDay {
     day: number;
     title: string;
     description: string;
     elevation?: string;
     distance?: string;
+    meals?: string;
 }
 
 export interface Trek {
@@ -33,6 +44,7 @@ export interface Trek {
     overview?: string;
     highlights?: string[];
     guides?: Guide[];
+    companies?: Company[];
     itinerary?: ItineraryDay[];
     gallery?: string[];
 }

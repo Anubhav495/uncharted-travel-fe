@@ -33,6 +33,16 @@ export const sarPassTrek: Trek = {
             description: 'Born in the Parvati Valley, Tenzin has been guiding treks since he was 18. He knows every hidden trail and folklore of the mountains.'
         }
     ],
+    companies: [
+        {
+            id: '37d12bd9-a1ff-40f0-996d-b04c7ae2bfd5',
+            name: 'Pritam tour and travels 99',
+            logo: '',
+            description: 'A trusted local partner specializing in group departures and customized treks across the Himalayas.',
+            rating: 5.0,
+            establishedYear: 2015
+        }
+    ],
     itinerary: [
         {
             day: 1,

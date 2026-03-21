@@ -46,7 +46,7 @@ export default async function handler(
         // - Has a guide assigned
         const { data: booking, error: bookingError } = await supabase
             .from('booking_requests')
-            .select('id, guide_id, status')
+            .select('id, provider_id, provider_type, status')
             .eq('id', booking_id)
             .eq('user_id', user_id)
             .single();
@@ -59,8 +59,8 @@ export default async function handler(
             return res.status(400).json({ message: 'You can only review completed treks.' });
         }
 
-        if (!booking.guide_id) {
-            return res.status(400).json({ message: 'No guide was assigned to this trek.' });
+        if (!booking.provider_id) {
+            return res.status(400).json({ message: 'No provider was assigned to this trek.' });
         }
 
         // 3. Upsert Review
@@ -75,7 +75,8 @@ export default async function handler(
             .upsert(
                 {
                     user_id,
-                    guide_id: booking.guide_id,
+                    provider_id: booking.provider_id,
+                    provider_type: booking.provider_type,
                     booking_id,
                     rating,
                     comment,
@@ -88,6 +89,42 @@ export default async function handler(
 
         if (reviewError) {
             throw reviewError;
+        }
+
+        // Award +50 XP for leaving a review (only on first submission, not edits)
+        const isNewReview = !reviewData?.updated_at ||
+            new Date(reviewData.updated_at).getTime() === new Date(reviewData.created_at).getTime();
+
+        if (isNewReview) {
+            const { data: profileData } = await supabase
+                .from('user_profiles')
+                .select('id, xp_points, level')
+                .eq('user_id', user_id)
+                .single();
+
+            if (profileData) {
+                const XP_REVIEW = 50;
+                const newXP = (profileData.xp_points || 0) + XP_REVIEW;
+                const newLevel = newXP >= 1500 ? 'platinum' :
+                    newXP >= 750 ? 'gold' :
+                        newXP >= 250 ? 'silver' :
+                            newXP >= 1 ? 'bronze' : 'newcomer';
+
+                await supabase
+                    .from('user_profiles')
+                    .update({ xp_points: newXP, level: newLevel })
+                    .eq('id', profileData.id);
+
+                await supabase
+                    .from('xp_transactions')
+                    .insert({
+                        user_profile_id: profileData.id,
+                        action: 'review_submitted',
+                        xp_amount: XP_REVIEW,
+                        reference_id: reviewData.id,
+                        reference_type: 'review',
+                    });
+            }
         }
 
         return res.status(200).json({ message: 'Review submitted successfully', review: reviewData });

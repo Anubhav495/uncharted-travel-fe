@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { MapPin, Clock, TrendingUp, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
+import CompanyCard from '@/components/ui/CompanyCard';
 import GalleryPreview from '@/components/ui/GalleryPreview';
-import BookingModal, { BookingFormData } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
+import BookingModal, { BookingFormData, BookingPreference } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
 import { useToast } from '@/context/ToastContext';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/context/AuthContext';
@@ -18,9 +19,23 @@ const TrekDetailsPage = () => {
     const { user, loginWithGoogle } = useAuth();
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [hasEnquired, setHasEnquired] = useState(false);
+    const [bookingPreference, setBookingPreference] = useState<BookingPreference>({ type: 'general' });
+    const [activeTab, setActiveTab] = useState<'guides' | 'companies'>('guides');
+    const [guidePage, setGuidePage] = useState(1);
+    const [companyPage, setCompanyPage] = useState(1);
+    const ITEMS_PER_PAGE = 4;
 
     // Find the trek
     const trek = treks.find(t => t.slug === slug);
+
+    // Pagination data
+    const totalGuides = trek?.guides?.length || 0;
+    const totalGuidePages = Math.ceil(totalGuides / ITEMS_PER_PAGE);
+    const visibleGuides = trek?.guides?.slice((guidePage - 1) * ITEMS_PER_PAGE, guidePage * ITEMS_PER_PAGE);
+
+    const totalCompanies = trek?.companies?.length || 0;
+    const totalCompanyPages = Math.ceil(totalCompanies / ITEMS_PER_PAGE);
+    const visibleCompanies = trek?.companies?.slice((companyPage - 1) * ITEMS_PER_PAGE, companyPage * ITEMS_PER_PAGE);
 
     // Check for prior enquiry
     useEffect(() => {
@@ -89,7 +104,8 @@ const TrekDetailsPage = () => {
 
     if (!trek) return null; // Loading state
 
-    const handleRequestInfo = async () => {
+    const handleRequestInfo = async (id?: string, name?: string, type: 'guide' | 'company' | 'general' = 'general') => {
+        setBookingPreference({ id, name, type });
         if (!user) {
             await loginWithGoogle(`${window.location.origin}${router.asPath}?action=book`);
             return;
@@ -224,6 +240,12 @@ const TrekDetailsPage = () => {
                                                 <p className="text-slate-300 text-sm leading-relaxed">
                                                     {day.description}
                                                 </p>
+                                                {day.meals && (
+                                                    <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-2 text-xs text-yellow-400">
+                                                        <span className="font-bold">Meals:</span> 
+                                                        <span className="text-slate-300">{day.meals}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
@@ -240,19 +262,86 @@ const TrekDetailsPage = () => {
                             />
                         )}
 
-                        {/* Meet the Locals (Guides) */}
-                        {trek.guides && trek.guides.length > 0 && (
+                        {/* Trekking Options */}
+                        {(trek.guides?.length || trek.companies?.length) ? (
                             <section>
-                                <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Meet the Local Guide</h2>
+                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Choose Your Trekking Style</h2>
+                                <p className="text-slate-400 mb-6 pl-4">Personalized itineraries with local guides or full-service groups with our partners.</p>
+                                
+                                <div className="flex gap-4 mb-6 border-b border-slate-700 pb-2">
+                                    {trek.guides && trek.guides.length > 0 && (
+                                        <button 
+                                            onClick={() => setActiveTab('guides')}
+                                            className={`font-bold pb-2 border-b-2 transition-colors ${activeTab === 'guides' ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                                        >
+                                            Meet the Local Guides
+                                        </button>
+                                    )}
+                                    {trek.companies && trek.companies.length > 0 && (
+                                        <button 
+                                            onClick={() => setActiveTab('companies')}
+                                            className={`font-bold pb-2 border-b-2 transition-colors ${activeTab === 'companies' ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                                        >
+                                            Trek with our Partners
+                                        </button>
+                                    )}
+                                </div>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {trek.guides.map((guide) => (
+                                    {activeTab === 'guides' && visibleGuides?.map((guide) => (
                                         <div key={guide.id} className="h-full">
-                                            <GuideCard guide={guide} />
+                                            <GuideCard guide={guide} onBook={handleRequestInfo} />
+                                        </div>
+                                    ))}
+                                    {activeTab === 'companies' && visibleCompanies?.map((company) => (
+                                        <div key={company.id} className="h-full">
+                                            <CompanyCard company={company} onBook={handleRequestInfo} />
                                         </div>
                                     ))}
                                 </div>
+
+                                {/* Pagination Controls */}
+                                {activeTab === 'guides' && totalGuidePages > 1 && (
+                                    <div className="flex justify-center items-center gap-4 mt-8">
+                                        <button 
+                                            disabled={guidePage === 1}
+                                            onClick={() => setGuidePage(p => p - 1)}
+                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                        >
+                                            Previous
+                                        </button>
+                                        <span className="text-sm font-medium text-slate-400">Page {guidePage} of {totalGuidePages}</span>
+                                        <button 
+                                            disabled={guidePage === totalGuidePages}
+                                            onClick={() => setGuidePage(p => p + 1)}
+                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
+
+                                {activeTab === 'companies' && totalCompanyPages > 1 && (
+                                    <div className="flex justify-center items-center gap-4 mt-8">
+                                        <button 
+                                            disabled={companyPage === 1}
+                                            onClick={() => setCompanyPage(p => p - 1)}
+                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                        >
+                                            Previous
+                                        </button>
+                                        <span className="text-sm font-medium text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
+                                        <button 
+                                            disabled={companyPage === totalCompanyPages}
+                                            onClick={() => setCompanyPage(p => p + 1)}
+                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
                             </section>
-                        )}
+                        ) : null}
                     </div>
 
                     {/* Sidebar / CTA */}
@@ -288,7 +377,7 @@ const TrekDetailsPage = () => {
                                 </button>
                             ) : (
                                 <button
-                                    onClick={handleRequestInfo}
+                                    onClick={() => handleRequestInfo()}
                                     className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-yellow-400/20"
                                 >
                                     Request Info
@@ -310,6 +399,7 @@ const TrekDetailsPage = () => {
                 isOpen={isBookingModalOpen}
                 onClose={() => setIsBookingModalOpen(false)}
                 trekTitle={trek.title}
+                bookingPreference={bookingPreference}
                 onSubmit={handleBookingSubmit}
             />
         </>

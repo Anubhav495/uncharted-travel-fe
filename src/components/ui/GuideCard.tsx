@@ -6,9 +6,10 @@ import { supabase } from '@/lib/supabaseClient';
 
 interface GuideCardProps {
     guide: Guide;
+    onBook?: (id: string, name: string, type: 'guide' | 'company') => void;
 }
 
-const GuideCard: React.FC<GuideCardProps> = ({ guide }) => {
+const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
     const [rating, setRating] = React.useState(guide.rating || 5.0);
     const [reviewCount, setReviewCount] = React.useState(0);
 
@@ -18,7 +19,7 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide }) => {
                 const { data, error } = await supabase
                     .from('reviews')
                     .select('rating')
-                    .eq('guide_id', guide.id);
+                    .eq('provider_id', guide.id);
 
                 if (!error && data && data.length > 0) {
                     const avg = data.reduce((acc, curr) => acc + curr.rating, 0) / data.length;
@@ -70,6 +71,15 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide }) => {
                     <span>Speaks {guide.languages.join(', ')}</span>
                 </div>
             </div>
+
+            {onBook && (
+                <button
+                    onClick={() => onBook(guide.id, guide.name, 'guide')}
+                    className="mt-6 w-full py-3 px-4 bg-slate-700/50 hover:bg-yellow-400 hover:text-slate-900 border border-slate-600 hover:border-yellow-400 rounded-xl text-white font-bold transition-all duration-300 shadow-sm flex justify-center items-center gap-2"
+                >
+                    Request with {guide.name}
+                </button>
+            )}
         </div>
     );
 };
