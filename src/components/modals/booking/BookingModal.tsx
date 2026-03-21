@@ -14,7 +14,12 @@ const bookingSchema = z.object({
     phone: z.string().regex(/^[6-9]\d{4}\s?\d{5}$/, 'Please enter a valid 10-digit Indian mobile number'),
     date: z.string().min(1, 'Approximate date is required'),
     guests: z.number().min(1, 'At least 1 guest required').max(20, 'Max 20 guests allowed'),
-    user_id: z.string().optional()
+    user_id: z.string().optional(),
+    bookingPreference: z.object({
+        type: z.enum(['guide', 'company', 'general']),
+        name: z.string().optional(),
+        id: z.string().optional()
+    }).optional()
 });
 
 export type BookingSchemaType = z.infer<typeof bookingSchema>;
@@ -23,10 +28,17 @@ export type BookingSchemaType = z.infer<typeof bookingSchema>;
 // but preferred usage is inferred schema
 export interface BookingFormData extends BookingSchemaType { }
 
+export interface BookingPreference {
+    type: 'guide' | 'company' | 'general';
+    name?: string;
+    id?: string;
+}
+
 interface BookingModalProps {
     isOpen: boolean;
     onClose: () => void;
     trekTitle: string;
+    bookingPreference?: BookingPreference;
     onSubmit: (formData: BookingFormData) => Promise<boolean>;
 }
 
@@ -34,6 +46,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     isOpen,
     onClose,
     trekTitle,
+    bookingPreference,
     onSubmit,
 }) => {
     const { user } = useAuth();
@@ -88,7 +101,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
             // Strip space from phone number before submission to match backend expectation
             const cleanData = {
                 ...data,
-                phone: data.phone.replace(/\s/g, '')
+                phone: data.phone.replace(/\s/g, ''),
+                bookingPreference: bookingPreference || { type: 'general' }
             };
             const success = await onSubmit(cleanData);
             if (success) {
@@ -116,7 +130,9 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 bg-gray-50">
                         <div>
                             <h2 className="text-xl font-bold text-gray-900">
-                                Request Availability
+                                {bookingPreference?.type !== 'general' && bookingPreference?.name
+                                    ? `Request with ${bookingPreference.name}`
+                                    : 'Request Availability'}
                             </h2>
                             <p className="text-sm text-gray-500 mt-1">For <span className="font-semibold text-yellow-600">{trekTitle}</span></p>
                         </div>

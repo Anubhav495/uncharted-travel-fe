@@ -46,7 +46,7 @@ export default async function handler(
         // - Has a guide assigned
         const { data: booking, error: bookingError } = await supabase
             .from('booking_requests')
-            .select('id, guide_id, status')
+            .select('id, provider_id, provider_type, status')
             .eq('id', booking_id)
             .eq('user_id', user_id)
             .single();
@@ -59,8 +59,8 @@ export default async function handler(
             return res.status(400).json({ message: 'You can only review completed treks.' });
         }
 
-        if (!booking.guide_id) {
-            return res.status(400).json({ message: 'No guide was assigned to this trek.' });
+        if (!booking.provider_id) {
+            return res.status(400).json({ message: 'No provider was assigned to this trek.' });
         }
 
         // 3. Upsert Review
@@ -75,7 +75,8 @@ export default async function handler(
             .upsert(
                 {
                     user_id,
-                    guide_id: booking.guide_id,
+                    provider_id: booking.provider_id,
+                    provider_type: booking.provider_type,
                     booking_id,
                     rating,
                     comment,

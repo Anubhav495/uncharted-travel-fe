@@ -34,6 +34,16 @@ export const kheergangaTrek: Trek = {
             description: 'A local from Tosh village, Raju has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.'
         }
     ],
+    companies: [
+        {
+            id: 'pritam-tour',
+            name: 'Pritam tour and travels 99',
+            logo: '',
+            description: 'A trusted local partner specializing in group departures and customized treks across the Himalayas.',
+            rating: 5.0,
+            establishedYear: 2015
+        }
+    ],
     itinerary: [
         {
             day: 1,
