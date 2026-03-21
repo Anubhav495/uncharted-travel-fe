@@ -36,7 +36,7 @@ export const kheergangaTrek: Trek = {
     ],
     companies: [
         {
-            id: 'pritam-tour',
+            id: '37d12bd9-a1ff-40f0-996d-b04c7ae2bfd5',
             name: 'Pritam tour and travels 99',
             logo: '',
             description: 'A trusted local partner specializing in group departures and customized treks across the Himalayas.',

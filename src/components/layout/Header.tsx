@@ -112,6 +112,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
+                        <NavLink href="/community">Community</NavLink>
 
                         {user ? (
                             <div className="relative ml-4 group">
@@ -191,6 +192,13 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     Become a Guide
+                                </NavLink>
+                                <NavLink
+                                    href="/community"
+                                    isMobile={true}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Community
                                 </NavLink>
 
                                 <div className="border-t border-gray-200 my-4"></div>
