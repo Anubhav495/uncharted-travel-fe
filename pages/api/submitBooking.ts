@@ -11,7 +11,12 @@ const bookingApiSchema = z.object({
     date: z.string().min(1),
     guests: z.number().min(1).max(20),
     trekTitle: z.string().min(1),
-    user_id: z.string().optional().nullable()
+    user_id: z.string().optional().nullable(),
+    bookingPreference: z.object({
+        type: z.enum(['guide', 'company', 'general']),
+        name: z.string().optional(),
+        id: z.string().optional()
+    }).optional()
 });
 
 // Initialize Supabase Client
@@ -41,7 +46,7 @@ export default async function handler(
         });
     }
 
-    const { name, email, phone, date, guests, trekTitle, user_id: providedUserId } = result.data;
+    const { name, email, phone, date, guests, trekTitle, user_id: providedUserId, bookingPreference } = result.data;
 
     try {
         let finalUserId = providedUserId;
@@ -79,7 +84,9 @@ export default async function handler(
                     guests,
                     trek_title: trekTitle,
                     status: 'pending',
-                    user_id: finalUserId
+                    user_id: finalUserId,
+                    provider_id: bookingPreference?.id || null,
+                    provider_type: bookingPreference?.type !== 'general' ? bookingPreference?.type : null
                 },
             ])
             .select();

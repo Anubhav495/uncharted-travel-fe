@@ -17,7 +17,9 @@ interface BookingRequest {
     status: string;
     approx_date: string;
     guests: number;
-    guide_id?: string;
+    provider_id?: string;
+    provider_type?: 'guide' | 'company';
+    provider_name?: string; // Resolved on the client after fetch
 }
 
 interface Review {
@@ -67,7 +69,22 @@ export default function Dashboard() {
             if (bookingsError || reviewsError) {
                 console.error('Error fetching data:', bookingsError, reviewsError);
             } else {
-                setBookings(bookingsData || []);
+                // Resolve provider names for each booking
+                const resolvedBookings = await Promise.all(
+                    (bookingsData || []).map(async (booking) => {
+                        if (!booking.provider_id || !booking.provider_type) return booking;
+
+                        const table = booking.provider_type === 'guide' ? 'guides' : 'companies';
+                        const { data: providerData } = await supabase
+                            .from(table)
+                            .select('name')
+                            .eq('id', booking.provider_id)
+                            .single();
+
+                        return { ...booking, provider_name: providerData?.name || null };
+                    })
+                );
+                setBookings(resolvedBookings);
                 setReviews(reviewsData || []);
             }
         } catch (err) {
@@ -216,6 +233,18 @@ export default function Dashboard() {
                                                         })}
                                                     </span>
                                                 </div>
+                                                {booking.provider_name && (
+                                                    <div className="mt-2 flex items-center gap-2">
+                                                        <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${
+                                                            booking.provider_type === 'company'
+                                                                ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                                                : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                                                        }`}>
+                                                            {booking.provider_type === 'company' ? '🏢 Company' : '🧭 Guide'}
+                                                        </span>
+                                                        <span className="text-sm font-medium text-slate-300">{booking.provider_name}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className="flex items-center justify-between sm:justify-end gap-3">
                                                 {booking.status === 'pending' && (
@@ -279,7 +308,7 @@ export default function Dashboard() {
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center justify-end gap-3">
-                                                    {booking.guide_id ? (
+                                                    {booking.provider_id ? (
                                                         <button
                                                             onClick={() => {
                                                                 setSelectedBookingForReview(booking);
@@ -291,12 +320,12 @@ export default function Dashboard() {
                                                                 }`}
                                                         >
                                                             <HiStar className="w-4 h-4" />
-                                                            {reviews.some(r => r.booking_id === booking.id) ? 'Edit Review' : 'Rate Guide'}
+                                                            {reviews.some(r => r.booking_id === booking.id)
+                                                                ? 'Edit Review'
+                                                                : `Rate ${booking.provider_type === 'company' ? 'Company' : 'Guide'}`}
                                                         </button>
                                                     ) : (
-                                                        <span className="text-xs text-red-400 border border-red-400/30 px-2 py-1 rounded bg-red-400/10 dark:text-red-400">
-                                                            Guide info missing
-                                                        </span>
+                                                        <span className="text-xs text-slate-500 italic">No provider assigned</span>
                                                     )}
                                                 </div>
                                             </div>

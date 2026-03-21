@@ -97,7 +97,11 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 {/* Brand Logo/Name */}
                 <Link
                     href="/"
-                    className="text-xl sm:text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors z-10"
+                    className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
+                        scrolled 
+                            ? 'text-yellow-500 hover:text-yellow-600' 
+                            : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
+                    }`}
                 >
                     UnchartedTravel
                 </Link>
