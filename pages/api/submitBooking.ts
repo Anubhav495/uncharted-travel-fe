@@ -96,42 +96,6 @@ export default async function handler(
             throw error;
         }
 
-        // Award XP for first booking
-        const { count: bookingCount } = await supabase
-            .from('booking_requests')
-            .select('*', { count: 'exact', head: true })
-            .eq('user_id', finalUserId);
-
-        const { data: profileData } = await supabase
-            .from('user_profiles')
-            .select('id, xp_points, level')
-            .eq('user_id', finalUserId)
-            .single();
-
-        if (profileData && bookingCount === 1) {
-            const XP_FIRST_BOOKING = 100;
-            const newXP = (profileData.xp_points || 0) + XP_FIRST_BOOKING;
-            const newLevel = newXP >= 1500 ? 'platinum' :
-                newXP >= 750 ? 'gold' :
-                    newXP >= 250 ? 'silver' :
-                        newXP >= 1 ? 'bronze' : 'newcomer';
-
-            await supabase
-                .from('user_profiles')
-                .update({ xp_points: newXP, level: newLevel })
-                .eq('id', profileData.id);
-
-            await supabase
-                .from('xp_transactions')
-                .insert({
-                    user_profile_id: profileData.id,
-                    action: 'first_booking',
-                    xp_amount: XP_FIRST_BOOKING,
-                    reference_id: data[0].id,
-                    reference_type: 'booking',
-                });
-        }
-
         // Send Telegram notification (fire-and-forget)
         sendBookingNotification({
             name,

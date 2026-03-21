@@ -24,23 +24,33 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user }) {
             if (!user.email) return false;
 
-            // Sync user to Supabase using Service Role (admin access)
             const supabase = getServiceSupabase();
 
-            const { error } = await supabase
+            // Sync user to users table
+            const { data: userData, error } = await supabase
                 .from('users')
                 .upsert({
                     email: user.email,
                     full_name: user.name,
                     avatar_url: user.image,
                     last_login: new Date().toISOString(),
-                }, { onConflict: 'email' });
+                }, { onConflict: 'email' })
+                .select('id')
+                .single();
 
             if (error) {
                 console.error("Error syncing user to Supabase:", error);
-                // Return true anyway to allow login, but log the error (or false to deny)
-                // For now, allow login even if sync fails (avoids blocking users if DB hiccups)
                 return true;
+            }
+
+            // Sync avatar_url into user_profiles so leaderboard only needs one query
+            if (userData?.id) {
+                await supabase
+                    .from('user_profiles')
+                    .upsert({
+                        user_id: userData.id,
+                        avatar_url: user.image ?? null,
+                    }, { onConflict: 'user_id', ignoreDuplicates: false });
             }
 
             return true;

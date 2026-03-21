@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Trophy, Medal, Star, TrendingUp, Users } from 'lucide-react';
-import Header from '../src/components/layout/Header';
-import Footer from '../src/components/layout/Footer';
 import { useAuth } from '../src/context/AuthContext';
 
 interface LeaderboardEntry {
@@ -58,22 +56,16 @@ export default function Community() {
                 <meta name="description" content="See who's explored the most. Global trekker rankings on Uncharted Travel." />
             </Head>
 
-            <Header />
-
             <main className="min-h-screen bg-slate-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mx-auto">
 
                     {/* Hero */}
                     <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-2 bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-                            <TrendingUp className="w-4 h-4" />
-                            Live Rankings
-                        </div>
                         <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">
                             Trekker <span className="text-yellow-400">Leaderboard</span>
                         </h1>
                         <p className="text-slate-400 text-lg max-w-md mx-auto">
-                            Earn XP by booking treks. Climb the ranks from Newcomer to Platinum.
+                            Earn XP by completing treks. Climb the ranks from Newcomer to Platinum.
                         </p>
                     </div>
 
@@ -176,8 +168,7 @@ export default function Community() {
                         </h3>
                         <div className="space-y-3">
                             {[
-                                { action: 'First trek booking', xp: '+100 XP' },
-                                { action: 'Completing a trek (confirmed by admin)', xp: '+250 XP' },
+                            { action: 'Completing a trek', xp: '+250 XP' },
                                 { action: 'Leaving a review', xp: '+50 XP' },
                             ].map(item => (
                                 <div key={item.action} className="flex items-center justify-between text-sm">
@@ -190,7 +181,6 @@ export default function Community() {
                 </div>
             </main>
 
-            <Footer />
         </>
     );
 }
