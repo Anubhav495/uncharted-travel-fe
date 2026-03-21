@@ -306,6 +306,18 @@ export default function Dashboard() {
                                                             {booking.guests} Guest{booking.guests !== 1 ? 's' : ''}
                                                         </span>
                                                     </div>
+                                                    {booking.provider_name && (
+                                                        <div className="mt-2 flex items-center gap-2">
+                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${
+                                                                booking.provider_type === 'company'
+                                                                    ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                                                    : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                                                            }`}>
+                                                                {booking.provider_type === 'company' ? '🏢 Company' : '🧭 Guide'}
+                                                            </span>
+                                                            <span className="text-sm font-medium text-slate-400">{booking.provider_name}</span>
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="flex items-center justify-end gap-3">
                                                     {booking.provider_id ? (
