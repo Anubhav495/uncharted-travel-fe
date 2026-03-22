@@ -38,7 +38,7 @@ export const kheergangaTrek: Trek = {
         {
             id: '37d12bd9-a1ff-40f0-996d-b04c7ae2bfd5',
             name: 'Pritam tour and travels 99',
-            logo: '',
+            logo: '/assets/pritam-tour.png',
             description: 'A trusted local partner specializing in group departures and customized treks across the Himalayas.',
             rating: 5.0,
             establishedYear: 2015
