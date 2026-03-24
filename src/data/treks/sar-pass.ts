@@ -7,7 +7,7 @@ export const sarPassTrek: Trek = {
     location: 'Parvati Valley, Himachal',
     duration: '5 Days',
     difficulty: 'Moderate',
-    price: '₹9,500',
+    price: '₹6,500',
     image: '/assets/sar-pass.png',
     imagePosition: 'center',
     guideName: 'Tenzin',
