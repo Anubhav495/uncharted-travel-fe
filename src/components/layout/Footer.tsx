@@ -1,5 +1,4 @@
-import React from 'react';
-import { Linkedin, Twitter, Instagram, Facebook } from 'lucide-react';
+
 
 const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
     <li>
@@ -12,24 +11,12 @@ const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({ hre
     </li>
 );
 
-const SocialLink: React.FC<{ href: string; icon: React.ReactNode; label: string }> = ({ href, icon, label }) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-gray-400 hover:text-yellow-400 transition-colors duration-300 p-2 rounded-lg hover:bg-gray-800"
-        aria-label={label}
-    >
-        {icon}
-    </a>
-);
-
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
         <footer className="bg-slate-900 text-white">
-            <div className="container mx-auto px-4 py-4 sm:py-16">
+            <div className="container mx-auto px-4 pt-4 sm:pt-8 pb-4 sm:pb-16">
                 {/* Main Footer Content */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-1 sm:gap-8 mb-4 sm:mb-12">
                     {/* Platform */}
@@ -51,8 +38,6 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-0.5 sm:space-y-2">
                             <FooterLink href="/about">About Us</FooterLink>
-
-                            <FooterLink href="/blog">Blog</FooterLink>
                         </ul>
                     </div>
 
@@ -63,8 +48,6 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-0.5 sm:space-y-2">
                             <FooterLink href="/for-guides">Become a Guide</FooterLink>
-
-                            <FooterLink href="/faq">Help Center</FooterLink>
                         </ul>
                     </div>
 
@@ -79,23 +62,6 @@ const Footer: React.FC = () => {
                             </FooterLink>
                         </ul>
 
-                        <div className="flex space-x-2">
-                            <SocialLink
-                                href="#"
-                                icon={<Twitter size={20} />}
-                                label="Follow us on Twitter"
-                            />
-                            <SocialLink
-                                href="#"
-                                icon={<Instagram size={20} />}
-                                label="Follow us on Instagram"
-                            />
-                            <SocialLink
-                                href="#"
-                                icon={<Facebook size={20} />}
-                                label="Follow us on Facebook"
-                            />
-                        </div>
                     </div>
                 </div>
 

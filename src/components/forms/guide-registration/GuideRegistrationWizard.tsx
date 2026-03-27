@@ -9,6 +9,7 @@ import TrekSelect from './TrekSelect';
 import PasswordModal from '../../modals/registration/PasswordModal';
 import { supabase } from '../../../lib/supabaseClient';
 import { useToast } from '../../../context/ToastContext';
+import { useAuth } from '../../../context/AuthContext';
 
 
 const guideSchema = z.object({
@@ -27,6 +28,7 @@ type GuideFormData = z.infer<typeof guideSchema>;
 
 const GuideRegistrationWizard: React.FC = () => {
     const router = useRouter();
+    const { user } = useAuth();
     const [step, setStep] = useState(1);
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -90,6 +92,21 @@ const GuideRegistrationWizard: React.FC = () => {
         });
         return () => subscription.unsubscribe();
     }, [watch]);
+
+    // Prefill with user data if available
+    useEffect(() => {
+        if (user) {
+            const currentFullName = getValues('fullName');
+            const currentEmail = getValues('email');
+            
+            if (!currentFullName && user.user_metadata?.full_name) {
+                setValue('fullName', user.user_metadata.full_name);
+            }
+            if (!currentEmail && user.email) {
+                setValue('email', user.email);
+            }
+        }
+    }, [user, setValue, getValues]);
 
     const nextStep = async () => {
         let isValid = false;

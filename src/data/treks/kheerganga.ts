@@ -10,7 +10,7 @@ export const kheergangaTrek: Trek = {
     price: '₹1,000',
     image: '/assets/kheerganga.jpg',
     imagePosition: 'top',
-    guideName: 'Raju',
+    guideName: 'Pritam Negi',
     guideAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop',
     badges: ['Hot Springs', 'Scenic'],
     category: 'Trekking',
@@ -26,7 +26,7 @@ export const kheergangaTrek: Trek = {
     guides: [
         {
             id: 'g2',
-            name: 'Raju Thakur',
+            name: 'Pritam Negi',
             avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop',
             experience: '6 Years',
             languages: ['English', 'Hindi', 'Pahadi'],

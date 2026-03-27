@@ -8,10 +8,10 @@ const AboutHero: React.FC = () => {
                     Our Philosophy
                 </p>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight max-w-5xl mx-auto mb-12">
-                    From <span className="text-gray-500">logic</span> comes life, and the chain begins to breathe — alive with <span className="text-yellow-400">connections</span> that learn, adapt, and act.
+                    The mountains don't <span className="text-gray-500">yield</span>, they <span className="text-yellow-400">transform</span> us — if we know who to follow.
                 </h1>
                 <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                    We believe the best way to see a city is through the eyes of the people who call it home.
+                    We believe the best way to experience the Himalayas is by walking alongside the locals who know its every trail and legend.
                 </p>
             </div>
         </section>

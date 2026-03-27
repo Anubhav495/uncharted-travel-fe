@@ -10,7 +10,7 @@ export const sarPassTrek: Trek = {
     price: '₹6,500',
     image: '/assets/sar-pass.png',
     imagePosition: 'center',
-    guideName: 'Tenzin',
+    guideName: 'Jai Mishra',
     guideAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop',
     badges: ['Snow', 'Forest'],
     category: 'Trekking',
@@ -25,7 +25,7 @@ export const sarPassTrek: Trek = {
     guides: [
         {
             id: 'g1',
-            name: 'Tenzin Norgay',
+            name: 'Jai Mishra',
             avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
             experience: '8 Years',
             languages: ['English', 'Hindi', 'Tibetan'],
