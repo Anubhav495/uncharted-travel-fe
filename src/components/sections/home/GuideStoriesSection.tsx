@@ -4,37 +4,29 @@ import { Guide } from '../../../types';
 
 const foundingGuides: Guide[] = [
     {
-        name: 'Marco Rossi',
-        location: 'Rome, Italy',
-        specialty: 'Ancient Roman History',
-        quote: 'I don\'t just show you ruins; I help you see the bustling city that once stood here. To me, every stone tells a story.',
-        tags: ['History', 'Architecture', 'Storytelling'],
-        imageUrl: 'https://picsum.photos/seed/guide1/800/600',
+        name: 'Jai Mishra',
+        location: 'Parvati Valley, Himachal',
+        specialty: 'High Altitude Expeditions',
+        quote: 'The mountains don\'t yield to us, we yield to them. I teach trekkers how to respectfully navigate these snowy peaks and return safely transformed.',
+        tags: ['Mountaineering', 'Snow Treks', 'Safety'],
+        imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
     },
     {
-        name: 'Amélie Dubois',
-        location: 'Paris, France',
-        specialty: 'Le Marais Culinary Scene',
-        quote: 'The best way to understand Paris is through its food. I love revealing the hidden bakeries and markets only locals know.',
-        tags: ['Foodie', 'Culture', 'Local Life'],
-        imageUrl: 'https://picsum.photos/seed/guide2/800/600',
+        name: 'Pritam Negi',
+        location: 'Kheerganga, Himachal',
+        specialty: 'Forest Trails & Mythologies',
+        quote: 'Every path in Parvati Valley holds a legend. I love guiding people to the hot springs while sharing the history of Lord Shiva\'s meditation here.',
+        tags: ['Cultural History', 'Nature', 'Storytelling'],
+        imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop',
     },
     {
-        name: 'Kenji Tanaka',
-        location: 'Kyoto, Japan',
-        specialty: 'Zen Gardens & Philosophy',
-        quote: 'Guiding is my meditation. I help travelers find the quiet beauty and deep philosophy hidden in Kyoto\'s incredible gardens.',
-        tags: ['Zen', 'Nature', 'Photography'],
-        imageUrl: 'https://picsum.photos/seed/guide3/800/600',
-    },
-    {
-        name: 'Sofia Reyes',
-        location: 'Mexico City, Mexico',
-        specialty: 'Street Art & Murals',
-        quote: 'Every mural has a voice and a history. I help you listen to the vibrant, colorful stories painted on the walls of my city.',
-        tags: ['Art', 'Street Art', 'Urban'],
-        imageUrl: 'https://picsum.photos/seed/guide4/800/600',
-    },
+        name: 'Aatish',
+        location: 'Dharamshala, Himachal',
+        specialty: 'Alpine Terrains',
+        quote: 'I grew up in the Dhauladhar foothills. Guiding isn\'t my job; it\'s my way of sharing the spectacular glacial lakes and meadows with the world.',
+        tags: ['Local Expert', 'Alpine Lakes', 'Photography'],
+        imageUrl: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=800&auto=format&fit=crop',
+    }
 ];
 
 const GuideStoriesSection: React.FC = () => {

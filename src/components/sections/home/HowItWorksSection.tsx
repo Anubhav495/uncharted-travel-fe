@@ -5,7 +5,7 @@ const HowItWorksSection: React.FC = () => {
     return (
         // The outer section now has a solid, premium dark color.
         <section
-            className="py-6 md:py-20 px-4 bg-slate-900 text-white"
+            className="pt-6 md:pt-20 pb-2 md:pb-8 px-4 bg-slate-900 text-white"
             id="how-it-works"
         >
             {/* The layout is constrained for a more focused, elegant look. */}

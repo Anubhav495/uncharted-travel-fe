@@ -36,9 +36,7 @@ const BecomeGuideSection: React.FC = () => {
                             Become a Guide
                             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <button className="px-6 py-3 sm:px-8 sm:py-4 rounded-xl border border-gray-700 hover:bg-gray-800 transition-colors duration-300 font-medium text-sm sm:text-base">
-                            Learn More
-                        </button>
+
                     </div>
 
                     {/* Benefits Grid */}
@@ -73,32 +71,7 @@ const BecomeGuideSection: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-cover [mask-image:linear-gradient(to_bottom,transparent,black_50%)] lg:[mask-image:linear-gradient(to_right,transparent,black_50%)]"
                 />
 
-                {/* Floating Testimonial Card */}
-                <motion.div
-                    initial={{ opacity: 0, x: 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    viewport={{ once: true }}
-                    className="absolute bottom-4 right-4 left-4 lg:left-auto lg:right-16 lg:bottom-16 z-20 bg-gray-900/80 backdrop-blur-md p-4 lg:p-6 rounded-2xl border border-white/10 max-w-md shadow-2xl"
-                >
-                    <div className="flex gap-1 text-yellow-400 mb-3">
-                        {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-                    </div>
-                    <p className="text-base lg:text-lg font-medium italic mb-3 lg:mb-4 text-gray-200">
-                        "Being a guide has allowed me to share my culture and make friends for life. It's not just a job, it's a passion."
-                    </p>
-                    <div className="flex items-center gap-3">
-                        <img
-                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop"
-                            alt="Guide Avatar"
-                            className="w-10 h-10 rounded-full object-cover border-2 border-yellow-400"
-                        />
-                        <div>
-                            <h4 className="font-bold text-white">Elena Rodriguez</h4>
-                            <p className="text-xs text-gray-400">Top Rated Guide • Mexico City</p>
-                        </div>
-                    </div>
-                </motion.div>
+
             </div>
         </section>
     );

@@ -4,39 +4,25 @@ import { Review } from '../../../types';
 
 const customerReviews: Review[] = [
     {
-        name: 'Emily Carter',
-        avatarUrl: 'https://picsum.photos/seed/avatar1/100/100',
+        name: 'Vivek Verma',
+        avatarUrl: 'https://picsum.photos/seed/vivek/100/100',
         rating: 5,
-        tour: 'Tour with Marco in Rome',
-        quote: 'Marco made the Colosseum come alive! It wasn\'t just a tour; it was like stepping back in time. Absolutely unforgettable.'
+        tour: 'Kareri Lake Trek',
+        quote: 'I cannot express how beautiful the glacial lake looked surrounded by the Dhauladhar range. Our trek leader was a local expert who shared amazing stories. A 10/10 mountain experience.'
     },
     {
-        name: 'James O\'Connell',
-        avatarUrl: 'https://picsum.photos/seed/avatar2/100/100',
+        name: 'Pranjal Gupta',
+        avatarUrl: 'https://picsum.photos/seed/pranjal/100/100',
         rating: 5,
-        tour: 'Food tour with Amélie',
-        quote: 'Amélie showed us the hidden food gems in Le Marais. The best croissant I have ever had in my life. A must-do in Paris!'
+        tour: 'Sar Pass Trek',
+        quote: 'An absolutely surreal experience! The guides were incredibly knowledgeable and made sure everyone was safe while crossing the snow patches. The view from the top is something I\'ll never forget.'
     },
     {
-        name: 'Priya Sharma',
-        avatarUrl: 'https://picsum.photos/seed/avatar3/100/100',
+        name: 'Nidhi Tripathi',
+        avatarUrl: 'https://picsum.photos/seed/nidhi/100/100',
         rating: 5,
-        tour: 'Kyoto Zen Gardens',
-        quote: 'Kenji\'s calm presence and deep knowledge of Zen philosophy provided a truly peaceful and enlightening experience. Highly recommended.'
-    },
-    {
-        name: 'Sarah Johnson',
-        avatarUrl: 'https://picsum.photos/seed/avatar4/100/100',
-        rating: 5,
-        tour: 'Barcelona Architecture Walk',
-        quote: 'The hidden architectural gems we discovered were incredible. Our guide\'s passion for Gaudí\'s work was infectious and inspiring.'
-    },
-    {
-        name: 'Michael Chen',
-        avatarUrl: 'https://picsum.photos/seed/avatar5/100/100',
-        rating: 5,
-        tour: 'Tokyo Street Food Adventure',
-        quote: 'From tiny ramen shops to bustling markets, every bite told a story. This was the authentic Tokyo experience I was hoping for.'
+        tour: 'Kheerganga Trek',
+        quote: 'The perfect weekend escape. Hiking up through the pine forests was magical, and taking a dip in the natural hot springs at the summit melted all the fatigue away. Highly recommend for beginners!'
     }
 ];
 

@@ -4,23 +4,23 @@ import { Heart, Globe, Users, Compass } from 'lucide-react';
 const values = [
     {
         icon: <Users className="w-6 h-6 text-yellow-400" />,
-        title: 'Authenticity',
-        description: 'Real people, real stories, no scripts.'
+        title: 'Local Empowerment',
+        description: 'We connect you directly with local guides, ensuring the community benefits from every trek.'
     },
     {
         icon: <Heart className="w-6 h-6 text-yellow-400" />,
-        title: 'Connection',
-        description: 'Travel is about the people you meet.'
+        title: 'Safe Adventures',
+        description: 'Every guide is thoroughly vetted for their expertise in high-altitude environments.'
     },
     {
         icon: <Globe className="w-6 h-6 text-yellow-400" />,
-        title: 'Respect',
-        description: 'We honor local cultures and communities.'
+        title: 'Sustainability',
+        description: 'We adhere strictly to leave-no-trace policies to preserve the Himalayas.'
     },
     {
         icon: <Compass className="w-6 h-6 text-yellow-400" />,
         title: 'Curiosity',
-        description: 'Embrace the unknown with open minds.'
+        description: 'Embrace the unknown and learn the untaught stories of the mountains.'
     }
 ];
 

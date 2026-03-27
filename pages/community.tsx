@@ -66,16 +66,29 @@ export default function Community() {
                         </h1>
                         <p className="text-slate-400 text-lg max-w-md mx-auto">
                             Earn XP by completing treks. Climb the ranks from Newcomer to Platinum.
+                            <span className="block mt-2 text-sm text-yellow-400/80 font-medium tracking-wide">Showing Top 20 Trekkers Globally</span>
                         </p>
                     </div>
 
-                    {/* XP Level Guide */}
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-10">
-                        {Object.entries(LEVEL_CONFIG).reverse().map(([key, cfg]) => (
-                            <div key={key} className={`${cfg.bg} ${cfg.border} border rounded-xl p-3 text-center`}>
-                                <p className={`text-xs font-bold ${cfg.color}`}>{cfg.label}</p>
-                            </div>
-                        ))}
+                    {/* How to Earn XP Guide */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
+                            <span className="text-3xl mb-3 block">🏔️</span>
+                            <p className="text-sm font-semibold text-slate-200">Complete Treks</p>
+                            <p className="text-xs text-yellow-400 font-bold mt-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">+250 XP</p>
+                        </div>
+                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
+                            <span className="text-3xl mb-3 block">⭐</span>
+                            <p className="text-sm font-semibold text-slate-200">Leave Reviews</p>
+                            <p className="text-xs text-yellow-400 font-bold mt-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">+50 XP</p>
+                        </div>
+                    </div>
+
+                    <div className="bg-sky-500/10 border border-sky-500/20 rounded-xl p-4 mb-10 text-center">
+                        <p className="text-sm text-sky-200 leading-relaxed max-w-2xl mx-auto">
+                            <span className="font-bold text-sky-400">🏔️ Coming Soon: </span>
+                            We are actively developing a dynamic XP reward model. Soon, your XP will be awarded based on specific trek parameters including technicality, harsh weather conditions, and overall difficulty!
+                        </p>
                     </div>
 
                     {/* Your rank callout */}
@@ -113,7 +126,6 @@ export default function Community() {
                             <div className="divide-y divide-slate-700/50">
                                 {leaderboard.map((entry, idx) => {
                                     const rank = idx + 1;
-                                    const level = LEVEL_CONFIG[entry.level] || LEVEL_CONFIG.newcomer;
                                     const isCurrentUser = user?.id === entry.user_id;
 
                                     return (
@@ -142,9 +154,6 @@ export default function Community() {
                                                         {entry.display_name || 'Anonymous Trekker'}
                                                         {isCurrentUser && <span className="text-xs font-normal text-yellow-500 ml-2">You</span>}
                                                     </p>
-                                                    <span className={`inline-block text-xs font-semibold px-2 py-0.5 rounded-full border mt-1 ${level.color} ${level.bg} ${level.border}`}>
-                                                        {level.label}
-                                                    </span>
                                                 </div>
                                             </div>
 
