@@ -13,7 +13,7 @@ interface CompanyCardProps {
 const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
     const [isItineraryOpen, setIsItineraryOpen] = useState(false);
     const [rating, setRating] = useState(company.rating || 5.0);
-    const [reviewCount, setReviewCount] = useState(0);
+    const [reviewCount, setReviewCount] = useState(company.reviews || 0);
 
     useEffect(() => {
         const fetchRating = async () => {
@@ -26,7 +26,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
                 if (!error && data && data.length > 0) {
                     const avg = data.reduce((acc, curr) => acc + curr.rating, 0) / data.length;
                     setRating(Number(avg.toFixed(1)));
-                    setReviewCount(data.length);
+                    setReviewCount((company.reviews || 0) + data.length);
                 }
             } catch (err) {
                 console.error('Error fetching company rating:', err);
@@ -81,15 +81,6 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
                         className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-slate-500 rounded-xl text-slate-300 text-sm font-bold transition-all duration-300 shadow-sm flex justify-center items-center"
                     >
                         View Itinerary & Meals
-                    </button>
-                )}
-
-                {onBook && (
-                    <button
-                        onClick={() => onBook(company.id, company.name, 'company')}
-                        className="w-full py-3 px-4 bg-slate-700/50 hover:bg-yellow-400 hover:text-slate-900 border border-slate-600 hover:border-yellow-400 rounded-xl text-white font-bold transition-all duration-300 shadow-sm flex justify-center items-center gap-2"
-                    >
-                        Request with {company.name}
                     </button>
                 )}
             </div>

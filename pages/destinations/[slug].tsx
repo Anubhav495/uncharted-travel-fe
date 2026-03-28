@@ -157,10 +157,10 @@ const TrekDetailsPage = () => {
                         className={`object-cover ${trek.imagePosition === 'top' ? 'object-top' :
                                 trek.imagePosition === 'bottom' ? 'object-bottom' :
                                     'object-center'
-                            }`}
+                            } ${trek.imageClassName || ''}`}
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-black/30" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent pointer-events-none" />
 
                     <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-12 z-10">
                         <div className="max-w-4xl">

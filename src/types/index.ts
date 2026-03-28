@@ -1,4 +1,3 @@
-
 export interface Guide {
     name: string;
     location: string;
@@ -14,4 +13,5 @@ export interface Review {
     rating: number;
     tour: string;
     quote: string;
+    profession?: string;
 }

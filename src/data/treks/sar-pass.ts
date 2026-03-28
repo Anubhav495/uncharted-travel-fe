@@ -8,10 +8,10 @@ export const sarPassTrek: Trek = {
     duration: '5 Days',
     difficulty: 'Moderate',
     price: '₹6,500',
-    image: '/assets/sar-pass.png',
+    image: '/assets/sar-pass/3.jpg',
     imagePosition: 'center',
-    guideName: 'Jai Mishra',
-    guideAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop',
+    guideName: 'Pritam Negi',
+    guideAvatar: '/assets/pritam-photo-edited.png',
     badges: ['Snow', 'Forest'],
     category: 'Trekking',
     overview: 'The Sar Pass Trek is a classic beginner-friendly trek in the Parvati Valley of Himachal Pradesh. "Sar" in the local dialect means a lake. While trekking across the path from Tila Lotni to Biskeri Ridge, one has to pass by a small frozen lake (Sar) and hence the name Sar Pass Trek. The trail takes you through dense pine forests, lush green meadows, and tiny hamlets, offering breathtaking views of the Himalayan peaks.',
@@ -24,13 +24,14 @@ export const sarPassTrek: Trek = {
     ],
     guides: [
         {
-            id: 'g1',
-            name: 'Jai Mishra',
-            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
-            experience: '8 Years',
-            languages: ['English', 'Hindi', 'Tibetan'],
-            rating: 4.9,
-            description: 'Born in the Parvati Valley, Tenzin has been guiding treks since he was 18. He knows every hidden trail and folklore of the mountains.'
+            id: 'g2',
+            name: 'Pritam Negi',
+            avatar: '/assets/pritam-photo-edited.png',
+            experience: '6 Years',
+            languages: ['English', 'Hindi', 'Pahadi'],
+            rating: 4.8,
+            reviews: 65,
+            description: 'A local from Tosh village, Pritam has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.'
         }
     ],
     companies: [
@@ -81,15 +82,7 @@ export const sarPassTrek: Trek = {
         }
     ],
     gallery: [
-        'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1491555103944-7c647fd857e6?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1434394354979-a235cd36269d?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1200&auto=format&fit=crop'
+        '/assets/sar-pass/3.jpg',
+        '/assets/sar-pass.png'
     ]
 };

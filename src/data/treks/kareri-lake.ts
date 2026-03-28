@@ -6,12 +6,12 @@ export const kareriLakeTrek: Trek = {
     title: 'Kareri Lake Trek',
     location: 'Dharamshala, Himachal',
     duration: '3 Days',
-    difficulty: 'Moderate',
+    difficulty: 'Easy',
     price: '₹1,500',
     image: '/assets/kareri-lake.jpg',
     imagePosition: 'center',
     guideName: 'Aatish',
-    guideAvatar: '',
+    guideAvatar: '/assets/aatish-photo.jpeg',
     badges: ['Alpine Lake', 'Scenic'],
     category: 'Trekking',
     overview: 'The Kareri Lake Trek is a stunning alpine adventure nestled in the Dhauladhar range near Dharamshala, Himachal Pradesh. Sitting at an altitude of 9,626 ft, Kareri Lake is a pristine glacial lake fed by snowmelt from the surrounding peaks. The trek takes you through dense forests of oak, deodar, and rhododendron, across gurgling streams, and past the charming Gaddi shepherds\' settlements. The lake, surrounded by snow-capped mountains and lush meadows, offers a mesmerizing reflection of the Dhauladhar peaks — a sight that stays with you long after the trek ends.',
@@ -27,10 +27,11 @@ export const kareriLakeTrek: Trek = {
         {
             id: 'g3',
             name: 'Aatish',
-            avatar: '',
+            avatar: '/assets/aatish-photo.jpeg',
             experience: '7 Years',
             languages: ['English', 'Hindi', 'Pahadi'],
             rating: 4.7,
+            reviews: 27,
             description: 'Aatish grew up in the foothills of the Dhauladhar range and has been leading treks to Kareri Lake and beyond since his teenage years. His deep understanding of alpine terrain and local Gaddi culture makes every expedition both safe and enriching.'
         }
     ],
@@ -41,6 +42,7 @@ export const kareriLakeTrek: Trek = {
             logo: '/assets/kareri-hikers.jpg',
             description: 'Where the road ends. We are a local trekking company dedicated to showcasing the pristine beauty of Kareri Lake and the Dhauladhar range.',
             rating: 5.0,
+            reviews: 39,
             establishedYear: 2024
         }
     ],
@@ -71,6 +73,13 @@ export const kareriLakeTrek: Trek = {
         }
     ],
     gallery: [
-        '/assets/kareri-lake.jpg'
+        '/assets/kareri/1.jpg',
+        '/assets/kareri/2.jpg',
+        '/assets/kareri/3.jpg',
+        '/assets/kareri/4.jpg',
+        '/assets/kareri/5.jpg',
+        '/assets/kareri/6.jpg',
+        '/assets/kareri/7.jpg',
+        '/assets/kareri/8.jpg'
     ]
 };

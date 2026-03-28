@@ -5,6 +5,7 @@ export interface Guide {
     experience: string;
     languages: string[];
     rating: number;
+    reviews?: number;
     description: string;
 }
 
@@ -14,6 +15,7 @@ export interface Company {
     logo: string;
     description: string;
     rating: number;
+    reviews?: number;
     establishedYear: number;
     itinerary?: ItineraryDay[];
 }
@@ -37,6 +39,7 @@ export interface Trek {
     price: string;
     image: string;
     imagePosition?: 'top' | 'center' | 'bottom';
+    imageClassName?: string;
     guideName: string; // Keeping for backward compatibility or primary guide
     guideAvatar: string;
     badges: string[];
