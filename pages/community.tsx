@@ -84,10 +84,15 @@ export default function Community() {
                         </div>
                     </div>
 
-                    <div className="bg-sky-500/10 border border-sky-500/20 rounded-xl p-4 mb-10 text-center">
+                    <div className="bg-sky-500/10 border border-sky-500/20 rounded-xl p-5 mb-10 text-center flex flex-col gap-4">
                         <p className="text-sm text-sky-200 leading-relaxed max-w-2xl mx-auto">
-                            <span className="font-bold text-sky-400">🏔️ Coming Soon: </span>
+                            <span className="font-bold text-sky-400 block mb-1">🏔️ Dynamic XP Model</span>
                             We are actively developing a dynamic XP reward model. Soon, your XP will be awarded based on specific trek parameters including technicality, harsh weather conditions, and overall difficulty!
+                        </p>
+                        <div className="w-16 h-px bg-sky-500/30 mx-auto"></div>
+                        <p className="text-sm text-sky-200 leading-relaxed max-w-2xl mx-auto">
+                            <span className="font-bold text-sky-400 block mb-1">🎁 Rank-Based Rewards</span>
+                            We will also be introducing exclusive rewards and perks for our top-ranked trekkers. Keep climbing the leaderboard to unlock them!
                         </p>
                     </div>
 

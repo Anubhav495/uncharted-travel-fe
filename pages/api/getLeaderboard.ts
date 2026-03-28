@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             { user_id: 'mock-6', display_name: 'Aditya Singh', avatar_url: null, xp_points: 500, level: 'silver' },
             { user_id: 'mock-7', display_name: 'Meera Joshi', avatar_url: null, xp_points: 450, level: 'bronze' },
             { user_id: 'mock-8', display_name: 'Vikram Nair', avatar_url: null, xp_points: 400, level: 'bronze' },
-            { user_id: 'mock-9', display_name: 'Riya Kapoor', avatar_url: null, xp_points: 350, level: 'bronze' },
+            { user_id: 'mock-9', display_name: 'Nidhi Tripathi', avatar_url: null, xp_points: 350, level: 'bronze' },
             { user_id: 'mock-10', display_name: 'Siddharth Rao', avatar_url: null, xp_points: 300, level: 'bronze' },
             { user_id: 'mock-11', display_name: 'Pooja Mehta', avatar_url: null, xp_points: 250, level: 'bronze' },
             { user_id: 'mock-12', display_name: 'Arjun Menon', avatar_url: null, xp_points: 250, level: 'bronze' },

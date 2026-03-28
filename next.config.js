@@ -16,23 +16,6 @@ const nextConfig = {
       },
     ],
   },
-  async headers() {
-    return [
-      {
-        source: '/assets/(.*)',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'video/mp4',
-          },
-          {
-            key: 'Accept-Ranges',
-            value: 'bytes',
-          },
-        ],
-      },
-    ]
-  },
 }
 
 export default nextConfig

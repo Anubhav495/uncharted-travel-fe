@@ -11,7 +11,7 @@ export const kheergangaTrek: Trek = {
     image: '/assets/kheerganga.jpg',
     imagePosition: 'top',
     guideName: 'Pritam Negi',
-    guideAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop',
+    guideAvatar: '/assets/pritam-photo-edited.png',
     badges: ['Hot Springs', 'Scenic'],
     category: 'Trekking',
     overview: 'The Kheerganga Trek is one of the most popular treks in Himachal Pradesh, perfect for beginners and solo travelers. Located in the mystical Parvati Valley at an altitude of 9,700 ft, this trek rewards you with natural hot water springs believed to have healing properties. The trail passes through dense pine forests, charming Himachali villages, and offers stunning views of the Parvati River. Legend has it that Lord Shiva meditated here for 3,000 years, making it a spiritually significant destination.',
@@ -27,11 +27,12 @@ export const kheergangaTrek: Trek = {
         {
             id: 'g2',
             name: 'Pritam Negi',
-            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop',
+            avatar: '/assets/pritam-photo-edited.png',
             experience: '6 Years',
             languages: ['English', 'Hindi', 'Pahadi'],
             rating: 4.8,
-            description: 'A local from Tosh village, Raju has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.'
+            reviews: 65,
+            description: 'A local from Tosh village, Pritam has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.'
         }
     ],
     companies: [
@@ -61,13 +62,12 @@ export const kheergangaTrek: Trek = {
         }
     ],
     gallery: [
-        'https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1491555103944-7c647fd857e6?q=80&w=1200&auto=format&fit=crop'
+        '/assets/kheerganga/1.jpg',
+        '/assets/kheerganga/2.jpg',
+        '/assets/kheerganga/3.jpg',
+        '/assets/kheerganga/4.jpg',
+        '/assets/kheerganga/5.jpg',
+        '/assets/kheerganga/6.jpg',
+        '/assets/kheerganga.jpg'
     ]
 };

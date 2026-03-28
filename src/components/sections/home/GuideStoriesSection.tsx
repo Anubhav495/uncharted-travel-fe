@@ -4,28 +4,28 @@ import { Guide } from '../../../types';
 
 const foundingGuides: Guide[] = [
     {
-        name: 'Jai Mishra',
-        location: 'Parvati Valley, Himachal',
-        specialty: 'High Altitude Expeditions',
-        quote: 'The mountains don\'t yield to us, we yield to them. I teach trekkers how to respectfully navigate these snowy peaks and return safely transformed.',
-        tags: ['Mountaineering', 'Snow Treks', 'Safety'],
-        imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
-    },
-    {
-        name: 'Pritam Negi',
-        location: 'Kheerganga, Himachal',
-        specialty: 'Forest Trails & Mythologies',
-        quote: 'Every path in Parvati Valley holds a legend. I love guiding people to the hot springs while sharing the history of Lord Shiva\'s meditation here.',
-        tags: ['Cultural History', 'Nature', 'Storytelling'],
-        imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop',
-    },
-    {
         name: 'Aatish',
         location: 'Dharamshala, Himachal',
         specialty: 'Alpine Terrains',
         quote: 'I grew up in the Dhauladhar foothills. Guiding isn\'t my job; it\'s my way of sharing the spectacular glacial lakes and meadows with the world.',
         tags: ['Local Expert', 'Alpine Lakes', 'Photography'],
-        imageUrl: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=800&auto=format&fit=crop',
+        imageUrl: '/assets/aatish-photo.jpeg',
+    },
+    {
+        name: 'Pritam Negi',
+        location: 'Parvati Valley, Himachal',
+        specialty: 'Forest Trails & Mythologies',
+        quote: 'Every path in Parvati Valley holds a legend. I love guiding people to the hot springs while sharing the history of Lord Shiva\'s meditation here.',
+        tags: ['Cultural History', 'Nature', 'Storytelling'],
+        imageUrl: '/assets/pritam-photo-edited.png',
+    },
+    {
+        name: 'Kapil Rawat',
+        location: 'Sankri, Uttarakhand',
+        specialty: 'High Altitude Expeditions',
+        quote: 'The mountains don\'t yield to us, we yield to them. I teach trekkers how to respectfully navigate these snowy peaks and return safely transformed.',
+        tags: ['Mountaineering', 'Snow Treks', 'Safety Leader'],
+        imageUrl: '/assets/kapil-rawat.jpeg',
     }
 ];
 
@@ -127,12 +127,12 @@ const GuideStoriesSection: React.FC = () => {
                     Stories From Our Founding <span className="text-yellow-400">Guides</span>
                 </h2>
                 <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-                    Meet some of the passionate storytellers, historians, and artists ready to make your next trip unforgettable.
+                    They don't just guide treks — they grew up on these trails. Born in the mountains, built for adventure.
                 </p>
             </div>
 
             <div
-                className="relative h-[500px] sm:h-[530px]"
+                className="relative h-[570px] sm:h-[600px]"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
                 onTouchStart={onTouchStart}
@@ -142,17 +142,19 @@ const GuideStoriesSection: React.FC = () => {
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                     {foundingGuides.map((guide, index) => (
                         <div key={index} className={getCardStyle(index)}>
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden h-[450px] flex flex-col mx-4">
-                                <div className="relative h-56">
+                            <div className="bg-white rounded-xl shadow-lg overflow-hidden h-[520px] flex flex-col mx-4">
+                                <div className="relative h-72">
                                     <img
                                         src={guide.imageUrl}
                                         alt={guide.name}
                                         className="absolute h-full w-full object-cover"
+                                        style={{
+                                            objectPosition: guide.name === 'Kapil Rawat' ? '50% 35%' : 
+                                                          guide.name === 'Pritam Negi' ? '50% 5%' : 
+                                                          guide.name === 'Aatish' ? '50% 70%' : 'center'
+                                        }}
                                         loading="lazy"
                                     />
-                                    <div className="absolute inset-0 bg-black/30 flex items-end p-4">
-                                        <h3 className="text-white text-lg sm:text-xl font-bold">{guide.specialty}</h3>
-                                    </div>
                                 </div>
                                 <div className="p-4 sm:p-6 flex flex-col flex-grow">
                                     <p className="text-sm font-semibold text-blue-600">{guide.name} - {guide.location}</p>
@@ -162,9 +164,7 @@ const GuideStoriesSection: React.FC = () => {
                                             <span key={tag} className="bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">{tag}</span>
                                         ))}
                                     </div>
-                                    <button className="font-semibold text-blue-700 hover:underline text-sm mt-auto text-left">
-                                        View Profile &rarr;
-                                    </button>
+
                                 </div>
                             </div>
                         </div>

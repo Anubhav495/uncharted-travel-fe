@@ -8,21 +8,24 @@ const customerReviews: Review[] = [
         avatarUrl: 'https://picsum.photos/seed/vivek/100/100',
         rating: 5,
         tour: 'Kareri Lake Trek',
-        quote: 'I cannot express how beautiful the glacial lake looked surrounded by the Dhauladhar range. Our trek leader was a local expert who shared amazing stories. A 10/10 mountain experience.'
+        quote: 'The lake was unreal, pictures don\'t do it justice. The whole trail through the forest was so peaceful and our guide kept the energy up the entire time. Best weekend I\'ve had in a long time.',
+        profession: 'Software Engineer'
     },
     {
         name: 'Pranjal Gupta',
         avatarUrl: 'https://picsum.photos/seed/pranjal/100/100',
         rating: 5,
         tour: 'Sar Pass Trek',
-        quote: 'An absolutely surreal experience! The guides were incredibly knowledgeable and made sure everyone was safe while crossing the snow patches. The view from the top is something I\'ll never forget.'
+        quote: 'First time doing a snow trek and I was nervous but the guides made it super easy. Crossed actual snow patches which was crazy. Views from the top were insane!',
+        profession: 'CA'
     },
     {
         name: 'Nidhi Tripathi',
         avatarUrl: 'https://picsum.photos/seed/nidhi/100/100',
         rating: 5,
         tour: 'Kheerganga Trek',
-        quote: 'The perfect weekend escape. Hiking up through the pine forests was magical, and taking a dip in the natural hot springs at the summit melted all the fatigue away. Highly recommend for beginners!'
+        quote: 'Such a beautiful trek, perfect for beginners. The hot springs at the top were the highlight for me. Would totally do it again with friends.',
+        profession: 'Teacher'
     }
 ];
 
@@ -37,7 +40,10 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
             />
             <div>
                 <p className="font-bold text-gray-900 text-sm sm:text-base">{review.name}</p>
-                <p className="text-xs sm:text-sm text-gray-600">{review.tour}</p>
+                <p className="text-xs sm:text-sm text-gray-600">
+                    {review.profession && <span className="font-medium">{review.profession} &bull; </span>}
+                    {review.tour}
+                </p>
             </div>
         </div>
 
@@ -152,7 +158,7 @@ const ReviewsSection: React.FC = () => {
                 </h2>
 
                 <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-                    Real stories from travelers who discovered the heart of a city with our guides.
+                    Real experiences from trekkers who explored the Himalayas with our local guides.
                 </p>
             </div>
 
