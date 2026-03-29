@@ -160,7 +160,7 @@ const TrekDetailsPage = () => {
                             } ${trek.imageClassName || ''}`}
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 from-5% via-slate-900/60 to-transparent pointer-events-none" />
 
                     <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-12 z-10">
                         <div className="max-w-4xl">
@@ -263,45 +263,21 @@ const TrekDetailsPage = () => {
                         )}
 
                         {/* Trekking Options */}
-                        {(trek.guides?.length || trek.companies?.length) ? (
+                        {(trek.guides?.length) ? (
                             <section>
-                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Choose Your Trekking Style</h2>
-                                <p className="text-slate-400 mb-6 pl-4">Personalized itineraries with local guides or full-service groups with our partners.</p>
-                                
-                                <div className="flex gap-4 mb-6 border-b border-slate-700 pb-2">
-                                    {trek.guides && trek.guides.length > 0 && (
-                                        <button 
-                                            onClick={() => setActiveTab('guides')}
-                                            className={`font-bold pb-2 border-b-2 transition-colors ${activeTab === 'guides' ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
-                                        >
-                                            Meet the Local Guides
-                                        </button>
-                                    )}
-                                    {trek.companies && trek.companies.length > 0 && (
-                                        <button 
-                                            onClick={() => setActiveTab('companies')}
-                                            className={`font-bold pb-2 border-b-2 transition-colors ${activeTab === 'companies' ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
-                                        >
-                                            Trek with our Partners
-                                        </button>
-                                    )}
-                                </div>
+                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Meet the Local Guides</h2>
+                                <p className="text-slate-400 mb-6 pl-4">Personalized itineraries with our trusted local experts.</p>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {activeTab === 'guides' && visibleGuides?.map((guide) => (
+                                    {visibleGuides?.map((guide) => (
                                         <div key={guide.id} className="h-full">
                                             <GuideCard guide={guide} onBook={handleRequestInfo} />
-                                        </div>
-                                    ))}
-                                    {activeTab === 'companies' && visibleCompanies?.map((company) => (
-                                        <div key={company.id} className="h-full">
-                                            <CompanyCard company={company} onBook={handleRequestInfo} />
                                         </div>
                                     ))}
                                 </div>
 
                                 {/* Pagination Controls */}
-                                {activeTab === 'guides' && totalGuidePages > 1 && (
+                                {totalGuidePages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
                                         <button 
                                             disabled={guidePage === 1}
@@ -320,26 +296,6 @@ const TrekDetailsPage = () => {
                                         </button>
                                     </div>
                                 )}
-
-                                {activeTab === 'companies' && totalCompanyPages > 1 && (
-                                    <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button 
-                                            disabled={companyPage === 1}
-                                            onClick={() => setCompanyPage(p => p - 1)}
-                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
-                                        >
-                                            Previous
-                                        </button>
-                                        <span className="text-sm font-medium text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
-                                        <button 
-                                            disabled={companyPage === totalCompanyPages}
-                                            onClick={() => setCompanyPage(p => p + 1)}
-                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
-                                        >
-                                            Next
-                                        </button>
-                                    </div>
-                                )}
                             </section>
                         ) : null}
                     </div>
@@ -348,7 +304,7 @@ const TrekDetailsPage = () => {
                     <div className="lg:col-span-1 order-first lg:order-last mb-8 lg:mb-0">
                         <div className="lg:sticky lg:top-24 lg:bg-slate-800 lg:border lg:border-slate-700 lg:rounded-2xl lg:p-6 lg:shadow-2xl">
                             <div className="hidden lg:block">
-                                <h3 className="text-2xl font-bold text-white mb-2">Book This Adventure</h3>
+                                <h3 className="text-2xl font-bold text-white mb-2">Enquire About This Adventure</h3>
                                 <p className="text-slate-400 mb-6">Ready to explore the uncharted?</p>
 
                                 <div className="space-y-4 mb-8">
@@ -385,11 +341,9 @@ const TrekDetailsPage = () => {
                                 </button>
                             )}
 
-                            {!hasEnquired && (
-                                <p className="mt-4 text-xs text-center text-slate-500">
-                                    No payment required at this step. We'll contact you with details.
-                                </p>
-                            )}
+                            <p className="mt-4 text-xs text-center text-slate-400">
+                                Enquiry is cost-free. We'll contact you with details.
+                            </p>
                         </div>
                     </div>
                 </div>

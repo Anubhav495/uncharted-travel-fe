@@ -65,9 +65,16 @@ export default function Community() {
                             Trekker <span className="text-yellow-400">Leaderboard</span>
                         </h1>
                         <p className="text-slate-400 text-lg max-w-md mx-auto">
-                            Earn XP by completing treks. Climb the ranks from Newcomer to Platinum.
+                            Earn XP by completing treks and sharing your adventures.
                             <span className="block mt-2 text-sm text-yellow-400/80 font-medium tracking-wide">Showing Top 20 Trekkers Globally</span>
                         </p>
+
+                        {/* Leaderboard Purpose Note */}
+                        <div className="mt-6 px-4">
+                            <p className="text-slate-400 text-sm italic bg-slate-800/30 inline-block py-2 px-6 rounded-full border border-slate-700/50">
+                                <span className="font-semibold text-slate-300">Why a leaderboard?</span> The basic idea is to reward dedicated trekkers and adventurists.
+                            </p>
+                        </div>
                     </div>
 
                     {/* How to Earn XP Guide */}
@@ -174,24 +181,7 @@ export default function Community() {
                         )}
                     </div>
 
-                    {/* How to earn XP */}
-                    <div className="mt-10 bg-slate-800/30 border border-slate-700 rounded-2xl p-6">
-                        <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                            <Star className="w-5 h-5 text-yellow-400" />
-                            How to earn XP
-                        </h3>
-                        <div className="space-y-3">
-                            {[
-                            { action: 'Completing a trek', xp: '+250 XP' },
-                                { action: 'Leaving a review', xp: '+50 XP' },
-                            ].map(item => (
-                                <div key={item.action} className="flex items-center justify-between text-sm">
-                                    <span className="text-slate-400">{item.action}</span>
-                                    <span className="text-yellow-400 font-bold">{item.xp}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+
                 </div>
             </main>
 
