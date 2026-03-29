@@ -83,6 +83,9 @@ export const sarPassTrek: Trek = {
     ],
     gallery: [
         '/assets/sar-pass/3.jpg',
-        '/assets/sar-pass.png'
+        '/assets/sar-pass.png',
+        '/assets/sar-pass/sar-pass-trek-2.webp',
+        '/assets/sar-pass/sar-pass-trek-3.jpeg',
+        '/assets/sar-pass/sar-pass-trek-4.jpeg'
     ]
 };

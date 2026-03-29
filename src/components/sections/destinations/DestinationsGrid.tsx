@@ -133,6 +133,13 @@ const DestinationsGrid: React.FC = () => {
                         </button>
                     </div>
                 )}
+
+                {/* Coming Soon Note */}
+                <div className="mt-16 text-center border-t border-slate-800 pt-12">
+                    <p className="text-slate-500 text-lg italic">
+                        More breathtaking Himalayan treks coming soon...
+                    </p>
+                </div>
             </div>
         </section>
     );
