@@ -40,8 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             { user_id: 'mock-16', display_name: 'Ananya Verma', avatar_url: null, xp_points: 250, level: 'newcomer' },
             { user_id: 'mock-17', display_name: 'Rahul Kapoor', avatar_url: null, xp_points: 250, level: 'newcomer' },
             { user_id: 'mock-18', display_name: 'Tanya Mittal', avatar_url: null, xp_points: 250, level: 'newcomer' },
-            { user_id: 'mock-19', display_name: 'Vivek Verma', avatar_url: null, xp_points: 250, level: 'bronze' },
-            { user_id: 'mock-20', display_name: 'Anubhav Mishra', avatar_url: null, xp_points: 250, level: 'bronze' }
+            { user_id: 'mock-19', display_name: 'Anubhav Mishra', avatar_url: null, xp_points: 250, level: 'bronze' }
         ];
 
         // Combine real and mock users
