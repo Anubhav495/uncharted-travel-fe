@@ -37,16 +37,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             { user_id: 'mock-13', display_name: 'Kavya Pillai', avatar_url: null, xp_points: 250, level: 'bronze' },
             { user_id: 'mock-14', display_name: 'Devansh Kumar', avatar_url: null, xp_points: 250, level: 'bronze' },
             { user_id: 'mock-15', display_name: 'Nisha Bhatia', avatar_url: null, xp_points: 250, level: 'bronze' },
-            { user_id: 'mock-16', display_name: 'Ananya Verma', avatar_url: null, xp_points: 200, level: 'newcomer' },
-            { user_id: 'mock-17', display_name: 'Rahul Kapoor', avatar_url: null, xp_points: 150, level: 'newcomer' },
-            { user_id: 'mock-18', display_name: 'Tanya Mittal', avatar_url: null, xp_points: 100, level: 'newcomer' },
-            { user_id: 'mock-19', display_name: 'Ishaan Gupta', avatar_url: null, xp_points: 50, level: 'newcomer' },
-            { user_id: 'mock-20', display_name: 'Sanya Malhotra', avatar_url: null, xp_points: 25, level: 'newcomer' },
+            { user_id: 'mock-16', display_name: 'Ananya Verma', avatar_url: null, xp_points: 250, level: 'newcomer' },
+            { user_id: 'mock-17', display_name: 'Rahul Kapoor', avatar_url: null, xp_points: 250, level: 'newcomer' },
+            { user_id: 'mock-18', display_name: 'Tanya Mittal', avatar_url: null, xp_points: 250, level: 'newcomer' },
+            { user_id: 'mock-19', display_name: 'Vivek Verma', avatar_url: null, xp_points: 250, level: 'bronze' },
+            { user_id: 'mock-20', display_name: 'Anubhav Mishra', avatar_url: null, xp_points: 250, level: 'bronze' }
         ];
 
         // Combine real and mock users
         let combinedData = [...(data || []), ...MOCK_USERS];
-        
+
         // Ensure every user has points and a consistent level based on actual XP
         combinedData = combinedData.map(u => {
             const points = u.xp_points || 0;
@@ -55,15 +55,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 xp_points: points,
                 // Simple level logic for consistency
                 level: points >= 1500 ? 'platinum' :
-                       points >= 1000 ? 'gold' :
-                       points >= 500  ? 'silver' :
-                       points >= 250  ? 'bronze' : 'newcomer'
+                    points >= 1000 ? 'gold' :
+                        points >= 500 ? 'silver' :
+                            points >= 250 ? 'bronze' : 'newcomer'
             };
         });
 
         // Sort the combined list by xp_points descending
         combinedData.sort((a, b) => b.xp_points - a.xp_points);
-        
+
         // Take top 20
         combinedData = combinedData.slice(0, 20);
 
