@@ -105,7 +105,9 @@ export default async function handler(
             guests,
             trekTitle,
             bookingId: data[0].id,
-        }).catch(() => { }); // Silently ignore notification errors
+        }).catch((err) => {
+            console.error('Telegram notification failed:', err?.message || err);
+        });
 
         return res.status(200).json({ message: 'Success', id: data[0].id });
     } catch (error: any) {
