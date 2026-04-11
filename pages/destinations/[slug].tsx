@@ -37,7 +37,7 @@ const TrekDetailsPage = () => {
     const totalCompanyPages = Math.ceil(totalCompanies / ITEMS_PER_PAGE);
     const visibleCompanies = trek?.companies?.slice((companyPage - 1) * ITEMS_PER_PAGE, companyPage * ITEMS_PER_PAGE);
 
-    // Check for prior enquiry
+    // Check for prior enquiry (only pending/confirmed are "active")
     useEffect(() => {
         const checkEnquiry = async () => {
             if (!user || !trek) return;
@@ -46,7 +46,7 @@ const TrekDetailsPage = () => {
                 .select('id')
                 .eq('user_id', user.id)
                 .eq('trek_title', trek.title)
-                .neq('status', 'closed') // Consider 'active' only if not closed
+                .eq('status', 'pending')
                 .maybeSingle();
 
             if (data) setHasEnquired(true);
@@ -64,7 +64,7 @@ const TrekDetailsPage = () => {
                     .select('id')
                     .eq('user_id', user.id)
                     .eq('trek_title', trek.title)
-                    .neq('status', 'closed') // Allow re-booking if previous was closed/rejected
+                    .eq('status', 'pending')
                     .maybeSingle();
 
                 if (data) {
