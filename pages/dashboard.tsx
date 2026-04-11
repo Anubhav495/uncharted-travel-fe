@@ -180,11 +180,11 @@ export default function Dashboard() {
                                 Recent Enquiries
                             </h2>
                             <span className="text-sm text-slate-500 bg-slate-800 px-3 py-1 rounded-full">
-                                {bookings.filter(b => b.status !== 'completed').length} Request{bookings.filter(b => b.status !== 'completed').length !== 1 ? 's' : ''}
+                                {bookings.filter(b => b.status === 'pending').length} Request{bookings.filter(b => b.status === 'pending').length !== 1 ? 's' : ''}
                             </span>
                         </div>
 
-                        {bookings.filter(b => b.status !== 'completed').length === 0 ? (
+                        {bookings.filter(b => b.status === 'pending').length === 0 ? (
                             <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-12 text-center">
                                 <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <MapPin className="w-8 h-8 text-slate-500" />
@@ -196,7 +196,7 @@ export default function Dashboard() {
                             </div>
                         ) : (
                             <div className="grid gap-4">
-                                {bookings.filter(b => b.status !== 'completed').map((booking) => (
+                                {bookings.filter(b => b.status === 'pending').map((booking) => (
                                     <div
                                         key={booking.id}
                                         className="bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-yellow-400/30 rounded-xl p-6 transition-all group"
@@ -266,7 +266,7 @@ export default function Dashboard() {
                         )}
 
                         {/* Completed Bookings Section */}
-                        {bookings.filter(b => b.status === 'completed').length > 0 && (
+                        {bookings.filter(b => b.status === 'completed' || b.status === 'cancelled').length > 0 && (
                             <>
                                 <div className="flex items-center justify-between pt-8 border-t border-slate-800 mt-8">
                                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -274,12 +274,12 @@ export default function Dashboard() {
                                         Past Adventures
                                     </h2>
                                     <span className="text-sm text-slate-500 bg-slate-800 px-3 py-1 rounded-full">
-                                        {bookings.filter(b => b.status === 'completed').length} Completed
+                                        {bookings.filter(b => b.status === 'completed' || b.status === 'cancelled').length} Past
                                     </span>
                                 </div>
 
                                 <div className="grid gap-4">
-                                    {bookings.filter(b => b.status === 'completed').map((booking) => (
+                                    {bookings.filter(b => b.status === 'completed' || b.status === 'cancelled').map((booking) => (
                                         <div
                                             key={booking.id}
                                             className="bg-slate-800/30 border border-slate-800 rounded-xl p-6 transition-all group"
@@ -290,8 +290,12 @@ export default function Dashboard() {
                                                         <h3 className="text-xl font-bold text-slate-300 group-hover:text-white transition-colors">
                                                             {booking.trek_title}
                                                         </h3>
-                                                        <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-green-900/30 text-green-400 border border-green-500/20">
-                                                            Completed
+                                                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                                                            booking.status === 'completed'
+                                                                ? 'bg-green-900/30 text-green-400 border border-green-500/20'
+                                                                : 'bg-red-900/30 text-red-400 border border-red-500/20'
+                                                        }`}>
+                                                            {booking.status}
                                                         </span>
                                                     </div>
                                                     <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">

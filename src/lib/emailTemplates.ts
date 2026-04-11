@@ -147,11 +147,6 @@ export function cancelledEmailTemplate(userName: string, trekTitle: string): str
                     🧭 Explore More Treks
                 </a>
             </div>
-            <div style="text-align:center;">
-                <a href="${SITE_URL}/dashboard" style="display:inline-block;color:#facc15;font-size:14px;font-weight:600;text-decoration:none;padding:8px 16px;">
-                    Submit Feedback →
-                </a>
-            </div>
         </div>
     `;
 
