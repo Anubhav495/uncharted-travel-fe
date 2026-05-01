@@ -9,6 +9,7 @@ import { Calendar, Users, MapPin, Compass, ArrowRight, Clock, Edit2, X, Save, Aw
 import { HiStar } from 'react-icons/hi';
 import { useToast } from '../src/context/ToastContext';
 import ReviewModal from '@/components/modals/review/ReviewModal';
+import { providerNameCache } from '../src/lib/cache';
 
 interface BookingRequest {
     id: string;
@@ -69,11 +70,19 @@ export default function Dashboard() {
             if (bookingsError || reviewsError) {
                 console.error('Error fetching data:', bookingsError, reviewsError);
             } else {
-                // Resolve provider names for each booking
+                // Resolve provider names — cache hit skips DB entirely
                 const resolvedBookings = await Promise.all(
                     (bookingsData || []).map(async (booking) => {
                         if (!booking.provider_id || !booking.provider_type) return booking;
 
+                        const cacheKey = `${booking.provider_type}:${booking.provider_id}`;
+                        const cached = providerNameCache.get(cacheKey);
+
+                        if (cached) {
+                            return { ...booking, provider_name: cached };
+                        }
+
+                        // Cache miss — fetch from DB
                         const table = booking.provider_type === 'guide' ? 'guides' : 'companies';
                         const { data: providerData } = await supabase
                             .from(table)
@@ -81,7 +90,12 @@ export default function Dashboard() {
                             .eq('id', booking.provider_id)
                             .single();
 
-                        return { ...booking, provider_name: providerData?.name || null };
+                        const name = providerData?.name || null;
+                        if (name) {
+                            providerNameCache.set(cacheKey, name);
+                        }
+
+                        return { ...booking, provider_name: name };
                     })
                 );
                 setBookings(resolvedBookings);

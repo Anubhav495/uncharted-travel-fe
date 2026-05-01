@@ -72,7 +72,7 @@ export default function Community() {
                         {/* Leaderboard Purpose Note */}
                         <div className="mt-6 px-4">
                             <p className="text-slate-400 text-sm italic bg-slate-800/30 inline-block py-2 px-6 rounded-full border border-slate-700/50">
-                                <span className="font-semibold text-slate-300">Why a leaderboard?</span> The basic idea is to reward dedicated trekkers and adventurists.
+                                <span className="font-semibold text-slate-300">Why a leaderboard?</span> The core idea is to reward dedicated trekkers and adventurists.
                             </p>
                         </div>
                     </div>
