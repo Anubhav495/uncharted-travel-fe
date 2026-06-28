@@ -1,15 +1,13 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAuth } from '../src/context/AuthContext';
-import { supabase } from '../src/lib/supabaseClient';
 import Link from 'next/link';
-import { Calendar, Users, MapPin, Compass, ArrowRight, Clock, Edit2, X, Save, Award } from 'lucide-react';
+import { Calendar, Users, MapPin, Compass, Clock, Edit2, X, Save, Award } from 'lucide-react';
 import { HiStar } from 'react-icons/hi';
 import { useToast } from '../src/context/ToastContext';
 import ReviewModal from '@/components/modals/review/ReviewModal';
-import { providerNameCache } from '../src/lib/cache';
 
 interface BookingRequest {
     id: string;
@@ -53,66 +51,26 @@ export default function Dashboard() {
         }
     }, [user, loading, router]);
 
-    const fetchBookings = async () => {
+    const fetchBookings = useCallback(async () => {
         if (!user) return;
         try {
-            const { data: bookingsData, error: bookingsError } = await supabase
-                .from('booking_requests')
-                .select('*')
-                .eq('user_id', user.id)
-                .order('created_at', { ascending: false });
-
-            const { data: reviewsData, error: reviewsError } = await supabase
-                .from('reviews')
-                .select('*')
-                .eq('user_id', user.id);
-
-            if (bookingsError || reviewsError) {
-                console.error('Error fetching data:', bookingsError, reviewsError);
-            } else {
-                // Resolve provider names — cache hit skips DB entirely
-                const resolvedBookings = await Promise.all(
-                    (bookingsData || []).map(async (booking) => {
-                        if (!booking.provider_id || !booking.provider_type) return booking;
-
-                        const cacheKey = `${booking.provider_type}:${booking.provider_id}`;
-                        const cached = providerNameCache.get(cacheKey);
-
-                        if (cached) {
-                            return { ...booking, provider_name: cached };
-                        }
-
-                        // Cache miss — fetch from DB
-                        const table = booking.provider_type === 'guide' ? 'guides' : 'companies';
-                        const { data: providerData } = await supabase
-                            .from(table)
-                            .select('name')
-                            .eq('id', booking.provider_id)
-                            .single();
-
-                        const name = providerData?.name || null;
-                        if (name) {
-                            providerNameCache.set(cacheKey, name);
-                        }
-
-                        return { ...booking, provider_name: name };
-                    })
-                );
-                setBookings(resolvedBookings);
-                setReviews(reviewsData || []);
-            }
+            const response = await fetch('/api/dashboard');
+            if (!response.ok) throw new Error('Unable to load dashboard');
+            const data = await response.json();
+            setBookings(data.bookings || []);
+            setReviews(data.reviews || []);
         } catch (err) {
             console.error('Unexpected error:', err);
         } finally {
             setFetching(false);
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         if (user) {
             fetchBookings();
         }
-    }, [user]);
+    }, [user, fetchBookings]);
 
     const handleEditClick = (booking: BookingRequest) => {
         setEditingBooking(booking);
@@ -128,15 +86,16 @@ export default function Dashboard() {
         setIsUpdating(true);
 
         try {
-            const { error } = await supabase
-                .from('booking_requests')
-                .update({
-                    approx_date: editForm.date,
-                    guests: Number(editForm.guests) || 0
-                })
-                .eq('id', editingBooking.id);
-
-            if (error) throw error;
+            const response = await fetch('/api/dashboard', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    bookingId: editingBooking.id,
+                    date: editForm.date,
+                    guests: Number(editForm.guests),
+                }),
+            });
+            if (!response.ok) throw new Error('Unable to update enquiry');
 
             showToast('Booking updated successfully!', 'success');
             setEditingBooking(null);

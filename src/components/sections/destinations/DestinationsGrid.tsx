@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import TrekCard from '@/components/ui/TrekCard';
-import { Trek } from '@/types/trek';
 import { treks } from '@/data/treks';
 
 const categories = ['All'];

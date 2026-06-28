@@ -11,14 +11,6 @@ interface LeaderboardEntry {
     level: 'newcomer' | 'bronze' | 'silver' | 'gold' | 'platinum';
 }
 
-const LEVEL_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-    platinum: { label: 'Platinum', color: 'text-cyan-300', bg: 'bg-cyan-400/10', border: 'border-cyan-400/30' },
-    gold:     { label: 'Gold',     color: 'text-yellow-300', bg: 'bg-yellow-400/10', border: 'border-yellow-400/30' },
-    silver:   { label: 'Silver',   color: 'text-slate-300', bg: 'bg-slate-400/10', border: 'border-slate-400/30' },
-    bronze:   { label: 'Bronze',   color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/30' },
-    newcomer: { label: 'Newcomer', color: 'text-slate-500', bg: 'bg-slate-700/30', border: 'border-slate-600/30' },
-};
-
 const RANK_STYLES: Record<number, string> = {
     1: 'text-yellow-400',
     2: 'text-slate-300',

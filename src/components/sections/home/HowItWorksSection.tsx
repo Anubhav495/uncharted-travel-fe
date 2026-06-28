@@ -1,5 +1,4 @@
 import React from 'react';
-import brandLogo from '../../assets/brand-logo.png';
 
 const HowItWorksSection: React.FC = () => {
     return (

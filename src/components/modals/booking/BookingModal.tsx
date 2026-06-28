@@ -14,7 +14,6 @@ const bookingSchema = z.object({
     phone: z.string().regex(/^[6-9]\d{4}\s?\d{5}$/, 'Please enter a valid 10-digit Indian mobile number'),
     date: z.string().min(1, 'Approximate date is required'),
     guests: z.number().min(1, 'At least 1 guest required').max(20, 'Max 20 guests allowed'),
-    user_id: z.string().optional(),
     bookingPreference: z.object({
         type: z.enum(['guide', 'company', 'general']),
         name: z.string().optional(),
@@ -83,7 +82,6 @@ const BookingModal: React.FC<BookingModalProps> = ({
             if (user) {
                 setValue('name', user.user_metadata.full_name || '');
                 setValue('email', user.email || '');
-                setValue('user_id', user.id);
             } else {
                 reset({ name: '', email: '', phone: '', date: '', guests: 1 });
             }

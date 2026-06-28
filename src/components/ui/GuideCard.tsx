@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { Star, Award, MessageCircle } from 'lucide-react';
 import { Guide } from '@/types/trek';
-import { supabase } from '@/lib/supabaseClient';
 
 interface GuideCardProps {
     guide: Guide;
@@ -16,15 +15,13 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
     React.useEffect(() => {
         const fetchRating = async () => {
             try {
-                const { data, error } = await supabase
-                    .from('reviews')
-                    .select('rating')
-                    .eq('provider_id', guide.id);
-
-                if (!error && data && data.length > 0) {
-                    const avg = data.reduce((acc, curr) => acc + curr.rating, 0) / data.length;
-                    setRating(Number(avg.toFixed(1))); // Keep 1 decimal place
-                    setReviewCount((guide.reviews || 0) + data.length);
+                const response = await fetch(`/api/providerRating?id=${encodeURIComponent(guide.id)}&type=guide`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.count > 0) {
+                        setRating(Number(data.average.toFixed(1)));
+                        setReviewCount(data.count);
+                    }
                 }
             } catch (err) {
                 console.error('Error fetching guide rating:', err);
@@ -71,6 +68,16 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
                     <span>Speaks {guide.languages.join(', ')}</span>
                 </div>
             </div>
+
+            {onBook && (
+                <button
+                    type="button"
+                    onClick={() => onBook(guide.id, guide.name, 'guide')}
+                    className="mt-6 w-full rounded-xl bg-yellow-400 px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-yellow-300"
+                >
+                    Request This Guide
+                </button>
+            )}
 
         </div>
     );

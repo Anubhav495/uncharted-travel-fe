@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
-import { MapPin, Clock, TrendingUp, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
 import CompanyCard from '@/components/ui/CompanyCard';
 import GalleryPreview from '@/components/ui/GalleryPreview';
 import BookingModal, { BookingFormData, BookingPreference } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
 import { useToast } from '@/context/ToastContext';
-import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/context/AuthContext';
 
 const TrekDetailsPage = () => {
@@ -41,15 +40,11 @@ const TrekDetailsPage = () => {
     useEffect(() => {
         const checkEnquiry = async () => {
             if (!user || !trek) return;
-            const { data } = await supabase
-                .from('booking_requests')
-                .select('id')
-                .eq('user_id', user.id)
-                .eq('trek_title', trek.title)
-                .eq('status', 'pending')
-                .maybeSingle();
-
-            if (data) setHasEnquired(true);
+            const response = await fetch(`/api/submitBooking?trekTitle=${encodeURIComponent(trek.title)}`);
+            if (response.ok) {
+                const data = await response.json();
+                setHasEnquired(data.hasEnquired);
+            }
         };
         checkEnquiry();
     }, [user, trek]);
@@ -58,16 +53,19 @@ const TrekDetailsPage = () => {
     useEffect(() => {
         const handleBookAction = async () => {
             if (router.isReady && user && router.query.action === 'book' && trek) {
+                const providerType = router.query.providerType;
+                if ((providerType === 'guide' || providerType === 'company') && typeof router.query.providerId === 'string') {
+                    setBookingPreference({
+                        type: providerType,
+                        id: router.query.providerId,
+                        name: typeof router.query.providerName === 'string' ? router.query.providerName : undefined,
+                    });
+                }
                 // Perform a fresh check to be sure (state might not be ready)
-                const { data } = await supabase
-                    .from('booking_requests')
-                    .select('id')
-                    .eq('user_id', user.id)
-                    .eq('trek_title', trek.title)
-                    .eq('status', 'pending')
-                    .maybeSingle();
+                const response = await fetch(`/api/submitBooking?trekTitle=${encodeURIComponent(trek.title)}`);
+                const data = response.ok ? await response.json() : { hasEnquired: false };
 
-                if (data) {
+                if (data.hasEnquired) {
                     setHasEnquired(true);
                     showToast('You already have an active request for this trek.', 'info');
                 } else {
@@ -75,7 +73,11 @@ const TrekDetailsPage = () => {
                 }
 
                 // Clean up the query param
-                const { action, ...rest } = router.query;
+                const rest = { ...router.query };
+                delete rest.action;
+                delete rest.providerType;
+                delete rest.providerId;
+                delete rest.providerName;
                 router.replace({
                     pathname: router.pathname,
                     query: rest,
@@ -84,7 +86,7 @@ const TrekDetailsPage = () => {
         };
 
         handleBookAction();
-    }, [router.isReady, user, router.query, trek, showToast]);
+    }, [router, router.isReady, user, router.query, trek, showToast]);
 
     if (!trek && router.isReady) {
         return (
@@ -107,7 +109,14 @@ const TrekDetailsPage = () => {
     const handleRequestInfo = async (id?: string, name?: string, type: 'guide' | 'company' | 'general' = 'general') => {
         setBookingPreference({ id, name, type });
         if (!user) {
-            await loginWithGoogle(`${window.location.origin}${router.asPath}?action=book`);
+            const callbackUrl = new URL(router.asPath, window.location.origin);
+            callbackUrl.searchParams.set('action', 'book');
+            if (id && type !== 'general') {
+                callbackUrl.searchParams.set('providerType', type);
+                callbackUrl.searchParams.set('providerId', id);
+                if (name) callbackUrl.searchParams.set('providerName', name);
+            }
+            await loginWithGoogle(callbackUrl.toString());
             return;
         }
         setIsBookingModalOpen(true);
@@ -206,8 +215,8 @@ const TrekDetailsPage = () => {
                         <section>
                             <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Highlights</h2>
                             <ul className="grid gap-4">
-                                {trek.highlights?.map((highlight, index) => (
-                                    <li key={index} className="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
+                                {trek.highlights?.map((highlight) => (
+                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
                                         <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
                                         <span className="text-lg">{highlight}</span>
                                     </li>
@@ -220,7 +229,7 @@ const TrekDetailsPage = () => {
                             <section>
                                 <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Itinerary</h2>
                                 <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
-                                    {trek.itinerary.map((day, index) => (
+                                    {trek.itinerary.map((day) => (
                                         <div key={day.day} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
 
                                             {/* Icon */}
@@ -263,21 +272,41 @@ const TrekDetailsPage = () => {
                         )}
 
                         {/* Trekking Options */}
-                        {(trek.guides?.length) ? (
+                        {(totalGuides > 0 || totalCompanies > 0) ? (
                             <section>
-                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Meet the Local Guides</h2>
-                                <p className="text-slate-400 mb-6 pl-4">Personalized itineraries with our trusted local experts.</p>
+                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Choose Your Trek Provider</h2>
+                                <p className="text-slate-400 mb-6 pl-4">Request a specific local guide or trekking company. We are constantly working on onboarding more experts to our platform.</p>
+
+                                {totalGuides > 0 && totalCompanies > 0 && (
+                                    <div className="mb-6 flex gap-2 rounded-xl bg-slate-800 p-1">
+                                        {(['guides', 'companies'] as const).map((tab) => (
+                                            <button
+                                                key={tab}
+                                                type="button"
+                                                onClick={() => setActiveTab(tab)}
+                                                className={`flex-1 rounded-lg px-4 py-2 font-semibold capitalize ${activeTab === tab ? 'bg-yellow-400 text-slate-900' : 'text-slate-300 hover:bg-slate-700'}`}
+                                            >
+                                                {tab}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {visibleGuides?.map((guide) => (
+                                    {(activeTab === 'guides' && totalGuides > 0 ? visibleGuides : []).map((guide) => (
                                         <div key={guide.id} className="h-full">
                                             <GuideCard guide={guide} onBook={handleRequestInfo} />
+                                        </div>
+                                    ))}
+                                    {(activeTab === 'companies' || totalGuides === 0 ? visibleCompanies : []).map((company) => (
+                                        <div key={company.id} className="h-full">
+                                            <CompanyCard company={company} onBook={handleRequestInfo} />
                                         </div>
                                     ))}
                                 </div>
 
                                 {/* Pagination Controls */}
-                                {totalGuidePages > 1 && (
+                                {activeTab === 'guides' && totalGuidePages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
                                         <button 
                                             disabled={guidePage === 1}
@@ -294,6 +323,13 @@ const TrekDetailsPage = () => {
                                         >
                                             Next
                                         </button>
+                                    </div>
+                                )}
+                                {(activeTab === 'companies' || totalGuides === 0) && totalCompanyPages > 1 && (
+                                    <div className="flex justify-center items-center gap-4 mt-8">
+                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700">Previous</button>
+                                        <span className="text-sm font-medium text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
+                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700">Next</button>
                                     </div>
                                 )}
                             </section>

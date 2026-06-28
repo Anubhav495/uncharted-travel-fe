@@ -22,7 +22,7 @@ const StorySection: React.FC = () => {
                                 <img
                                     src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=2070&auto=format&fit=crop"
                                     alt="Hikers on a trail"
-                                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                                    className="w-full h-full object-cover transition-all duration-500"
                                 />
                             </div>
                         </div>
@@ -43,7 +43,7 @@ const StorySection: React.FC = () => {
                             <img
                                 src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=2070&auto=format&fit=crop"
                                 alt="Hikers on a trail"
-                                className="relative rounded-2xl shadow-2xl w-full max-w-md h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                                className="relative rounded-2xl shadow-2xl w-full max-w-md h-[500px] object-cover transition-all duration-500"
                             />
                         </div>
                     </div>

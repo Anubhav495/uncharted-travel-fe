@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { HiX, HiStar } from 'react-icons/hi';
-import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 
 interface ReviewModalProps {
@@ -24,7 +23,6 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     existingReview,
     onReviewSubmitted
 }) => {
-    const { user } = useAuth();
     const { showToast } = useToast();
     const [rating, setRating] = useState(existingReview?.rating || 5);
     const [comment, setComment] = useState(existingReview?.comment || '');
@@ -35,8 +33,6 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!user) return;
-
         setIsSubmitting(true);
         try {
             const response = await fetch('/api/submitReview', {
@@ -44,7 +40,6 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     booking_id: bookingId,
-                    user_id: user.id,
                     rating,
                     comment
                 })
@@ -59,9 +54,9 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             showToast('Review submitted successfully!', 'success');
             onReviewSubmitted();
             onClose();
-        } catch (error: any) {
+        } catch (error) {
             console.error(error);
-            showToast(error.message, 'error');
+            showToast(error instanceof Error ? error.message : 'Failed to submit review', 'error');
         } finally {
             setIsSubmitting(false);
         }

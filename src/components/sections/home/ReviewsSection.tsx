@@ -1,8 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Review } from '../../../types';
 
-const customerReviews: Review[] = [
+interface CustomerReview {
+    name: string;
+    avatarUrl: string;
+    rating: number;
+    tour: string;
+    quote: string;
+    profession?: string;
+}
+
+const customerReviews: CustomerReview[] = [
     {
         name: 'Vivek Verma',
         avatarUrl: 'https://picsum.photos/seed/vivek/100/100',
@@ -29,7 +37,7 @@ const customerReviews: Review[] = [
     }
 ];
 
-const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
+const ReviewCard: React.FC<{ review: CustomerReview }> = ({ review }) => (
     <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg h-[280px] sm:h-[300px] flex flex-col">
         <div className="flex items-center mb-4">
             <img

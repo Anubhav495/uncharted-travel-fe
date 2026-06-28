@@ -1,8 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Guide } from '../../../types';
 
-const foundingGuides: Guide[] = [
+interface GuideStory {
+    name: string;
+    location: string;
+    specialty: string;
+    quote: string;
+    tags: string[];
+    imageUrl: string;
+}
+
+const foundingGuides: GuideStory[] = [
     {
         name: 'Aatish',
         location: 'Dharamshala, Himachal',

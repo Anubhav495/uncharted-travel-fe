@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { HiMenu, HiX, HiUserCircle } from 'react-icons/hi';
+import { HiMenu, HiX } from 'react-icons/hi';
 import { useAuth } from '../../context/AuthContext';
 
 interface HeaderProps {
@@ -12,7 +12,6 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showPulse, setShowPulse] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {

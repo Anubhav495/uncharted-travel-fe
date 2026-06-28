@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Map, DollarSign, Users, ArrowRight, Star } from 'lucide-react';
+import { Map, DollarSign, Users, ArrowRight } from 'lucide-react';
 
 const BecomeGuideSection: React.FC = () => {
     return (
