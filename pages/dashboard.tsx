@@ -108,6 +108,28 @@ export default function Dashboard() {
         }
     };
 
+    const handleCancelClick = async (bookingId: string) => {
+        if (!confirm('Are you sure you want to cancel this booking request?')) return;
+        
+        try {
+            const response = await fetch('/api/dashboard', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    bookingId,
+                    action: 'cancel'
+                }),
+            });
+            if (!response.ok) throw new Error('Unable to cancel booking');
+            
+            showToast('Booking cancelled successfully', 'success');
+            fetchBookings(); // Refresh list
+        } catch (error) {
+            console.error('Error cancelling booking:', error);
+            showToast('Failed to cancel booking. Please try again.', 'error');
+        }
+    };
+
     if (loading || (fetching && user)) {
         return (
             <div className="min-h-screen bg-slate-900 flex items-center justify-center">
@@ -220,17 +242,26 @@ export default function Dashboard() {
                                             </div>
                                             <div className="flex items-center justify-between sm:justify-end gap-3">
                                                 {booking.status === 'pending' && (
-                                                    <div className="text-slate-500 text-sm italic">
+                                                    <div className="text-slate-500 text-sm italic mr-2">
                                                         We will contact you shortly
                                                     </div>
                                                 )}
-                                                <button
-                                                    onClick={() => handleEditClick(booking)}
-                                                    className="p-2 text-slate-400 hover:text-yellow-400 hover:bg-slate-700 rounded-lg transition-colors"
-                                                    title="Edit Booking"
-                                                >
-                                                    <Edit2 className="w-4 h-4" />
-                                                </button>
+                                                <div className="flex items-center gap-1">
+                                                    <button
+                                                        onClick={() => handleEditClick(booking)}
+                                                        className="p-2 text-slate-400 hover:text-yellow-400 hover:bg-slate-700 rounded-lg transition-colors"
+                                                        title="Edit Booking"
+                                                    >
+                                                        <Edit2 className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleCancelClick(booking.id)}
+                                                        className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                                                        title="Cancel Booking"
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

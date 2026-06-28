@@ -5,10 +5,11 @@ import { getAdminSupabase } from '@/lib/adminSupabase';
 import { treks } from '@/data/treks';
 
 const updateSchema = z.object({
+    action: z.enum(['update', 'cancel']).optional().default('update'),
     bookingId: z.string().uuid(),
-    date: z.string().min(1).max(50),
-    guests: z.number().int().min(1).max(20),
-}).strict();
+    date: z.string().min(1).max(50).optional(),
+    guests: z.number().int().min(1).max(20).optional(),
+});
 
 function providerName(providerId?: string | null, providerType?: string | null) {
     if (!providerId || !providerType) return null;
@@ -51,7 +52,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'PATCH') {
         const result = updateSchema.safeParse(req.body);
-        if (!result.success) return res.status(400).json({ message: 'Invalid update' });
+        if (!result.success) return res.status(400).json({ message: 'Invalid request' });
+
+        if (result.data.action === 'cancel') {
+            const { data, error } = await supabase
+                .from('booking_requests')
+                .update({ status: 'cancelled' })
+                .eq('id', result.data.bookingId)
+                .eq('user_id', user.id)
+                .eq('status', 'pending')
+                .select('id')
+                .maybeSingle();
+
+            if (error) return res.status(500).json({ message: 'Unable to cancel enquiry' });
+            if (!data) return res.status(404).json({ message: 'Enquiry not found or cannot be cancelled' });
+            return res.status(200).json({ message: 'Enquiry cancelled' });
+        }
+
+        if (!result.data.date || !result.data.guests) {
+            return res.status(400).json({ message: 'Date and guests are required to update' });
+        }
 
         const { data, error } = await supabase
             .from('booking_requests')

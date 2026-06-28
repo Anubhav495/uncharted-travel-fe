@@ -1,15 +1,39 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
+const baseLinkClasses = 'text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-xs sm:text-base py-0 sm:py-1 block';
 
 const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
     <li>
-        <a
-            href={href}
-            className="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-xs sm:text-base py-0 sm:py-1 block"
-        >
+        <Link href={href} className={baseLinkClasses}>
             {children}
-        </a>
+        </Link>
     </li>
 );
+
+const FooterSectionLink: React.FC<{ targetId: string; children: React.ReactNode }> = ({ targetId, children }) => {
+    const router = useRouter();
+
+    const handleClick = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+
+        if (router.pathname !== '/') {
+            await router.push(`/#${targetId}`);
+            return;
+        }
+
+        const target = document.getElementById(targetId);
+        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    return (
+        <li>
+            <a href={`/#${targetId}`} className={baseLinkClasses} onClick={handleClick}>
+                {children}
+            </a>
+        </li>
+    );
+};
 
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
@@ -26,7 +50,7 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-1 sm:space-y-2">
                             <FooterLink href="/">Home</FooterLink>
-                            <FooterLink href="#why-us">Why Us</FooterLink>
+                            <FooterSectionLink targetId="why-us">Why Us</FooterSectionLink>
                         </ul>
                     </div>
 
@@ -46,7 +70,7 @@ const Footer: React.FC = () => {
                             Community
                         </h3>
                         <ul className="space-y-1 sm:space-y-2">
-                            <FooterLink href="/for-guides">Become a Guide</FooterLink>
+                            <FooterLink href="/become-a-guide">Become a Guide</FooterLink>
                         </ul>
                     </div>
 
