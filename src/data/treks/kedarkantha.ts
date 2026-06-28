@@ -25,7 +25,7 @@ export const kedarkanthaTrek: Trek = {
     ],
     guides: [
         {
-            id: 'g3',
+            id: 'guide-kapil-rawat',
             name: 'Kapil Rawat',
             avatar: '/assets/kapil-rawat.jpeg',
             experience: '8 Years',

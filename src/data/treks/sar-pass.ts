@@ -24,7 +24,7 @@ export const sarPassTrek: Trek = {
     ],
     guides: [
         {
-            id: 'g2',
+            id: 'guide-pritam-negi',
             name: 'Pritam Negi',
             avatar: '/assets/pritam-photo-edited.png',
             experience: '6 Years',

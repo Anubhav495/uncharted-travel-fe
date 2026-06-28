@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Upload, CheckCircle } from 'lucide-react';
 import TrekSelect from './TrekSelect';
-import PasswordModal from '../../modals/registration/PasswordModal';
-import { supabase } from '../../../lib/supabaseClient';
 import { useToast } from '../../../context/ToastContext';
 import { useAuth } from '../../../context/AuthContext';
 
@@ -28,11 +26,10 @@ type GuideFormData = z.infer<typeof guideSchema>;
 
 const GuideRegistrationWizard: React.FC = () => {
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, loginWithGoogle } = useAuth();
     const [step, setStep] = useState(1);
-    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [isChecking, setIsChecking] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const {
         register,
@@ -40,7 +37,6 @@ const GuideRegistrationWizard: React.FC = () => {
         trigger,
         watch,
         setValue,
-        setError,
         getValues,
         formState: { errors }
     } = useForm<GuideFormData>({
@@ -83,7 +79,7 @@ const GuideRegistrationWizard: React.FC = () => {
         if (savedStep) {
             setStep(parseInt(savedStep, 10));
         }
-    }, []);
+    }, [setValue]);
 
     // Auto-save to localStorage whenever formData changes
     useEffect(() => {
@@ -113,45 +109,6 @@ const GuideRegistrationWizard: React.FC = () => {
 
         if (step === 1) {
             isValid = await trigger(['fullName', 'email', 'phone']);
-            if (isValid) {
-                setIsChecking(true);
-                try {
-                    // Check for duplicate email or phone
-                    const { data, error } = await supabase
-                        .from('guides')
-                        .select('email, phone')
-                        .or(`email.eq.${formData.email},phone.eq.${formData.phone}`);
-
-                    if (error) {
-                        console.error("Error checking duplicates:", error);
-                    }
-
-                    if (data && data.length > 0) {
-                        let hasError = false;
-
-                        // Check which one matched and set error
-                        data.forEach(record => {
-                            if (record.email === formData.email) {
-                                setError('email', { type: 'manual', message: 'Email is already registered' });
-                                hasError = true;
-                            }
-                            if (record.phone === formData.phone) {
-                                setError('phone', { type: 'manual', message: 'Phone number is already registered' });
-                                hasError = true;
-                            }
-                        });
-
-                        if (hasError) {
-                            setIsChecking(false);
-                            return;
-                        }
-                    }
-                } catch (err) {
-                    console.error("Unexpected error checking duplicates:", err);
-                } finally {
-                    setIsChecking(false);
-                }
-            }
         } else if (step === 2) {
             isValid = await trigger(['city', 'state']);
         } else if (step === 3) {
@@ -165,55 +122,23 @@ const GuideRegistrationWizard: React.FC = () => {
     const { showToast } = useToast();
     const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
-    const onSubmit = (data: GuideFormData) => {
-        // Only show password modal on final step
-        if (step === 3) {
-            setIsPasswordModalOpen(true);
+    const onSubmit = async (data: GuideFormData) => {
+        if (step !== 3) return;
+        if (!user) {
+            await loginWithGoogle(window.location.href);
+            return;
         }
-    };
 
-    const handleFinalSubmit = async (password: string) => {
+        setIsSubmitting(true);
         try {
-            const finalData = { ...formData, password };
+            const response = await fetch('/api/registerGuide', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            const responseData = await response.json();
+            if (!response.ok) throw new Error(responseData.message || 'Unable to submit application');
 
-            // 1. Insert into guides table
-            const { data: guideData, error: guideError } = await supabase
-                .from('guides')
-                .insert([
-                    {
-                        full_name: formData.fullName,
-                        email: formData.email,
-                        phone: formData.phone,
-                        country_code: '+91', // Hardcoded as we only support Indian numbers
-                        city: formData.city,
-                        state: formData.state,
-                        years_experience: formData.yearsExperience,
-                        languages: formData.languages,
-                        // In a real app, hash this password before sending or use Supabase Auth signUp
-                        password_hash: password
-                    }
-                ])
-                .select()
-                .single();
-
-            if (guideError) throw guideError;
-
-            if (guideData && formData.treks.length > 0) {
-                // 2. Insert treks into guide_treks table
-                const trekInserts = formData.treks.map(trek => ({
-                    guide_id: guideData.id,
-                    trek_name: trek
-                }));
-
-                const { error: trekError } = await supabase
-                    .from('guide_treks')
-                    .insert(trekInserts);
-
-                if (trekError) throw trekError;
-            }
-
-            // Success
-            setIsPasswordModalOpen(false);
             setIsSuccess(true);
 
             // Clear saved draft after successful submission
@@ -225,9 +150,11 @@ const GuideRegistrationWizard: React.FC = () => {
                 router.push('/');
             }, 3000);
 
-        } catch (error: any) {
+        } catch (error) {
             console.error('Registration Error:', error);
-            showToast('Something went wrong. Please try again in sometime.', 'error');
+            showToast(error instanceof Error ? error.message : 'Unable to submit application.', 'error');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -475,29 +402,23 @@ const GuideRegistrationWizard: React.FC = () => {
                                 e.stopPropagation();
                                 nextStep();
                             }}
-                            disabled={isChecking}
-                            className={`bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg transition-all flex items-center ${isChecking ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg transition-all flex items-center"
                         >
-                            {isChecking ? 'Checking...' : 'Next Step'}
-                            {!isChecking && <ChevronRight className="w-5 h-5 ml-1" />}
+                            Next Step
+                            <ChevronRight className="w-5 h-5 ml-1" />
                         </button>
                     ) : (
                         <button
                             type="submit"
+                            disabled={isSubmitting}
                             className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-all flex items-center shadow-lg hover:shadow-green-500/20"
                         >
-                            Complete Registration
+                            {isSubmitting ? 'Submitting...' : user ? 'Complete Registration' : 'Sign in & Complete'}
                             <CheckCircle className="w-5 h-5 ml-2" />
                         </button>
                     )}
                 </div>
             </form>
-
-            <PasswordModal
-                isOpen={isPasswordModalOpen}
-                onClose={() => setIsPasswordModalOpen(false)}
-                onSubmit={handleFinalSubmit}
-            />
         </div>
     );
 };

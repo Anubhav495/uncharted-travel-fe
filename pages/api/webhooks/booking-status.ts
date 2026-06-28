@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { timingSafeEqual } from 'crypto';
 import { sendBookingCompletedEmail, sendBookingCancelledEmail } from '@/lib/email';
+import { getAdminSupabase } from '@/lib/adminSupabase';
 
 /**
  * Webhook handler for Supabase Database Webhooks.
@@ -12,6 +14,13 @@ import { sendBookingCompletedEmail, sendBookingCancelledEmail } from '@/lib/emai
  */
 
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+
+function hasValidSecret(value: string | string[] | undefined): boolean {
+    if (!WEBHOOK_SECRET || typeof value !== 'string') return false;
+    const expected = Buffer.from(WEBHOOK_SECRET);
+    const received = Buffer.from(value);
+    return expected.length === received.length && timingSafeEqual(expected, received);
+}
 
 // Terminal states that trigger emails
 const TERMINAL_STATES = ['completed', 'cancelled'] as const;
@@ -48,13 +57,13 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    // Verify webhook secret (sent as a custom header from Supabase)
-    if (WEBHOOK_SECRET) {
-        const providedSecret = req.headers['x-webhook-secret'];
-        if (providedSecret !== WEBHOOK_SECRET) {
-            console.error('Webhook auth failed: invalid secret');
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
+    if (!WEBHOOK_SECRET) {
+        console.error('Webhook disabled: WEBHOOK_SECRET is not configured');
+        return res.status(503).json({ message: 'Webhook is not configured' });
+    }
+    if (!hasValidSecret(req.headers['x-webhook-secret'])) {
+        console.error('Webhook auth failed: invalid secret');
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 
     try {
@@ -84,6 +93,11 @@ export default async function handler(
 
         // Send the appropriate email
         if (newStatus === 'completed') {
+            const { error: xpError } = await getAdminSupabase().rpc('award_completion_xp', {
+                p_user_id: payload.record.user_id,
+                p_booking_id: payload.record.id,
+            });
+            if (xpError) throw xpError;
             await sendBookingCompletedEmail(email, full_name, trek_title, 250);
         } else if (newStatus === 'cancelled') {
             await sendBookingCancelledEmail(email, full_name, trek_title);
@@ -93,7 +107,7 @@ export default async function handler(
             message: `Email sent for ${newStatus} booking`,
             bookingId: payload.record.id,
         });
-    } catch (error: any) {
+    } catch (error) {
         console.error('Webhook handler error:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }

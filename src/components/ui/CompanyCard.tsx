@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Star, Building, CalendarDays } from 'lucide-react';
 import { Company } from '@/types/trek';
 import ItineraryModal from '../modals/ItineraryModal';
-import { supabase } from '@/lib/supabaseClient';
 
 interface CompanyCardProps {
     company: Company;
@@ -18,15 +17,13 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
     useEffect(() => {
         const fetchRating = async () => {
             try {
-                const { data, error } = await supabase
-                    .from('reviews')
-                    .select('rating')
-                    .eq('provider_id', company.id);
-
-                if (!error && data && data.length > 0) {
-                    const avg = data.reduce((acc, curr) => acc + curr.rating, 0) / data.length;
-                    setRating(Number(avg.toFixed(1)));
-                    setReviewCount((company.reviews || 0) + data.length);
+                const response = await fetch(`/api/providerRating?id=${encodeURIComponent(company.id)}&type=company`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.count > 0) {
+                        setRating(Number(data.average.toFixed(1)));
+                        setReviewCount(data.count);
+                    }
                 }
             } catch (err) {
                 console.error('Error fetching company rating:', err);
@@ -81,6 +78,15 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
                         className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-slate-500 rounded-xl text-slate-300 text-sm font-bold transition-all duration-300 shadow-sm flex justify-center items-center"
                     >
                         View Itinerary & Meals
+                    </button>
+                )}
+                {onBook && (
+                    <button
+                        type="button"
+                        onClick={() => onBook(company.id, company.name, 'company')}
+                        className="w-full rounded-xl bg-yellow-400 px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-yellow-300"
+                    >
+                        Request This Company
                     </button>
                 )}
             </div>

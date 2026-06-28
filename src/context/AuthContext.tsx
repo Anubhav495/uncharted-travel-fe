@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { useSession, signIn, signOut as nextAuthSignOut } from 'next-auth/react';
+import type { Session } from 'next-auth';
 import { useRouter } from 'next/router';
 import { useToast } from './ToastContext';
 
@@ -11,13 +12,13 @@ export interface User {
     user_metadata: {
         full_name?: string | null;
         avatar_url?: string | null;
-        [key: string]: any;
+        [key: string]: unknown;
     };
 }
 
 interface AuthContextType {
     user: User | null;
-    session: any; // Using 'any' or importing Session from next-auth
+    session: Session | null;
     loading: boolean;
     loginWithGoogle: (returnUrl?: string) => Promise<void>;
     signOut: () => Promise<void>;
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const user = React.useMemo<User | null>(() => {
         if (session?.user) {
             return {
-                id: (session.user as any).id,
+                id: session.user.id,
                 email: session.user.email,
                 user_metadata: {
                     full_name: session.user.name,
@@ -78,4 +79,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-

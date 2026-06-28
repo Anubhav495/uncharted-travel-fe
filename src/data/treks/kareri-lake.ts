@@ -25,7 +25,7 @@ export const kareriLakeTrek: Trek = {
     ],
     guides: [
         {
-            id: 'g3',
+            id: 'guide-aatish',
             name: 'Aatish',
             avatar: '/assets/aatish-photo.jpeg',
             experience: '7 Years',

@@ -1,8 +1,13 @@
--- Add guide_id and start_date columns to booking_requests table
+-- Legacy compatibility migration; providers may be static guide/company IDs.
+ALTER TABLE public.booking_requests
+ADD COLUMN IF NOT EXISTS provider_id TEXT,
+ADD COLUMN IF NOT EXISTS provider_type TEXT;
 
-ALTER TABLE booking_requests
-ADD COLUMN IF NOT EXISTS guide_id UUID REFERENCES guides(id),
-ADD COLUMN IF NOT EXISTS start_date DATE;
+ALTER TABLE public.booking_requests DROP CONSTRAINT IF EXISTS booking_requests_provider_id_fkey;
+ALTER TABLE public.booking_requests
+ALTER COLUMN provider_id TYPE TEXT USING provider_id::TEXT;
 
--- Update RLS policies if necessary (assuming existing ones apply)
--- If we need to filter bookings by guide_id for the guide dashboard later, we'll add policies then.
+ALTER TABLE public.booking_requests DROP CONSTRAINT IF EXISTS booking_requests_provider_type_check;
+ALTER TABLE public.booking_requests
+ADD CONSTRAINT booking_requests_provider_type_check
+CHECK (provider_type IN ('guide', 'company') OR provider_type IS NULL);

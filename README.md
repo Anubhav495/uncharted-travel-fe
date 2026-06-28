@@ -41,13 +41,17 @@ A modern travel platform that connects adventure seekers with local trekking gui
    npm install
    ```
 
-3. Run the development server
+3. Copy `.env.example` to `.env.local` and provide the required NextAuth, Google, and Supabase server credentials. Never expose the Supabase service-role key through a `NEXT_PUBLIC_` variable.
+
+4. Apply `supabase/schema.sql` for a clean database, or apply the latest migration when upgrading an existing deployment.
+
+5. Run the development server
 
    ```bash
    npm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser 🎉
+6. Open [http://localhost:3000](http://localhost:3000) in your browser 🎉
 
 ### Available Scripts
 

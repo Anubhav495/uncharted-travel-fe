@@ -1,13 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/assets/:path*',
-        destination: '/assets/:path*',
-      },
-    ]
-  },
   images: {
     remotePatterns: [
       {
@@ -16,6 +8,6 @@ const nextConfig = {
       },
     ],
   },
-}
+};
 
-export default nextConfig
+module.exports = nextConfig;

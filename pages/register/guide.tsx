@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import GuideRegistrationWizard from '../../src/components/forms/guide-registration/GuideRegistrationWizard';
 
 const RegisterGuidePage: React.FC = () => {
