@@ -96,7 +96,7 @@ export default function Community() {
                     </div>
 
                     {/* Your rank callout */}
-                    {user && userRank && userRank > 0 && (
+                    {user && userRank !== null && userRank > 0 && (
                         <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-2xl p-4 flex items-center gap-4 mb-6">
                             <Star className="w-6 h-6 text-yellow-400 shrink-0" />
                             <p className="text-yellow-300 font-semibold">
