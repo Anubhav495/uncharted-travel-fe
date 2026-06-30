@@ -1,6 +1,3 @@
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
 interface BookingNotification {
     name: string;
     email: string;
@@ -12,6 +9,9 @@ interface BookingNotification {
 }
 
 export async function sendBookingNotification(booking: BookingNotification) {
+    const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
         console.warn('Telegram credentials not configured, skipping notification.');
         return;

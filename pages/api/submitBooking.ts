@@ -103,7 +103,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(500).json({ message: 'Unable to submit enquiry' });
     }
 
-    void sendBookingNotification({
+    await sendBookingNotification({
         name: user.name || result.data.name,
         email: user.email,
         phone,
