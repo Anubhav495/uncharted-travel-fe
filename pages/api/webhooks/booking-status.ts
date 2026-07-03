@@ -109,6 +109,14 @@ export default async function handler(
         });
     } catch (error) {
         console.error('Webhook handler error:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+        let errorMessage = 'Unknown error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        } else if (typeof error === 'object' && error !== null) {
+            errorMessage = JSON.stringify(error);
+        } else {
+            errorMessage = String(error);
+        }
+        return res.status(500).json({ message: 'Internal server error', error: errorMessage });
     }
 }

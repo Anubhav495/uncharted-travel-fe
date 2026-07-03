@@ -112,12 +112,12 @@ AS $$
 DECLARE profile_id UUID; inserted_count INTEGER;
 BEGIN
     INSERT INTO user_profiles (user_id) VALUES (p_user_id)
-    ON CONFLICT (user_id) DO NOTHING;
+    ON CONFLICT ON CONSTRAINT user_profiles_user_id_key DO NOTHING;
     SELECT id INTO profile_id FROM user_profiles WHERE user_id = p_user_id FOR UPDATE;
     INSERT INTO xp_transactions
         (user_profile_id, action, xp_amount, reference_id, reference_type)
     VALUES (profile_id, p_action, p_amount, p_reference_id, p_reference_type)
-    ON CONFLICT (action, reference_id) DO NOTHING;
+    ON CONFLICT ON CONSTRAINT xp_transactions_action_reference_key DO NOTHING;
     GET DIAGNOSTICS inserted_count = ROW_COUNT;
     IF inserted_count = 1 THEN
         UPDATE user_profiles SET xp_points = xp_points + p_amount,
