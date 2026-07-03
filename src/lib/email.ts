@@ -30,15 +30,19 @@ interface SendEmailOptions {
 async function sendEmail({ to, subject, html }: SendEmailOptions): Promise<void> {
     const transporter = getTransporter();
 
-    await transporter.sendMail({
-        from: `"Uncharted Travel" <${GMAIL_USER}>`,
-        replyTo: `"Uncharted Travel" <${GMAIL_USER}>`,
-        to,
-        subject,
-        html,
-    });
-
-    console.log(`Email sent to ${to}: ${subject}`);
+    try {
+        await transporter.sendMail({
+            from: `"Uncharted Travel" <${GMAIL_USER}>`,
+            replyTo: `"Uncharted Travel" <${GMAIL_USER}>`,
+            to,
+            subject,
+            html,
+        });
+        console.log(`Email sent to ${to}: ${subject}`);
+    } catch (error) {
+        console.error(`[Nodemailer Error] Failed to send email to ${to}:`, error);
+        throw error; // Rethrow so the webhook handler can catch it
+    }
 }
 
 /**
