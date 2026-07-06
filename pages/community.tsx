@@ -70,14 +70,14 @@ export default function Community() {
                     </div>
 
                     {/* How to Earn XP Guide */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
-                            <span className="text-3xl mb-3 block">🏔️</span>
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
+                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-3 sm:p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
+                            <span className="text-2xl sm:text-3xl mb-2 sm:mb-3 block">🏔️</span>
                             <p className="text-sm font-semibold text-slate-200">Complete Treks</p>
                             <p className="text-xs text-yellow-400 font-bold mt-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">+250 XP</p>
                         </div>
-                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
-                            <span className="text-3xl mb-3 block">⭐</span>
+                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-3 sm:p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
+                            <span className="text-2xl sm:text-3xl mb-2 sm:mb-3 block">⭐</span>
                             <p className="text-sm font-semibold text-slate-200">Leave Reviews</p>
                             <p className="text-xs text-yellow-400 font-bold mt-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">+50 XP</p>
                         </div>
