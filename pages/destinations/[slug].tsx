@@ -7,6 +7,7 @@ import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
 import CompanyCard from '@/components/ui/CompanyCard';
 import GalleryPreview from '@/components/ui/GalleryPreview';
+import TrekItinerary from '@/components/ui/TrekItinerary';
 import BookingModal, { BookingFormData, BookingPreference } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
 import { useToast } from '@/context/ToastContext';
 import { useAuth } from '@/context/AuthContext';
@@ -226,40 +227,7 @@ const TrekDetailsPage = () => {
 
                         {/* Itinerary */}
                         {trek.itinerary && trek.itinerary.length > 0 && (
-                            <section>
-                                <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Itinerary</h2>
-                                <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
-                                    {trek.itinerary.map((day) => (
-                                        <div key={day.day} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-
-                                            {/* Icon */}
-                                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-slate-700 bg-slate-800 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 text-yellow-400 font-bold z-10">
-                                                {day.day}
-                                            </div>
-
-                                            {/* Content Card */}
-                                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:border-yellow-400/30 transition-colors shadow-lg">
-                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
-                                                    <h3 className="font-bold text-white text-lg">{day.title}</h3>
-                                                    <div className="flex items-center gap-3 text-xs text-slate-400 mt-2 sm:mt-0">
-                                                        {day.distance && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {day.distance}</span>}
-                                                        {day.elevation && <span className="flex items-center gap-1"><TrendingUp className="w-3 h-3" /> {day.elevation}</span>}
-                                                    </div>
-                                                </div>
-                                                <p className="text-slate-300 text-sm leading-relaxed">
-                                                    {day.description}
-                                                </p>
-                                                {day.meals && (
-                                                    <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-2 text-xs text-yellow-400">
-                                                        <span className="font-bold">Meals:</span> 
-                                                        <span className="text-slate-300">{day.meals}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
+                            <TrekItinerary itinerary={trek.itinerary} />
                         )}
 
                         {/* Gallery Preview */}

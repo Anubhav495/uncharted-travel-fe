@@ -107,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
 
                 {/* Desktop Navigation */}
                 {variant === 'default' && (
-                    <nav className="hidden md:flex items-center space-x-8">
+                    <nav className="hidden lg:flex items-center space-x-8">
                         <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
@@ -160,7 +160,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             e.stopPropagation();
                             setIsMenuOpen(!isMenuOpen);
                         }}
-                        className={`menu-button md:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
+                        className={`menu-button lg:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     >
                         {isMenuOpen ? (
@@ -174,7 +174,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
 
             {/* Mobile Menu Overlay */}
             {isMenuOpen && variant === 'default' && (
-                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 md:hidden">
+                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden">
                     <div className="pt-20 pb-8">
                         <nav className="container mx-auto px-4">
                             <div className="space-y-1">
