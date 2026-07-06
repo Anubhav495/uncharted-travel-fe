@@ -98,14 +98,14 @@ const CompareCatalogue: React.FC = () => {
                     <div
                         ref={scrollRef}
                         onScroll={updateActivePage}
-                        className="scrollbar-hide -mx-5 flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain touch-pan-x"
+                        className="scrollbar-hide -mx-5 flex snap-x snap-mandatory overflow-x-scroll overscroll-x-contain [-webkit-overflow-scrolling:touch]"
                         role="region"
                         aria-label="Trek pages"
                     >
                         {trekPages.map((page, pageIndex) => (
                             <div
                                 key={pageIndex}
-                                className="w-full shrink-0 snap-start space-y-3 px-5"
+                                className="min-w-full flex-none snap-start snap-always space-y-3 px-5"
                                 role="group"
                                 aria-label={`Trek page ${pageIndex + 1} of ${trekPages.length}`}
                             >
