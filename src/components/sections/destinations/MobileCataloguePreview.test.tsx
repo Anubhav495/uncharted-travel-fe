@@ -35,8 +35,13 @@ describe('MobileCataloguePreview', () => {
     it('groups the compare concept into swipe pages of three treks', () => {
         render(<MobileCataloguePreview view="compare" />);
 
+        expect(screen.getByRole('region', { name: 'Trek pages' })).toHaveClass(
+            'overflow-x-scroll',
+            'snap-mandatory',
+        );
         const pages = screen.getAllByRole('group', { name: /Trek page/ });
         expect(pages).toHaveLength(3);
+        pages.forEach((page) => expect(page).toHaveClass('min-w-full', 'flex-none', 'snap-always'));
         expect(pages[0].querySelectorAll('a')).toHaveLength(3);
         expect(pages[1].querySelectorAll('a')).toHaveLength(3);
         expect(pages[2].querySelectorAll('a')).toHaveLength(1);
