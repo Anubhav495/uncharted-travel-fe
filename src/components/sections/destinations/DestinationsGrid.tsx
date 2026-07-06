@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import TrekCard from '@/components/ui/TrekCard';
 import { treks } from '@/data/treks';
+import MobileCataloguePreview from './MobileCataloguePreview';
+import { MobileCatalogueView } from './mobileCatalogueView';
 
 const categories = ['All'];
 
 
-const DestinationsGrid: React.FC = () => {
+interface DestinationsGridProps {
+    mobileView?: MobileCatalogueView;
+}
+
+const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
     const [activeCategory, setActiveCategory] = useState('All');
     const [activeCardId, setActiveCardId] = useState<string | null>(null);
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -23,6 +29,8 @@ const DestinationsGrid: React.FC = () => {
 
     // Intersection Observer for Mobile Scroll
     React.useEffect(() => {
+        if (mobileView) return;
+
         // Run only on client side
         if (typeof window === 'undefined') return;
 
@@ -74,11 +82,13 @@ const DestinationsGrid: React.FC = () => {
             if (typeof cleanup === 'function') cleanup();
             window.removeEventListener('resize', handleResize);
         };
-    }, [filteredTreks]);
+    }, [filteredTreks, mobileView]);
 
     return (
-        <section className="py-12 md:py-20 bg-slate-900 min-h-screen">
-            <div className="container mx-auto px-4">
+        <>
+            {mobileView && <MobileCataloguePreview view={mobileView} />}
+            <section className={`${mobileView ? 'hidden md:block' : ''} py-12 md:py-20 bg-slate-900 min-h-screen`}>
+                <div className="container mx-auto px-4">
                 {/* Filter Bar */}
                 <div className="relative mb-12 -mx-4 px-4 py-4 bg-transparent border-b border-white/5 md:mx-0 md:px-0 md:border-none">
                     <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide pl-1">
@@ -139,8 +149,9 @@ const DestinationsGrid: React.FC = () => {
                         More breathtaking Himalayan treks coming soon...
                     </p>
                 </div>
-            </div>
-        </section>
+                </div>
+            </section>
+        </>
     );
 };
 
