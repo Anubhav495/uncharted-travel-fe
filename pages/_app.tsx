@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
+import { Analytics } from '@vercel/analytics/next';
 import Header from '../src/components/layout/Header';
 import Footer from '../src/components/layout/Footer';
 import { ToastProvider } from '../src/context/ToastContext';
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Header variant={headerVariant} />
             <Component {...pageProps} />
             {!isRegistrationPage && <Footer />}
+            <Analytics />
           </div>
         </AuthProvider>
       </ToastProvider>
