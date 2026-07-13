@@ -10,8 +10,8 @@ export const devRoopaTrek: Trek = {
     price: '₹8,000',
     image: '/assets/dev-roopa/WhatsApp Image 2026-06-28 at 10.05.47 (1).jpeg',
     imagePosition: 'center',
-    guideName: 'Aatish Sharma',
-    guideAvatar: '/assets/aatish-photo.jpeg',
+    guideName: 'Pritam Negi',
+    guideAvatar: '/assets/pritam-photo-edited.png',
     badges: ['Offbeat', 'Meadows', 'Culture'],
     category: 'Trekking',
     overview: 'Often referred to as the "Descent of God," Dev Roopa is a scenic and offbeat Himalayan trek located in the Malana region of Parvati Valley. Known for its vast, pristine grasslands, high-altitude glacial streams, and proximity to remote areas, this trek offers a unique experience away from the crowds. The trail takes you through dense forests, grazing fields, and eventually to the spectacular Dev Roopa meadows at around 14,000 ft.',
@@ -24,14 +24,24 @@ export const devRoopaTrek: Trek = {
     ],
     guides: [
         {
-            id: 'guide-aatish-sharma',
-            name: 'Aatish Sharma',
-            avatar: '/assets/aatish-photo.jpeg',
-            experience: '6 Years',
-            languages: ['English', 'Hindi', 'Pahari'],
-            rating: 4.8,
-            reviews: 32,
-            description: 'Aatish is a local from the Kullu valley with extensive knowledge of the offbeat trails in Parvati and Malana regions. His deep connection with the local culture and terrain makes him an excellent guide for remote treks.'
+            id: 'guide-pritam-negi',
+            name: 'Pritam Negi',
+            avatar: '/assets/pritam-photo-edited.png',
+            experience: '8 Years',
+            languages: ['English', 'Hindi', 'Pahadi'],
+            rating: 4.9,
+            reviews: 145,
+            description: 'A highly experienced guide from the Parvati Valley region, Pritam knows the offbeat trails like the back of his hand.'
+        },
+        {
+            id: 'guide-bhojraj',
+            name: 'Bhojraj',
+            avatar: '/assets/bhojraj.jpg',
+            experience: '5 Years',
+            languages: ['Hindi', 'Pahadi', 'English'],
+            rating: 4.7,
+            reviews: 24,
+            description: 'Bhojraj is an experienced local guide with a passion for the pristine landscapes of Himachal. He ensures a safe and memorable journey through the challenging trails of Dev Roopa.'
         }
     ],
     companies: [],

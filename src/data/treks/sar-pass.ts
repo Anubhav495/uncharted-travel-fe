@@ -27,10 +27,10 @@ export const sarPassTrek: Trek = {
             id: 'guide-pritam-negi',
             name: 'Pritam Negi',
             avatar: '/assets/pritam-photo-edited.png',
-            experience: '6 Years',
+            experience: '8 Years',
             languages: ['English', 'Hindi', 'Pahadi'],
-            rating: 4.8,
-            reviews: 65,
+            rating: 4.9,
+            reviews: 145,
             description: 'A local from Tosh village, Pritam has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.'
         }
     ],
