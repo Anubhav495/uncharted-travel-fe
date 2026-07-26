@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 
 const DestinationsHero: React.FC = () => {
@@ -7,12 +8,15 @@ const DestinationsHero: React.FC = () => {
             {/* Background Image with CSS Mask for smooth fade */}
             <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]">
                 <div className="absolute inset-0 bg-black/40 z-10" />
-                <div
-                    className="w-full h-full bg-cover bg-center bg-no-repeat transform scale-105 animate-slow-zoom"
-                    style={{
-                        backgroundImage: 'url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop")',
-                    }}
-                />
+                <div className="w-full h-full transform scale-105 animate-slow-zoom relative">
+                    <Image
+                        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop"
+                        alt="Himalayan Mountains"
+                        fill
+                        className="object-cover object-center"
+                        priority={true}
+                    />
+                </div>
             </div>
 
             {/* Content */}

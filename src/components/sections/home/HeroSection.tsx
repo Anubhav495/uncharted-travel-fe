@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChevronDown } from 'lucide-react';
@@ -38,13 +39,13 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             id="hero"
         >
             {/* Video Background */}
-            <div
-                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0"
-                style={{
-                    backgroundImage: 'url(/assets/spiti-poster-mobile.png)',
-                }}
-            >
-                <div className="hidden md:block absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/spiti-poster-desktop.png)' }} />
+            <div className="absolute inset-0 w-full h-full z-0">
+                <div className="block md:hidden relative w-full h-full">
+                    <Image src="/assets/spiti-poster-mobile.png" alt="Spiti Valley" fill className="object-cover" priority={true} />
+                </div>
+                <div className="hidden md:block relative w-full h-full">
+                    <Image src="/assets/spiti-poster-desktop.png" alt="Spiti Valley" fill className="object-cover" priority={true} />
+                </div>
             </div>
             <video
                 ref={videoRef}
