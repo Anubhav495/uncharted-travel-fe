@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { Trophy, Medal, Star, TrendingUp, Users } from 'lucide-react';
 import { useAuth } from '../src/context/AuthContext';
 
@@ -43,10 +43,11 @@ export default function Community() {
 
     return (
         <>
-            <Head>
-                <title>Community Leaderboard | Uncharted Travel</title>
-                <meta name="description" content="See who's explored the most. Global trekker rankings on Uncharted Travel." />
-            </Head>
+            <NextSeo 
+                title="Community Leaderboard | Uncharted Travel"
+                description="See who's explored the most. Global trekker rankings on Uncharted Travel."
+                canonical="https://unchartedtravel.in/community"
+            />
 
             <main className="min-h-screen bg-slate-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mx-auto">

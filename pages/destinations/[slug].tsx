@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import { NextSeo, ProductJsonLd, BreadcrumbJsonLd } from 'next-seo';
 import Image from 'next/image';
 import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
@@ -152,10 +152,39 @@ const TrekDetailsPage = () => {
 
     return (
         <>
-            <Head>
-                <title>{trek.title} | UnchartedTravel</title>
-                <meta name="description" content={trek.overview?.substring(0, 160)} />
-            </Head>
+            <NextSeo 
+                title={`${trek.title} Trek | Uncharted Travel`}
+                description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}.`}
+                canonical={`https://unchartedtravel.in/destinations/${trek.slug}`}
+                openGraph={{
+                    images: [
+                        {
+                            url: `https://unchartedtravel.in${trek.image}`,
+                            alt: trek.title,
+                        }
+                    ]
+                }}
+            />
+            <BreadcrumbJsonLd
+                itemListElements={[
+                    { position: 1, name: 'Home', item: 'https://unchartedtravel.in/' },
+                    { position: 2, name: 'Destinations', item: 'https://unchartedtravel.in/destinations' },
+                    { position: 3, name: trek.title, item: `https://unchartedtravel.in/destinations/${trek.slug}` }
+                ]}
+            />
+            <ProductJsonLd 
+                productName={`${trek.title} Trek`}
+                images={[`https://unchartedtravel.in${trek.image}`]}
+                description={trek.overview}
+                brand="Uncharted Travel"
+                offers={{
+                    price: trek.price.replace(/[^0-9.-]+/g,""),
+                    priceCurrency: 'INR',
+                    availability: 'https://schema.org/InStock',
+                    url: `https://unchartedtravel.in/destinations/${trek.slug}`,
+                    seller: { name: 'Uncharted Travel' }
+                }}
+            />
 
             <main className="bg-slate-900 min-h-screen pb-20">
                 {/* Hero Section */}
