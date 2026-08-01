@@ -3,6 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /dashboard
 Disallow: /register/*
+Disallow: /compare
 Disallow: /api/*
 
 # Host

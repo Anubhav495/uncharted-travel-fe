@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { completedEmailTemplate, cancelledEmailTemplate } from './emailTemplates';
+import { completedEmailTemplate, cancelledEmailTemplate, reachOutEmailTemplate } from './emailTemplates';
 
 const GMAIL_USER = process.env.GMAIL_USER;
 const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
@@ -69,5 +69,17 @@ export async function sendBookingCancelledEmail(
 ): Promise<void> {
     const subject = `Your ${trekTitle} booking has been cancelled`;
     const html = cancelledEmailTemplate(userName, trekTitle);
+    await sendEmail({ to, subject, html });
+}
+
+/**
+ * Send a reach-out email asking the user to call back.
+ */
+export async function sendReachOutEmail(
+    to: string,
+    userName: string
+): Promise<void> {
+    const subject = `Uncharted Travel - We tried to reach you!`;
+    const html = reachOutEmailTemplate(userName);
     await sendEmail({ to, subject, html });
 }
