@@ -5,7 +5,7 @@ export const kareriLakeTrek: Trek = {
     slug: 'kareri-lake-trek',
     title: 'Kareri Lake Trek',
     location: 'Dharamshala, Himachal',
-    duration: '3 Days',
+    duration: '2 Days',
     difficulty: 'Easy',
     price: '₹1,500',
     image: '/assets/kareri-lake.jpg',
