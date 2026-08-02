@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { DefaultSeo, OrganizationJsonLd } from 'next-seo';
 import SEO from '../next-seo.config';
 import Header from '../src/components/layout/Header';
@@ -49,6 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
             {!isRegistrationPage && <Footer />}
             <Analytics />
+            <SpeedInsights />
           </div>
         </AuthProvider>
       </ToastProvider>
