@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer';
-import { completedEmailTemplate, cancelledEmailTemplate, reachOutEmailTemplate } from './emailTemplates';
+import {
+    completedEmailTemplate,
+    cancelledEmailTemplate,
+    reachOutEmailTemplate,
+    guideAssignmentEmailTemplate,
+    type GuideAssignmentEmailData,
+} from './emailTemplates';
 
 const GMAIL_USER = process.env.GMAIL_USER;
 const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
@@ -81,5 +87,12 @@ export async function sendReachOutEmail(
 ): Promise<void> {
     const subject = `Uncharted Travel - We tried to reach you!`;
     const html = reachOutEmailTemplate(userName);
+    await sendEmail({ to, subject, html });
+}
+
+/** Send the route, packing list, and confirmed guide details to a traveller. */
+export async function sendGuideAssignmentEmail(to: string, details: GuideAssignmentEmailData): Promise<void> {
+    const subject = `Meet your guide for ${details.trek.title} | Uncharted Travel`;
+    const html = guideAssignmentEmailTemplate(details);
     await sendEmail({ to, subject, html });
 }
