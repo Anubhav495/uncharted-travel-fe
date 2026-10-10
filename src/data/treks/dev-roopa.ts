@@ -45,19 +45,24 @@ export const devRoopaTrek: Trek = {
         }
     ],
     companies: [],
+    arrivalInstructions: {
+        title: 'How to reach Waichin',
+        steps: [
+            'Reach Kasol, then travel towards Jari on the Parvati Valley road.',
+            'From Jari, take a local taxi towards the Malana Dam roadhead.',
+            'Continue on foot from the roadhead to Waichin, where day 1 ends.',
+        ],
+    },
     itinerary: [
         {
             day: 1,
-            title: 'Kasol to Malana Dam and trek to Behali',
-            description: 'Drive from Kasol to Malana Dam, then start the trek towards the first campsite at Behali through beautiful forest trails.',
-            distance: '5 km',
-            elevation: '8,500 ft'
+            title: 'Kasol to Malana Dam and trek to Waichin',
+            description: 'Drive from Kasol to Malana Dam, then trek to Waichin for the first overnight stay.'
         },
         {
             day: 2,
-            title: 'Behali to Mota Grahan',
-            description: 'Trek through dense pine and oak forests, crossing streams and grazing fields to reach the Mota Grahan campsite.',
-            distance: '7 km',
+            title: 'Waichin to Mota Grahan',
+            description: 'Continue from Waichin to the Mota Grahan campsite.',
             elevation: '10,200 ft'
         },
         {
@@ -76,17 +81,14 @@ export const devRoopaTrek: Trek = {
         },
         {
             day: 5,
-            title: 'Bogdi to Mota Grahan / Behali',
-            description: 'Begin the descent back through the familiar trails, enjoying the landscape from a different perspective.',
-            distance: '10 km',
+            title: 'Bogdi to Mota Grahan',
+            description: 'Begin the descent back to Mota Grahan along the return route.',
             elevation: '10,200 ft'
         },
         {
             day: 6,
             title: 'Trek to Malana Dam and drive to Kasol',
-            description: 'Complete the final leg of the descent to Malana Dam, followed by a drive back to Kasol.',
-            distance: '5 km',
-            elevation: '8,500 ft'
+            description: 'Complete the final leg of the descent to Malana Dam, followed by a drive back to Kasol.'
         }
     ],
     gallery: [

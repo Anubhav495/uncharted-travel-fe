@@ -49,5 +49,9 @@ export interface Trek {
     guides?: Guide[];
     companies?: Company[];
     itinerary?: ItineraryDay[];
+    arrivalInstructions?: {
+        title: string;
+        steps: string[];
+    };
     gallery?: string[];
 }
