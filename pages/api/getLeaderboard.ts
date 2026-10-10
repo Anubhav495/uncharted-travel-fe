@@ -91,7 +91,7 @@ function normalizeEntry(user: {
     avatar_url: string | null;
     xp_points: number | null;
 }): LeaderboardEntry {
-    const points = user.xp_points && user.xp_points > 0 ? user.xp_points : 250;
+    const points = user.xp_points || 0;
     return {
         user_id: user.user_id,
         display_name: user.display_name,
@@ -108,7 +108,7 @@ export function buildLeaderboard(liveEntries: LeaderboardEntry[]) {
         merged.set(entry.user_id, entry);
     }
 
-    for (const entry of liveEntries) {
+    for (const entry of liveEntries.filter((entry) => entry.xp_points > 0)) {
         if (entry.display_name === 'Pratyush Gupta') {
             merged.set(entry.user_id, {
                 ...entry,

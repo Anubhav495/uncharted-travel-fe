@@ -6,6 +6,20 @@ import { buildLeaderboard, LeaderboardEntry } from '../../pages/api/getLeaderboa
 import { getLevelForXp } from '@/lib/levels';
 
 describe('buildLeaderboard', () => {
+    it('does not add profiles with zero XP to the leaderboard input', () => {
+        const zeroXpEntry: LeaderboardEntry = {
+            user_id: 'new-user',
+            display_name: 'New User',
+            avatar_url: null,
+            xp_points: 0,
+            level: getLevelForXp(0),
+        };
+
+        const leaderboard = buildLeaderboard([zeroXpEntry]);
+
+        expect(leaderboard.some((entry) => entry.user_id === zeroXpEntry.user_id)).toBe(false);
+    });
+
     it('keeps profiles outside the public top 20 so their global rank can be calculated', () => {
         const liveEntries: LeaderboardEntry[] = [
             {
