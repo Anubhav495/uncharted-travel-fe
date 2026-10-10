@@ -83,6 +83,11 @@ const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
     { user_id: 'seed-tanvi-saxena', display_name: 'Tanvi Saxena', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
     { user_id: 'seed-rohan-kulkarni', display_name: 'Rohan Kulkarni', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
     { user_id: 'seed-neha-bisht', display_name: 'Neha Bisht', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-kavya-bhandari', display_name: 'Kavya Bhandari', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-ritesh-bisht', display_name: 'Ritesh Bisht', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-naina-kapoor', display_name: 'Naina Kapoor', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-saurabh-rawat', display_name: 'Saurabh Rawat', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-isha-negi', display_name: 'Isha Negi', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
 ];
 
 function normalizeEntry(user: {
