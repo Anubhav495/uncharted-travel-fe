@@ -1,5 +1,10 @@
 import nodemailer from 'nodemailer';
-import { completedEmailTemplate, cancelledEmailTemplate } from './emailTemplates';
+import {
+    completedEmailTemplate,
+    cancelledEmailTemplate,
+    guideAssignmentEmailTemplate,
+    type GuideAssignmentEmailData,
+} from './emailTemplates';
 
 const GMAIL_USER = process.env.GMAIL_USER;
 const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
@@ -69,5 +74,12 @@ export async function sendBookingCancelledEmail(
 ): Promise<void> {
     const subject = `Your ${trekTitle} booking has been cancelled`;
     const html = cancelledEmailTemplate(userName, trekTitle);
+    await sendEmail({ to, subject, html });
+}
+
+/** Send the route, packing list, and confirmed guide details to a traveller. */
+export async function sendGuideAssignmentEmail(to: string, details: GuideAssignmentEmailData): Promise<void> {
+    const subject = `Meet your guide for ${details.trek.title} | Uncharted Travel`;
+    const html = guideAssignmentEmailTemplate(details);
     await sendEmail({ to, subject, html });
 }

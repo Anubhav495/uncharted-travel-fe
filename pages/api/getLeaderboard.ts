@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getAdminSupabase } from '@/lib/adminSupabase';
+import { getAuthenticatedUser } from '@/lib/apiAuth';
 import { getLevelForXp } from '@/lib/levels';
 
-type LeaderboardEntry = {
+export type LeaderboardEntry = {
     user_id: string;
     display_name: string | null;
     avatar_url: string | null;
@@ -100,7 +101,7 @@ function normalizeEntry(user: {
     };
 }
 
-function mergeLeaderboard(liveEntries: LeaderboardEntry[]) {
+export function buildLeaderboard(liveEntries: LeaderboardEntry[]) {
     const merged = new Map<string, LeaderboardEntry>();
 
     for (const entry of SEEDED_LEADERBOARD) {
@@ -126,8 +127,15 @@ function mergeLeaderboard(liveEntries: LeaderboardEntry[]) {
     }
 
     return Array.from(merged.values())
-        .sort((a, b) => b.xp_points - a.xp_points)
-        .slice(0, 20)
+        .sort((a, b) => {
+            const pointsDifference = b.xp_points - a.xp_points;
+            if (pointsDifference !== 0) return pointsDifference;
+
+            const nameDifference = (a.display_name || '').localeCompare(b.display_name || '');
+            if (nameDifference !== 0) return nameDifference;
+
+            return a.user_id.localeCompare(b.user_id);
+        })
         .map((entry) => ({
             ...entry,
             avatar_url: null,
@@ -140,19 +148,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
+        const currentUser = await getAuthenticatedUser(req, res);
         const { data, error } = await getAdminSupabase()
             .from('user_profiles')
             .select('user_id, display_name, avatar_url, xp_points, level')
-            .order('xp_points', { ascending: false })
-            .limit(50);
+            .order('xp_points', { ascending: false });
 
         if (error) throw error;
 
-        const leaderboard = mergeLeaderboard((data || []).map(normalizeEntry));
+        const fullLeaderboard = buildLeaderboard((data || []).map(normalizeEntry));
+        const currentUserRank = currentUser
+            ? fullLeaderboard.findIndex((entry) => entry.user_id === currentUser.id) + 1
+            : null;
 
-        return res.status(200).json({ leaderboard: assignLeaderboardAvatars(leaderboard) });
+        return res.status(200).json({
+            leaderboard: assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+            currentUserRank: currentUserRank && currentUserRank > 0 ? currentUserRank : null,
+        });
     } catch (error) {
         console.error('Leaderboard fetch error:', error);
-        return res.status(200).json({ leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD) });
+        return res.status(200).json({
+            leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD),
+            currentUserRank: null,
+        });
     }
 }

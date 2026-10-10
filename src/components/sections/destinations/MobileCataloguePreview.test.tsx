@@ -44,7 +44,7 @@ describe('MobileCataloguePreview', () => {
         pages.forEach((page) => expect(page).toHaveClass('min-w-full', 'flex-none', 'snap-always'));
         expect(pages[0].querySelectorAll('a')).toHaveLength(3);
         expect(pages[1].querySelectorAll('a')).toHaveLength(3);
-        expect(pages[2].querySelectorAll('a')).toHaveLength(1);
+        expect(pages[2].querySelectorAll('a')).toHaveLength(2);
         expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });
 
