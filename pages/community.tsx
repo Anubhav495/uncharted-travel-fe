@@ -27,19 +27,21 @@ function RankIcon({ rank }: { rank: number }) {
 export default function Community() {
     const { user } = useAuth();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+    const [currentUserRank, setCurrentUserRank] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch('/api/getLeaderboard')
             .then(r => r.json())
-            .then(data => setLeaderboard(data.leaderboard || []))
+            .then(data => {
+                setLeaderboard(data.leaderboard || []);
+                setCurrentUserRank(typeof data.currentUserRank === 'number' ? data.currentUserRank : null);
+            })
             .catch(console.error)
             .finally(() => setLoading(false));
     }, []);
 
-    const userRank = user
-        ? leaderboard.findIndex(e => e.user_id === user.id) + 1
-        : null;
+    const userRank = user ? currentUserRank : null;
 
     return (
         <>

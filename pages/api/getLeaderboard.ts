@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getAdminSupabase } from '@/lib/adminSupabase';
+import { getAuthenticatedUser } from '@/lib/apiAuth';
 import { getLevelForXp } from '@/lib/levels';
 
-type LeaderboardEntry = {
+export type LeaderboardEntry = {
     user_id: string;
     display_name: string | null;
     avatar_url: string | null;
@@ -82,6 +83,14 @@ const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
     { user_id: 'seed-tanvi-saxena', display_name: 'Tanvi Saxena', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
     { user_id: 'seed-rohan-kulkarni', display_name: 'Rohan Kulkarni', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
     { user_id: 'seed-neha-bisht', display_name: 'Neha Bisht', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-kavya-bhandari', display_name: 'Kavya Bhandari', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-jatin-chauhan', display_name: 'Jatin Chauhan', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-kunal-joshi', display_name: 'Kunal Joshi', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-laxmi-rana', display_name: 'Laxmi Rana', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-ritesh-bisht', display_name: 'Ritesh Bisht', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-naina-kapoor', display_name: 'Naina Kapoor', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-saurabh-rawat', display_name: 'Saurabh Rawat', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
+    { user_id: 'seed-isha-negi', display_name: 'Isha Negi', avatar_url: null, xp_points: 250, level: getLevelForXp(250) },
 ];
 
 function normalizeEntry(user: {
@@ -90,7 +99,7 @@ function normalizeEntry(user: {
     avatar_url: string | null;
     xp_points: number | null;
 }): LeaderboardEntry {
-    const points = user.xp_points && user.xp_points > 0 ? user.xp_points : 250;
+    const points = user.xp_points || 0;
     return {
         user_id: user.user_id,
         display_name: user.display_name,
@@ -100,14 +109,14 @@ function normalizeEntry(user: {
     };
 }
 
-function mergeLeaderboard(liveEntries: LeaderboardEntry[]) {
+export function buildLeaderboard(liveEntries: LeaderboardEntry[]) {
     const merged = new Map<string, LeaderboardEntry>();
 
     for (const entry of SEEDED_LEADERBOARD) {
         merged.set(entry.user_id, entry);
     }
 
-    for (const entry of liveEntries) {
+    for (const entry of liveEntries.filter((entry) => entry.xp_points > 0)) {
         if (entry.display_name === 'Pratyush Gupta') {
             merged.set(entry.user_id, {
                 ...entry,
@@ -126,8 +135,15 @@ function mergeLeaderboard(liveEntries: LeaderboardEntry[]) {
     }
 
     return Array.from(merged.values())
-        .sort((a, b) => b.xp_points - a.xp_points)
-        .slice(0, 20)
+        .sort((a, b) => {
+            const pointsDifference = b.xp_points - a.xp_points;
+            if (pointsDifference !== 0) return pointsDifference;
+
+            const nameDifference = (a.display_name || '').localeCompare(b.display_name || '');
+            if (nameDifference !== 0) return nameDifference;
+
+            return a.user_id.localeCompare(b.user_id);
+        })
         .map((entry) => ({
             ...entry,
             avatar_url: null,
@@ -140,19 +156,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
+        const currentUser = await getAuthenticatedUser(req, res);
         const { data, error } = await getAdminSupabase()
             .from('user_profiles')
             .select('user_id, display_name, avatar_url, xp_points, level')
-            .order('xp_points', { ascending: false })
-            .limit(50);
+            .order('xp_points', { ascending: false });
 
         if (error) throw error;
 
-        const leaderboard = mergeLeaderboard((data || []).map(normalizeEntry));
+        const fullLeaderboard = buildLeaderboard((data || []).map(normalizeEntry));
+        const currentUserRank = currentUser
+            ? fullLeaderboard.findIndex((entry) => entry.user_id === currentUser.id) + 1
+            : null;
 
-        return res.status(200).json({ leaderboard: assignLeaderboardAvatars(leaderboard) });
+        return res.status(200).json({
+            leaderboard: assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+            currentUserRank: currentUserRank && currentUserRank > 0 ? currentUserRank : null,
+        });
     } catch (error) {
         console.error('Leaderboard fetch error:', error);
-        return res.status(200).json({ leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD) });
+        return res.status(200).json({
+            leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD),
+            currentUserRank: null,
+        });
     }
 }
