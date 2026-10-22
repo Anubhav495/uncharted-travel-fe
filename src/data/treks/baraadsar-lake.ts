@@ -95,5 +95,6 @@ export const baraadsarLakeTrek: Trek = {
         '/assets/images/treks/baraadsar-lake/snow-covered-ridges.jpg',
         '/assets/images/treks/baraadsar-lake/rocky-ridge-and-snow.jpg',
         '/assets/images/treks/baraadsar-lake/clouds-over-the-valley.jpg',
+        '/assets/images/treks/baraadsar-lake/snowy-basin-and-frozen-stream.jpg',
     ],
 };

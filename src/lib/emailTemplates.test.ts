@@ -1,7 +1,17 @@
 import { devRoopaTrek } from '@/data/treks/dev-roopa';
-import { completedEmailTemplate, guideAssignmentEmailTemplate } from './emailTemplates';
+import { completedEmailTemplate, guideAssignmentEmailTemplate, reachOutEmailTemplate } from './emailTemplates';
 
 describe('email templates', () => {
+    it('asks an unreachable customer to call back and escapes their name', () => {
+        const html = reachOutEmailTemplate('<b>Mehul</b>');
+
+        expect(html).toContain('Hey &lt;b&gt;Mehul&lt;/b&gt;,');
+        expect(html).not.toContain('<b>Mehul</b>');
+        expect(html).toContain('We tried to reach you regarding your recent enquiry');
+        expect(html).toContain('Please give us a call back at:');
+        expect(html).toContain('+91 83182 17817');
+    });
+
     it('keeps the completed-trek leaderboard call to action on the community page', () => {
         const html = completedEmailTemplate('Mehul', 'Dev Roopa Trek', 250);
 

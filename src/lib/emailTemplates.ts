@@ -164,6 +164,46 @@ function escapeHtml(text: string): string {
         .replace(/"/g, '&quot;');
 }
 
+/** Email template for reaching out when unreachable */
+export function reachOutEmailTemplate(userName: string): string {
+    const content = `
+        <!-- Accent Bar -->
+        <div style="height:4px;background:linear-gradient(90deg,#3b82f6,#2563eb,#1d4ed8);"></div>
+
+        <!-- Content -->
+        <div style="padding:40px 36px;">
+            <!-- Icon -->
+            <div style="text-align:center;margin-bottom:24px;">
+                <span style="font-size:56px;">📞</span>
+            </div>
+
+            <h1 style="color:#ffffff;font-size:26px;font-weight:800;text-align:center;margin:0 0 8px 0;">
+                Hey ${escapeHtml(userName)},
+            </h1>
+
+            <p style="color:#94a3b8;font-size:16px;text-align:center;margin:0 0 28px 0;line-height:1.6;">
+                We tried to reach you regarding your recent enquiry with Uncharted Travel, but couldn't get through.
+            </p>
+
+            <!-- Highlight Box -->
+            <div style="background:linear-gradient(135deg,#1e3a8a,#172554);border:1px solid #1e40af;border-radius:12px;padding:24px;text-align:center;margin-bottom:32px;">
+                <p style="color:#e2e8f0;font-size:16px;font-weight:600;margin:0 0 8px 0;">
+                    Please give us a call back at:
+                </p>
+                <p style="color:#facc15;font-size:24px;font-weight:800;margin:0;line-height:1.6;letter-spacing:1px;">
+                    +91 83182 17817
+                </p>
+            </div>
+
+            <p style="color:#cbd5e1;font-size:15px;text-align:center;margin:0 0 32px 0;line-height:1.7;">
+                We're excited to help you plan your Himalayan adventure. Looking forward to speaking with you!
+            </p>
+        </div>
+    `;
+
+    return baseLayout(content);
+}
+
 export interface GuideAssignmentEmailData {
     userName: string;
     trek: Pick<Trek, 'title' | 'slug' | 'location' | 'duration' | 'itinerary' | 'arrivalInstructions'>;
