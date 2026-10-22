@@ -7,6 +7,8 @@ import { harKiDunTrek } from './har-ki-dun';
 import { rupinPassTrek } from './rupin-pass';
 import { devRoopaTrek } from './dev-roopa';
 import { buniBuniPassTrek } from './buni-buni-pass';
+import { hamptaPassTrek } from './hampta-pass';
+import { baraadsarLakeTrek } from './baraadsar-lake';
 
 export const treks: Trek[] = [
     sarPassTrek,
@@ -16,5 +18,7 @@ export const treks: Trek[] = [
     harKiDunTrek,
     rupinPassTrek,
     devRoopaTrek,
-    buniBuniPassTrek
+    buniBuniPassTrek,
+    hamptaPassTrek,
+    baraadsarLakeTrek,
 ];
