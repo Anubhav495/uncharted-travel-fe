@@ -40,11 +40,11 @@ describe('MobileCataloguePreview', () => {
             'snap-mandatory',
         );
         const pages = screen.getAllByRole('group', { name: /Trek page/ });
-        expect(pages).toHaveLength(3);
+        expect(pages).toHaveLength(Math.ceil(treks.length / 3));
         pages.forEach((page) => expect(page).toHaveClass('min-w-full', 'flex-none', 'snap-always'));
-        expect(pages[0].querySelectorAll('a')).toHaveLength(3);
-        expect(pages[1].querySelectorAll('a')).toHaveLength(3);
-        expect(pages[2].querySelectorAll('a')).toHaveLength(2);
+        pages.forEach((page, index) => {
+            expect(page.querySelectorAll('a')).toHaveLength(Math.min(3, treks.length - index * 3));
+        });
         expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });
 
@@ -55,9 +55,13 @@ describe('MobileCataloguePreview', () => {
             target: { value: 'Hard' },
         });
 
-        expect(screen.getAllByRole('link')).toHaveLength(1);
-        expect(screen.getByText('1 trek')).toBeInTheDocument();
-        expect(screen.getAllByRole('group', { name: /Trek page/ })).toHaveLength(1);
+        const matchingTreks = treks.filter((trek) => trek.difficulty === 'Hard');
+        expect(screen.getAllByRole('link')).toHaveLength(matchingTreks.length);
+        expect(screen.getByText(`${matchingTreks.length} treks`)).toBeInTheDocument();
+        expect(screen.getAllByRole('group', { name: /Trek page/ })).toHaveLength(Math.ceil(matchingTreks.length / 3));
+        matchingTreks.forEach((trek) => {
+            expect(screen.getByRole('link', { name: `View ${trek.title}` })).toBeInTheDocument();
+        });
     });
 
     it('does not match trek locations', () => {
