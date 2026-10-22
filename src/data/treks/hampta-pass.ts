@@ -4,7 +4,8 @@ export const hamptaPassTrek: Trek = {
     id: 'hampta-pass',
     slug: 'hampta-pass',
     title: 'Hampta Pass Trek',
-    providerName: 'Uncharted Travel',
+    guideName: 'Pritam Negi',
+    guideAvatar: '/assets/pritam-photo-edited.png',
     price: '₹9,500',
     duration: '5 Days / 4 Nights',
     difficulty: 'Moderate',
@@ -14,12 +15,23 @@ export const hamptaPassTrek: Trek = {
     trekDistance: '25 km',
     bestTimeToVisit: 'Mid June to October',
     theme: 'Crossover, Valleys, Desert',
-    image: '/assets/images/treks/hampta-pass/cover.jpg',
-    heroImage: '/assets/images/treks/hampta-pass/cover.jpg',
+    image: '/assets/images/treks/hampta-pass/snow-valley.jpg',
+    heroImage: '/assets/images/treks/hampta-pass/snow-valley.jpg',
     imagePosition: 'center',
     badges: ['Crossover', 'Glacier', 'Popular'],
     category: 'Trekking',
-    guides: [],
+    guides: [
+        {
+            id: 'guide-pritam-negi',
+            name: 'Pritam Negi',
+            avatar: '/assets/pritam-photo-edited.png',
+            experience: '8 Years',
+            languages: ['English', 'Hindi', 'Pahadi'],
+            rating: 4.9,
+            reviews: 145,
+            description: 'A highly experienced guide from the Parvati Valley region, Pritam knows the offbeat trails like the back of his hand.'
+        }
+    ],
     companies: [],
     overview: 'The Hampta Pass trek is arguably the most dramatic crossover trek in the Himalayas. It connects the lush green Kullu Valley with the stark, barren landscapes of Lahaul. The sudden shift in scenery from dense pine forests and expansive meadows to a rugged, cold desert is breathtaking.',
     shortDescription: 'A dramatic crossover from the lush Kullu Valley to the barren deserts of Lahaul.',
@@ -71,9 +83,13 @@ export const hamptaPassTrek: Trek = {
         'Any personal expenses or insurance'
     ],
     gallery: [
-        '/assets/images/treks/hampta-pass/gallery-1.jpg',
-        '/assets/images/treks/hampta-pass/gallery-2.jpg',
-        '/assets/images/treks/hampta-pass/gallery-3.jpg',
-        '/assets/images/treks/hampta-pass/gallery-4.jpg'
+        '/assets/images/treks/hampta-pass/cover.jpg',
+        '/assets/images/treks/hampta-pass/misty-valley.jpg',
+        '/assets/images/treks/hampta-pass/trekkers-on-trail.jpg',
+        '/assets/images/treks/hampta-pass/snow-valley.jpg',
+        '/assets/images/treks/hampta-pass/snow-campsite.jpg',
+        '/assets/images/treks/hampta-pass/river-valley.jpg',
+        '/assets/images/treks/hampta-pass/yellow-wildflowers.jpg',
+        '/assets/images/treks/hampta-pass/red-roses.jpg'
     ]
 };

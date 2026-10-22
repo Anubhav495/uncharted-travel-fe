@@ -5,6 +5,7 @@ const POPULAR_TREKS = [
     "Kedarkantha Trek",
     "Roopkund Trek",
     "Hampta Pass Trek",
+    "Baraadsar Lake Trek",
     "Valley of Flowers",
     "Triund Trek",
     "Chadar Trek",

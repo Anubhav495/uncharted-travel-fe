@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd, BreadcrumbJsonLd } from 'next-seo';
-import Image from 'next/image';
+import TrekImage from '@/components/ui/TrekImage';
 import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
@@ -153,16 +153,16 @@ const TrekDetailsPage = () => {
     return (
         <>
             <NextSeo 
-                title={`${trek.title} Trek | Uncharted Travel`}
+                title={trek.title}
                 description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}.`}
                 canonical={`https://unchartedtravel.in/destinations/${trek.slug}`}
                 openGraph={{
-                    images: [
+                    images: trek.image ? [
                         {
                             url: `https://unchartedtravel.in${trek.image}`,
                             alt: trek.title,
                         }
-                    ]
+                    ] : []
                 }}
             />
             <BreadcrumbJsonLd
@@ -173,8 +173,8 @@ const TrekDetailsPage = () => {
                 ]}
             />
             <ProductJsonLd 
-                productName={`${trek.title} Trek`}
-                images={[`https://unchartedtravel.in${trek.image}`]}
+                productName={trek.title}
+                images={trek.image ? [`https://unchartedtravel.in${trek.image}`] : undefined}
                 description={trek.overview}
                 brand="Uncharted Travel"
                 offers={{
@@ -189,7 +189,7 @@ const TrekDetailsPage = () => {
             <main className="bg-slate-900 min-h-screen pb-20">
                 {/* Hero Section */}
                 <section className="relative h-[70vh] min-h-[500px]">
-                    <Image
+                    <TrekImage
                         src={trek.image}
                         alt={trek.title}
                         fill

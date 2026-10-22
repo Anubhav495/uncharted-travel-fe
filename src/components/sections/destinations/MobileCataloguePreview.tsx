@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Image from 'next/image';
+import TrekImage from '@/components/ui/TrekImage';
 import Link from 'next/link';
 import { ArrowRight, Clock, MapPin, Search, TrendingUp } from 'lucide-react';
 import { treks } from '@/data/treks';
@@ -117,7 +117,7 @@ const CompareCatalogue: React.FC = () => {
                                         aria-label={`View ${trek.title}`}
                                     >
                                         <div className="relative min-h-full overflow-hidden">
-                                            <Image
+                                            <TrekImage
                                                 src={trek.image}
                                                 alt=""
                                                 fill
@@ -231,7 +231,7 @@ const ImmerseCatalogue: React.FC = () => {
                         className="group relative min-h-[520px] w-[88vw] max-w-[390px] shrink-0 snap-start overflow-hidden rounded-[28px] border border-white/10 bg-slate-800/50 shadow-2xl shadow-black/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
                         aria-label={`View ${trek.title}`}
                     >
-                        <Image
+                        <TrekImage
                             src={trek.image}
                             alt=""
                             fill
@@ -313,7 +313,7 @@ const ConvertCatalogue: React.FC = () => (
                     aria-label={`View ${trek.title}`}
                 >
                     <div className="relative aspect-[4/3] overflow-hidden">
-                        <Image
+                        <TrekImage
                             src={trek.image}
                             alt=""
                             fill

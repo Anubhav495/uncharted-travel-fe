@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import TrekImage from './TrekImage';
 import { MapPin, Clock, TrendingUp, ArrowRight } from 'lucide-react';
 import { Trek } from '@/types/trek';
 
@@ -14,7 +14,7 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
         <div className={`group relative bg-slate-800/50 rounded-2xl overflow-hidden border border-slate-700/50 hover:border-yellow-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-yellow-400/10 ${isActive ? 'is-active border-yellow-400/50 shadow-2xl shadow-yellow-400/10' : ''}`}>
             {/* Image Container */}
             <div className="relative h-[60vh] md:h-[400px] overflow-hidden">
-                <Image
+                <TrekImage
                     src={trek.image}
                     alt={trek.title}
                     fill
