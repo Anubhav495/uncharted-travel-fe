@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         ${isMenuOpen
             ? 'bg-transparent py-2'
             : scrolled
-                ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
+                ? 'bg-gradient-to-b from-black/50 to-transparent py-2'
                 : 'bg-transparent py-4'
         }
     `;
@@ -102,9 +102,9 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         // Desktop links get the animated underline
         const linkClasses = `
             font-medium transition-colors duration-300 ease-out relative group py-2
-            ${scrolled
-                ? 'text-gray-700' // Dark text for scrolled header
-                : 'text-white [text-shadow:0_1px_2px_rgb(0_0_0_/_0.3)]' // White text for transparent header
+            ${isMenuOpen
+                ? 'text-gray-700'
+                : 'text-white [text-shadow:0_1px_2px_rgb(0_0_0_/_0.3)]' // Header is always transparent, so keep text white
             }
         `;
 
@@ -125,7 +125,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 <Link
                     href="/"
                     className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
-                        isMenuOpen || scrolled
+                        isMenuOpen
                             ? 'text-yellow-600 hover:text-yellow-700' 
                             : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
                     }`}
@@ -194,7 +194,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         {isMenuOpen ? (
                             <HiX className="h-6 w-6 text-gray-700" />
                         ) : (
-                            <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+                            <HiMenu className={`h-6 w-6 transition-colors duration-300 text-white`} />
                         )}
                     </button>
                 )}
