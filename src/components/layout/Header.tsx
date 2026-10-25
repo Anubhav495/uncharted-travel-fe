@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { HiMenu, HiX } from 'react-icons/hi';
+import { HiMenu, HiX, HiChevronRight } from 'react-icons/hi';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
 interface HeaderProps {
     variant?: 'default' | 'minimal';
 }
+
+const mobileLinks = [
+    { href: '/destinations', label: 'Destinations' },
+    { href: '/become-a-guide', label: 'Become a Guide' },
+    { href: '/community', label: 'Community' },
+    { href: '/about', label: 'About Us' },
+    { href: '#contact', label: 'Contact' },
+];
 
 const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const { user, loginWithGoogle, signOut } = useAuth();
@@ -35,8 +44,13 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
             }
         };
 
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setIsMenuOpen(false);
+        };
+
         if (isMenuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('keydown', handleEscape);
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
@@ -44,6 +58,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscape);
             document.body.style.overflow = 'unset';
         };
     }, [isMenuOpen]);
@@ -175,90 +190,93 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         </header>
 
             {/* Mobile Menu Overlay: kept outside <header> because its backdrop-filter would otherwise clip this fixed element to the header's height */}
-            {isMenuOpen && variant === 'default' && (
-                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden">
-                    <div className="pt-20 pb-8">
-                        <nav className="container mx-auto px-4">
-                            <div className="space-y-1">
-                                <NavLink
-                                    href="/destinations"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Destinations
-                                </NavLink>
-                                <NavLink
-                                    href="/become-a-guide"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Become a Guide
-                                </NavLink>
-                                <NavLink
-                                    href="/community"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Community
-                                </NavLink>
+            <AnimatePresence>
+                {isMenuOpen && variant === 'default' && (
+                    <motion.div
+                        key="mobile-menu"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="mobile-menu fixed inset-0 z-40 lg:hidden bg-white/85 backdrop-blur-xl overflow-y-auto"
+                    >
+                        <nav className="container mx-auto px-6 pt-28 pb-10 min-h-full flex flex-col">
+                            <ul className="space-y-1">
+                                {mobileLinks.map((link, i) => (
+                                    <motion.li
+                                        key={link.href}
+                                        initial={{ opacity: 0, y: 12 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.05 + i * 0.05, duration: 0.25 }}
+                                    >
+                                        <Link
+                                            href={link.href}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="flex items-center justify-between py-4 border-b border-gray-900/10 text-2xl font-semibold text-gray-800 hover:text-yellow-600 transition-colors"
+                                        >
+                                            {link.label}
+                                            <HiChevronRight className="h-5 w-5 text-gray-400" />
+                                        </Link>
+                                    </motion.li>
+                                ))}
+                            </ul>
 
-                                <div className="border-t border-gray-200 my-4"></div>
-
+                            <motion.div
+                                className="mt-auto pt-10"
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.05 + mobileLinks.length * 0.05, duration: 0.25 }}
+                            >
                                 {user ? (
-                                    <>
-                                        <div className="px-4 py-2">
-                                            <div className="flex items-center space-x-3 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
-                                                    {user.email?.charAt(0).toUpperCase()}
-                                                </div>
-                                                <div className="text-sm font-medium text-gray-900">{user.email}</div>
+                                    <div className="rounded-2xl bg-white/70 border border-gray-900/10 p-4 shadow-sm">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold overflow-hidden">
+                                                {user.user_metadata?.avatar_url ? (
+                                                    <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    user.email?.charAt(0).toUpperCase()
+                                                )}
                                             </div>
-                                            <NavLink href="/dashboard" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-semibold text-gray-900 truncate">{user.user_metadata?.full_name || 'Welcome back'}</p>
+                                                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <Link
+                                                href="/dashboard"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="text-center py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+                                            >
                                                 Dashboard
-                                            </NavLink>
+                                            </Link>
                                             <button
                                                 onClick={() => {
                                                     signOut();
                                                     setIsMenuOpen(false);
                                                 }}
-                                                className="block w-full text-left py-3 px-4 text-red-600 hover:bg-red-50 rounded-md font-medium"
+                                                className="py-3 rounded-xl border border-red-200 text-red-600 font-medium hover:bg-red-50 transition-colors"
                                             >
                                                 Log out
                                             </button>
                                         </div>
-                                    </>
+                                    </div>
                                 ) : (
                                     <button
                                         onClick={() => {
                                             loginWithGoogle();
                                             setIsMenuOpen(false);
                                         }}
-                                        className="block w-full text-left py-3 px-4 text-blue-600 hover:bg-blue-50 rounded-md font-medium"
+                                        className="w-full py-4 rounded-full bg-blue-600 text-white text-lg font-medium shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-colors"
                                     >
                                         Login
                                     </button>
                                 )}
-
-                                <div className="border-t border-gray-200 my-4"></div>
-                                <NavLink
-                                    href="/about"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    About Us
-                                </NavLink>
-                                <NavLink
-                                    href="#contact"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Contact
-                                </NavLink>
-                            </div>
+                            </motion.div>
                         </nav>
-                    </div>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };
