@@ -91,6 +91,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     };
 
     return (
+        <>
         <header className={headerClasses}>
             <div className="container mx-auto px-4 flex justify-between items-center h-10">
                 {/* Brand Logo/Name */}
@@ -171,8 +172,9 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                     </button>
                 )}
             </div>
+        </header>
 
-            {/* Mobile Menu Overlay */}
+            {/* Mobile Menu Overlay: kept outside <header> because its backdrop-filter would otherwise clip this fixed element to the header's height */}
             {isMenuOpen && variant === 'default' && (
                 <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden">
                     <div className="pt-20 pb-8">
@@ -257,7 +259,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                     </div>
                 </div>
             )}
-        </header>
+        </>
     );
 };
 
