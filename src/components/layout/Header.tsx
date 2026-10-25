@@ -48,26 +48,38 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
             if (event.key === 'Escape') setIsMenuOpen(false);
         };
 
+        let scrollY = 0;
         if (isMenuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
             document.addEventListener('keydown', handleEscape);
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
+            // Lock page scroll. `overflow: hidden` alone doesn't stop iOS Safari from scrolling the page behind.
+            scrollY = window.scrollY;
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('keydown', handleEscape);
-            document.body.style.overflow = 'unset';
+            if (isMenuOpen) {
+                document.documentElement.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior });
+            }
         };
     }, [isMenuOpen]);
 
     const headerClasses = `
         fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out
-        ${scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
-            : 'bg-transparent py-4'
+        ${isMenuOpen
+            ? 'bg-transparent py-2'
+            : scrolled
+                ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
+                : 'bg-transparent py-4'
         }
     `;
 
@@ -113,8 +125,8 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                 <Link
                     href="/"
                     className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
-                        scrolled 
-                            ? 'text-yellow-500 hover:text-yellow-600' 
+                        isMenuOpen || scrolled
+                            ? 'text-yellow-600 hover:text-yellow-700' 
                             : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
                     }`}
                 >
@@ -198,7 +210,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="mobile-menu fixed inset-0 z-40 lg:hidden bg-white/85 backdrop-blur-xl overflow-y-auto"
+                        className="mobile-menu fixed inset-0 z-40 lg:hidden bg-white/70 backdrop-blur-2xl overflow-y-auto overscroll-contain"
                     >
                         <nav className="container mx-auto px-6 pt-28 pb-10 min-h-full flex flex-col">
                             <ul className="space-y-1">
