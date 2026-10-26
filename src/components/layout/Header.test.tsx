@@ -35,13 +35,13 @@ describe('Header mobile menu', () => {
         });
     });
 
-    it('keeps the white menu outside the blurred header when opened after scrolling', () => {
+    it('keeps the white menu outside the solid header when opened after scrolling', () => {
         render(<Header />);
         Object.defineProperty(window, 'scrollY', { configurable: true, value: 500 });
         fireEvent.scroll(window);
 
         const header = screen.getByRole('banner');
-        expect(header).toHaveClass('bg-white/95', 'backdrop-blur-md');
+        expect(header).toHaveClass('bg-white');
 
         const menu = openMenu();
         expect(header).not.toContainElement(menu);

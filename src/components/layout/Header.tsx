@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const headerClasses = `
         fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out
         ${scrolled
-            ? `bg-white/95 backdrop-blur-md ${isMenuOpen ? '' : 'shadow-lg'} py-2`
+            ? `bg-white ${isMenuOpen ? '' : 'shadow-lg'} py-2`
             : 'bg-transparent py-4'
         }
     `;
