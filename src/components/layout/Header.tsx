@@ -116,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
                             scrolled
                                 ? 'text-yellow-500 hover:text-yellow-600'
-                                : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
+                                : 'text-yellow-400 hover:text-yellow-300'
                         }`}
                     >
                         UnchartedTravel
