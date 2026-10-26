@@ -35,23 +35,39 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
             }
         };
 
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setIsMenuOpen(false);
+        };
+
+        let scrollY = 0;
         if (isMenuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
+            document.addEventListener('keydown', handleEscape);
+            // Lock page scroll. `overflow: hidden` alone doesn't stop iOS Safari from scrolling the page behind.
+            scrollY = window.scrollY;
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = 'unset';
+            document.removeEventListener('keydown', handleEscape);
+            if (isMenuOpen) {
+                document.documentElement.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior });
+            }
         };
     }, [isMenuOpen]);
 
     const headerClasses = `
         fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out
         ${scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
+            ? `bg-white ${isMenuOpen ? '' : 'shadow-lg'} py-2`
             : 'bg-transparent py-4'
         }
     `;
@@ -91,90 +107,92 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     };
 
     return (
-        <header className={headerClasses}>
-            <div className="container mx-auto px-4 flex justify-between items-center h-10">
-                {/* Brand Logo/Name */}
-                <Link
-                    href="/"
-                    className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
-                        scrolled 
-                            ? 'text-yellow-500 hover:text-yellow-600' 
-                            : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
-                    }`}
-                >
-                    UnchartedTravel
-                </Link>
-
-                {/* Desktop Navigation */}
-                {variant === 'default' && (
-                    <nav className="hidden lg:flex items-center space-x-8">
-                        <NavLink href="/about">About Us</NavLink>
-                        <NavLink href="/destinations">Destinations</NavLink>
-                        <NavLink href="/become-a-guide">Become a Guide</NavLink>
-                        <NavLink href="/community">Community</NavLink>
-
-                        {user ? (
-                            <div className="relative ml-4 group">
-                                <button className="flex items-center space-x-2 focus:outline-none">
-                                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white overflow-hidden border-2 border-white shadow-md">
-                                        {user.user_metadata.avatar_url ? (
-                                            <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
-                                        ) : (
-                                            <span className="text-sm font-bold">{user.email?.charAt(0).toUpperCase()}</span>
-                                        )}
-                                    </div>
-                                </button>
-
-                                {/* Dropdown Menu */}
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right">
-                                    <div className="px-4 py-2 border-b border-gray-100">
-                                        <p className="text-sm text-gray-900 font-medium truncate">{user.user_metadata.full_name || 'User'}</p>
-                                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                                    </div>
-                                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Dashboard
-                                    </Link>
-                                    <button
-                                        onClick={() => signOut()}
-                                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                                    >
-                                        Log out
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <button
-                                onClick={() => loginWithGoogle()}
-                                className="ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700 border border-transparent"
-                            >
-                                Login
-                            </button>
-                        )}
-                    </nav>
-                )}
-
-                {/* Mobile Menu Button */}
-                {variant === 'default' && (
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsMenuOpen(!isMenuOpen);
-                        }}
-                        className={`menu-button lg:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
-                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        <>
+            <header className={headerClasses}>
+                <div className="container mx-auto px-4 flex justify-between items-center h-10">
+                    {/* Brand Logo/Name */}
+                    <Link
+                        href="/"
+                        className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
+                            scrolled
+                                ? 'text-yellow-500 hover:text-yellow-600'
+                                : 'text-yellow-400 hover:text-yellow-300'
+                        }`}
                     >
-                        {isMenuOpen ? (
-                            <HiX className="h-6 w-6 text-gray-700" />
-                        ) : (
-                            <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
-                        )}
-                    </button>
-                )}
-            </div>
+                        UnchartedTravel
+                    </Link>
 
-            {/* Mobile Menu Overlay */}
+                    {/* Desktop Navigation */}
+                    {variant === 'default' && (
+                        <nav className="hidden lg:flex items-center space-x-8">
+                            <NavLink href="/about">About Us</NavLink>
+                            <NavLink href="/destinations">Destinations</NavLink>
+                            <NavLink href="/become-a-guide">Become a Guide</NavLink>
+                            <NavLink href="/community">Community</NavLink>
+
+                            {user ? (
+                                <div className="relative ml-4 group">
+                                    <button className="flex items-center space-x-2 focus:outline-none">
+                                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white overflow-hidden border-2 border-white shadow-md">
+                                            {user.user_metadata.avatar_url ? (
+                                                <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <span className="text-sm font-bold">{user.email?.charAt(0).toUpperCase()}</span>
+                                            )}
+                                        </div>
+                                    </button>
+
+                                    {/* Dropdown Menu */}
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right">
+                                        <div className="px-4 py-2 border-b border-gray-100">
+                                            <p className="text-sm text-gray-900 font-medium truncate">{user.user_metadata.full_name || 'User'}</p>
+                                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                        </div>
+                                        <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            Dashboard
+                                        </Link>
+                                        <button
+                                            onClick={() => signOut()}
+                                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                        >
+                                            Log out
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => loginWithGoogle()}
+                                    className="ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700 border border-transparent"
+                                >
+                                    Login
+                                </button>
+                            )}
+                        </nav>
+                    )}
+
+                    {/* Mobile Menu Button */}
+                    {variant === 'default' && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsMenuOpen(!isMenuOpen);
+                            }}
+                            className={`menu-button lg:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
+                            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                        >
+                            {isMenuOpen ? (
+                                <HiX className="h-6 w-6 text-gray-700" />
+                            ) : (
+                                <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+                            )}
+                        </button>
+                    )}
+                </div>
+            </header>
+
+            {/* Keep the fixed overlay outside the header so backdrop blur cannot clip it. */}
             {isMenuOpen && variant === 'default' && (
-                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden">
+                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden overflow-y-auto overscroll-contain">
                     <div className="pt-20 pb-8">
                         <nav className="container mx-auto px-4">
                             <div className="space-y-1">
@@ -201,6 +219,21 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                 </NavLink>
 
                                 <div className="border-t border-gray-200 my-4"></div>
+
+                                <NavLink
+                                    href="/about"
+                                    isMobile={true}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    About Us
+                                </NavLink>
+                                <NavLink
+                                    href="#contact"
+                                    isMobile={true}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Contact
+                                </NavLink>
 
                                 {user ? (
                                     <>
@@ -231,33 +264,18 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                             loginWithGoogle();
                                             setIsMenuOpen(false);
                                         }}
-                                        className="block w-full text-left py-3 px-4 text-blue-600 hover:bg-blue-50 rounded-md font-medium"
+                                        className="block w-full py-3 px-6 bg-blue-600 text-white hover:bg-blue-700 rounded-full font-medium shadow-md shadow-blue-500/25 transition-colors duration-200"
                                     >
                                         Login
                                     </button>
                                 )}
 
-                                <div className="border-t border-gray-200 my-4"></div>
-                                <NavLink
-                                    href="/about"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    About Us
-                                </NavLink>
-                                <NavLink
-                                    href="#contact"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Contact
-                                </NavLink>
                             </div>
                         </nav>
                     </div>
                 </div>
             )}
-        </header>
+        </>
     );
 };
 
