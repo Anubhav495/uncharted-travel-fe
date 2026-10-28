@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ArrowRight, ChevronDown, Compass } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 
 interface HeroSectionProps { }
 
@@ -34,31 +33,11 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             className="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
             id="hero"
         >
-            {/* Cinematic Video & Poster Background */}
-            <div className="absolute inset-0 w-full h-full z-0 select-none pointer-events-none">
-                <div className="block md:hidden relative w-full h-full">
-                    <Image
-                        src="/assets/spiti-poster-mobile.png"
-                        alt="Spiti Valley High Altitude"
-                        fill
-                        className="object-cover opacity-60"
-                        priority={true}
-                    />
-                </div>
-                <div className="hidden md:block relative w-full h-full">
-                    <Image
-                        src="/assets/spiti-poster-desktop.png"
-                        alt="Spiti Valley High Altitude"
-                        fill
-                        className="object-cover opacity-60"
-                        priority={true}
-                    />
-                </div>
-            </div>
-
+            {/* Clean Background Video with standard HTML5 poster to prevent photo overlap ghosting */}
             <video
                 ref={videoRef}
-                className="absolute inset-0 w-full h-full object-cover z-0 opacity-55"
+                poster="/assets/spiti-poster-desktop.png"
+                className="absolute inset-0 w-full h-full object-cover z-0 select-none pointer-events-none"
                 autoPlay
                 loop
                 muted
@@ -69,9 +48,9 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
                 <source src="/assets/spiti.mp4" type="video/mp4" />
             </video>
 
-            {/* Atlas-Style Edge Gradient Fades & Vignettes */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black z-10 pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/30 to-black/90 z-10 pointer-events-none" />
+            {/* Cinematic Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/35 to-black z-10 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/25 to-black/85 z-10 pointer-events-none" />
 
             {/* Ambient Vector Topo Grid Lines (Atlas Style) */}
             <div className="absolute inset-0 pointer-events-none z-10 opacity-20">
@@ -79,23 +58,15 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             </div>
 
             {/* Hero Main Content */}
-            <div className="relative z-20 container mx-auto px-6 md:px-12 text-center pt-24 pb-16 max-w-5xl">
-                {/* Geographic Ingestion Tag / Pill */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 border border-white/15 bg-white/[0.03] backdrop-blur-md mb-8 animate-fade-rise">
-                    <Compass className="w-3.5 h-3.5 text-white/70" />
-                    <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-white/75">
-                        32.2461° N, 78.0349° E &middot; High Himalayas
-                    </span>
-                </div>
-
+            <div className="relative z-20 container mx-auto px-6 md:px-12 text-center pt-28 pb-16 max-w-4xl">
                 {/* Editorial Display Heading (Instrument Serif) */}
                 <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-[1.05] mb-6 drop-shadow-sm animate-fade-rise">
                     Go beyond <span className="italic text-white/90">the guidebook.</span>
                 </h1>
 
-                {/* Editorial Subtext */}
-                <p className="font-sans text-sm sm:text-base md:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed mb-10 font-normal animate-fade-rise-delay">
-                    High-altitude Himalayan expeditions and offbeat trails guided by native mountain masters. Direct connections, verified safety, zero mass tourism.
+                {/* Exact Requested Subtext with Atlas Typography */}
+                <p className="font-sans text-base sm:text-lg md:text-xl text-white/75 max-w-2xl mx-auto leading-relaxed mb-10 font-normal animate-fade-rise-delay">
+                    Discover authentic experiences led by passionate local experts. UnchartedTravel connects you with vetted guides for truly personal tours.
                 </p>
 
                 {/* Atlas-Style Action Buttons */}
@@ -113,22 +84,6 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
                     >
                         Become a Guide
                     </Link>
-                </div>
-
-                {/* Sub-hero Editorial Chapter Markers */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-16 pt-8 border-t border-white/[0.08] max-w-3xl mx-auto text-left">
-                    <div className="border-l border-white/15 pl-4 py-1">
-                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/40">Chapter 01</div>
-                        <div className="text-xs uppercase tracking-wider text-white/80 font-medium mt-1">14,000+ FT Alpine Archive</div>
-                    </div>
-                    <div className="border-l border-white/15 pl-4 py-1">
-                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/40">Chapter 02</div>
-                        <div className="text-xs uppercase tracking-wider text-white/80 font-medium mt-1">Vetted Native Masters</div>
-                    </div>
-                    <div className="border-l border-white/15 pl-4 py-1">
-                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/40">Chapter 03</div>
-                        <div className="text-xs uppercase tracking-wider text-white/80 font-medium mt-1">Zero Commercial Noise</div>
-                    </div>
                 </div>
             </div>
 
