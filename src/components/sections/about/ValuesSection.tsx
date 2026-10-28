@@ -26,21 +26,21 @@ const values = [
 
 const ValuesSection: React.FC = () => {
     return (
-        <section className="py-24 md:py-32 bg-black text-white">
+        <section className="py-24 md:py-32 bg-slate-900 text-white">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="max-w-6xl mx-auto">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
                         <div>
                             <div className="flex items-center space-x-3 mb-3">
-                                <span className="text-xs uppercase tracking-wider text-white/50 font-sans font-medium">
+                                <span className="text-xs uppercase tracking-widest text-yellow-400 font-sans font-semibold">
                                     Our Values
                                 </span>
                             </div>
                             <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-                                Guiding <span className="italic text-white/90">Principles</span>
+                                Guiding <span className="italic text-yellow-400">Principles</span>
                             </h2>
                         </div>
-                        <p className="text-sm text-white/60 max-w-sm font-sans leading-relaxed">
+                        <p className="text-sm text-slate-400 max-w-sm font-sans leading-relaxed">
                             These core values shape every experience we curate and every connection we facilitate.
                         </p>
                     </div>
@@ -51,17 +51,17 @@ const ValuesSection: React.FC = () => {
                             return (
                                 <div
                                     key={val.title}
-                                    className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/25 hover:bg-white/[0.04] transition duration-200"
+                                    className="border border-slate-700/80 bg-slate-800/60 p-8 flex flex-col justify-between hover:border-yellow-400/40 hover:bg-slate-800/90 transition duration-200 shadow-lg"
                                 >
                                     <div>
-                                        <div className="h-9 w-9 border border-white/15 bg-white/[0.03] flex items-center justify-center text-white mb-6">
-                                            <Icon className="w-4 h-4 text-white/80" />
+                                        <div className="h-9 w-9 border border-slate-700 bg-slate-900/80 flex items-center justify-center text-yellow-400 mb-6">
+                                            <Icon className="w-4 h-4 text-yellow-400" />
                                         </div>
 
                                         <h3 className="font-display text-2xl font-normal text-white mb-3">
                                             {val.title}
                                         </h3>
-                                        <p className="text-sm text-white/55 leading-relaxed font-sans">
+                                        <p className="text-sm text-slate-300 leading-relaxed font-sans">
                                             {val.description}
                                         </p>
                                     </div>

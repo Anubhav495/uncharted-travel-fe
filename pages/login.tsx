@@ -18,12 +18,14 @@ export default function LoginPage() {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const returnUrl = (router.query.returnUrl as string) || (router.query.redirect as string) || (router.query.callbackUrl as string) || '/dashboard';
+
     // Redirect if already logged in
     useEffect(() => {
-        if (user) {
-            router.push('/dashboard');
+        if (user && router.isReady) {
+            router.push(returnUrl);
         }
-    }, [user, router]);
+    }, [user, router.isReady, returnUrl, router]);
 
     const handleGoogleLogin = async () => {
         setError(null);
@@ -31,7 +33,7 @@ export default function LoginPage() {
 
         try {
             showToast('Signing in with Google...', 'info');
-            await loginWithGoogle('/dashboard');
+            await loginWithGoogle(returnUrl);
         } catch (err: any) {
             setError(err?.message || 'Google authentication failed. Please try again.');
         } finally {
@@ -47,7 +49,7 @@ export default function LoginPage() {
                 canonical="https://unchartedtravel.in/login"
             />
 
-            <div className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden">
+            <div className="min-h-screen bg-slate-900 text-white flex flex-col relative overflow-hidden">
                 {/* Gliding Cinematic Satellite Background Map (Atlas Style, SSR-safe) */}
                 <LoginBackgroundMap />
 
@@ -56,7 +58,7 @@ export default function LoginPage() {
                     <button
                         type="button"
                         onClick={() => router.push('/')}
-                        className="flex items-center gap-2 text-xs font-sans uppercase tracking-wider text-white/60 hover:text-white transition-colors duration-150 cursor-pointer font-medium"
+                        className="flex items-center gap-2 text-xs font-sans uppercase tracking-wider text-slate-400 hover:text-yellow-400 transition-colors duration-150 cursor-pointer font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to UnchartedTravel
                     </button>
@@ -64,17 +66,17 @@ export default function LoginPage() {
 
                 {/* Main Card */}
                 <div className="flex-1 flex items-center justify-center px-6 pb-20 relative z-10">
-                    <div className="w-full max-w-md border border-white/15 bg-neutral-950/85 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
+                    <div className="w-full max-w-md border border-slate-700/80 bg-slate-900/90 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
                         <div className="mb-2">
                             <span className="font-display text-3xl sm:text-4xl text-white tracking-tight">
-                                UnchartedTravel
+                                Uncharted<span className="text-yellow-400">Travel</span>
                             </span>
                         </div>
 
                         <h1 className="text-xl sm:text-2xl font-normal font-display text-white mt-4">
                             Explorer Sign In
                         </h1>
-                        <p className="text-xs text-white/50 mt-1.5 leading-relaxed font-sans">
+                        <p className="text-xs text-slate-400 mt-1.5 leading-relaxed font-sans">
                             Sign in to access your booked treks, native guide chats, and personal itineraries across the Himalayas.
                         </p>
 
@@ -84,10 +86,10 @@ export default function LoginPage() {
                                 type="button"
                                 disabled={busy}
                                 onClick={handleGoogleLogin}
-                                className="w-full bg-white hover:bg-neutral-100 text-black py-3.5 px-6 font-sans text-xs uppercase tracking-widest font-medium flex items-center justify-center gap-3 transition-all duration-150 cursor-pointer shadow-xl disabled:opacity-50 active:scale-95"
+                                className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-950 py-3.5 px-6 font-sans text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-3 transition-all duration-150 cursor-pointer shadow-lg shadow-yellow-400/10 disabled:opacity-50 active:scale-95"
                             >
                                 {busy ? (
-                                    <Loader2 className="w-4 h-4 animate-spin text-black" />
+                                    <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
                                 ) : (
                                     <svg className="w-4 h-4" viewBox="0 0 24 24">
                                         <path
@@ -118,8 +120,8 @@ export default function LoginPage() {
                             </p>
                         )}
 
-                        <div className="mt-8 pt-6 border-t border-white/10 text-center">
-                            <p className="text-[11px] text-white/40 leading-relaxed font-sans">
+                        <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+                            <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
                                 100% verified native guide network. Your booking requests, notes, and itineraries are private and secure.
                             </p>
                         </div>

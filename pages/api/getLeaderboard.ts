@@ -110,31 +110,9 @@ function normalizeEntry(user: {
 }
 
 export function buildLeaderboard(liveEntries: LeaderboardEntry[]) {
-    const merged = new Map<string, LeaderboardEntry>();
+    const validLive = (liveEntries || []).filter((entry) => entry && entry.xp_points > 0);
 
-    for (const entry of SEEDED_LEADERBOARD) {
-        merged.set(entry.user_id, entry);
-    }
-
-    for (const entry of liveEntries.filter((entry) => entry.xp_points > 0)) {
-        if (entry.display_name === 'Pratyush Gupta') {
-            merged.set(entry.user_id, {
-                ...entry,
-                xp_points: 250,
-                level: getLevelForXp(250),
-            });
-            continue;
-        }
-
-        merged.set(entry.user_id, entry);
-    }
-
-    const hasPratyush = Array.from(merged.values()).some((entry) => entry.display_name === 'Pratyush Gupta');
-    if (!hasPratyush) {
-        merged.set('seed-pratyush-gupta', SEEDED_LEADERBOARD.find((entry) => entry.display_name === 'Pratyush Gupta')!);
-    }
-
-    return Array.from(merged.values())
+    return validLive
         .sort((a, b) => {
             const pointsDifference = b.xp_points - a.xp_points;
             if (pointsDifference !== 0) return pointsDifference;
@@ -176,7 +154,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (error) {
         console.error('Leaderboard fetch error:', error);
         return res.status(200).json({
-            leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD),
+            leaderboard: [],
             currentUserRank: null,
         });
     }

@@ -134,21 +134,21 @@ const GuideStoriesSection: React.FC = () => {
 
     return (
         <section
-            className="border-t border-white/[0.08] px-4 sm:px-8 md:px-12 lg:px-20 py-12 sm:py-20 md:py-28 bg-black relative text-white overflow-hidden"
+            className="border-t border-slate-800 px-4 sm:px-8 md:px-12 lg:px-20 py-12 sm:py-20 md:py-28 bg-slate-900 relative text-white overflow-hidden"
             id="stories"
         >
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 sm:mb-12">
                     <div>
-                        <div className="inline-block border border-white/15 px-2.5 py-0.5 bg-white/[0.03] text-[11px] font-sans uppercase tracking-wider text-white/70 mb-2 sm:mb-3">
+                        <div className="inline-block border border-slate-700 px-2.5 py-0.5 bg-slate-800 text-[11px] font-sans uppercase tracking-wider text-yellow-400 font-semibold mb-2 sm:mb-3">
                             Real Local Experts
                         </div>
                         <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-white leading-tight">
-                            Stories From Our Founding <span className="italic text-white/90">Guides</span>
+                            Stories From Our Founding <span className="italic text-yellow-400">Guides</span>
                         </h2>
                     </div>
-                    <p className="text-xs sm:text-sm text-white/60 max-w-sm font-sans leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-sm font-sans leading-relaxed">
                         They don't just guide treks — they grew up on these trails. Born in the mountains, built for adventure.
                     </p>
                 </div>
@@ -158,7 +158,7 @@ const GuideStoriesSection: React.FC = () => {
                     {/* Laptop Left Floating Arrow */}
                     <button
                         onClick={goToPrevious}
-                        className="hidden lg:flex absolute -left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 items-center justify-center bg-neutral-900/90 hover:bg-white text-white hover:text-black border border-white/20 hover:border-white shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group/btn"
+                        className="hidden lg:flex absolute -left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 items-center justify-center bg-slate-800/90 hover:bg-yellow-400 text-white hover:text-slate-950 border border-slate-700 hover:border-yellow-400 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group/btn rounded-none"
                         aria-label="Previous Guide"
                         title="Previous Guide"
                     >
@@ -168,16 +168,16 @@ const GuideStoriesSection: React.FC = () => {
                     {/* Laptop Right Floating Arrow */}
                     <button
                         onClick={goToNext}
-                        className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 items-center justify-center bg-neutral-900/90 hover:bg-white text-white hover:text-black border border-white/20 hover:border-white shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group/btn"
+                        className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 items-center justify-center bg-slate-800/90 hover:bg-yellow-400 text-white hover:text-slate-950 border border-slate-700 hover:border-yellow-400 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group/btn rounded-none"
                         aria-label="Next Guide"
                         title="Next Guide"
                     >
                         <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-0.5 transition-transform" />
                     </button>
 
-                    {/* Main Interactive Card — Compact height on mobile so entire card is visible at one go */}
+                    {/* Main Interactive Card */}
                     <div
-                        className="border border-white/15 bg-neutral-950/85 backdrop-blur-md shadow-2xl relative select-none touch-pan-y overflow-hidden"
+                        className="border border-slate-700 bg-slate-800/80 backdrop-blur-md shadow-2xl relative select-none touch-pan-y overflow-hidden rounded-none"
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
@@ -193,8 +193,8 @@ const GuideStoriesSection: React.FC = () => {
                                     : 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease',
                             }}
                         >
-                            {/* Guide Image — Increased height on mobile so their photo is clearly visible */}
-                            <div className="md:col-span-5 relative h-64 sm:h-72 md:h-auto md:min-h-full border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                            {/* Guide Image */}
+                            <div className="md:col-span-5 relative h-64 sm:h-72 md:h-auto md:min-h-full border-b md:border-b-0 md:border-r border-slate-700 overflow-hidden">
                                 <img
                                     src={currentGuide.imageUrl}
                                     alt={currentGuide.name}
@@ -208,9 +208,8 @@ const GuideStoriesSection: React.FC = () => {
                                                 : '50% 20%',
                                     }}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:hidden" />
                                 <div className="absolute bottom-2.5 left-3 md:hidden">
-                                    <span className="text-[10px] uppercase font-sans tracking-widest text-white/80 bg-black/65 px-2.5 py-1 backdrop-blur-sm border border-white/15">
+                                    <span className="text-[10px] uppercase font-sans tracking-widest text-yellow-400 bg-slate-900/90 px-2.5 py-1 backdrop-blur-sm border border-slate-700 rounded-none font-semibold">
                                         {currentGuide.location.split('(')[0]}
                                     </span>
                                 </div>
@@ -219,8 +218,8 @@ const GuideStoriesSection: React.FC = () => {
                             {/* Guide Info */}
                             <div className="md:col-span-7 p-4 sm:p-6 md:p-10 flex flex-col justify-between">
                                 <div>
-                                    <div className="hidden md:flex items-center gap-2 text-white/60 text-xs font-sans mb-3">
-                                        <MapPin className="w-3.5 h-3.5 text-white/40" />
+                                    <div className="hidden md:flex items-center gap-2 text-slate-300 text-xs font-sans mb-3">
+                                        <MapPin className="w-3.5 h-3.5 text-yellow-400" />
                                         <span>{currentGuide.location}</span>
                                     </div>
 
@@ -228,13 +227,13 @@ const GuideStoriesSection: React.FC = () => {
                                         <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-normal text-white">
                                             {currentGuide.name}
                                         </h3>
-                                        <span className="text-[10px] font-sans text-white/40 uppercase tracking-widest md:hidden">
+                                        <span className="text-[10px] font-sans text-yellow-400 uppercase tracking-widest md:hidden font-semibold">
                                             0{currentIndex + 1}/0{foundingGuides.length}
                                         </span>
                                     </div>
 
-                                    <div className="border-l border-white/20 pl-3.5 sm:pl-5 py-1 my-2 sm:my-4">
-                                        <p className="font-display text-base sm:text-lg md:text-xl italic text-white/85 leading-snug">
+                                    <div className="border-l-2 border-yellow-400 pl-3.5 sm:pl-5 py-1 my-2 sm:my-4">
+                                        <p className="font-display text-base sm:text-lg md:text-xl italic text-slate-100 leading-snug">
                                             "{currentGuide.quote}"
                                         </p>
                                     </div>
@@ -243,7 +242,7 @@ const GuideStoriesSection: React.FC = () => {
                                         {currentGuide.tags.map((tag) => (
                                             <span
                                                 key={tag}
-                                                className="text-[10px] sm:text-xs px-2.5 py-0.5 border border-white/10 text-white/60 bg-white/[0.02] font-sans"
+                                                className="text-[10px] sm:text-xs px-2.5 py-0.5 border border-slate-700 text-slate-300 bg-slate-900/50 font-sans rounded-none"
                                             >
                                                 {tag}
                                             </span>
@@ -252,7 +251,7 @@ const GuideStoriesSection: React.FC = () => {
                                 </div>
 
                                 {/* Bottom Carousel Controls with filling progress bars */}
-                                <div className="pt-3.5 sm:pt-6 mt-3 sm:mt-6 border-t border-white/[0.08] flex items-center justify-between gap-3">
+                                <div className="pt-3.5 sm:pt-6 mt-3 sm:mt-6 border-t border-slate-700/80 flex items-center justify-between gap-3">
                                     {/* Progress bars + Click to Pause */}
                                     <div className="flex items-center gap-2">
                                         {foundingGuides.map((guide, idx) => (
@@ -260,7 +259,7 @@ const GuideStoriesSection: React.FC = () => {
                                                 key={idx}
                                                 type="button"
                                                 onClick={() => switchSlide(idx)}
-                                                className="group/track relative h-1.5 rounded-none bg-white/15 cursor-pointer overflow-hidden transition-all"
+                                                className="group/track relative h-1.5 rounded-none bg-slate-700 cursor-pointer overflow-hidden transition-all"
                                                 style={{
                                                     width: currentIndex === idx ? '40px' : '18px',
                                                 }}
@@ -268,7 +267,7 @@ const GuideStoriesSection: React.FC = () => {
                                                 title={`Switch to ${guide.name}`}
                                             >
                                                 <div
-                                                    className="absolute top-0 left-0 h-full bg-white transition-all"
+                                                    className="absolute top-0 left-0 h-full bg-yellow-400 transition-all rounded-none"
                                                     style={{
                                                         width:
                                                             currentIndex === idx
@@ -285,19 +284,19 @@ const GuideStoriesSection: React.FC = () => {
                                         <button
                                             type="button"
                                             onClick={togglePause}
-                                            className="ml-2 text-[10px] font-sans uppercase tracking-wider text-white/40 hover:text-white transition-colors cursor-pointer"
+                                            className="ml-2 text-[10px] font-sans uppercase tracking-wider text-slate-400 hover:text-yellow-400 transition-colors cursor-pointer"
                                             title={isPaused ? "Resume auto-cycle" : "Pause auto-cycle"}
                                         >
                                             {isPaused ? '▶ Resume' : '❚❚ Pause'}
                                         </button>
                                     </div>
 
-                                    {/* Mobile/Tablet Navigation Arrows (hidden on laptop to prevent duplicate arrows) */}
+                                    {/* Mobile/Tablet Navigation Arrows */}
                                     <div className="flex items-center gap-1.5 lg:hidden">
                                         <button
                                             type="button"
                                             onClick={goToPrevious}
-                                            className="p-2 border border-white/15 bg-white/[0.02] hover:bg-white hover:text-black hover:border-white transition duration-150 cursor-pointer active:scale-95"
+                                            className="p-2 border border-slate-700 bg-slate-800 text-white hover:bg-yellow-400 hover:text-slate-950 hover:border-yellow-400 transition duration-150 cursor-pointer active:scale-95 rounded-none"
                                             aria-label="Previous Guide"
                                         >
                                             <ChevronLeft className="w-3.5 h-3.5" />
@@ -305,7 +304,7 @@ const GuideStoriesSection: React.FC = () => {
                                         <button
                                             type="button"
                                             onClick={goToNext}
-                                            className="p-2 border border-white/15 bg-white/[0.02] hover:bg-white hover:text-black hover:border-white transition duration-150 cursor-pointer active:scale-95"
+                                            className="p-2 border border-slate-700 bg-slate-800 text-white hover:bg-yellow-400 hover:text-slate-950 hover:border-yellow-400 transition duration-150 cursor-pointer active:scale-95 rounded-none"
                                             aria-label="Next Guide"
                                         >
                                             <ChevronRight className="w-3.5 h-3.5" />

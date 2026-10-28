@@ -12,8 +12,8 @@ interface TrekCardProps {
 const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) => {
     return (
         <div
-            className={`group relative bg-neutral-950 overflow-hidden border border-white/10 hover:border-white/35 transition-all duration-300 shadow-2xl flex flex-col justify-between ${
-                isActive ? 'is-active border-white/40' : ''
+            className={`group relative bg-slate-800/80 overflow-hidden border border-slate-700 hover:border-yellow-400/60 transition-all duration-300 shadow-xl flex flex-col justify-between ${
+                isActive ? 'is-active border-yellow-400' : ''
             }`}
         >
             {/* Image Container */}
@@ -24,14 +24,13 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105 group-[.is-active]:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent" />
 
                 {/* Badges */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
                     {trek.badges.map((badge, index) => (
                         <span
                             key={index}
-                            className="text-xs font-sans uppercase tracking-wider px-2.5 py-0.5 border border-white/20 bg-black/75 text-white/90 backdrop-blur-md"
+                            className="text-xs font-sans uppercase tracking-wider px-2.5 py-0.5 border border-yellow-400/30 bg-slate-900/90 text-yellow-400 backdrop-blur-md font-semibold"
                         >
                             {badge}
                         </span>
@@ -40,27 +39,27 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
             </div>
 
             {/* Content Section */}
-            <div className="p-6 bg-neutral-950 flex flex-col justify-between flex-grow -mt-8 relative z-10">
+            <div className="p-6 bg-slate-900 flex flex-col justify-between flex-grow -mt-8 relative z-10 border-t border-slate-800">
                 <div>
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-white/50 text-xs font-sans mb-2">
-                        <MapPin className="w-3.5 h-3.5 text-white/40" />
+                    <div className="flex items-center gap-1.5 text-slate-400 text-xs font-sans mb-2">
+                        <MapPin className="w-3.5 h-3.5 text-yellow-400" />
                         <span>{trek.location}</span>
                     </div>
 
                     {/* Title in Instrument Serif */}
-                    <h3 className="font-display text-2xl sm:text-3xl font-normal text-white leading-tight mb-4 group-hover:text-white/90 transition-colors">
+                    <h3 className="font-display text-2xl sm:text-3xl font-normal text-white leading-tight mb-4 group-hover:text-yellow-400 transition-colors">
                         {trek.title}
                     </h3>
 
                     {/* Specs Grid */}
-                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-white/[0.08] text-xs font-sans text-white/60 mb-5">
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-slate-800 text-xs font-sans text-slate-300 mb-5">
                         <div className="flex items-center gap-2">
-                            <Clock className="w-3.5 h-3.5 text-white/40" />
+                            <Clock className="w-3.5 h-3.5 text-slate-400" />
                             <span>{trek.duration}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <TrendingUp className="w-3.5 h-3.5 text-white/40" />
+                            <TrendingUp className="w-3.5 h-3.5 text-slate-400" />
                             <span>{trek.difficulty}</span>
                         </div>
                     </div>
@@ -69,12 +68,12 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                 {/* Price & Action */}
                 <div className="flex items-center justify-between pt-1">
                     <div>
-                        <p className="text-xs text-white/40 font-sans">Starting from</p>
+                        <p className="text-xs text-slate-400 font-sans">Starting from</p>
                         <p className="text-base sm:text-lg font-sans font-medium text-white">{trek.price}</p>
                     </div>
                     <button
                         onClick={() => onBook(trek.slug)}
-                        className="flex items-center gap-2 bg-white text-black hover:bg-white/90 px-4 py-2.5 text-xs font-sans font-medium uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex items-center gap-2 bg-yellow-400 text-slate-950 hover:bg-yellow-300 px-4 py-2.5 text-xs font-sans font-bold uppercase tracking-widest transition-all cursor-pointer shadow-md shadow-yellow-400/10"
                     >
                         <span>View Trek</span>
                         <ArrowRight className="w-3.5 h-3.5" />

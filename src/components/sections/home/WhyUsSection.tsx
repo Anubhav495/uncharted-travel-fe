@@ -67,21 +67,21 @@ const WhyUsSection: React.FC = () => {
     return (
         <section
             ref={sectionRef}
-            className="px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white"
+            className="px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-slate-900 relative text-white border-b border-slate-800"
             id="why-us"
         >
             <div className="max-w-6xl mx-auto">
                 {/* Header with EXACT original text */}
                 <div className="max-w-2xl mx-auto text-center mb-16">
                     <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight mb-4">
-                        Why Travel <span className="italic text-white/90">With Us?</span>
+                        Why Travel <span className="italic text-yellow-400">With Us?</span>
                     </h2>
-                    <p className="font-sans text-sm sm:text-base text-white/60 leading-relaxed font-normal">
+                    <p className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
                         We're building a community founded on trust, passion, and the magic of experiencing the Himalayas through a local's eyes.
                     </p>
                 </div>
 
-                {/* Cards Grid with EXACT original text & images, Atlas design */}
+                {/* Cards Grid with EXACT original text & images */}
                 <div
                     ref={gridRef}
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10"
@@ -89,7 +89,7 @@ const WhyUsSection: React.FC = () => {
                     {features.map((feature) => (
                         <div
                             key={feature.index}
-                            className="why-us-card border border-white/10 bg-neutral-950 flex flex-col justify-between overflow-hidden group hover:border-white/30 transition-all duration-300 shadow-xl relative"
+                            className="why-us-card border border-slate-700 bg-slate-800/50 flex flex-col justify-between overflow-hidden group hover:border-yellow-400/40 transition-all duration-300 shadow-xl relative"
                         >
                             {/* Card Image */}
                             <div className="relative h-48 overflow-hidden">
@@ -99,9 +99,8 @@ const WhyUsSection: React.FC = () => {
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     loading="lazy"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent" />
                                 <div className="absolute top-3 left-3">
-                                    <span className="font-display text-xl text-white/80 bg-black/60 px-2 py-0.5 border border-white/15 backdrop-blur-md">
+                                    <span className="font-display text-xl text-yellow-400 bg-slate-900/80 px-2 py-0.5 border border-slate-700 backdrop-blur-md font-semibold">
                                         {feature.index}
                                     </span>
                                 </div>
@@ -110,10 +109,10 @@ const WhyUsSection: React.FC = () => {
                             {/* Card Content with Exact Original Title and Description */}
                             <div className="p-6 flex flex-col justify-between flex-grow">
                                 <div>
-                                    <h3 className="font-display text-2xl font-normal text-white mb-2 leading-tight">
+                                    <h3 className="font-display text-2xl font-normal text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors">
                                         {feature.title}
                                     </h3>
-                                    <p className="font-sans text-sm text-white/60 leading-relaxed font-normal">
+                                    <p className="font-sans text-sm text-slate-300 leading-relaxed font-normal">
                                         {feature.description}
                                     </p>
                                 </div>

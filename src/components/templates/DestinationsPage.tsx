@@ -10,7 +10,7 @@ const DestinationsPage: React.FC = () => {
     const mobileView = resolveMobileCatalogueView(router.query.view);
 
     return (
-        <div className="bg-black min-h-screen">
+        <div className="bg-slate-900 text-white min-h-screen">
             <main>
                 {mobileView && <MobileDestinationsHero />}
                 <div className={mobileView ? 'hidden md:block' : undefined}>

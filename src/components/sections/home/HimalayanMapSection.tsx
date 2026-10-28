@@ -275,12 +275,12 @@ const HimalayanMapSection: React.FC = () => {
 
                 {/* Bottom-left info */}
                 <div className="px-5 pb-6 sm:px-8 sm:pb-8 md:px-12 md:pb-10">
-                    {/* Progress dots */}
+                    {/* Progress indicators */}
                     <div className="flex items-center gap-1.5 mb-3">
                         {TREK_SPOTS.map((_, i) => (
                             <span
                                 key={i}
-                                className="block rounded-full transition-all duration-500"
+                                className="block rounded-none transition-all duration-500"
                                 style={{
                                     width: i === currentIdx ? '18px' : '4px',
                                     height: '3px',
@@ -292,7 +292,7 @@ const HimalayanMapSection: React.FC = () => {
 
                     {/* Trek card */}
                     <div
-                        className="max-w-[280px] sm:max-w-sm bg-black/60 backdrop-blur-md border border-white/10 p-4 sm:p-5"
+                        className="max-w-[280px] sm:max-w-sm bg-black/60 backdrop-blur-md border border-white/10 p-4 sm:p-5 rounded-none"
                         style={{
                             opacity: fading ? 0 : 1,
                             transform: fading ? 'translateY(6px)' : 'translateY(0)',

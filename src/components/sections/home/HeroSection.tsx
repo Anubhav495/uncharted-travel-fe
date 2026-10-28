@@ -60,11 +60,11 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             <div className="relative z-20 container mx-auto px-5 sm:px-8 md:px-12 text-center pt-24 pb-16 max-w-4xl">
                 {/* Editorial Display Heading (Instrument Serif) */}
                 <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-[1.05] mb-6 drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] animate-fade-rise">
-                    Go beyond <span className="italic text-amber-400">the guidebook.</span>
+                    Go beyond <span className="italic text-yellow-400">the guidebook.</span>
                 </h1>
 
                 {/* Exact Requested Subtext with Atlas Typography */}
-                <p className="font-sans text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed mb-10 font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] animate-fade-rise-delay">
+                <p className="font-sans text-base sm:text-lg md:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed mb-10 font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] animate-fade-rise-delay">
                     Discover authentic experiences led by passionate local experts. UnchartedTravel connects you with vetted guides for truly personal tours.
                 </p>
 
@@ -72,14 +72,14 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-md mx-auto animate-fade-rise-delay-2">
                     <button
                         onClick={handleExplore}
-                        className="w-full sm:w-auto px-8 py-3.5 bg-white text-black hover:bg-white/90 font-sans font-medium text-xs sm:text-sm uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_4px_24px_rgba(0,0,0,0.5)] group cursor-pointer active:scale-95"
+                        className="w-full sm:w-auto px-8 py-3.5 bg-yellow-400 text-slate-950 hover:bg-yellow-300 font-sans font-bold text-xs sm:text-sm uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_4px_24px_rgba(0,0,0,0.5)] group cursor-pointer active:scale-95 rounded-none"
                     >
                         <span>Explore Expeditions</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
                     <Link
                         href="/become-a-guide"
-                        className="w-full sm:w-auto px-8 py-3.5 border border-white/30 bg-black/40 hover:bg-white hover:text-black hover:border-white text-white font-sans font-medium text-xs sm:text-sm uppercase tracking-widest transition-all duration-200 flex items-center justify-center backdrop-blur-sm text-center shadow-lg active:scale-95"
+                        className="w-full sm:w-auto px-8 py-3.5 border border-slate-700 bg-slate-900/80 hover:bg-slate-800 hover:border-slate-500 text-white font-sans font-medium text-xs sm:text-sm uppercase tracking-widest transition-all duration-200 flex items-center justify-center backdrop-blur-sm text-center shadow-lg active:scale-95 rounded-none"
                     >
                         Become a Guide
                     </Link>
@@ -94,7 +94,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             >
                 <button
                     onClick={scrollToNext}
-                    className="w-9 h-9 flex items-center justify-center border border-white/20 bg-black/60 backdrop-blur-md text-white/70 hover:text-white hover:border-white/40 transition-all duration-200"
+                    className="w-9 h-9 flex items-center justify-center border border-slate-700 bg-slate-900/80 backdrop-blur-md text-yellow-400 hover:text-yellow-300 hover:border-yellow-400/50 transition-all duration-200 rounded-none cursor-pointer"
                     aria-label="Scroll to next section"
                 >
                     <ChevronDown className="w-4 h-4 animate-bounce" />

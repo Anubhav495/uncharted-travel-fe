@@ -3,18 +3,21 @@ import GuideRegistrationWizard from '../../src/components/forms/guide-registrati
 
 const RegisterGuidePage: React.FC = () => {
     return (
-        <div className="min-h-screen bg-gray-900 text-white relative overflow-x-hidden">
+        <div className="min-h-screen bg-slate-900 text-white relative overflow-x-hidden">
             {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
-            <div className="absolute -top-20 -right-20 w-96 h-96 bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />
-
-
+            <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-slate-950/60 to-transparent pointer-events-none" />
+            <div className="absolute -top-20 -right-20 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl pointer-events-none" />
 
             {/* Main Content */}
-            <main className="relative z-10 container mx-auto px-4 pb-12 pt-28 lg:pt-48">
+            <main className="relative z-10 container mx-auto px-4 pb-16 pt-28 lg:pt-40">
                 <div className="text-center mb-12">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-4">Join our Community of Guides</h1>
-                    <p className="text-gray-400 max-w-xl mx-auto">
+                    <span className="inline-block text-xs font-sans uppercase tracking-widest text-yellow-400 font-semibold mb-3">
+                        Local Mountain Experts
+                    </span>
+                    <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal mb-4 tracking-tight text-white">
+                        Join our Community of <span className="italic text-yellow-400">Guides</span>
+                    </h1>
+                    <p className="text-slate-400 max-w-xl mx-auto text-sm sm:text-base font-sans leading-relaxed">
                         Share your passion, earn on your terms, and meet travelers from around the world.
                     </p>
                 </div>

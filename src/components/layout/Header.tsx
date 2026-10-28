@@ -51,8 +51,8 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const headerClasses = `
         fixed top-0 left-0 right-0 z-[100] transition-all duration-200 ease-out border-none
         ${scrolled
-            ? 'bg-neutral-950/95 backdrop-blur-2xl py-3 shadow-2xl'
-            : 'bg-gradient-to-b from-black/90 via-black/50 to-transparent py-4 sm:py-5'
+            ? 'bg-slate-900/95 backdrop-blur-2xl py-3 shadow-2xl border-b border-slate-800'
+            : 'bg-gradient-to-b from-slate-950/90 via-slate-950/50 to-transparent py-4 sm:py-5'
         }
     `;
 
@@ -128,12 +128,12 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                 </button>
 
                                 {/* Dropdown Menu */}
-                                <div className="absolute right-0 mt-2 w-52 bg-neutral-950 border border-white/15 shadow-2xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 transform origin-top-right backdrop-blur-xl">
-                                    <div className="px-4 py-3 border-b border-white/10">
+                                <div className="absolute right-0 mt-2 w-52 bg-slate-900 border border-slate-700 shadow-2xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 transform origin-top-right backdrop-blur-xl">
+                                    <div className="px-4 py-3 border-b border-slate-800">
                                         <p className="text-xs text-white font-medium truncate">{user.user_metadata.full_name || 'Traveler'}</p>
-                                        <p className="text-xs text-white/50 truncate font-sans mt-0.5">{user.email}</p>
+                                        <p className="text-xs text-slate-400 truncate font-sans mt-0.5">{user.email}</p>
                                     </div>
-                                    <Link href="/dashboard" className="block px-4 py-2 text-xs uppercase tracking-wider text-white/80 hover:bg-white/[0.06] hover:text-white font-sans">
+                                    <Link href="/dashboard" className="block px-4 py-2 text-xs uppercase tracking-wider text-slate-200 hover:bg-slate-800 hover:text-white font-sans">
                                         Dashboard
                                     </Link>
                                     <button
@@ -147,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         ) : (
                             <Link
                                 href="/login"
-                                className="ml-2 px-5 py-2 border border-white/20 bg-white/[0.04] text-white hover:bg-white hover:text-black transition-all duration-200 text-xs uppercase tracking-widest font-medium font-sans"
+                                className="ml-2 px-5 py-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold transition-all duration-200 text-xs uppercase tracking-widest font-sans shadow-md"
                             >
                                 Sign In
                             </Link>
@@ -168,7 +168,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                         ) : (
                             <Link
                                 href="/login"
-                                className="px-3 py-1.5 border border-white/25 bg-white/10 hover:bg-white hover:text-black text-white text-[11px] font-sans uppercase tracking-wider font-medium backdrop-blur-md transition-all shadow-sm active:scale-95"
+                                className="px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold text-[11px] font-sans uppercase tracking-wider backdrop-blur-md transition-all shadow-sm active:scale-95"
                             >
                                 Sign In
                             </Link>
@@ -199,11 +199,11 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
             {/* Mobile Menu Portal */}
             {mounted && isMenuOpen && variant === 'default' && createPortal(
                 <div
-                    className="mobile-menu fixed inset-0 w-screen h-screen min-h-screen bg-neutral-950 z-[99999] lg:hidden flex flex-col overflow-y-auto overscroll-contain"
-                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#0a0a0a' }}
+                    className="mobile-menu fixed inset-0 w-screen h-screen min-h-screen bg-slate-900 z-[99999] lg:hidden flex flex-col overflow-y-auto overscroll-contain"
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#0f172a' }}
                 >
                     {/* Header bar inside menu */}
-                    <div className="h-16 px-5 sm:px-8 flex items-center justify-between border-b border-white/10 shrink-0 bg-neutral-950">
+                    <div className="h-16 px-5 sm:px-8 flex items-center justify-between border-b border-slate-800 shrink-0 bg-slate-900">
                         <Link
                             href="/"
                             onClick={() => setIsMenuOpen(false)}
@@ -269,7 +269,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                     <Link
                                         href="/login"
                                         onClick={() => setIsMenuOpen(false)}
-                                        className="w-full py-3.5 border border-white/30 bg-white text-black font-medium text-xs uppercase tracking-widest hover:bg-white/90 transition-all text-center block shadow-lg"
+                                        className="w-full py-3.5 bg-yellow-400 text-slate-900 font-bold text-xs uppercase tracking-widest hover:bg-yellow-300 transition-all text-center block shadow-lg font-sans"
                                     >
                                         Sign In
                                     </Link>

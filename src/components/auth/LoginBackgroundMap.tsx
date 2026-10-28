@@ -237,7 +237,7 @@ export default function LoginBackgroundMap() {
 
             {/* Location Card — Bottom Left (Interactive, clickable) */}
             <div
-                className="absolute bottom-6 left-6 z-20 hidden md:block max-w-xs bg-black/75 backdrop-blur-md border border-white/15 p-4 pointer-events-auto"
+                className="absolute bottom-6 left-6 z-20 hidden md:block max-w-xs bg-black/75 backdrop-blur-md border border-white/15 p-4 pointer-events-auto rounded-none"
                 style={{
                     opacity: mapReady ? 1 : 0,
                     transition: 'opacity 0.6s ease',
@@ -265,7 +265,7 @@ export default function LoginBackgroundMap() {
                             key={loc.id}
                             type="button"
                             onClick={() => handleSelectSpot(i)}
-                            className={`px-2 py-1 text-[10px] uppercase font-sans tracking-wider transition-all duration-200 ${
+                            className={`px-2 py-1 text-[10px] uppercase font-sans tracking-wider transition-all duration-200 rounded-none cursor-pointer ${
                                 i === currentIdx
                                     ? 'bg-white text-black font-medium'
                                     : 'text-white/60 hover:text-white hover:bg-white/10'
@@ -280,11 +280,11 @@ export default function LoginBackgroundMap() {
 
             {/* Mobile bottom pill */}
             <div
-                className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex items-center justify-between px-3.5 py-2.5 bg-black/80 backdrop-blur-md border border-white/15 pointer-events-auto"
+                className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex items-center justify-between px-3.5 py-2.5 bg-black/80 backdrop-blur-md border border-white/15 pointer-events-auto rounded-none"
                 style={{ opacity: mapReady ? 1 : 0, transition: 'opacity 0.6s ease' }}
             >
                 <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
+                    <span className="w-2 h-2 rounded-none bg-red-500 animate-pulse shrink-0" />
                     <div>
                         <p className="text-white text-xs font-display">{current.name}</p>
                         <p className="text-white/50 text-[10px] font-sans">{current.elevation}</p>
@@ -297,7 +297,7 @@ export default function LoginBackgroundMap() {
                             key={loc.id}
                             type="button"
                             onClick={() => handleSelectSpot(i)}
-                            className={`h-6 px-2 text-[9px] uppercase font-sans tracking-wider transition-colors ${
+                            className={`h-6 px-2 text-[9px] uppercase font-sans tracking-wider transition-colors rounded-none ${
                                 i === currentIdx
                                     ? 'bg-white text-black font-medium'
                                     : 'text-white/60 hover:text-white'
@@ -311,10 +311,10 @@ export default function LoginBackgroundMap() {
 
             {/* Top-right satellite indicator badge */}
             <div
-                className="absolute top-6 right-6 z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 border border-white/10 bg-black/60 backdrop-blur-md pointer-events-none"
+                className="absolute top-6 right-6 z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 border border-white/10 bg-black/60 backdrop-blur-md pointer-events-none rounded-none"
                 style={{ opacity: mapReady ? 1 : 0, transition: 'opacity 0.8s ease' }}
             >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-none bg-emerald-400 animate-pulse" />
                 <span className="text-[10px] font-sans uppercase tracking-widest text-white/70">Live Satellite Cartography</span>
             </div>
         </div>

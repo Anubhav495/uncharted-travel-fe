@@ -100,6 +100,6 @@ describe('trek page SEO', () => {
 
         fireEvent.click(screen.getByRole('button', { name: 'Request This Guide' }));
 
-        expect(mockPush).toHaveBeenCalledWith('/login');
+        expect(mockPush).toHaveBeenCalledWith(expect.stringContaining('/login'));
     });
 });

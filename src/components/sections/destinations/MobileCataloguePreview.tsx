@@ -79,7 +79,7 @@ const CompareCatalogue: React.FC = () => {
             <label className="relative mb-6 block">
                 <span className="sr-only">Search treks</span>
                 <Search
-                    className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                    className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
                     aria-hidden="true"
                 />
                 <input
@@ -87,7 +87,7 @@ const CompareCatalogue: React.FC = () => {
                     value={searchQuery}
                     onChange={handleSearch}
                     placeholder="Search by trail, difficulty, or region"
-                    className="w-full border border-white/15 bg-white/[0.04] py-3 pl-11 pr-4 text-xs font-sans text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/40"
+                    className="w-full border border-slate-700 bg-slate-800/80 py-3 pl-11 pr-4 text-xs font-sans text-white outline-none transition-colors placeholder:text-slate-400 focus:border-yellow-400"
                 />
             </label>
             {filteredTreks.length > 0 ? (
@@ -110,7 +110,7 @@ const CompareCatalogue: React.FC = () => {
                                     <Link
                                         key={trek.id}
                                         href={`/destinations/${trek.slug}`}
-                                        className="group grid min-h-[160px] grid-cols-[38%_1fr] overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30"
+                                        className="group grid min-h-[160px] grid-cols-[38%_1fr] overflow-hidden border border-slate-700 bg-slate-800/80 transition-colors hover:border-yellow-400/50"
                                         aria-label={`View ${trek.title}`}
                                     >
                                         <div className="relative min-h-full overflow-hidden">
@@ -121,32 +121,32 @@ const CompareCatalogue: React.FC = () => {
                                                 sizes="38vw"
                                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-neutral-950/40" />
+                                            <div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-r from-transparent to-slate-900/30 pointer-events-none" />
                                         </div>
                                         <div className="flex min-w-0 flex-col p-3.5 justify-between">
                                             <div>
-                                                <p className="flex items-center gap-1.5 truncate text-xs font-sans text-white/50 mb-1">
-                                                    <MapPin className="h-3 w-3 shrink-0 text-white/40" aria-hidden="true" />
+                                                <p className="flex items-center gap-1.5 truncate text-xs font-sans text-slate-400 mb-1">
+                                                    <MapPin className="h-3 w-3 shrink-0 text-yellow-400" aria-hidden="true" />
                                                     <span className="truncate">{trek.location}</span>
                                                 </p>
-                                                <h3 className="font-display text-xl font-normal leading-tight text-white mb-2">{trek.title}</h3>
-                                                <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-white/60 font-sans">
+                                                <h3 className="font-display text-xl font-normal leading-tight text-white mb-2 group-hover:text-yellow-400 transition-colors">{trek.title}</h3>
+                                                <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-300 font-sans">
                                                     <span className="flex items-center gap-1">
-                                                        <Clock className="h-3 w-3 text-white/40" aria-hidden="true" />
+                                                        <Clock className="h-3 w-3 text-slate-400" aria-hidden="true" />
                                                         {trek.duration}
                                                     </span>
                                                     <span className="flex items-center gap-1">
-                                                        <TrendingUp className="h-3 w-3 text-white/40" aria-hidden="true" />
+                                                        <TrendingUp className="h-3 w-3 text-slate-400" aria-hidden="true" />
                                                         {trek.difficulty}
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="mt-3 flex items-end justify-between gap-2 pt-2 border-t border-white/[0.08]">
+                                            <div className="mt-3 flex items-end justify-between gap-2 pt-2 border-t border-slate-700/60">
                                                 <div>
-                                                    <p className="text-[10px] uppercase tracking-wider text-white/40 font-sans">From</p>
+                                                    <p className="text-[10px] uppercase tracking-wider text-slate-400 font-sans">From</p>
                                                     <p className="text-sm font-sans font-medium text-white">{trek.price}</p>
                                                 </div>
-                                                <span className="flex items-center gap-1 bg-white text-black px-3 py-1.5 text-xs font-sans font-medium uppercase tracking-wider">
+                                                <span className="flex items-center gap-1 bg-yellow-400 text-slate-950 px-3 py-1.5 text-xs font-sans font-bold uppercase tracking-wider">
                                                     View
                                                     <ArrowRight className="h-3 w-3" aria-hidden="true" />
                                                 </span>
@@ -216,7 +216,7 @@ const ImmerseCatalogue: React.FC = () => {
                     <Link
                         key={trek.id}
                         href={`/destinations/${trek.slug}`}
-                        className="group relative min-h-[500px] w-[88vw] max-w-[390px] shrink-0 snap-start overflow-hidden border border-white/15 bg-neutral-950 shadow-2xl"
+                        className="group relative min-h-[500px] w-[88vw] max-w-[390px] shrink-0 snap-start overflow-hidden border border-slate-700 bg-slate-800/80 shadow-2xl"
                         aria-label={`View ${trek.title}`}
                     >
                         <TrekImage
@@ -226,36 +226,36 @@ const ImmerseCatalogue: React.FC = () => {
                             sizes="88vw"
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/10" />
+                        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent pointer-events-none" />
                         <div className="absolute left-4 top-4 flex max-w-[calc(100%-2rem)] flex-wrap gap-1.5">
                             {trek.badges.slice(0, 2).map((badge) => (
-                                <span key={badge} className="bg-black/75 border border-white/20 px-2.5 py-0.5 text-xs uppercase tracking-wider text-white backdrop-blur-md font-sans">
+                                <span key={badge} className="bg-slate-900/90 border border-yellow-400/30 px-2.5 py-0.5 text-xs uppercase tracking-wider text-yellow-400 backdrop-blur-md font-sans font-semibold">
                                     {badge}
                                 </span>
                             ))}
                         </div>
                         <div className="absolute inset-x-0 bottom-0 p-6">
-                            <p className="flex items-center gap-1.5 text-xs text-white/60 font-sans mb-1">
-                                <MapPin className="h-3.5 w-3.5 text-white/40" aria-hidden="true" />
+                            <p className="flex items-center gap-1.5 text-xs text-slate-300 font-sans mb-1">
+                                <MapPin className="h-3.5 w-3.5 text-yellow-400" aria-hidden="true" />
                                 {trek.location}
                             </p>
-                            <h3 className="font-display text-3xl font-normal leading-tight text-white mb-4">{trek.title}</h3>
-                            <div className="grid grid-cols-2 gap-3 border-y border-white/15 py-3 text-xs text-white/70 font-sans mb-4">
+                            <h3 className="font-display text-3xl font-normal leading-tight text-white mb-4 group-hover:text-yellow-400 transition-colors">{trek.title}</h3>
+                            <div className="grid grid-cols-2 gap-3 border-y border-slate-800 py-3 text-xs text-slate-300 font-sans mb-4">
                                 <span className="flex items-center gap-1.5">
-                                    <Clock className="h-3.5 w-3.5 text-white/40" aria-hidden="true" />
+                                    <Clock className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
                                     {trek.duration}
                                 </span>
                                 <span className="flex items-center gap-1.5">
-                                    <TrendingUp className="h-3.5 w-3.5 text-white/40" aria-hidden="true" />
+                                    <TrendingUp className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
                                     {trek.difficulty}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between gap-4">
                                 <div>
-                                    <p className="text-[10px] uppercase tracking-wider text-white/40 font-sans">Starting from</p>
+                                    <p className="text-[10px] uppercase tracking-wider text-slate-400 font-sans">Starting from</p>
                                     <p className="text-xl font-medium text-white font-sans">{trek.price}</p>
                                 </div>
-                                <span className="flex items-center gap-1.5 bg-white text-black px-4 py-2.5 text-xs font-sans font-medium uppercase tracking-widest">
+                                <span className="flex items-center gap-1.5 bg-yellow-400 text-slate-950 px-4 py-2.5 text-xs font-sans font-bold uppercase tracking-widest shadow-md shadow-yellow-400/10">
                                     View trek
                                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                                 </span>
@@ -265,7 +265,7 @@ const ImmerseCatalogue: React.FC = () => {
                 ))}
             </div>
             <div className="mt-3 flex items-center justify-between" aria-live="polite">
-                <p className="text-xs text-white/40 font-sans">
+                <p className="text-xs text-slate-400 font-sans">
                     <span className="text-white font-medium">{String(activeIndex + 1).padStart(2, '0')}</span>
                     {' / '}
                     {String(treks.length).padStart(2, '0')}
@@ -283,7 +283,7 @@ const ConvertCatalogue: React.FC = () => (
                 <Link
                     key={trek.id}
                     href={`/destinations/${trek.slug}`}
-                    className="group flex min-w-0 flex-col overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30"
+                    className="group flex min-w-0 flex-col overflow-hidden border border-slate-700 bg-slate-800/80 transition-colors hover:border-yellow-400/50"
                     aria-label={`View ${trek.title}`}
                 >
                     <div className="relative aspect-[4/3] overflow-hidden">
@@ -294,22 +294,22 @@ const ConvertCatalogue: React.FC = () => (
                             sizes="50vw"
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                        <span className={`absolute bottom-2 left-2 px-2 py-0.5 text-[10px] font-sans border bg-black/60 border-white/20 text-white`}>
+                        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-900/60 to-transparent pointer-events-none" />
+                        <span className="absolute bottom-2 left-2 px-2 py-0.5 text-[10px] font-sans border bg-slate-900/90 border-yellow-400/30 text-yellow-400 font-semibold">
                             {trek.difficulty}
                         </span>
                     </div>
                     <div className="flex flex-1 flex-col p-3">
-                        <p className="truncate text-xs text-white/50 font-sans">{trek.location}</p>
-                        <h3 className="font-display mt-1 line-clamp-2 text-lg font-normal leading-tight text-white">{trek.title}</h3>
-                        <p className="mt-2 flex items-center gap-1 text-xs text-white/50 font-sans">
-                            <Clock className="h-3 w-3 text-white/40" aria-hidden="true" />
+                        <p className="truncate text-xs text-slate-400 font-sans">{trek.location}</p>
+                        <h3 className="font-display mt-1 line-clamp-2 text-lg font-normal leading-tight text-white group-hover:text-yellow-400 transition-colors">{trek.title}</h3>
+                        <p className="mt-2 flex items-center gap-1 text-xs text-slate-400 font-sans">
+                            <Clock className="h-3 w-3 text-slate-400" aria-hidden="true" />
                             {trek.duration}
                         </p>
-                        <div className="mt-auto pt-3 border-t border-white/[0.08]">
-                            <p className="text-[10px] uppercase tracking-wider text-white/40 font-sans">From</p>
+                        <div className="mt-auto pt-3 border-t border-slate-700/60">
+                            <p className="text-[10px] uppercase tracking-wider text-slate-400 font-sans">From</p>
                             <p className="text-base font-medium text-white font-sans">{trek.price}</p>
-                            <span className="mt-2 flex w-full items-center justify-center gap-1 bg-white text-black py-2 text-xs font-sans font-medium uppercase tracking-wider">
+                            <span className="mt-2 flex w-full items-center justify-center gap-1 bg-yellow-400 text-slate-950 py-2 text-xs font-sans font-bold uppercase tracking-wider">
                                 View trek
                                 <ArrowRight className="h-3 w-3" aria-hidden="true" />
                             </span>
@@ -323,7 +323,7 @@ const ConvertCatalogue: React.FC = () => (
 
 const MobileCataloguePreview: React.FC<MobileCataloguePreviewProps> = ({ view }) => {
     return (
-        <section className="min-h-screen overflow-hidden bg-black px-5 pb-16 pt-8 md:hidden text-white border-t border-white/[0.08]">
+        <section className="min-h-screen overflow-hidden bg-slate-900 px-5 pb-16 pt-8 md:hidden text-white border-t border-slate-800">
             <div className="mx-auto max-w-md">
                 {view === 'compare' && <CompareCatalogue />}
                 {view === 'immerse' && <ImmerseCatalogue />}

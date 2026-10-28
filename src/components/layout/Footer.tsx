@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-black text-white border-t border-white/[0.08] relative">
+        <footer className="bg-slate-950 text-white border-t border-slate-800 relative">
             <div className="container mx-auto px-6 md:px-12 py-16 md:py-20">
                 {/* Upper Brand & Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
                                 UnchartedTravel
                             </span>
                         </Link>
-                        <p className="text-xs text-white/55 leading-relaxed font-sans max-w-sm mb-6">
+                        <p className="text-xs text-slate-400 leading-relaxed font-sans max-w-sm mb-6">
                             Authentic Himalayan treks and expeditions guided by vetted local experts. Discover personal, responsible journeys across the high Himalayas.
                         </p>
                     </div>
@@ -95,7 +95,7 @@ const Footer: React.FC = () => {
                     <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
                         {/* Platform */}
                         <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-white/40 mb-4 font-medium">
+                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
                                 Platform
                             </h4>
                             <ul className="space-y-2.5">
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
 
                         {/* Company */}
                         <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-white/40 mb-4 font-medium">
+                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
                                 Company
                             </h4>
                             <ul className="space-y-2.5">
@@ -118,7 +118,7 @@ const Footer: React.FC = () => {
 
                         {/* Community */}
                         <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-white/40 mb-4 font-medium">
+                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
                                 Community
                             </h4>
                             <ul className="space-y-2.5">
@@ -129,20 +129,20 @@ const Footer: React.FC = () => {
 
                         {/* Get in Touch */}
                         <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-white/40 mb-4 font-medium">
+                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
                                 Contact
                             </h4>
                             <ul className="space-y-2.5">
                                 <li>
                                     <a
                                         href="mailto:hello@unchartedtravel.in"
-                                        className="text-xs text-white/55 hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5 font-sans"
+                                        className="text-xs text-slate-400 hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5 font-sans"
                                     >
-                                        <Mail className="w-3.5 h-3.5 text-white/40" />
+                                        <Mail className="w-3.5 h-3.5 text-yellow-400" />
                                         <span>hello@unchartedtravel.in</span>
                                     </a>
                                 </li>
-                                <li className="text-xs text-white/40 font-sans pt-1">
+                                <li className="text-xs text-slate-500 font-sans pt-1">
                                     Kasol, Parvati Valley<br />
                                     Himachal Pradesh 175105
                                 </li>
@@ -152,11 +152,11 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-xs font-sans text-white/40">
+                <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-xs font-sans text-slate-500">
                         &copy; {currentYear} UnchartedTravel. All rights reserved.
                     </p>
-                    <p className="text-xs font-sans text-white/30">
+                    <p className="text-xs font-sans text-slate-500">
                         Himalayan Treks & Local Expeditions
                     </p>
                 </div>
