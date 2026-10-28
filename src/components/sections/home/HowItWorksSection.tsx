@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Compass, Users, Mountain, ArrowRight } from 'lucide-react';
+import WaveBackdrop from '@/components/ui/WaveBackdrop';
 
 const WORKFLOW_STEPS = [
     {
@@ -29,10 +30,13 @@ const WORKFLOW_STEPS = [
 const HowItWorksSection: React.FC = () => {
     return (
         <section
-            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white"
+            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white overflow-hidden"
             id="how-it-works"
         >
-            <div className="max-w-6xl mx-auto">
+            {/* Liquid Glowing Wave Video and Ambient Waves Backdrop from Atlas Revolution */}
+            <WaveBackdrop opacity="opacity-75" />
+
+            <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header */}
                 <div className="max-w-2xl mb-16">
                     <p className="text-xs uppercase tracking-widest text-white/45 mb-3 font-sans font-medium">
@@ -53,7 +57,7 @@ const HowItWorksSection: React.FC = () => {
                         return (
                             <div
                                 key={step.step}
-                                className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/20 hover:bg-white/[0.03] transition duration-200 group relative"
+                                className="border border-white/10 bg-black/65 backdrop-blur-md p-8 flex flex-col justify-between hover:border-white/25 hover:bg-neutral-950/85 transition duration-200 group relative shadow-2xl"
                             >
                                 <div>
                                     <div className="flex items-center justify-between mb-8">
@@ -72,7 +76,7 @@ const HowItWorksSection: React.FC = () => {
                                     <h3 className="font-display text-2xl font-normal text-white mb-3">
                                         {step.title}
                                     </h3>
-                                    <p className="text-sm text-white/55 leading-relaxed font-sans">
+                                    <p className="text-sm text-white/60 leading-relaxed font-sans">
                                         {step.desc}
                                     </p>
                                 </div>
@@ -86,7 +90,7 @@ const HowItWorksSection: React.FC = () => {
                 </div>
 
                 {/* Editorial Call to Action Banner (Atlas Revolution CTA Style) */}
-                <div className="border border-white/15 bg-neutral-950 p-8 md:p-14 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
+                <div className="border border-white/15 bg-neutral-950/90 backdrop-blur-md p-8 md:p-14 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/[0.02] rounded-bl-full pointer-events-none" />
 
                     <div className="max-w-xl text-center md:text-left">

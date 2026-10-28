@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
-    const { user, loginWithGoogle, signOut } = useAuth();
+    const { user, signOut } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -139,12 +139,12 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                 </div>
                             </div>
                         ) : (
-                            <button
-                                onClick={() => loginWithGoogle()}
+                            <Link
+                                href="/login"
                                 className="ml-2 px-5 py-2 border border-white/20 bg-white/[0.04] text-white hover:bg-white hover:text-black transition-all duration-200 text-xs uppercase tracking-widest font-medium"
                             >
                                 Sign In
-                            </button>
+                            </Link>
                         )}
                     </nav>
                 )}
@@ -216,15 +216,13 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                         </button>
                                     </div>
                                 ) : (
-                                    <button
-                                        onClick={() => {
-                                            loginWithGoogle();
-                                            setIsMenuOpen(false);
-                                        }}
-                                        className="w-full py-3 border border-white/30 bg-white text-black font-medium text-xs uppercase tracking-widest hover:bg-white/90 transition-all text-center"
+                                    <Link
+                                        href="/login"
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="w-full py-3 border border-white/30 bg-white text-black font-medium text-xs uppercase tracking-widest hover:bg-white/90 transition-all text-center block"
                                     >
                                         Sign In
-                                    </button>
+                                    </Link>
                                 )}
                             </div>
                         </nav>
