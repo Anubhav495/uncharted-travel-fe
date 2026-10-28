@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { NextSeo } from 'next-seo';
-import { Trophy, Medal, Star, TrendingUp, Search, Gift, Compass } from 'lucide-react';
+import { Star, TrendingUp, Search, Gift, Compass } from 'lucide-react';
 import { useAuth } from '../src/context/AuthContext';
 import { SEEDED_LEADERBOARD, LeaderboardEntry } from './api/getLeaderboard';
 import Link from 'next/link';
@@ -56,17 +56,14 @@ export default function Community() {
 
     const userRank = user ? currentUserRank : null;
 
-    // Filtered list based on search query
+    // Filtered list based on search query (showing top 20 or matching search)
     const filteredLeaderboard = useMemo(() => {
         const query = searchQuery.trim().toLowerCase();
-        if (!query) return leaderboard;
+        if (!query) return leaderboard.slice(0, 20);
         return leaderboard.filter(entry =>
             (entry.display_name || 'Anonymous Trekker').toLowerCase().includes(query)
         );
     }, [leaderboard, searchQuery]);
-
-    // Top 3 for the spotlight feature
-    const topThree = leaderboard.slice(0, 3);
 
     return (
         <>
@@ -85,15 +82,18 @@ export default function Community() {
 
                 <div className="max-w-4xl mx-auto relative z-10">
                     {/* Header */}
-                    <div className="text-center mb-12">
-                        <div className="inline-block border border-white/15 px-3 py-1 bg-white/[0.03] text-[10px] font-sans uppercase tracking-widest text-white/60 mb-4">
-                            Alpine Community &middot; Global Standings
+                    <div className="text-center mb-10">
+                        <div className="inline-block border border-white/15 px-3 py-1 bg-white/[0.03] text-[10px] font-sans uppercase tracking-widest text-amber-400/90 mb-4 font-medium">
+                            Showing Top 20 Trekkers Globally
                         </div>
                         <h1 className="font-display text-4xl sm:text-6xl font-normal text-white mb-4 tracking-tight">
                             Trekker <span className="italic text-white/90">Leaderboard</span>
                         </h1>
-                        <p className="text-white/60 text-xs sm:text-sm max-w-lg mx-auto font-sans leading-relaxed">
-                            Honoring explorers who navigate raw ridgelines with verified native guides across Himachal and Uttarakhand.
+                        <p className="text-white text-sm sm:text-base max-w-lg mx-auto font-sans leading-relaxed mb-2 font-medium">
+                            Earn XP by completing treks and sharing your adventures.
+                        </p>
+                        <p className="text-white/55 text-xs sm:text-sm max-w-lg mx-auto font-sans leading-relaxed">
+                            <span className="text-white/80 font-medium">Why a leaderboard?</span> The core idea is to reward dedicated trekkers and adventurists.
                         </p>
                     </div>
 
@@ -153,71 +153,7 @@ export default function Community() {
                         </div>
                     )}
 
-                    {/* Top 3 Spotlight Podium */}
-                    {topThree.length === 3 && !searchQuery && (
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-10">
-                            {/* Rank 2 - Silver */}
-                            <div className="order-2 sm:order-1 border border-white/15 bg-neutral-950/80 p-5 flex flex-col justify-between">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="inline-flex items-center gap-1.5 text-xs font-sans uppercase tracking-wider text-white/70 font-medium">
-                                        <Medal className="w-4 h-4 text-white/70" /> #2
-                                    </span>
-                                    <span className="text-[10px] uppercase font-sans px-2 py-0.5 border border-white/15 bg-white/[0.03] text-white/60">
-                                        Silver
-                                    </span>
-                                </div>
-                                <div>
-                                    <h3 className="font-display text-xl text-white font-normal truncate">
-                                        {topThree[1].display_name}
-                                    </h3>
-                                    <p className="font-sans text-sm text-white/60 mt-1 font-medium">
-                                        {topThree[1].xp_points.toLocaleString()} <span className="text-xs text-white/40 font-normal">XP</span>
-                                    </p>
-                                </div>
-                            </div>
 
-                            {/* Rank 1 - Gold */}
-                            <div className="order-1 sm:order-2 border border-amber-400/35 bg-neutral-950 p-6 flex flex-col justify-between shadow-2xl relative">
-                                <div className="absolute top-0 right-0 w-20 h-20 bg-amber-400/[0.04] rounded-bl-full pointer-events-none" />
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="inline-flex items-center gap-1.5 text-xs font-sans uppercase tracking-widest text-amber-300 font-semibold">
-                                        <Trophy className="w-4 h-4 text-amber-400" /> #1 Leader
-                                    </span>
-                                    <span className="text-[10px] uppercase font-sans px-2.5 py-0.5 border border-amber-400/40 bg-amber-400/10 text-amber-300 font-medium">
-                                        Gold
-                                    </span>
-                                </div>
-                                <div>
-                                    <h3 className="font-display text-2xl text-white font-normal truncate">
-                                        {topThree[0].display_name}
-                                    </h3>
-                                    <p className="font-sans text-base text-amber-300 mt-1 font-semibold">
-                                        {topThree[0].xp_points.toLocaleString()} <span className="text-xs text-amber-400/60 font-normal">XP</span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Rank 3 - Bronze */}
-                            <div className="order-3 border border-white/15 bg-neutral-950/80 p-5 flex flex-col justify-between">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="inline-flex items-center gap-1.5 text-xs font-sans uppercase tracking-wider text-orange-400 font-medium">
-                                        <Medal className="w-4 h-4 text-orange-400" /> #3
-                                    </span>
-                                    <span className="text-[10px] uppercase font-sans px-2 py-0.5 border border-orange-500/30 bg-orange-500/10 text-orange-400">
-                                        Bronze
-                                    </span>
-                                </div>
-                                <div>
-                                    <h3 className="font-display text-xl text-white font-normal truncate">
-                                        {topThree[2].display_name}
-                                    </h3>
-                                    <p className="font-sans text-sm text-white/60 mt-1 font-medium">
-                                        {topThree[2].xp_points.toLocaleString()} <span className="text-xs text-white/40 font-normal">XP</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Table Controls: Search Bar & Count */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
