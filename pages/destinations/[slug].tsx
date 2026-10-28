@@ -16,7 +16,7 @@ const TrekDetailsPage = () => {
     const router = useRouter();
     const { slug } = router.query;
     const { showToast } = useToast();
-    const { user, loginWithGoogle } = useAuth();
+    const { user } = useAuth();
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [hasEnquired, setHasEnquired] = useState(false);
     const [bookingPreference, setBookingPreference] = useState<BookingPreference>({ type: 'general' });
@@ -91,14 +91,15 @@ const TrekDetailsPage = () => {
 
     if (!trek && router.isReady) {
         return (
-            <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold mb-4">Trek Not Found</h1>
+            <div className="min-h-screen bg-black flex items-center justify-center text-white px-6">
+                <div className="text-center max-w-md border border-white/10 bg-neutral-950 p-10">
+                    <h1 className="font-display text-4xl font-normal mb-3 text-white">Route Not Found</h1>
+                    <p className="text-xs text-white/50 font-sans mb-6">The requested Himalayan expedition route does not exist in our registry.</p>
                     <button
                         onClick={() => router.push('/destinations')}
-                        className="text-yellow-400 hover:underline"
+                        className="px-6 py-3 border border-white/20 bg-white text-black hover:bg-neutral-200 text-xs uppercase tracking-widest font-sans font-medium transition-all"
                     >
-                        Back to Destinations
+                        Browse Destinations
                     </button>
                 </div>
             </div>
@@ -110,14 +111,7 @@ const TrekDetailsPage = () => {
     const handleRequestInfo = async (id?: string, name?: string, type: 'guide' | 'company' | 'general' = 'general') => {
         setBookingPreference({ id, name, type });
         if (!user) {
-            const callbackUrl = new URL(router.asPath, window.location.origin);
-            callbackUrl.searchParams.set('action', 'book');
-            if (id && type !== 'general') {
-                callbackUrl.searchParams.set('providerType', type);
-                callbackUrl.searchParams.set('providerId', id);
-                if (name) callbackUrl.searchParams.set('providerName', name);
-            }
-            await loginWithGoogle(callbackUrl.toString());
+            router.push('/login');
             return;
         }
         setIsBookingModalOpen(true);
@@ -203,7 +197,7 @@ const TrekDetailsPage = () => {
 
                     <div className="absolute bottom-0 left-0 right-0 container mx-auto px-6 pb-12 z-10">
                         <div className="max-w-4xl">
-                            <div className="flex items-center gap-2 text-white/60 mb-4 font-mono uppercase tracking-widest text-xs">
+                            <div className="flex items-center gap-2 text-white/60 mb-4 font-sans text-xs">
                                 <MapPin className="w-4 h-4 text-white/50" />
                                 <span>{trek.location}</span>
                             </div>
@@ -211,16 +205,16 @@ const TrekDetailsPage = () => {
                                 {trek.title}
                             </h1>
                             <div className="flex flex-wrap gap-3 text-white/90">
-                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-mono text-white/80">
+                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-sans text-white/80">
                                     <Clock className="w-3.5 h-3.5 text-white/50" />
                                     <span>{trek.duration}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-mono text-white/80">
+                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-sans text-white/80">
                                     <TrendingUp className="w-3.5 h-3.5 text-white/50" />
                                     <span>{trek.difficulty}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-mono text-white/80">
-                                    <span className="text-white/40">Tariff:</span>
+                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-sans text-white/80">
+                                    <span className="text-white/40">From:</span>
                                     <span className="font-medium text-white">{trek.price}</span>
                                 </div>
                             </div>
@@ -271,8 +265,8 @@ const TrekDetailsPage = () => {
                         {/* Trekking Options */}
                         {(totalGuides > 0 || totalCompanies > 0) ? (
                             <section>
-                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-2 border-white pl-4">Expedition Leaders</h2>
-                                <p className="text-white/50 text-xs font-mono uppercase tracking-wider mb-6 pl-4">Request a specific local master or certified team.</p>
+                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-2 border-white pl-4">Local Guides & Operators</h2>
+                                <p className="text-white/50 text-xs font-sans mb-6 pl-4">Request a verified local guide or certified trek team.</p>
 
                                 {totalGuides > 0 && totalCompanies > 0 && (
                                     <div className="mb-6 flex gap-2 border border-white/10 bg-white/[0.02] p-1 w-full sm:w-auto inline-flex">
@@ -281,7 +275,7 @@ const TrekDetailsPage = () => {
                                                 key={tab}
                                                 type="button"
                                                 onClick={() => setActiveTab(tab)}
-                                                className={`px-5 py-2 text-xs font-mono uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-white text-black font-medium' : 'text-white/50 hover:text-white'}`}
+                                                className={`px-5 py-2 text-xs font-sans uppercase tracking-wider transition-all ${activeTab === tab ? 'bg-white text-black font-medium' : 'text-white/50 hover:text-white'}`}
                                             >
                                                 {tab}
                                             </button>
@@ -308,15 +302,15 @@ const TrekDetailsPage = () => {
                                         <button 
                                             disabled={guidePage === 1}
                                             onClick={() => setGuidePage(p => p - 1)}
-                                            className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 transition-all"
+                                            className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-sans uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 transition-all cursor-pointer"
                                         >
                                             Previous
                                         </button>
-                                        <span className="text-xs font-mono text-white/50">Page {guidePage} of {totalGuidePages}</span>
+                                        <span className="text-xs font-sans text-white/50">Page {guidePage} of {totalGuidePages}</span>
                                         <button 
                                             disabled={guidePage === totalGuidePages}
                                             onClick={() => setGuidePage(p => p + 1)}
-                                            className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 transition-all"
+                                            className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-sans uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 transition-all cursor-pointer"
                                         >
                                             Next
                                         </button>
@@ -324,9 +318,9 @@ const TrekDetailsPage = () => {
                                 )}
                                 {(activeTab === 'companies' || totalGuides === 0) && totalCompanyPages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30">Previous</button>
-                                        <span className="text-xs font-mono text-white/50">Page {companyPage} of {totalCompanyPages}</span>
-                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30">Next</button>
+                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-sans uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 cursor-pointer">Previous</button>
+                                        <span className="text-xs font-sans text-white/50">Page {companyPage} of {totalCompanyPages}</span>
+                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-sans uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 cursor-pointer">Next</button>
                                     </div>
                                 )}
                             </section>
@@ -337,21 +331,21 @@ const TrekDetailsPage = () => {
                     <div className="lg:col-span-1 order-first lg:order-last mb-8 lg:mb-0">
                         <div className="lg:sticky lg:top-28 border border-white/15 bg-neutral-950 p-7 shadow-2xl">
                             <div className="hidden lg:block">
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block mb-2">Expedition Dossier</span>
-                                <h3 className="font-display text-2xl font-normal text-white mb-2">Reserve Field Slot</h3>
-                                <p className="text-xs text-white/50 mb-6 font-sans">Connect directly with vetted local leaders.</p>
+                                <span className="text-xs font-sans uppercase tracking-wider text-white/40 block mb-2 font-medium">Trek Overview</span>
+                                <h3 className="font-display text-2xl font-normal text-white mb-2">Book Your Trek</h3>
+                                <p className="text-xs text-white/50 mb-6 font-sans">Connect directly with vetted local guides.</p>
 
-                                <div className="space-y-3 mb-8 text-xs font-mono">
+                                <div className="space-y-3 mb-8 text-xs font-sans">
                                     <div className="flex justify-between items-center py-2.5 border-b border-white/[0.08]">
-                                        <span className="text-white/50">DURATION</span>
+                                        <span className="text-white/50">Duration</span>
                                         <span className="text-white">{trek.duration}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-2.5 border-b border-white/[0.08]">
-                                        <span className="text-white/50">DIFFICULTY</span>
+                                        <span className="text-white/50">Difficulty</span>
                                         <span className="text-white">{trek.difficulty}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-2.5 border-b border-white/[0.08]">
-                                        <span className="text-white/50">TARIFF</span>
+                                        <span className="text-white/50">Price</span>
                                         <span className="text-base text-white font-medium">{trek.price}</span>
                                     </div>
                                 </div>
@@ -360,7 +354,7 @@ const TrekDetailsPage = () => {
                             {hasEnquired ? (
                                 <button
                                     onClick={() => router.push('/dashboard')}
-                                    className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+                                    className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.15)] font-sans"
                                 >
                                     <span>View Enquiry</span>
                                     <ArrowRight className="w-4 h-4" />
@@ -368,14 +362,14 @@ const TrekDetailsPage = () => {
                             ) : (
                                 <button
                                     onClick={() => handleRequestInfo()}
-                                    className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+                                    className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.15)] font-sans"
                                 >
-                                    <span>Request Expedition Info</span>
+                                    <span>Request Trek Info</span>
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
                             )}
 
-                            <p className="mt-4 text-[11px] font-mono text-center text-white/40">
+                            <p className="mt-4 text-xs font-sans text-center text-white/40">
                                 Zero booking fee &middot; Direct guide contact
                             </p>
                         </div>

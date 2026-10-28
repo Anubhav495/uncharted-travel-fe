@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, ShieldCheck } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 interface CustomerReview {
     name: string;
@@ -8,7 +8,6 @@ interface CustomerReview {
     tour: string;
     quote: string;
     profession?: string;
-    date: string;
 }
 
 const customerReviews: CustomerReview[] = [
@@ -16,28 +15,25 @@ const customerReviews: CustomerReview[] = [
         name: 'Vivek Verma',
         avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
         rating: 5,
-        tour: 'Kareri Glacial Lake',
-        quote: 'The alpine stillness of Kareri is impossible to capture in photos. Hiking with Aatish felt like walking through centuries of unwritten mountain heritage.',
-        profession: 'Software Architect',
-        date: 'Autumn Traverse',
+        tour: 'Kareri Lake Trek',
+        quote: 'The trek with Aatish was incredible. As someone new to high-altitude trekking, his knowledge of the trails and calm demeanor made all the difference. Can’t wait for my next trek with Uncharted!',
+        profession: 'Software Engineer',
     },
     {
         name: 'Pranjal Gupta',
         avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
         rating: 5,
-        tour: 'Sar Pass High Traverse',
-        quote: 'Crossing the snow ridges at 13,800 ft under Kapil’s watchful guidance was transcendent. Zero tourist rush. Just wind, ice, and absolute focus.',
-        profession: 'Chartered Accountant',
-        date: 'Early Summer',
+        tour: 'Hampta Pass Trek',
+        quote: 'Kapil was more than just a guide; he was a mentor on the trail. The way he handled our group through the snow sections showed his years of experience. Truly an unforgettable journey.',
+        profession: 'Finance Professional',
     },
     {
         name: 'Nidhi Tripathi',
         avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop',
         rating: 5,
-        tour: 'Kheerganga Hot Springs',
-        quote: 'Pritam shared the mythologies of every stream we crossed. Reaching the steaming mineral pools after hours in the pinewood was pure medicine.',
-        profession: 'Educator & Writer',
-        date: 'Spring Equinox',
+        tour: 'Kheerganga Trek',
+        quote: 'Such a beautiful trek, perfect for beginners. The hot springs at the top were the highlight for me. Would totally do it again with friends.',
+        profession: 'Teacher',
     }
 ];
 
@@ -49,40 +45,27 @@ const ReviewsSection: React.FC = () => {
         >
             <div className="max-w-6xl mx-auto">
                 {/* Section Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-                    <div>
-                        <p className="text-xs uppercase tracking-widest text-white/45 mb-3 font-sans font-medium">
-                            Field Journals &middot; Verified Expeditions
-                        </p>
-                        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-                            Chronicles of <span className="italic text-white/90">the Traverse.</span>
-                        </h2>
-                    </div>
-                    <div className="flex items-center gap-2 border border-white/10 px-3 py-1.5 bg-white/[0.02]">
-                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                        <span className="text-xs font-mono uppercase tracking-wider text-white/70">
-                            100% Verified Field Explorers
-                        </span>
-                    </div>
+                <div className="max-w-2xl mb-16">
+                    <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                        Hear From Our <span className="italic text-white/90">Travelers</span>
+                    </h2>
+                    <p className="text-sm text-white/60 mt-4 font-sans leading-relaxed">
+                        Real experiences from trekkers who explored the Himalayas with our local guides.
+                    </p>
                 </div>
 
-                {/* Editorial Reviews Grid */}
+                {/* Reviews Grid */}
                 <div className="grid md:grid-cols-3 gap-6">
                     {customerReviews.map((review, idx) => (
                         <div
                             key={idx}
-                            className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/20 hover:bg-white/[0.03] transition duration-200 relative group"
+                            className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/20 hover:bg-white/[0.03] transition duration-200"
                         >
                             <div>
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="flex items-center gap-1 text-white/90">
-                                        {[...Array(review.rating)].map((_, i) => (
-                                            <Star key={i} className="w-3.5 h-3.5 fill-white text-white" />
-                                        ))}
-                                    </div>
-                                    <span className="text-[10px] font-mono uppercase tracking-wider text-white/40 border border-white/[0.08] px-2 py-0.5">
-                                        {review.date}
-                                    </span>
+                                <div className="flex items-center gap-1 text-white/90 mb-6">
+                                    {[...Array(review.rating)].map((_, i) => (
+                                        <Star key={i} className="w-4 h-4 fill-white text-white" />
+                                    ))}
                                 </div>
 
                                 <p className="font-display text-xl font-normal italic text-white/85 leading-relaxed mb-8">
@@ -99,13 +82,13 @@ const ReviewsSection: React.FC = () => {
                                     />
                                     <div>
                                         <p className="text-sm font-sans font-medium text-white">{review.name}</p>
-                                        <p className="text-[11px] font-mono text-white/45 uppercase tracking-wider">
+                                        <p className="text-xs font-sans text-white/50">
                                             {review.profession}
                                         </p>
                                     </div>
                                 </div>
 
-                                <span className="text-[10px] px-2 py-1 border border-white/10 text-white/60 font-mono uppercase tracking-wider bg-black/40">
+                                <span className="text-xs px-2.5 py-1 border border-white/10 text-white/70 bg-white/[0.03] font-sans">
                                     {review.tour}
                                 </span>
                             </div>

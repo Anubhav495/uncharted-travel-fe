@@ -11,14 +11,11 @@ const MobileDestinationsHero: React.FC = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/80 to-black" />
             <div className="relative mx-auto max-w-md">
-                <span className="text-[10px] uppercase tracking-widest text-white/50 font-mono mb-2 block">
-                    Alpine Trajectory Archive
-                </span>
                 <h1 className="font-display text-4xl font-normal leading-[1.05] tracking-tight text-white">
                     Find your next <span className="italic text-white/90">expedition.</span>
                 </h1>
                 <p className="mt-3 text-sm leading-relaxed text-white/60 font-sans">
-                    Handpicked Himalayan trails, native mountain masters, and enduring memories.
+                    Explore the uncharted territories of the Himalayas. Handpicked trails and expert local guides.
                 </p>
             </div>
         </section>

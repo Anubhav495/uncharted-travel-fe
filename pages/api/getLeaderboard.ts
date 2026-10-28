@@ -62,7 +62,7 @@ function assignLeaderboardAvatars(entries: LeaderboardEntry[]) {
     });
 }
 
-const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
+export const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
     { user_id: 'seed-arjun-mehta', display_name: 'Arjun Mehta', avatar_url: null, xp_points: 700, level: getLevelForXp(700) },
     { user_id: 'seed-sana-khan', display_name: 'Sana Khan', avatar_url: null, xp_points: 650, level: getLevelForXp(650) },
     { user_id: 'seed-raghav-sharma', display_name: 'Raghav Sharma', avatar_url: null, xp_points: 600, level: getLevelForXp(600) },
@@ -170,7 +170,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             : null;
 
         return res.status(200).json({
-            leaderboard: assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+            leaderboard: assignLeaderboardAvatars(fullLeaderboard),
             currentUserRank: currentUserRank && currentUserRank > 0 ? currentUserRank : null,
         });
     } catch (error) {

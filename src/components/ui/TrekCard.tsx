@@ -16,7 +16,7 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                 isActive ? 'is-active border-white/40' : ''
             }`}
         >
-            {/* Image Container with Editorial Dark Fade */}
+            {/* Image Container */}
             <div className="relative h-[280px] sm:h-[320px] md:h-[340px] overflow-hidden">
                 <TrekImage
                     src={trek.image}
@@ -31,7 +31,7 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                     {trek.badges.map((badge, index) => (
                         <span
                             key={index}
-                            className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 border border-white/20 bg-black/75 text-white/90 backdrop-blur-md"
+                            className="text-xs font-sans uppercase tracking-wider px-2.5 py-0.5 border border-white/20 bg-black/75 text-white/90 backdrop-blur-md"
                         >
                             {badge}
                         </span>
@@ -43,7 +43,7 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
             <div className="p-6 bg-neutral-950 flex flex-col justify-between flex-grow -mt-8 relative z-10">
                 <div>
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-white/50 text-xs font-mono uppercase tracking-wider mb-2">
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs font-sans mb-2">
                         <MapPin className="w-3.5 h-3.5 text-white/40" />
                         <span>{trek.location}</span>
                     </div>
@@ -54,7 +54,7 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                     </h3>
 
                     {/* Specs Grid */}
-                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-white/[0.08] text-xs font-mono text-white/60 mb-5">
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-white/[0.08] text-xs font-sans text-white/60 mb-5">
                         <div className="flex items-center gap-2">
                             <Clock className="w-3.5 h-3.5 text-white/40" />
                             <span>{trek.duration}</span>
@@ -69,14 +69,14 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                 {/* Price & Action */}
                 <div className="flex items-center justify-between pt-1">
                     <div>
-                        <p className="text-[10px] text-white/40 font-mono uppercase tracking-widest">Pass Tariffs</p>
-                        <p className="text-base sm:text-lg font-mono font-medium text-white">{trek.price}</p>
+                        <p className="text-xs text-white/40 font-sans">Starting from</p>
+                        <p className="text-base sm:text-lg font-sans font-medium text-white">{trek.price}</p>
                     </div>
                     <button
                         onClick={() => onBook(trek.slug)}
                         className="flex items-center gap-2 bg-white text-black hover:bg-white/90 px-4 py-2.5 text-xs font-sans font-medium uppercase tracking-widest transition-all cursor-pointer"
                     >
-                        <span>Examine</span>
+                        <span>View Trek</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                 </div>

@@ -8,18 +8,18 @@ const GuideSelectionSection: React.FC = () => {
                     {/* Text Side */}
                     <div className="w-full md:w-1/2">
                         <div className="flex items-center space-x-3 mb-6">
-                            <span className="text-xs uppercase tracking-widest text-white/45 font-mono">03 / Rigorous Standard</span>
+                            <span className="text-xs uppercase tracking-wider text-white/50 font-sans font-medium">The Standard</span>
                         </div>
                         <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal leading-tight mb-8">
-                            Vetting Our <br />
-                            <span className="italic text-white/90">Native Leaders.</span>
+                            How We Choose <br />
+                            <span className="italic text-white/90">Our Experts</span>
                         </h2>
                         <div className="space-y-6 text-base sm:text-lg text-white/65 leading-relaxed font-sans font-normal">
                             <p>
-                                Every guide on Uncharted is personally evaluated and joined in the field by our founding team before being invited to the platform.
+                                Our guides are personally picked by our founding team after we've trekked with them.
                             </p>
                             <p className="text-sm text-white/50">
-                                When we witness true poise in whiteouts, instinctive trail navigation, deep ethical humility, and alpine medical knowledge, we formalize our fellowship. No guide is onboarded through automated algorithms.
+                                When we appreciate their behavior, leadership, and knowledge on the trail, we offer them the opportunity to join our team. We also recruit based on trusted recommendations from our founding guides, ensuring our high standards are always maintained.
                             </p>
                         </div>
                     </div>
@@ -29,13 +29,9 @@ const GuideSelectionSection: React.FC = () => {
                         <div className="relative border border-white/15 bg-neutral-950 p-2 shadow-2xl">
                             <img
                                 src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop"
-                                alt="Alpine Expedition Guidance"
+                                alt="Guides in the mountains"
                                 className="w-full max-w-md h-[450px] object-cover filter contrast-[1.05]"
                             />
-                            <div className="p-4 border-t border-white/[0.08] flex justify-between items-center text-[11px] font-mono text-white/45">
-                                <span>HUMAN-VETTED PROTOCOL</span>
-                                <span>100% IN-PERSON</span>
-                            </div>
                         </div>
                     </div>
                 </div>

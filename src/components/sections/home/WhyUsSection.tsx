@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -40,7 +41,7 @@ const WhyUsSection: React.FC = () => {
         const grid = gridRef.current;
         if (!section || !grid) return;
 
-        const cards = gsap.utils.toArray(grid.children) as HTMLElement[];
+        const cards = gsap.utils.toArray(grid.querySelectorAll('.why-us-card')) as HTMLElement[];
         gsap.set(cards, { opacity: 0, y: 30 });
 
         const tl = gsap.timeline({
@@ -67,7 +68,7 @@ const WhyUsSection: React.FC = () => {
     return (
         <section
             ref={sectionRef}
-            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white"
+            className="px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white"
             id="why-us"
         >
             <div className="max-w-6xl mx-auto">
@@ -81,45 +82,81 @@ const WhyUsSection: React.FC = () => {
                     </p>
                 </div>
 
-                {/* Cards Grid with EXACT original text & images, Atlas design */}
-                <div
-                    ref={gridRef}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-                >
-                    {features.map((feature) => (
-                        <div
-                            key={feature.index}
-                            className="border border-white/10 bg-neutral-950 flex flex-col justify-between overflow-hidden group hover:border-white/30 transition-all duration-300 shadow-xl"
-                        >
-                            {/* Card Image */}
-                            <div className="relative h-48 overflow-hidden">
-                                <img
-                                    src={feature.imageUrl}
-                                    alt={feature.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    loading="lazy"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent" />
-                                <div className="absolute top-3 left-3">
-                                    <span className="font-display text-xl text-white/80 bg-black/60 px-2 py-0.5 border border-white/15 backdrop-blur-md">
-                                        {feature.index}
-                                    </span>
-                                </div>
-                            </div>
+                {/* Cards Container with Horizontal Static Arrow Line behind on Laptop */}
+                <div className="relative">
+                    {/* Background horizontal static arrow line on laptop */}
+                    <div 
+                        className="hidden lg:flex absolute top-1/2 left-4 right-4 -translate-y-1/2 items-center pointer-events-none z-0 opacity-40"
+                        aria-hidden="true"
+                    >
+                        <div className="w-full h-px border-t border-dashed border-white/20" />
+                    </div>
 
-                            {/* Card Content with Exact Original Title and Description */}
-                            <div className="p-6 flex flex-col justify-between flex-grow">
-                                <div>
-                                    <h3 className="font-display text-2xl font-normal text-white mb-2 leading-tight">
-                                        {feature.title}
-                                    </h3>
-                                    <p className="font-sans text-sm text-white/60 leading-relaxed font-normal">
-                                        {feature.description}
-                                    </p>
+                    {/* Cards Grid with EXACT original text & images, Atlas design */}
+                    <div
+                        ref={gridRef}
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10"
+                    >
+                        {features.map((feature, idx) => (
+                            <React.Fragment key={feature.index}>
+                                <div
+                                    className="why-us-card border border-white/10 bg-neutral-950 flex flex-col justify-between overflow-hidden group hover:border-white/30 transition-all duration-300 shadow-xl relative"
+                                >
+                                    {/* Card Image */}
+                                    <div className="relative h-48 overflow-hidden">
+                                        <img
+                                            src={feature.imageUrl}
+                                            alt={feature.title}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            loading="lazy"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent" />
+                                        <div className="absolute top-3 left-3">
+                                            <span className="font-display text-xl text-white/80 bg-black/60 px-2 py-0.5 border border-white/15 backdrop-blur-md">
+                                                {feature.index}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Card Content with Exact Original Title and Description */}
+                                    <div className="p-6 flex flex-col justify-between flex-grow">
+                                        <div>
+                                            <h3 className="font-display text-2xl font-normal text-white mb-2 leading-tight">
+                                                {feature.title}
+                                            </h3>
+                                            <p className="font-sans text-sm text-white/60 leading-relaxed font-normal">
+                                                {feature.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Laptop Horizontal Static Arrow (between 01->02, 02->03, 03->04) */}
+                                    {idx < features.length - 1 && (
+                                        <div 
+                                            className="hidden lg:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full items-center justify-center border border-white/25 bg-neutral-950 text-white/80 shadow-2xl pointer-events-none group-hover:border-white/50 group-hover:text-white transition-colors"
+                                            aria-hidden="true"
+                                        >
+                                            <ArrowRight className="w-3.5 h-3.5" />
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        </div>
-                    ))}
+
+                                {/* Mobile Downward Arrow: As the explorer scrolls down through the cards */}
+                                {idx < features.length - 1 && (
+                                    <div 
+                                        className="sm:hidden flex flex-col items-center justify-center -my-2 py-1 text-white/50 z-20 pointer-events-none"
+                                        aria-hidden="true"
+                                    >
+                                        <div className="w-px h-3 bg-gradient-to-b from-white/20 to-white/10" />
+                                        <div className="w-7 h-7 rounded-full border border-white/20 bg-neutral-950 flex items-center justify-center my-0.5 text-white/70 shadow-lg">
+                                            <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+                                        </div>
+                                        <div className="w-px h-3 bg-gradient-to-b from-white/10 to-transparent" />
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

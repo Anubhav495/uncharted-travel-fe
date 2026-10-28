@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 
 interface GuideStory {
     name: string;
     location: string;
-    specialty: string;
     quote: string;
     tags: string[];
     imageUrl: string;
@@ -12,206 +11,306 @@ interface GuideStory {
 
 const foundingGuides: GuideStory[] = [
     {
-        name: 'Aatish',
-        location: 'Dharamshala, Himachal',
-        specialty: 'Alpine Glacial Terrains',
-        quote: 'I grew up in the shadow of the Dhauladhar. Guiding is not commerce; it is an initiation into ancient glacial lakes and silence.',
-        tags: ['Glacial Traverse', 'Alpine Lakes', 'High Passes'],
-        imageUrl: '/assets/aatish-photo.jpeg',
+        name: 'Kapil Rawat',
+        location: 'Garhwal Himalayas (Kedarkantha, Har Ki Dun)',
+        quote: "The mountains don't care about your schedule. Respect them, and they'll show you wonders you never imagined.",
+        tags: ['High-Altitude Specialist', 'First Aid Certified', '10+ Years Experience'],
+        imageUrl: '/assets/kapil-rawat.jpeg',
     },
     {
         name: 'Pritam Negi',
-        location: 'Parvati Valley, Himachal',
-        specialty: 'Sacred Forest Trails & Lore',
-        quote: 'Every ridge in Parvati Valley holds a myth. I guide wanderers toward sacred hot springs while sharing the oral histories of Lord Shiva.',
-        tags: ['Cultural History', 'Forest Expeditions', 'Mountain Lore'],
+        location: 'Parvati Valley & Spiti',
+        quote: "Every trail here has a story my grandfather told me. I don't just guide people; I share our home with them.",
+        tags: ['Local Folklore', 'Offbeat Routes', 'Photography Guide'],
         imageUrl: '/assets/pritam-photo-edited.png',
     },
     {
-        name: 'Kapil Rawat',
-        location: 'Sankri, Uttarakhand',
-        specialty: 'High-Altitude Winter Alpinism',
-        quote: 'The peaks do not yield to human pride; we adapt to their rhythm. I teach mountaineers to navigate snowfields with reverence and resolve.',
-        tags: ['Mountaineering', 'Snow Treks', 'First Response'],
-        imageUrl: '/assets/kapil-rawat.jpeg',
+        name: 'Aatish',
+        location: 'Dhauladhar Range',
+        quote: "I've walked these passes since I was eight. When you trek with me, you walk as a friend, not a client.",
+        tags: ['Snow Trek Expert', 'Wildlife Tracker', 'Wilderness Responder'],
+        imageUrl: '/assets/aatish-photo.jpeg',
     }
 ];
+
+const CYCLE_MS = 6000;
 
 const GuideStoriesSection: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
-    const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [touchEnd, setTouchEnd] = useState<number | null>(null);
+    const [progress, setProgress] = useState(0);
+    const [isFading, setIsFading] = useState(false);
 
-    const minSwipeDistance = 50;
+    // Mobile touch swipe states
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [dragOffset, setDragOffset] = useState<number>(0);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const startTimeRef = useRef<number>(Date.now());
+    const animFrameRef = useRef<number | null>(null);
+
+    const switchSlide = useCallback((newIndex: number) => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentIndex(newIndex);
+            setProgress(0);
+            startTimeRef.current = Date.now();
+            setIsFading(false);
+        }, 180);
+    }, []);
 
     const goToPrevious = useCallback(() => {
-        const isFirstSlide = currentIndex === 0;
-        const newIndex = isFirstSlide ? foundingGuides.length - 1 : currentIndex - 1;
-        setCurrentIndex(newIndex);
-    }, [currentIndex]);
+        const isFirst = currentIndex === 0;
+        const newIndex = isFirst ? foundingGuides.length - 1 : currentIndex - 1;
+        switchSlide(newIndex);
+    }, [currentIndex, switchSlide]);
 
     const goToNext = useCallback(() => {
-        const isLastSlide = currentIndex === foundingGuides.length - 1;
-        const newIndex = isLastSlide ? 0 : currentIndex + 1;
-        setCurrentIndex(newIndex);
-    }, [currentIndex]);
+        const isLast = currentIndex === foundingGuides.length - 1;
+        const newIndex = isLast ? 0 : currentIndex + 1;
+        switchSlide(newIndex);
+    }, [currentIndex, switchSlide]);
 
+    // Live continuous timer progress — does NOT pause on hover
     useEffect(() => {
-        if (isPaused) return;
-        const timer = setInterval(() => {
-            goToNext();
-        }, 5000);
-        return () => clearInterval(timer);
-    }, [isPaused, currentIndex, goToNext]);
-
-    const onTouchStart = (e: React.TouchEvent) => {
-        setTouchEnd(null);
-        setTouchStart(e.targetTouches[0].clientX);
-    };
-
-    const onTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX);
-    };
-
-    const onTouchEnd = () => {
-        if (!touchStart || !touchEnd) return;
-        const distance = touchStart - touchEnd;
-        if (distance > minSwipeDistance) {
-            goToNext();
-        } else if (distance < -minSwipeDistance) {
-            goToPrevious();
+        if (isPaused) {
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+            return;
         }
+
+        startTimeRef.current = Date.now() - (progress / 100) * CYCLE_MS;
+
+        const updateProgress = () => {
+            const elapsed = Date.now() - startTimeRef.current;
+            const currentProgress = Math.min((elapsed / CYCLE_MS) * 100, 100);
+            setProgress(currentProgress);
+
+            if (currentProgress >= 100) {
+                goToNext();
+            } else {
+                animFrameRef.current = requestAnimationFrame(updateProgress);
+            }
+        };
+
+        animFrameRef.current = requestAnimationFrame(updateProgress);
+
+        return () => {
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+        };
+    }, [isPaused, goToNext, currentIndex]);
+
+    // Touch events for mobile swiping
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.targetTouches[0].clientX);
+        setDragOffset(0);
+        setIsDragging(true);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (touchStartX === null) return;
+        const currentX = e.targetTouches[0].clientX;
+        const diff = currentX - touchStartX;
+        setDragOffset(diff * 0.7);
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+        if (Math.abs(dragOffset) > 40) {
+            if (dragOffset < 0) {
+                goToNext();
+            } else {
+                goToPrevious();
+            }
+        }
+        setDragOffset(0);
+        setTouchStartX(null);
+    };
+
+    const togglePause = () => {
+        setIsPaused(!isPaused);
     };
 
     const currentGuide = foundingGuides[currentIndex];
 
     return (
         <section
-            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white overflow-hidden"
+            className="border-t border-white/[0.08] px-4 sm:px-8 md:px-12 lg:px-20 py-12 sm:py-20 md:py-28 bg-black relative text-white overflow-hidden"
             id="stories"
         >
-            {/* Ambient topo background pattern */}
-            <div className="absolute inset-0 pointer-events-none opacity-15">
-                <div className="h-full w-full bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:24px_24px]" />
-            </div>
-
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 sm:mb-12">
                     <div>
-                        <p className="text-xs uppercase tracking-widest text-white/45 mb-3 font-sans font-medium">
-                            Field Masters &middot; Native Archive
-                        </p>
-                        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-                            Chronicles from our <span className="italic text-white/90">Native Guides.</span>
+                        <div className="inline-block border border-white/15 px-2.5 py-0.5 bg-white/[0.03] text-[11px] font-sans uppercase tracking-wider text-white/70 mb-2 sm:mb-3">
+                            Real Local Experts
+                        </div>
+                        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-white leading-tight">
+                            Stories From Our Founding <span className="italic text-white/90">Guides</span>
                         </h2>
                     </div>
-                    <p className="text-sm text-white/55 max-w-sm font-sans leading-relaxed">
-                        Born on the ridgelines. Built for deep winter crossings. These are not commercial tour operators — they are custodians of the trails.
+                    <p className="text-xs sm:text-sm text-white/60 max-w-sm font-sans leading-relaxed">
+                        They don't just guide treks — they grew up on these trails. Born in the mountains, built for adventure.
                     </p>
                 </div>
 
-                {/* Editorial Master Feature Card */}
-                <div
-                    className="border border-white/15 bg-neutral-950/80 backdrop-blur-md shadow-2xl relative"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
-                >
-                    <div className="grid md:grid-cols-12 min-h-[500px]">
-                        {/* Guide Image with Editorial Filter */}
-                        <div className="md:col-span-5 relative min-h-[350px] md:min-h-full border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
-                            <img
-                                src={currentGuide.imageUrl}
-                                alt={currentGuide.name}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                                style={{
-                                    objectPosition:
-                                        currentGuide.name === 'Kapil Rawat'
-                                            ? '50% 30%'
-                                            : currentGuide.name === 'Pritam Negi'
-                                            ? '50% 10%'
-                                            : '50% 60%',
-                                }}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent md:hidden" />
-                            <div className="absolute top-4 left-4 z-10">
-                                <span className="text-[10px] uppercase tracking-widest px-2.5 py-1 bg-black/75 border border-white/20 text-white/90 font-mono backdrop-blur-md">
-                                    Native Master 0{currentIndex + 1}
-                                </span>
-                            </div>
-                        </div>
+                {/* Guide Feature Card Container with Laptop Side Arrows */}
+                <div className="relative group/card-wrapper">
+                    {/* Laptop Left Floating Arrow */}
+                    <button
+                        onClick={goToPrevious}
+                        className="hidden lg:flex absolute -left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 items-center justify-center bg-neutral-900/90 hover:bg-white text-white hover:text-black border border-white/20 hover:border-white shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group/btn"
+                        aria-label="Previous Guide"
+                        title="Previous Guide"
+                    >
+                        <ChevronLeft className="w-5 h-5 group-hover/btn:-translate-x-0.5 transition-transform" />
+                    </button>
 
-                        {/* Guide Bio & Quote */}
-                        <div className="md:col-span-7 p-8 md:p-12 flex flex-col justify-between">
-                            <div>
-                                <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-                                    <div className="flex items-center gap-2 text-white/60 text-xs font-mono uppercase tracking-wider">
+                    {/* Laptop Right Floating Arrow */}
+                    <button
+                        onClick={goToNext}
+                        className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 items-center justify-center bg-neutral-900/90 hover:bg-white text-white hover:text-black border border-white/20 hover:border-white shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group/btn"
+                        aria-label="Next Guide"
+                        title="Next Guide"
+                    >
+                        <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-0.5 transition-transform" />
+                    </button>
+
+                    {/* Main Interactive Card — Compact height on mobile so entire card is visible at one go */}
+                    <div
+                        className="border border-white/15 bg-neutral-950/85 backdrop-blur-md shadow-2xl relative select-none touch-pan-y overflow-hidden"
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
+                        {/* Slide Content with Mobile Drag Translation & Fading */}
+                        <div
+                            className="grid md:grid-cols-12 min-h-0 md:min-h-[440px]"
+                            style={{
+                                transform: `translateX(${dragOffset}px)`,
+                                opacity: isFading ? 0.35 : 1,
+                                transition: isDragging
+                                    ? 'none'
+                                    : 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease',
+                            }}
+                        >
+                            {/* Guide Image — Increased height on mobile so their photo is clearly visible */}
+                            <div className="md:col-span-5 relative h-64 sm:h-72 md:h-auto md:min-h-full border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                                <img
+                                    src={currentGuide.imageUrl}
+                                    alt={currentGuide.name}
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                                    style={{
+                                        objectPosition:
+                                            currentGuide.name === 'Kapil Rawat'
+                                                ? '50% 20%'
+                                                : currentGuide.name === 'Pritam Negi'
+                                                ? '50% 12%'
+                                                : '50% 20%',
+                                    }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:hidden" />
+                                <div className="absolute bottom-2.5 left-3 md:hidden">
+                                    <span className="text-[10px] uppercase font-sans tracking-widest text-white/80 bg-black/65 px-2.5 py-1 backdrop-blur-sm border border-white/15">
+                                        {currentGuide.location.split('(')[0]}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Guide Info */}
+                            <div className="md:col-span-7 p-4 sm:p-6 md:p-10 flex flex-col justify-between">
+                                <div>
+                                    <div className="hidden md:flex items-center gap-2 text-white/60 text-xs font-sans mb-3">
                                         <MapPin className="w-3.5 h-3.5 text-white/40" />
                                         <span>{currentGuide.location}</span>
                                     </div>
-                                    <span className="text-xs px-2.5 py-1 border border-white/15 text-white/70 bg-white/[0.03] font-sans">
-                                        {currentGuide.specialty}
-                                    </span>
-                                </div>
 
-                                <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-normal text-white mb-6">
-                                    {currentGuide.name}
-                                </h3>
-
-                                <div className="border-l border-white/20 pl-6 py-2 my-6">
-                                    <p className="font-display text-xl sm:text-2xl italic text-white/85 leading-relaxed">
-                                        "{currentGuide.quote}"
-                                    </p>
-                                </div>
-
-                                <div className="flex flex-wrap gap-2 mt-6">
-                                    {currentGuide.tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="text-xs px-2.5 py-1 border border-white/[0.08] text-white/50 bg-black/40 font-mono uppercase tracking-wider"
-                                        >
-                                            {tag}
+                                    <div className="flex items-baseline justify-between gap-2 mb-2 sm:mb-4">
+                                        <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-normal text-white">
+                                            {currentGuide.name}
+                                        </h3>
+                                        <span className="text-[10px] font-sans text-white/40 uppercase tracking-widest md:hidden">
+                                            0{currentIndex + 1}/0{foundingGuides.length}
                                         </span>
-                                    ))}
-                                </div>
-                            </div>
+                                    </div>
 
-                            {/* Control Bar */}
-                            <div className="mt-12 pt-6 border-t border-white/[0.08] flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    {foundingGuides.map((_, idx) => (
+                                    <div className="border-l border-white/20 pl-3.5 sm:pl-5 py-1 my-2 sm:my-4">
+                                        <p className="font-display text-base sm:text-lg md:text-xl italic text-white/85 leading-snug">
+                                            "{currentGuide.quote}"
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-1.5 mt-2.5 sm:mt-4">
+                                        {currentGuide.tags.map((tag) => (
+                                            <span
+                                                key={tag}
+                                                className="text-[10px] sm:text-xs px-2.5 py-0.5 border border-white/10 text-white/60 bg-white/[0.02] font-sans"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Bottom Carousel Controls with filling progress bars */}
+                                <div className="pt-3.5 sm:pt-6 mt-3 sm:mt-6 border-t border-white/[0.08] flex items-center justify-between gap-3">
+                                    {/* Progress bars + Click to Pause */}
+                                    <div className="flex items-center gap-2">
+                                        {foundingGuides.map((guide, idx) => (
+                                            <button
+                                                key={idx}
+                                                type="button"
+                                                onClick={() => switchSlide(idx)}
+                                                className="group/track relative h-1.5 rounded-none bg-white/15 cursor-pointer overflow-hidden transition-all"
+                                                style={{
+                                                    width: currentIndex === idx ? '40px' : '18px',
+                                                }}
+                                                aria-label={`View ${guide.name}`}
+                                                title={`Switch to ${guide.name}`}
+                                            >
+                                                <div
+                                                    className="absolute top-0 left-0 h-full bg-white transition-all"
+                                                    style={{
+                                                        width:
+                                                            currentIndex === idx
+                                                                ? `${progress}%`
+                                                                : idx < currentIndex
+                                                                ? '100%'
+                                                                : '0%',
+                                                    }}
+                                                />
+                                            </button>
+                                        ))}
+
+                                        {/* Click to Pause / Play toggle */}
                                         <button
-                                            key={idx}
-                                            onClick={() => setCurrentIndex(idx)}
-                                            className={`h-1.5 transition-all duration-300 ${
-                                                currentIndex === idx
-                                                    ? 'w-8 bg-white'
-                                                    : 'w-2 bg-white/30 hover:bg-white/50'
-                                            }`}
-                                            aria-label={`Guide ${idx + 1}`}
-                                        />
-                                    ))}
-                                </div>
+                                            type="button"
+                                            onClick={togglePause}
+                                            className="ml-2 text-[10px] font-sans uppercase tracking-wider text-white/40 hover:text-white transition-colors cursor-pointer"
+                                            title={isPaused ? "Resume auto-cycle" : "Pause auto-cycle"}
+                                        >
+                                            {isPaused ? '▶ Resume' : '❚❚ Pause'}
+                                        </button>
+                                    </div>
 
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={goToPrevious}
-                                        className="h-10 w-10 border border-white/15 bg-white/[0.02] flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition duration-150"
-                                        aria-label="Previous guide"
-                                    >
-                                        <ChevronLeft className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        onClick={goToNext}
-                                        className="h-10 w-10 border border-white/15 bg-white/[0.02] flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition duration-150"
-                                        aria-label="Next guide"
-                                    >
-                                        <ChevronRight className="w-4 h-4" />
-                                    </button>
+                                    {/* Mobile/Tablet Navigation Arrows (hidden on laptop to prevent duplicate arrows) */}
+                                    <div className="flex items-center gap-1.5 lg:hidden">
+                                        <button
+                                            type="button"
+                                            onClick={goToPrevious}
+                                            className="p-2 border border-white/15 bg-white/[0.02] hover:bg-white hover:text-black hover:border-white transition duration-150 cursor-pointer active:scale-95"
+                                            aria-label="Previous Guide"
+                                        >
+                                            <ChevronLeft className="w-3.5 h-3.5" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={goToNext}
+                                            className="p-2 border border-white/15 bg-white/[0.02] hover:bg-white hover:text-black hover:border-white transition duration-150 cursor-pointer active:scale-95"
+                                            aria-label="Next Guide"
+                                        >
+                                            <ChevronRight className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

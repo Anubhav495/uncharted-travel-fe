@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import SEO from '../../next-seo.config';
 import TrekDetailsPage from '../../pages/destinations/[slug]';
 
+const mockPush = jest.fn();
 jest.mock('next/router', () => ({ useRouter: jest.fn() }));
 
 const mockLoginWithGoogle = jest.fn().mockResolvedValue(undefined);
@@ -34,9 +35,11 @@ describe('trek page SEO', () => {
     beforeEach(() => {
         global.fetch = jest.fn().mockResolvedValue({ ok: false });
         mockLoginWithGoogle.mockClear();
+        mockPush.mockClear();
         jest.mocked(useRouter).mockReturnValue({
             query: { slug: 'hampta-pass' },
             isReady: true,
+            push: mockPush,
         } as unknown as ReturnType<typeof useRouter>);
     });
 
@@ -71,6 +74,7 @@ describe('trek page SEO', () => {
             query: { slug: 'baraadsar-lake-trek' },
             asPath: '/destinations/baraadsar-lake-trek',
             isReady: true,
+            push: mockPush,
         } as unknown as ReturnType<typeof useRouter>);
 
         const { container } = render(<TrekDetailsPage />);
@@ -96,10 +100,6 @@ describe('trek page SEO', () => {
 
         fireEvent.click(screen.getByRole('button', { name: 'Request This Guide' }));
 
-        const callbackUrl = new URL(mockLoginWithGoogle.mock.calls[0][0]);
-        expect(callbackUrl.pathname).toBe('/destinations/baraadsar-lake-trek');
-        expect(callbackUrl.searchParams.get('providerId')).toBe('guide-kailash-rawat');
-        expect(callbackUrl.searchParams.get('providerType')).toBe('guide');
-        expect(callbackUrl.searchParams.get('providerName')).toBe('Kailash Rawat');
+        expect(mockPush).toHaveBeenCalledWith('/login');
     });
 });

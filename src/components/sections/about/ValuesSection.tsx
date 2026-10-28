@@ -5,26 +5,22 @@ const values = [
     {
         icon: Users,
         title: 'Local Empowerment',
-        tag: '01 / Fellowship',
-        description: 'Direct economic distribution to native guides and mountain homestays. Zero corporate broker commissions.'
+        description: 'We connect you directly with local guides, ensuring the community benefits from every trek.'
     },
     {
         icon: Heart,
-        title: 'Alpine Wilderness Safety',
-        tag: '02 / Protocol',
-        description: 'Every trail leader is trained in high-altitude medicine, frostbite prevention, and emergency descent lines.'
+        title: 'Safe Adventures',
+        description: 'Every guide is thoroughly vetted for their expertise in high-altitude environments.'
     },
     {
         icon: Globe,
-        title: 'Leave-No-Trace Doctrine',
-        tag: '03 / Ecology',
-        description: 'Zero plastic trail waste, absolute respect for fragile alpine meadows, and zero-carbon trail etiquette.'
+        title: 'Sustainability',
+        description: 'We adhere strictly to leave-no-trace policies to preserve the Himalayas.'
     },
     {
         icon: Compass,
-        title: 'Living Oral History',
-        tag: '04 / Heritage',
-        description: 'Uncovering the sacred mountain mythologies, high passes, and oral knowledge passed across generations.'
+        title: 'Curiosity',
+        description: 'Embrace the unknown and learn the untaught stories of the mountains.'
     }
 ];
 
@@ -36,16 +32,16 @@ const ValuesSection: React.FC = () => {
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
                         <div>
                             <div className="flex items-center space-x-3 mb-3">
-                                <span className="text-xs uppercase tracking-widest text-white/45 font-mono">
-                                    04 / Foundational Ethics
+                                <span className="text-xs uppercase tracking-wider text-white/50 font-sans font-medium">
+                                    Our Values
                                 </span>
                             </div>
                             <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-                                Guiding <span className="italic text-white/90">Principles.</span>
+                                Guiding <span className="italic text-white/90">Principles</span>
                             </h2>
                         </div>
-                        <p className="text-sm text-white/55 max-w-sm font-sans leading-relaxed">
-                            These core doctrines shape every trail we archive, every guide we embrace, and every step taken above tree line.
+                        <p className="text-sm text-white/60 max-w-sm font-sans leading-relaxed">
+                            These core values shape every experience we curate and every connection we facilitate.
                         </p>
                     </div>
 
@@ -55,16 +51,11 @@ const ValuesSection: React.FC = () => {
                             return (
                                 <div
                                     key={val.title}
-                                    className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/25 hover:bg-white/[0.04] transition duration-200 group"
+                                    className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/25 hover:bg-white/[0.04] transition duration-200"
                                 >
                                     <div>
-                                        <div className="flex items-center justify-between mb-8">
-                                            <div className="h-9 w-9 border border-white/15 bg-white/[0.03] flex items-center justify-center text-white group-hover:border-white/35 transition duration-150">
-                                                <Icon className="w-4 h-4 text-white/80" />
-                                            </div>
-                                            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
-                                                {val.tag}
-                                            </span>
+                                        <div className="h-9 w-9 border border-white/15 bg-white/[0.03] flex items-center justify-center text-white mb-6">
+                                            <Icon className="w-4 h-4 text-white/80" />
                                         </div>
 
                                         <h3 className="font-display text-2xl font-normal text-white mb-3">
@@ -73,10 +64,6 @@ const ValuesSection: React.FC = () => {
                                         <p className="text-sm text-white/55 leading-relaxed font-sans">
                                             {val.description}
                                         </p>
-                                    </div>
-
-                                    <div className="pt-6 mt-8 border-t border-white/[0.06] text-[10px] font-mono text-white/40 uppercase tracking-widest">
-                                        Enduring Standard
                                     </div>
                                 </div>
                             );
