@@ -1,60 +1,63 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Compass, ShieldCheck, Mountain, MessageSquare } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const features = [
+interface FeaturePillar {
+    index: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    icon: typeof Mountain;
+    tag: string;
+    status: string;
+    imageUrl: string;
+}
+
+const pillars: FeaturePillar[] = [
     {
-        title: 'Local Mountain Experts',
-        description: 'Connect with seasoned guides who know every hidden trail and peak.',
+        index: '01',
+        title: 'Native Mountain Lineage',
+        subtitle: 'Living Heritage',
+        description: 'Guided by generational Himalayan natives who grew up navigating remote glacial passes, hidden ridge trails, and sacred river gorges.',
+        icon: Mountain,
+        tag: 'Heritage & Instinct',
+        status: 'Authentic Lineage',
         imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=800&auto=format&fit=crop',
-        href: '/guides'
     },
     {
-        title: 'Curated Expeditions',
-        description: 'Choose from hand-picked Himalayan treks designed for every endurance level.',
+        index: '02',
+        title: 'Curated Alpine Expeditions',
+        subtitle: 'Offbeat Solitude',
+        description: 'Hand-picked routes designed to circumvent mass tourism choke points. Experience the raw silence and grandeur of untamed peaks.',
+        icon: Compass,
+        tag: 'Curated Trajectories',
+        status: 'Zero Mass Noise',
         imageUrl: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=800&auto=format&fit=crop',
-        href: '/tours'
     },
     {
-        title: 'Trust & Safety First',
-        description: 'Every local guide is vetted for high-altitude emergency response training.',
+        index: '03',
+        title: 'Wilderness Safety Doctrine',
+        subtitle: 'Uncompromising Protocol',
+        description: 'Every local guide is rigorously certified in high-altitude medicine, rapid hypothermia triage, and technical terrain ropework.',
+        icon: ShieldCheck,
+        tag: 'Altitude Protocol',
+        status: 'Vetted First-Response',
         imageUrl: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?q=80&w=800&auto=format&fit=crop',
-        href: '/trust-and-safety'
     },
     {
-        title: 'Direct Connections',
-        description: 'Chat openly with your trekking company and guide before you head out.',
+        index: '04',
+        title: 'Direct Guide Fellowship',
+        subtitle: 'Zero Middlemen',
+        description: 'Consult directly with your expedition leader before tying your bootlaces. Form genuine bonds and tailor your ascent pace.',
+        icon: MessageSquare,
+        tag: 'Direct Connection',
+        status: 'Unfiltered Access',
         imageUrl: 'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=800&auto=format&fit=crop',
-        href: '/how-it-works'
     }
 ];
-
-const FeatureCard: React.FC<{
-    title: string;
-    description: string;
-    imageUrl: string;
-    href?: string;
-}> = ({ title, description, imageUrl }) => {
-    return (
-        <div
-            className="group block relative h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-[1.02]"
-        >
-            <img
-                src={imageUrl}
-                alt={title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="relative h-full flex flex-col justify-end p-3 sm:p-6 text-white">
-                <h3 className="text-base sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2">{title}</h3>
-                <p className="text-xs sm:text-base opacity-90 mb-2 sm:mb-3">{description}</p>
-            </div>
-        </div>
-    );
-};
 
 const WhyUsSection: React.FC = () => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -63,12 +66,10 @@ const WhyUsSection: React.FC = () => {
     useEffect(() => {
         const section = sectionRef.current;
         const grid = gridRef.current;
-
         if (!section || !grid) return;
 
         const cards = gsap.utils.toArray(grid.children) as HTMLElement[];
-
-        gsap.set(cards, { opacity: 0, y: 50 });
+        gsap.set(cards, { opacity: 0, y: 30 });
 
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -81,8 +82,8 @@ const WhyUsSection: React.FC = () => {
         tl.to(cards, {
             opacity: 1,
             y: 0,
-            duration: 0.6,
-            stagger: 0.15,
+            duration: 0.7,
+            stagger: 0.12,
             ease: "power2.out"
         });
 
@@ -94,30 +95,69 @@ const WhyUsSection: React.FC = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative py-16 sm:py-20 md:py-24 bg-cover bg-center bg-fixed"
-            style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
-            }}
+            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white"
             id="why-us"
         >
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="max-w-6xl mx-auto">
+                {/* Editorial Section Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                    <div>
+                        <p className="text-xs uppercase tracking-widest text-white/45 mb-3 font-sans font-medium">
+                            Philosophy &middot; Architectural Pillars
+                        </p>
+                        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                            Why traverse <span className="italic text-white/90">with Uncharted?</span>
+                        </h2>
+                    </div>
+                    <p className="text-sm text-white/55 max-w-md font-sans leading-relaxed">
+                        We dismantle the commercial tourist industry and replace it with direct fellowship, uncompromising alpine safety, and living mountain lore.
+                    </p>
+                </div>
 
-            <div className="relative container mx-auto px-4 text-center">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-                    <span className="text-yellow-400">Why</span> Travel With Us?
-                </h2>
-
-                <p className="text-base sm:text-lg text-gray-200 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
-                    We're building a community founded on trust, passion, and the magic of experiencing the Himalayas through a local's eyes.
-                </p>
-
+                {/* Editorial Pillars Grid */}
                 <div
                     ref={gridRef}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
-                    {features.map((feature, index) => (
-                        <FeatureCard key={index} {...feature} />
-                    ))}
+                    {pillars.map((pillar) => {
+                        const Icon = pillar.icon;
+                        return (
+                            <div
+                                key={pillar.index}
+                                className="border border-white/[0.08] bg-white/[0.02] p-7 flex flex-col justify-between hover:border-white/25 hover:bg-white/[0.04] transition duration-200 group relative"
+                            >
+                                <div>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <span className="font-display text-2xl text-white/30 font-normal group-hover:text-white/60 transition-colors">
+                                            {pillar.index}
+                                        </span>
+                                        <span className="text-[10px] px-2 py-0.5 border border-white/10 text-white/60 font-mono uppercase tracking-wider bg-black/40">
+                                            {pillar.tag}
+                                        </span>
+                                    </div>
+
+                                    <div className="h-9 w-9 border border-white/15 bg-white/[0.03] flex items-center justify-center text-white mb-6 group-hover:border-white/35 transition duration-150">
+                                        <Icon className="w-4 h-4 text-white/80" />
+                                    </div>
+
+                                    <h3 className="font-display text-2xl font-normal text-white mb-2 group-hover:text-white transition-colors">
+                                        {pillar.title}
+                                    </h3>
+                                    <p className="text-xs text-white/45 font-mono uppercase tracking-wider mb-3">
+                                        {pillar.subtitle}
+                                    </p>
+                                    <p className="text-sm text-white/55 leading-relaxed font-sans font-normal">
+                                        {pillar.description}
+                                    </p>
+                                </div>
+
+                                <div className="mt-8 pt-4 border-t border-white/[0.06] text-[11px] font-sans text-white/50 uppercase tracking-wider flex items-center justify-between">
+                                    <span>Standard</span>
+                                    <span className="text-white/90 font-medium">{pillar.status}</span>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

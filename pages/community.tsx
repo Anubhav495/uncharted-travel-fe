@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NextSeo } from 'next-seo';
-import { Trophy, Medal, Star, TrendingUp, Users } from 'lucide-react';
+import { Trophy, Medal, Star, TrendingUp, Users, Compass } from 'lucide-react';
 import { useAuth } from '../src/context/AuthContext';
 
 interface LeaderboardEntry {
@@ -11,17 +11,11 @@ interface LeaderboardEntry {
     level: 'newcomer' | 'bronze' | 'silver' | 'gold' | 'platinum';
 }
 
-const RANK_STYLES: Record<number, string> = {
-    1: 'text-yellow-400',
-    2: 'text-slate-300',
-    3: 'text-orange-400',
-};
-
 function RankIcon({ rank }: { rank: number }) {
-    if (rank === 1) return <Trophy className="w-5 h-5 text-yellow-400" />;
-    if (rank === 2) return <Medal className="w-5 h-5 text-slate-300" />;
-    if (rank === 3) return <Medal className="w-5 h-5 text-orange-400" />;
-    return <span className="text-slate-500 font-bold text-sm w-5 text-center">{rank}</span>;
+    if (rank === 1) return <Trophy className="w-4 h-4 text-white" />;
+    if (rank === 2) return <Medal className="w-4 h-4 text-white/70" />;
+    if (rank === 3) return <Medal className="w-4 h-4 text-white/50" />;
+    return <span className="text-white/40 font-mono text-xs w-5 text-center">{rank}</span>;
 }
 
 export default function Community() {
@@ -51,86 +45,85 @@ export default function Community() {
                 canonical="https://unchartedtravel.in/community"
             />
 
-            <main className="min-h-screen bg-slate-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+            <main className="min-h-screen bg-black text-white pt-32 pb-24 px-6 sm:px-8 border-b border-white/[0.08]">
                 <div className="max-w-3xl mx-auto">
+                    {/* Hero Header */}
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 border border-white/15 bg-white/[0.03] backdrop-blur-md mb-6">
+                            <Compass className="w-3.5 h-3.5 text-white/70" />
+                            <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-white/75">
+                                Explorer Fellowship &middot; Top 20 Global
+                            </span>
+                        </div>
 
-                    {/* Hero */}
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">
-                            Trekker <span className="text-yellow-400">Leaderboard</span>
+                        <h1 className="font-display text-4xl sm:text-6xl font-normal text-white mb-4 tracking-tight">
+                            Trekker <span className="italic text-white/90">Leaderboard.</span>
                         </h1>
-                        <p className="text-slate-400 text-lg max-w-md mx-auto">
-                            Earn XP by completing treks and sharing your adventures.
-                            <span className="block mt-2 text-sm text-yellow-400/80 font-medium tracking-wide">Showing Top 20 Trekkers Globally</span>
+                        <p className="text-white/60 text-sm sm:text-base max-w-md mx-auto font-sans leading-relaxed">
+                            Recognizing dedicated wanderers who tread lightly and embrace high-altitude trails.
                         </p>
+                    </div>
 
-                        {/* Leaderboard Purpose Note */}
-                        <div className="mt-6 px-4">
-                            <p className="text-slate-400 text-sm italic bg-slate-800/30 inline-block py-2 px-6 rounded-full border border-slate-700/50">
-                                <span className="font-semibold text-slate-300">Why a leaderboard?</span> The core idea is to reward dedicated trekkers and adventurists.
-                            </p>
+                    {/* How to Earn XP Minimal Cards */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="border border-white/10 bg-white/[0.02] p-5 text-center hover:border-white/20 transition-colors">
+                            <span className="text-xs font-mono uppercase tracking-widest text-white/40 block mb-1">Pass Crossing</span>
+                            <p className="font-display text-xl text-white mb-2">Complete Treks</p>
+                            <span className="text-xs font-mono text-white/80 border border-white/15 px-2.5 py-0.5 bg-black/40">
+                                +250 XP
+                            </span>
+                        </div>
+                        <div className="border border-white/10 bg-white/[0.02] p-5 text-center hover:border-white/20 transition-colors">
+                            <span className="text-xs font-mono uppercase tracking-widest text-white/40 block mb-1">Field Journal</span>
+                            <p className="font-display text-xl text-white mb-2">Leave Reviews</p>
+                            <span className="text-xs font-mono text-white/80 border border-white/15 px-2.5 py-0.5 bg-black/40">
+                                +50 XP
+                            </span>
                         </div>
                     </div>
 
-                    {/* How to Earn XP Guide */}
-                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
-                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-3 sm:p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
-                            <span className="text-2xl sm:text-3xl mb-2 sm:mb-3 block">🏔️</span>
-                            <p className="text-sm font-semibold text-slate-200">Complete Treks</p>
-                            <p className="text-xs text-yellow-400 font-bold mt-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">+250 XP</p>
-                        </div>
-                        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-3 sm:p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-slate-800/50 hover:border-slate-600">
-                            <span className="text-2xl sm:text-3xl mb-2 sm:mb-3 block">⭐</span>
-                            <p className="text-sm font-semibold text-slate-200">Leave Reviews</p>
-                            <p className="text-xs text-yellow-400 font-bold mt-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">+50 XP</p>
-                        </div>
-                    </div>
-
-                    <div className="bg-sky-500/10 border border-sky-500/20 rounded-xl p-5 mb-10 text-center flex flex-col gap-4">
-                        <p className="text-sm text-sky-200 leading-relaxed max-w-2xl mx-auto">
-                            <span className="font-bold text-sky-400 block mb-1">🏔️ Dynamic XP Model</span>
-                            We are actively developing a dynamic XP reward model. Soon, your XP will be awarded based on specific trek parameters including technicality, harsh weather conditions, and overall difficulty!
-                        </p>
-                        <div className="w-16 h-px bg-sky-500/30 mx-auto"></div>
-                        <p className="text-sm text-sky-200 leading-relaxed max-w-2xl mx-auto">
-                            <span className="font-bold text-sky-400 block mb-1">🎁 Rank-Based Rewards</span>
-                            We will also be introducing exclusive rewards and perks for our top-ranked trekkers. Keep climbing the leaderboard to unlock them!
-                        </p>
+                    {/* Dynamic XP Notice */}
+                    <div className="border border-white/10 bg-neutral-950 p-6 mb-8 text-center text-xs font-sans text-white/60 leading-relaxed">
+                        <span className="font-mono uppercase tracking-wider text-white block mb-1">
+                            Dynamic Alpine XP Engine (In Progress)
+                        </span>
+                        Rewarding technical passes, harsh climate conditions, altitude gain, and leave-no-trace ethics.
                     </div>
 
                     {/* Your rank callout */}
                     {user && userRank !== null && userRank > 0 && (
-                        <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-2xl p-4 flex items-center gap-4 mb-6">
-                            <Star className="w-6 h-6 text-yellow-400 shrink-0" />
-                            <p className="text-yellow-300 font-semibold">
-                                You are currently ranked <span className="text-yellow-400 font-black">#{userRank}</span> globally!
+                        <div className="border border-white/25 bg-white/[0.04] p-4 flex items-center gap-3 mb-6">
+                            <Star className="w-5 h-5 text-white shrink-0" />
+                            <p className="text-sm font-sans text-white">
+                                You are currently ranked <span className="font-mono font-bold text-white underline">#{userRank}</span> globally.
                             </p>
                         </div>
                     )}
 
                     {/* Leaderboard Table */}
-                    <div className="bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden">
-
+                    <div className="border border-white/15 bg-neutral-950 overflow-hidden shadow-2xl">
                         {/* Header row */}
-                        <div className="grid grid-cols-[auto_1fr_auto] items-center px-6 py-3 border-b border-slate-700 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <div className="grid grid-cols-[auto_1fr_auto] items-center px-6 py-3.5 border-b border-white/10 text-[11px] font-mono text-white/40 uppercase tracking-widest bg-black/40">
                             <span className="w-10">Rank</span>
-                            <span>Trekker</span>
-                            <span className="flex items-center gap-1">
-                                <TrendingUp className="w-3 h-3" /> XP
+                            <span>Explorer</span>
+                            <span className="flex items-center gap-1.5">
+                                <TrendingUp className="w-3 h-3 text-white/50" /> Altitude XP
                             </span>
                         </div>
 
                         {loading ? (
                             <div className="flex items-center justify-center py-20">
-                                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-yellow-400" />
+                                <div className="animate-spin rounded-full h-8 w-8 border-t border-b border-white" />
                             </div>
                         ) : leaderboard.length === 0 ? (
                             <div className="text-center py-16">
-                                <Users className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                                <p className="text-slate-400 font-medium">No trekkers yet. Be the first to earn XP!</p>
+                                <Users className="w-10 h-10 text-white/30 mx-auto mb-3" />
+                                <p className="text-white/50 text-xs font-mono uppercase tracking-wider">
+                                    No records yet. Step onto the trail to register your inaugural XP.
+                                </p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-slate-700/50">
+                            <div className="divide-y divide-white/[0.06]">
                                 {leaderboard.map((entry, idx) => {
                                     const rank = idx + 1;
                                     const isCurrentUser = user?.id === entry.user_id;
@@ -138,36 +131,42 @@ export default function Community() {
                                     return (
                                         <div
                                             key={entry.user_id}
-                                            className={`grid grid-cols-[auto_1fr_auto] items-center px-6 py-4 transition-colors ${isCurrentUser ? 'bg-yellow-400/5 border-l-2 border-yellow-400' : 'hover:bg-slate-800/60'}`}
+                                            className={`grid grid-cols-[auto_1fr_auto] items-center px-6 py-4 transition-colors ${
+                                                isCurrentUser ? 'bg-white/[0.06] border-l-2 border-white' : 'hover:bg-white/[0.02]'
+                                            }`}
                                         >
                                             {/* Rank */}
                                             <div className="w-10 flex items-center justify-center">
                                                 <RankIcon rank={rank} />
                                             </div>
 
-                                            {/* Avatar + Name + Level */}
+                                            {/* Avatar + Name */}
                                             <div className="flex items-center gap-3 min-w-0">
-                                                <div className="w-10 h-10 rounded-full bg-slate-700 overflow-hidden shrink-0 flex items-center justify-center border border-slate-600">
+                                                <div className="w-8 h-8 rounded-none border border-white/20 bg-neutral-900 overflow-hidden shrink-0 flex items-center justify-center text-xs">
                                                     {entry.avatar_url ? (
                                                         <img src={entry.avatar_url} alt="" className="w-full h-full object-cover" />
                                                     ) : (
-                                                        <span className="text-white font-bold text-sm">
+                                                        <span className="text-white font-medium">
                                                             {(entry.display_name || 'A').charAt(0).toUpperCase()}
                                                         </span>
                                                     )}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <p className={`font-bold truncate ${isCurrentUser ? 'text-yellow-400' : 'text-white'}`}>
-                                                        {entry.display_name || 'Anonymous Trekker'}
-                                                        {isCurrentUser && <span className="text-xs font-normal text-yellow-500 ml-2">You</span>}
+                                                    <p className={`text-sm truncate font-sans ${isCurrentUser ? 'font-medium text-white' : 'text-white/80'}`}>
+                                                        {entry.display_name || 'Anonymous Explorer'}
+                                                        {isCurrentUser && (
+                                                            <span className="text-[10px] font-mono uppercase tracking-wider text-white/40 ml-2">
+                                                                (You)
+                                                            </span>
+                                                        )}
                                                     </p>
                                                 </div>
                                             </div>
 
                                             {/* XP */}
-                                            <div className={`text-right font-black text-lg ${RANK_STYLES[rank] || 'text-slate-300'}`}>
+                                            <div className="text-right font-mono text-sm text-white font-medium">
                                                 {entry.xp_points.toLocaleString()}
-                                                <span className="text-xs font-normal text-slate-500 ml-1">XP</span>
+                                                <span className="text-[10px] text-white/40 ml-1">XP</span>
                                             </div>
                                         </div>
                                     );
@@ -175,11 +174,8 @@ export default function Community() {
                             </div>
                         )}
                     </div>
-
-
                 </div>
             </main>
-
         </>
     );
 }

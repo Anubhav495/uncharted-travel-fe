@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 
 interface GuideStory {
     name: string;
@@ -14,25 +14,25 @@ const foundingGuides: GuideStory[] = [
     {
         name: 'Aatish',
         location: 'Dharamshala, Himachal',
-        specialty: 'Alpine Terrains',
-        quote: 'I grew up in the Dhauladhar foothills. Guiding isn\'t my job; it\'s my way of sharing the spectacular glacial lakes and meadows with the world.',
-        tags: ['Local Expert', 'Alpine Lakes', 'Photography'],
+        specialty: 'Alpine Glacial Terrains',
+        quote: 'I grew up in the shadow of the Dhauladhar. Guiding is not commerce; it is an initiation into ancient glacial lakes and silence.',
+        tags: ['Glacial Traverse', 'Alpine Lakes', 'High Passes'],
         imageUrl: '/assets/aatish-photo.jpeg',
     },
     {
         name: 'Pritam Negi',
         location: 'Parvati Valley, Himachal',
-        specialty: 'Forest Trails & Mythologies',
-        quote: 'Every path in Parvati Valley holds a legend. I love guiding people to the hot springs while sharing the history of Lord Shiva\'s meditation here.',
-        tags: ['Cultural History', 'Nature', 'Storytelling'],
+        specialty: 'Sacred Forest Trails & Lore',
+        quote: 'Every ridge in Parvati Valley holds a myth. I guide wanderers toward sacred hot springs while sharing the oral histories of Lord Shiva.',
+        tags: ['Cultural History', 'Forest Expeditions', 'Mountain Lore'],
         imageUrl: '/assets/pritam-photo-edited.png',
     },
     {
         name: 'Kapil Rawat',
         location: 'Sankri, Uttarakhand',
-        specialty: 'High Altitude Expeditions',
-        quote: 'The mountains don\'t yield to us, we yield to them. I teach trekkers how to respectfully navigate these snowy peaks and return safely transformed.',
-        tags: ['Mountaineering', 'Snow Treks', 'Safety Leader'],
+        specialty: 'High-Altitude Winter Alpinism',
+        quote: 'The peaks do not yield to human pride; we adapt to their rhythm. I teach mountaineers to navigate snowfields with reverence and resolve.',
+        tags: ['Mountaineering', 'Snow Treks', 'First Response'],
         imageUrl: '/assets/kapil-rawat.jpeg',
     }
 ];
@@ -57,18 +57,14 @@ const GuideStoriesSection: React.FC = () => {
         setCurrentIndex(newIndex);
     }, [currentIndex]);
 
-    // Auto-advance slides
     useEffect(() => {
         if (isPaused) return;
         const timer = setInterval(() => {
             goToNext();
-        }, 4000);
-        return () => {
-            clearInterval(timer);
-        };
+        }, 5000);
+        return () => clearInterval(timer);
     }, [isPaused, currentIndex, goToNext]);
 
-    // Touch handlers for mobile swipe
     const onTouchStart = (e: React.TouchEvent) => {
         setTouchEnd(null);
         setTouchStart(e.targetTouches[0].clientX);
@@ -80,136 +76,147 @@ const GuideStoriesSection: React.FC = () => {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
-
         const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe) {
+        if (distance > minSwipeDistance) {
             goToNext();
-        } else if (isRightSwipe) {
+        } else if (distance < -minSwipeDistance) {
             goToPrevious();
         }
     };
 
-    const getCardStyle = (index: number) => {
-        const total = foundingGuides.length;
-        const prevIndex = (currentIndex - 1 + total) % total;
-        const nextIndex = (currentIndex + 1) % total;
-
-        let styles = 'absolute top-0 w-full max-w-xs sm:max-w-md transform transition-all duration-500 ease-out';
-
-        if (index === currentIndex) {
-            // Active card - centered and full scale
-            styles += ' scale-100 opacity-100 z-20 left-1/2 -translate-x-1/2';
-        } else if (index === prevIndex) {
-            // Previous card - left side, smaller and faded
-            styles += ' scale-90 opacity-60 z-10 left-1/2 -translate-x-[120%] sm:-translate-x-[140%]';
-        } else if (index === nextIndex) {
-            // Next card - right side, smaller and faded
-            styles += ' scale-90 opacity-60 z-10 left-1/2 translate-x-[20%] sm:translate-x-[40%]';
-        } else {
-            // Hidden cards
-            styles += ' scale-75 opacity-0 z-0 left-1/2 -translate-x-1/2';
-        }
-
-        return styles;
-    };
+    const currentGuide = foundingGuides[currentIndex];
 
     return (
         <section
-            className="relative py-16 sm:py-20 md:py-24 overflow-hidden bg-cover bg-center bg-fixed"
-            style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
-            }}
+            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white overflow-hidden"
             id="stories"
         >
-            {/* Background overlay to match other sections */}
-            <div className="absolute inset-0 bg-black/50" />
-
-            <div className="relative container mx-auto text-center px-4 mb-8 sm:mb-12">
-                <span className="inline-block bg-sky-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-6">
-                    Real Local Experts
-                </span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-                    Stories From Our Founding <span className="text-yellow-400">Guides</span>
-                </h2>
-                <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-                    They don't just guide treks — they grew up on these trails. Born in the mountains, built for adventure.
-                </p>
+            {/* Ambient topo background pattern */}
+            <div className="absolute inset-0 pointer-events-none opacity-15">
+                <div className="h-full w-full bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:24px_24px]" />
             </div>
 
-            <div
-                className="relative h-[570px] sm:h-[600px]"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-            >
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                    {foundingGuides.map((guide, index) => (
-                        <div key={index} className={getCardStyle(index)}>
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden h-[520px] flex flex-col mx-4">
-                                <div className="relative h-72">
-                                    <img
-                                        src={guide.imageUrl}
-                                        alt={guide.name}
-                                        className="absolute h-full w-full object-cover"
-                                        style={{
-                                            objectPosition: guide.name === 'Kapil Rawat' ? '50% 35%' : 
-                                                          guide.name === 'Pritam Negi' ? '50% 5%' : 
-                                                          guide.name === 'Aatish' ? '50% 70%' : 'center'
-                                        }}
-                                        loading="lazy"
-                                    />
-                                </div>
-                                <div className="p-4 sm:p-6 flex flex-col flex-grow">
-                                    <p className="text-sm font-semibold text-blue-600">{guide.name} - {guide.location}</p>
-                                    <p className="text-gray-600 my-4 italic text-sm leading-relaxed">"{guide.quote}"</p>
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {guide.tags.map(tag => (
-                                            <span key={tag} className="bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">{tag}</span>
-                                        ))}
-                                    </div>
+            <div className="max-w-6xl mx-auto relative z-10">
+                {/* Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                    <div>
+                        <p className="text-xs uppercase tracking-widest text-white/45 mb-3 font-sans font-medium">
+                            Field Masters &middot; Native Archive
+                        </p>
+                        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                            Chronicles from our <span className="italic text-white/90">Native Guides.</span>
+                        </h2>
+                    </div>
+                    <p className="text-sm text-white/55 max-w-sm font-sans leading-relaxed">
+                        Born on the ridgelines. Built for deep winter crossings. These are not commercial tour operators — they are custodians of the trails.
+                    </p>
+                </div>
 
+                {/* Editorial Master Feature Card */}
+                <div
+                    className="border border-white/15 bg-neutral-950/80 backdrop-blur-md shadow-2xl relative"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
+                    <div className="grid md:grid-cols-12 min-h-[500px]">
+                        {/* Guide Image with Editorial Filter */}
+                        <div className="md:col-span-5 relative min-h-[350px] md:min-h-full border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                            <img
+                                src={currentGuide.imageUrl}
+                                alt={currentGuide.name}
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                                style={{
+                                    objectPosition:
+                                        currentGuide.name === 'Kapil Rawat'
+                                            ? '50% 30%'
+                                            : currentGuide.name === 'Pritam Negi'
+                                            ? '50% 10%'
+                                            : '50% 60%',
+                                }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent md:hidden" />
+                            <div className="absolute top-4 left-4 z-10">
+                                <span className="text-[10px] uppercase tracking-widest px-2.5 py-1 bg-black/75 border border-white/20 text-white/90 font-mono backdrop-blur-md">
+                                    Native Master 0{currentIndex + 1}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Guide Bio & Quote */}
+                        <div className="md:col-span-7 p-8 md:p-12 flex flex-col justify-between">
+                            <div>
+                                <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                                    <div className="flex items-center gap-2 text-white/60 text-xs font-mono uppercase tracking-wider">
+                                        <MapPin className="w-3.5 h-3.5 text-white/40" />
+                                        <span>{currentGuide.location}</span>
+                                    </div>
+                                    <span className="text-xs px-2.5 py-1 border border-white/15 text-white/70 bg-white/[0.03] font-sans">
+                                        {currentGuide.specialty}
+                                    </span>
+                                </div>
+
+                                <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-normal text-white mb-6">
+                                    {currentGuide.name}
+                                </h3>
+
+                                <div className="border-l border-white/20 pl-6 py-2 my-6">
+                                    <p className="font-display text-xl sm:text-2xl italic text-white/85 leading-relaxed">
+                                        "{currentGuide.quote}"
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-wrap gap-2 mt-6">
+                                    {currentGuide.tags.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className="text-xs px-2.5 py-1 border border-white/[0.08] text-white/50 bg-black/40 font-mono uppercase tracking-wider"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Control Bar */}
+                            <div className="mt-12 pt-6 border-t border-white/[0.08] flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    {foundingGuides.map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setCurrentIndex(idx)}
+                                            className={`h-1.5 transition-all duration-300 ${
+                                                currentIndex === idx
+                                                    ? 'w-8 bg-white'
+                                                    : 'w-2 bg-white/30 hover:bg-white/50'
+                                            }`}
+                                            aria-label={`Guide ${idx + 1}`}
+                                        />
+                                    ))}
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={goToPrevious}
+                                        className="h-10 w-10 border border-white/15 bg-white/[0.02] flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition duration-150"
+                                        aria-label="Previous guide"
+                                    >
+                                        <ChevronLeft className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        onClick={goToNext}
+                                        className="h-10 w-10 border border-white/15 bg-white/[0.02] flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition duration-150"
+                                        aria-label="Next guide"
+                                    >
+                                        <ChevronRight className="w-4 h-4" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    </div>
                 </div>
-
-                {/* Navigation Buttons - Hidden on mobile, visible on larger screens */}
-                <button
-                    onClick={goToPrevious}
-                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
-                    aria-label="Previous Guide"
-                >
-                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
-                </button>
-                <button
-                    onClick={goToNext}
-                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
-                    aria-label="Next Guide"
-                >
-                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
-                </button>
-            </div>
-
-            {/* Much Smaller Dots for Mobile */}
-            <div className="relative flex justify-center items-center space-x-1 sm:space-x-1.5 mt-6">
-                {foundingGuides.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setCurrentIndex(index)}
-                        style={{ minWidth: 0, minHeight: 0 }}
-                        className={`rounded-full transition-all duration-300 flex-shrink-0 p-0 !min-w-0 !min-h-0 ${currentIndex === index
-                            ? 'bg-yellow-400 !w-[10px] !h-[10px] sm:!w-[12px] sm:!h-[12px] md:!w-[14px] md:!h-[14px]'
-                            : 'bg-white/50 !w-[8px] !h-[8px] sm:!w-[10px] sm:!h-[10px] md:!w-[12px] md:!h-[12px] hover:bg-white/70'
-                            }`}
-                        aria-label={`Go to guide ${index + 1}`}
-                    />
-                ))}
             </div>
         </section>
     );

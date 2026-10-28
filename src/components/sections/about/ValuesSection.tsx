@@ -3,83 +3,86 @@ import { Heart, Globe, Users, Compass } from 'lucide-react';
 
 const values = [
     {
-        icon: <Users className="w-6 h-6 text-yellow-400" />,
+        icon: Users,
         title: 'Local Empowerment',
-        description: 'We connect you directly with local guides, ensuring the community benefits from every trek.'
+        tag: '01 / Fellowship',
+        description: 'Direct economic distribution to native guides and mountain homestays. Zero corporate broker commissions.'
     },
     {
-        icon: <Heart className="w-6 h-6 text-yellow-400" />,
-        title: 'Safe Adventures',
-        description: 'Every guide is thoroughly vetted for their expertise in high-altitude environments.'
+        icon: Heart,
+        title: 'Alpine Wilderness Safety',
+        tag: '02 / Protocol',
+        description: 'Every trail leader is trained in high-altitude medicine, frostbite prevention, and emergency descent lines.'
     },
     {
-        icon: <Globe className="w-6 h-6 text-yellow-400" />,
-        title: 'Sustainability',
-        description: 'We adhere strictly to leave-no-trace policies to preserve the Himalayas.'
+        icon: Globe,
+        title: 'Leave-No-Trace Doctrine',
+        tag: '03 / Ecology',
+        description: 'Zero plastic trail waste, absolute respect for fragile alpine meadows, and zero-carbon trail etiquette.'
     },
     {
-        icon: <Compass className="w-6 h-6 text-yellow-400" />,
-        title: 'Curiosity',
-        description: 'Embrace the unknown and learn the untaught stories of the mountains.'
+        icon: Compass,
+        title: 'Living Oral History',
+        tag: '04 / Heritage',
+        description: 'Uncovering the sacred mountain mythologies, high passes, and oral knowledge passed across generations.'
     }
 ];
 
 const ValuesSection: React.FC = () => {
     return (
-        <section className="py-24 bg-slate-900 text-white">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row gap-16 items-start">
-                    {/* Text Side */}
-                    <div className="w-full md:w-1/2 md:sticky md:top-24">
-                        <div className="flex items-center space-x-4 mb-6">
-                            <div className="h-px w-8 bg-yellow-400"></div>
-                            <span className="text-yellow-400 uppercase tracking-widest text-sm font-medium">Our Values</span>
+        <section className="py-24 md:py-32 bg-black text-white">
+            <div className="container mx-auto px-6 md:px-12">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                        <div>
+                            <div className="flex items-center space-x-3 mb-3">
+                                <span className="text-xs uppercase tracking-widest text-white/45 font-mono">
+                                    04 / Foundational Ethics
+                                </span>
+                            </div>
+                            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                                Guiding <span className="italic text-white/90">Principles.</span>
+                            </h2>
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-bold leading-tight mb-8">
-                            Guiding <br />
-                            <span className="text-gray-500">Principles</span>
-                        </h2>
-                        <p className="text-xl text-gray-400 leading-relaxed max-w-md">
-                            These core values shape every experience we curate and every connection we facilitate.
+                        <p className="text-sm text-white/55 max-w-sm font-sans leading-relaxed">
+                            These core doctrines shape every trail we archive, every guide we embrace, and every step taken above tree line.
                         </p>
                     </div>
 
-                    {/* Content Side */}
-                    <div className="w-full md:w-1/2">
-                        {/* Mobile View: Minimalist List */}
-                        <div className="flex flex-col space-y-12 md:hidden">
-                            {values.map((value, index) => (
-                                <div key={index} className="flex gap-6 items-start group">
-                                    <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-2xl bg-slate-800 text-yellow-400 group-hover:bg-yellow-400 group-hover:text-slate-900 transition-all duration-300 shadow-lg shadow-black/20">
-                                        {React.cloneElement(value.icon as React.ReactElement, { className: "w-6 h-6" })}
-                                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {values.map((val) => {
+                            const Icon = val.icon;
+                            return (
+                                <div
+                                    key={val.title}
+                                    className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/25 hover:bg-white/[0.04] transition duration-200 group"
+                                >
                                     <div>
-                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">{value.title}</h3>
-                                        <p className="text-gray-400 leading-relaxed">
-                                            {value.description}
+                                        <div className="flex items-center justify-between mb-8">
+                                            <div className="h-9 w-9 border border-white/15 bg-white/[0.03] flex items-center justify-center text-white group-hover:border-white/35 transition duration-150">
+                                                <Icon className="w-4 h-4 text-white/80" />
+                                            </div>
+                                            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
+                                                {val.tag}
+                                            </span>
+                                        </div>
+
+                                        <h3 className="font-display text-2xl font-normal text-white mb-3">
+                                            {val.title}
+                                        </h3>
+                                        <p className="text-sm text-white/55 leading-relaxed font-sans">
+                                            {val.description}
                                         </p>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
 
-                        {/* Desktop View: Cards Grid */}
-                        <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {values.map((value, index) => (
-                                <div key={index} className="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 hover:border-yellow-400/30 transition-colors duration-300 group">
-                                    <div className="bg-slate-900 w-12 h-12 rounded-lg flex items-center justify-center mb-6 border border-slate-800 group-hover:border-yellow-400/50 transition-colors duration-300">
-                                        {React.cloneElement(value.icon as React.ReactElement, { className: "w-6 h-6 group-hover:text-yellow-400 transition-colors duration-300" })}
+                                    <div className="pt-6 mt-8 border-t border-white/[0.06] text-[10px] font-mono text-white/40 uppercase tracking-widest">
+                                        Enduring Standard
                                     </div>
-                                    <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
-                                    <p className="text-gray-400 text-sm leading-relaxed">
-                                        {value.description}
-                                    </p>
                                 </div>
-                            ))}
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
-
             </div>
         </section>
     );

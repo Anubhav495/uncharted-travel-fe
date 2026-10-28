@@ -186,9 +186,9 @@ const TrekDetailsPage = () => {
                 }}
             />
 
-            <main className="bg-slate-900 min-h-screen pb-20">
+            <main className="bg-black min-h-screen pb-24 text-white border-b border-white/[0.08]">
                 {/* Hero Section */}
-                <section className="relative h-[70vh] min-h-[500px]">
+                <section className="relative h-[70vh] min-h-[520px]">
                     <TrekImage
                         src={trek.image}
                         alt={trek.title}
@@ -199,29 +199,29 @@ const TrekDetailsPage = () => {
                             } ${trek.imageClassName || ''}`}
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 from-5% via-slate-900/60 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black from-10% via-black/60 to-transparent pointer-events-none" />
 
-                    <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-12 z-10">
+                    <div className="absolute bottom-0 left-0 right-0 container mx-auto px-6 pb-12 z-10">
                         <div className="max-w-4xl">
-                            <div className="flex items-center gap-2 text-yellow-400 mb-4 font-medium uppercase tracking-wider text-sm">
-                                <MapPin className="w-5 h-5" />
+                            <div className="flex items-center gap-2 text-white/60 mb-4 font-mono uppercase tracking-widest text-xs">
+                                <MapPin className="w-4 h-4 text-white/50" />
                                 <span>{trek.location}</span>
                             </div>
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal text-white mb-6 leading-tight">
                                 {trek.title}
                             </h1>
-                            <div className="flex flex-wrap gap-4 md:gap-8 text-white/90">
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <Clock className="w-5 h-5 text-yellow-400" />
+                            <div className="flex flex-wrap gap-3 text-white/90">
+                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-mono text-white/80">
+                                    <Clock className="w-3.5 h-3.5 text-white/50" />
                                     <span>{trek.duration}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <TrendingUp className="w-5 h-5 text-yellow-400" />
+                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-mono text-white/80">
+                                    <TrendingUp className="w-3.5 h-3.5 text-white/50" />
                                     <span>{trek.difficulty}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <span className="text-yellow-400 font-bold">Price:</span>
-                                    <span>{trek.price}</span>
+                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-xs font-mono text-white/80">
+                                    <span className="text-white/40">Tariff:</span>
+                                    <span className="font-medium text-white">{trek.price}</span>
                                 </div>
                             </div>
                         </div>
@@ -229,26 +229,26 @@ const TrekDetailsPage = () => {
                 </section>
 
                 {/* Content Layout */}
-                <div className="container mx-auto px-4 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12 text-slate-300">
+                <div className="container mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-3 gap-12 text-white/70">
 
                     {/* Main Content */}
-                    <div className="lg:col-span-2 space-y-12">
+                    <div className="lg:col-span-2 space-y-14">
                         {/* Overview */}
                         <section>
-                            <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Overview</h2>
-                            <p className="text-lg leading-relaxed text-slate-300">
+                            <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-2 border-white pl-4">Trajectory Overview</h2>
+                            <p className="text-base sm:text-lg leading-relaxed text-white/65 font-sans font-normal">
                                 {trek.overview}
                             </p>
                         </section>
 
                         {/* Highlights */}
                         <section>
-                            <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Highlights</h2>
-                            <ul className="grid gap-4">
+                            <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-2 border-white pl-4">Alpine Highlights</h2>
+                            <ul className="grid gap-3">
                                 {trek.highlights?.map((highlight) => (
-                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
-                                        <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-                                        <span className="text-lg">{highlight}</span>
+                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-white/[0.02] border border-white/10 hover:border-white/20 transition-colors">
+                                        <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-1" />
+                                        <span className="text-sm font-sans text-white/80">{highlight}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -271,17 +271,17 @@ const TrekDetailsPage = () => {
                         {/* Trekking Options */}
                         {(totalGuides > 0 || totalCompanies > 0) ? (
                             <section>
-                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Choose Your Trek Provider</h2>
-                                <p className="text-slate-400 mb-6 pl-4">Request a specific local guide or trekking company. We are constantly working on onboarding more experts to our platform.</p>
+                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-2 border-white pl-4">Expedition Leaders</h2>
+                                <p className="text-white/50 text-xs font-mono uppercase tracking-wider mb-6 pl-4">Request a specific local master or certified team.</p>
 
                                 {totalGuides > 0 && totalCompanies > 0 && (
-                                    <div className="mb-6 flex gap-2 rounded-xl bg-slate-800 p-1">
+                                    <div className="mb-6 flex gap-2 border border-white/10 bg-white/[0.02] p-1 w-full sm:w-auto inline-flex">
                                         {(['guides', 'companies'] as const).map((tab) => (
                                             <button
                                                 key={tab}
                                                 type="button"
                                                 onClick={() => setActiveTab(tab)}
-                                                className={`flex-1 rounded-lg px-4 py-2 font-semibold capitalize ${activeTab === tab ? 'bg-yellow-400 text-slate-900' : 'text-slate-300 hover:bg-slate-700'}`}
+                                                className={`px-5 py-2 text-xs font-mono uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-white text-black font-medium' : 'text-white/50 hover:text-white'}`}
                                             >
                                                 {tab}
                                             </button>
@@ -308,15 +308,15 @@ const TrekDetailsPage = () => {
                                         <button 
                                             disabled={guidePage === 1}
                                             onClick={() => setGuidePage(p => p - 1)}
-                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                            className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 transition-all"
                                         >
                                             Previous
                                         </button>
-                                        <span className="text-sm font-medium text-slate-400">Page {guidePage} of {totalGuidePages}</span>
+                                        <span className="text-xs font-mono text-white/50">Page {guidePage} of {totalGuidePages}</span>
                                         <button 
                                             disabled={guidePage === totalGuidePages}
                                             onClick={() => setGuidePage(p => p + 1)}
-                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                            className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30 transition-all"
                                         >
                                             Next
                                         </button>
@@ -324,9 +324,9 @@ const TrekDetailsPage = () => {
                                 )}
                                 {(activeTab === 'companies' || totalGuides === 0) && totalCompanyPages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700">Previous</button>
-                                        <span className="text-sm font-medium text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
-                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700">Next</button>
+                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30">Previous</button>
+                                        <span className="text-xs font-mono text-white/50">Page {companyPage} of {totalCompanyPages}</span>
+                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 border border-white/15 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-white disabled:opacity-30 hover:border-white/30">Next</button>
                                     </div>
                                 )}
                             </section>
@@ -335,23 +335,24 @@ const TrekDetailsPage = () => {
 
                     {/* Sidebar / CTA */}
                     <div className="lg:col-span-1 order-first lg:order-last mb-8 lg:mb-0">
-                        <div className="lg:sticky lg:top-24 lg:bg-slate-800 lg:border lg:border-slate-700 lg:rounded-2xl lg:p-6 lg:shadow-2xl">
+                        <div className="lg:sticky lg:top-28 border border-white/15 bg-neutral-950 p-7 shadow-2xl">
                             <div className="hidden lg:block">
-                                <h3 className="text-2xl font-bold text-white mb-2">Enquire About This Adventure</h3>
-                                <p className="text-slate-400 mb-6">Ready to explore the uncharted?</p>
+                                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block mb-2">Expedition Dossier</span>
+                                <h3 className="font-display text-2xl font-normal text-white mb-2">Reserve Field Slot</h3>
+                                <p className="text-xs text-white/50 mb-6 font-sans">Connect directly with vetted local leaders.</p>
 
-                                <div className="space-y-4 mb-8">
-                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Duration</span>
-                                        <span className="text-white font-medium">{trek.duration}</span>
+                                <div className="space-y-3 mb-8 text-xs font-mono">
+                                    <div className="flex justify-between items-center py-2.5 border-b border-white/[0.08]">
+                                        <span className="text-white/50">DURATION</span>
+                                        <span className="text-white">{trek.duration}</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Difficulty</span>
-                                        <span className="text-white font-medium">{trek.difficulty}</span>
+                                    <div className="flex justify-between items-center py-2.5 border-b border-white/[0.08]">
+                                        <span className="text-white/50">DIFFICULTY</span>
+                                        <span className="text-white">{trek.difficulty}</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Price</span>
-                                        <span className="text-2xl font-bold text-yellow-400">{trek.price}</span>
+                                    <div className="flex justify-between items-center py-2.5 border-b border-white/[0.08]">
+                                        <span className="text-white/50">TARIFF</span>
+                                        <span className="text-base text-white font-medium">{trek.price}</span>
                                     </div>
                                 </div>
                             </div>
@@ -359,23 +360,23 @@ const TrekDetailsPage = () => {
                             {hasEnquired ? (
                                 <button
                                     onClick={() => router.push('/dashboard')}
-                                    className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-yellow-400/20"
+                                    className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.15)]"
                                 >
-                                    View Enquiry
-                                    <ArrowRight className="w-5 h-5" />
+                                    <span>View Enquiry</span>
+                                    <ArrowRight className="w-4 h-4" />
                                 </button>
                             ) : (
                                 <button
                                     onClick={() => handleRequestInfo()}
-                                    className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-yellow-400/20"
+                                    className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.15)]"
                                 >
-                                    Request Info
-                                    <ArrowRight className="w-5 h-5" />
+                                    <span>Request Expedition Info</span>
+                                    <ArrowRight className="w-4 h-4" />
                                 </button>
                             )}
 
-                            <p className="mt-4 text-xs text-center text-slate-400">
-                                Enquiry is cost-free. We'll contact you with details.
+                            <p className="mt-4 text-[11px] font-mono text-center text-white/40">
+                                Zero booking fee &middot; Direct guide contact
                             </p>
                         </div>
                     </div>

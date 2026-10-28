@@ -1,41 +1,46 @@
 import React from 'react';
-import { MapPin } from 'lucide-react';
+import { Compass } from 'lucide-react';
 
 const MissionSection: React.FC = () => {
     return (
-        <section className="py-24 bg-slate-900 text-white">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row gap-16 items-center">
+        <section className="py-24 md:py-32 bg-black text-white border-b border-white/[0.08]">
+            <div className="container mx-auto px-6 md:px-12">
+                <div className="flex flex-col md:flex-row gap-16 items-center max-w-6xl mx-auto">
                     {/* Text Side */}
                     <div className="w-full md:w-1/2">
-                        <div className="flex items-center space-x-4 mb-6">
-                            <div className="h-px w-8 bg-yellow-400"></div>
-                            <span className="text-yellow-400 uppercase tracking-widest text-sm font-medium">Our Mission</span>
+                        <div className="flex items-center space-x-3 mb-6">
+                            <span className="text-xs uppercase tracking-widest text-white/45 font-mono">01 / Intent & Doctrine</span>
                         </div>
-                        <div className="flex items-start justify-between gap-4">
-                            <h2 className="text-4xl md:text-6xl font-bold leading-tight mb-8">
-                                Bridging the <br />
-                                <span className="text-gray-500">Altitude</span>
-                            </h2>
-                            {/* Mobile Visual */}
-                            <div className="md:hidden flex-shrink-0 relative w-24 h-24 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center shadow-lg shadow-yellow-400/10 mt-2">
-                                <div className="absolute inset-0 rounded-full bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop')] opacity-20 bg-cover bg-center mix-blend-overlay"></div>
-                                <MapPin className="w-10 h-10 text-yellow-400 relative z-10 drop-shadow-lg" />
-                            </div>
-                        </div>
-                        <p className="text-xl text-gray-400 leading-relaxed mb-8">
-                            We're moving beyond commercialized tour packages to offer authentic, unscripted, and deeply personal Himalayan expeditions.
+                        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal leading-tight mb-8">
+                            Bridging the <br />
+                            <span className="italic text-white/90">Altitude Gap.</span>
+                        </h2>
+                        <p className="font-sans text-base sm:text-lg text-white/65 leading-relaxed mb-6 font-normal">
+                            We dismantle commercialized tour conglomerates to offer authentic, unscripted, and deeply personal Himalayan expeditions.
                         </p>
-                        <p className="text-lg text-gray-500 leading-relaxed">
-                            We empower local mountain experts to share their lifetime of experience, pairing them with trekkers seeking a deeper connection to the peaks.
+                        <p className="font-sans text-sm text-white/50 leading-relaxed font-normal">
+                            We empower local mountain experts to share their lifetime of experience directly, pairing them with explorers seeking reverence over checkboxes.
                         </p>
                     </div>
 
-                    {/* Visual Side (Desktop Only) */}
-                    <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end">
-                        <div className="relative w-full max-w-md aspect-square rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center shadow-2xl shadow-yellow-400/10">
-                            <div className="absolute inset-0 rounded-full bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop')] opacity-20 bg-cover bg-center mix-blend-overlay"></div>
-                            <MapPin className="w-32 h-32 text-yellow-400 relative z-10 drop-shadow-lg" />
+                    {/* Visual Side */}
+                    <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                        <div className="relative w-full max-w-md aspect-square border border-white/15 bg-neutral-950 flex flex-col justify-between p-8 shadow-2xl">
+                            <div className="flex justify-between items-center text-xs font-mono text-white/40">
+                                <span>PARVATI &middot; DHAULADHAR</span>
+                                <span>EST. 2026</span>
+                            </div>
+                            <div className="text-center py-8">
+                                <Compass className="w-16 h-16 text-white/80 mx-auto mb-4 stroke-1" />
+                                <div className="font-display text-2xl text-white">Direct Guide Brotherhood</div>
+                                <div className="text-xs font-mono uppercase tracking-widest text-white/50 mt-1">
+                                    Zero Commercial Intermediaries
+                                </div>
+                            </div>
+                            <div className="border-t border-white/[0.08] pt-4 flex justify-between text-[11px] font-mono text-white/50">
+                                <span>ELEVATION: 14,000+ FT</span>
+                                <span>VETTED LINEAGE</span>
+                            </div>
                         </div>
                     </div>
                 </div>

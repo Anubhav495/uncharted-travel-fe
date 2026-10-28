@@ -11,21 +11,15 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const { user, loginWithGoogle, signOut } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [showPulse, setShowPulse] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 10);
+            setScrolled(window.scrollY > 20);
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    // Control the pulse animation: run whenever header is transparent (not scrolled)
-    useEffect(() => {
-        setShowPulse(!scrolled);
-    }, [scrolled]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -51,103 +45,105 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     const headerClasses = `
         fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out
         ${scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
-            : 'bg-transparent py-4'
+            ? 'bg-black/85 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl'
+            : 'bg-gradient-to-b from-black/80 via-black/30 to-transparent py-5 border-b border-transparent'
         }
     `;
 
-    // Reusable NavLink component with dynamic text color and new hover effect
     const NavLink: React.FC<{ href: string; children: React.ReactNode; isMobile?: boolean; onClick?: () => void }> = ({
         href,
         children,
         isMobile = false,
         onClick
     }) => {
-        // Mobile links have a simple hover effect
         if (isMobile) {
             return (
-                <Link href={href} className="block py-3 px-4 text-gray-700 hover:text-blue-600 rounded-md hover:bg-gray-100 transition-colors duration-200 font-medium" onClick={onClick}>
+                <Link
+                    href={href}
+                    className="block py-3 px-4 text-white/80 hover:text-white rounded-none border-b border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-150 text-sm tracking-wider uppercase font-sans"
+                    onClick={onClick}
+                >
                     {children}
                 </Link>
             );
         }
 
-        // Desktop links get the animated underline
-        const linkClasses = `
-            font-medium transition-colors duration-300 ease-out relative group py-2
-            ${scrolled
-                ? 'text-gray-700' // Dark text for scrolled header
-                : 'text-white [text-shadow:0_1px_2px_rgb(0_0_0_/_0.3)]' // White text for transparent header
-            }
-        `;
-
         return (
-            <Link href={href} className={linkClasses} onClick={onClick}>
+            <Link
+                href={href}
+                className="text-xs uppercase tracking-widest text-white/70 hover:text-white transition-colors duration-200 relative group py-1 font-sans font-medium"
+                onClick={onClick}
+            >
                 {children}
-                {/* --- THIS IS THE ANIMATED UNDERLINE --- */}
-                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-yellow-400 transition-all duration-300 ease-out group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-white transition-all duration-200 ease-out group-hover:w-full opacity-80" />
             </Link>
         );
     };
 
     return (
         <header className={headerClasses}>
-            <div className="container mx-auto px-4 flex justify-between items-center h-10">
-                {/* Brand Logo/Name */}
+            <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
+                {/* Brand Logo with Editorial Typography */}
                 <Link
                     href="/"
-                    className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
-                        scrolled 
-                            ? 'text-yellow-500 hover:text-yellow-600' 
-                            : 'text-yellow-400 hover:text-yellow-300 drop-shadow-md'
-                    }`}
+                    className="flex items-center gap-2.5 group cursor-pointer z-10"
                 >
-                    UnchartedTravel
+                    <img
+                        src="/assets/brand-logo.png"
+                        alt="Uncharted Stag"
+                        className="h-6 w-auto opacity-90 group-hover:opacity-100 transition-opacity invert"
+                    />
+                    <span className="font-display text-2xl tracking-tight text-white group-hover:text-white/90 transition-colors">
+                        UNCHARTED<sup className="text-[9px] font-sans ml-1 text-white/45 tracking-normal font-normal">®</sup>
+                    </span>
                 </Link>
 
                 {/* Desktop Navigation */}
                 {variant === 'default' && (
                     <nav className="hidden lg:flex items-center space-x-8">
-                        <NavLink href="/about">About Us</NavLink>
                         <NavLink href="/destinations">Destinations</NavLink>
                         <NavLink href="/become-a-guide">Become a Guide</NavLink>
                         <NavLink href="/community">Community</NavLink>
+                        <NavLink href="/about">About Us</NavLink>
 
                         {user ? (
                             <div className="relative ml-4 group">
-                                <button className="flex items-center space-x-2 focus:outline-none">
-                                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white overflow-hidden border-2 border-white shadow-md">
+                                <button className="flex items-center space-x-2 focus:outline-none p-1 border border-white/15 bg-white/[0.04] hover:border-white/30 transition duration-150">
+                                    <div className="w-7 h-7 bg-neutral-900 flex items-center justify-center text-white overflow-hidden text-xs">
                                         {user.user_metadata.avatar_url ? (
                                             <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                                         ) : (
-                                            <span className="text-sm font-bold">{user.email?.charAt(0).toUpperCase()}</span>
+                                            <span className="font-medium">{user.email?.charAt(0).toUpperCase()}</span>
                                         )}
                                     </div>
+                                    <span className="text-xs text-white/75 px-1 truncate max-w-[100px]">
+                                        {user.user_metadata.full_name?.split(' ')[0] || user.email?.split('@')[0]}
+                                    </span>
                                 </button>
 
                                 {/* Dropdown Menu */}
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right">
-                                    <div className="px-4 py-2 border-b border-gray-100">
-                                        <p className="text-sm text-gray-900 font-medium truncate">{user.user_metadata.full_name || 'User'}</p>
-                                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                <div className="absolute right-0 mt-2 w-52 bg-neutral-950 border border-white/15 shadow-2xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 transform origin-top-right backdrop-blur-xl">
+                                    <div className="px-4 py-3 border-b border-white/10">
+                                        <p className="text-xs text-white font-medium truncate">{user.user_metadata.full_name || 'Explorer'}</p>
+                                        <p className="text-[11px] text-white/50 truncate font-mono mt-0.5">{user.email}</p>
                                     </div>
-                                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Dashboard
+                                    <Link href="/dashboard" className="block px-4 py-2 text-xs uppercase tracking-wider text-white/80 hover:bg-white/[0.06] hover:text-white">
+                                        Explorer Dashboard
                                     </Link>
                                     <button
                                         onClick={() => signOut()}
-                                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                        className="block w-full text-left px-4 py-2 text-xs uppercase tracking-wider text-rose-400 hover:bg-rose-500/10"
                                     >
-                                        Log out
+                                        Disconnect
                                     </button>
                                 </div>
                             </div>
                         ) : (
                             <button
                                 onClick={() => loginWithGoogle()}
-                                className="ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700 border border-transparent"
+                                className="ml-2 px-5 py-2 border border-white/20 bg-white/[0.04] text-white hover:bg-white hover:text-black transition-all duration-200 text-xs uppercase tracking-widest font-medium"
                             >
-                                Login
+                                Sign In
                             </button>
                         )}
                     </nav>
@@ -160,13 +156,13 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             e.stopPropagation();
                             setIsMenuOpen(!isMenuOpen);
                         }}
-                        className={`menu-button lg:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
+                        className="menu-button lg:hidden p-2 text-white border border-white/15 bg-white/[0.04] hover:border-white/30 transition-colors z-50"
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     >
                         {isMenuOpen ? (
-                            <HiX className="h-6 w-6 text-gray-700" />
+                            <HiX className="h-5 w-5 text-white" />
                         ) : (
-                            <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+                            <HiMenu className="h-5 w-5 text-white" />
                         )}
                     </button>
                 )}
@@ -174,84 +170,62 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
 
             {/* Mobile Menu Overlay */}
             {isMenuOpen && variant === 'default' && (
-                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden">
-                    <div className="pt-20 pb-8">
-                        <nav className="container mx-auto px-4">
-                            <div className="space-y-1">
-                                <NavLink
-                                    href="/destinations"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Destinations
-                                </NavLink>
-                                <NavLink
-                                    href="/become-a-guide"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Become a Guide
-                                </NavLink>
-                                <NavLink
-                                    href="/community"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Community
-                                </NavLink>
+                <div className="mobile-menu fixed inset-0 top-0 bg-neutral-950/95 backdrop-blur-2xl z-40 lg:hidden border-b border-white/10">
+                    <div className="pt-24 pb-8 container mx-auto px-6">
+                        <div className="flex items-center justify-between pb-6 mb-4 border-b border-white/10">
+                            <span className="font-display text-2xl tracking-tight text-white">
+                                UNCHARTED<sup className="text-[9px] font-sans ml-1 text-white/45">®</sup>
+                            </span>
+                            <span className="text-xs text-white/40 uppercase tracking-widest font-mono">Alpine Archive</span>
+                        </div>
 
-                                <div className="border-t border-gray-200 my-4"></div>
+                        <nav className="space-y-1">
+                            <NavLink href="/destinations" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Destinations
+                            </NavLink>
+                            <NavLink href="/become-a-guide" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Become a Guide
+                            </NavLink>
+                            <NavLink href="/community" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Community
+                            </NavLink>
+                            <NavLink href="/about" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                About Us
+                            </NavLink>
 
+                            <div className="pt-6 mt-4">
                                 {user ? (
-                                    <>
-                                        <div className="px-4 py-2">
-                                            <div className="flex items-center space-x-3 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
-                                                    {user.email?.charAt(0).toUpperCase()}
-                                                </div>
-                                                <div className="text-sm font-medium text-gray-900">{user.email}</div>
+                                    <div className="border border-white/10 bg-white/[0.02] p-4">
+                                        <div className="flex items-center space-x-3 mb-3">
+                                            <div className="w-8 h-8 border border-white/20 bg-neutral-900 flex items-center justify-center text-white text-xs font-medium">
+                                                {user.email?.charAt(0).toUpperCase()}
                                             </div>
-                                            <NavLink href="/dashboard" isMobile={true} onClick={() => setIsMenuOpen(false)}>
-                                                Dashboard
-                                            </NavLink>
-                                            <button
-                                                onClick={() => {
-                                                    signOut();
-                                                    setIsMenuOpen(false);
-                                                }}
-                                                className="block w-full text-left py-3 px-4 text-red-600 hover:bg-red-50 rounded-md font-medium"
-                                            >
-                                                Log out
-                                            </button>
+                                            <div className="text-xs text-white/80 font-mono truncate">{user.email}</div>
                                         </div>
-                                    </>
+                                        <NavLink href="/dashboard" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                            Dashboard
+                                        </NavLink>
+                                        <button
+                                            onClick={() => {
+                                                signOut();
+                                                setIsMenuOpen(false);
+                                            }}
+                                            className="block w-full text-left py-2.5 px-4 text-xs uppercase tracking-wider text-rose-400 hover:bg-rose-500/10 transition-colors mt-2"
+                                        >
+                                            Log out
+                                        </button>
+                                    </div>
                                 ) : (
                                     <button
                                         onClick={() => {
                                             loginWithGoogle();
                                             setIsMenuOpen(false);
                                         }}
-                                        className="block w-full text-left py-3 px-4 text-blue-600 hover:bg-blue-50 rounded-md font-medium"
+                                        className="w-full py-3 border border-white/30 bg-white text-black font-medium text-xs uppercase tracking-widest hover:bg-white/90 transition-all text-center"
                                     >
-                                        Login
+                                        Sign In
                                     </button>
                                 )}
-
-                                <div className="border-t border-gray-200 my-4"></div>
-                                <NavLink
-                                    href="/about"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    About Us
-                                </NavLink>
-                                <NavLink
-                                    href="#contact"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Contact
-                                </NavLink>
                             </div>
                         </nav>
                     </div>

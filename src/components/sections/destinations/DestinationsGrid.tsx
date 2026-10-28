@@ -7,7 +7,6 @@ import { MobileCatalogueView } from './mobileCatalogueView';
 
 const categories = ['All'];
 
-
 interface DestinationsGridProps {
     mobileView?: MobileCatalogueView;
 }
@@ -27,17 +26,13 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
         router.push(`/destinations/${slug}`);
     };
 
-    // Intersection Observer for Mobile Scroll
     React.useEffect(() => {
         if (mobileView) return;
-
-        // Run only on client side
         if (typeof window === 'undefined') return;
 
         const checkMobileAndObserve = () => {
-            // Only enable intersection observer on mobile (< 768px)
             if (window.innerWidth >= 768) {
-                setActiveCardId(null); // Reset active state on desktop
+                setActiveCardId(null);
                 return;
             }
 
@@ -48,7 +43,6 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
                 (entries) => {
                     entries.forEach((entry) => {
                         if (entry.isIntersecting) {
-                            // The card id is stored in a data attribute
                             const id = entry.target.getAttribute('data-id');
                             setActiveCardId(id);
                         }
@@ -56,7 +50,7 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
                 },
                 {
                     root: container,
-                    threshold: 0.7, // Trigger when 70% of the card is visible
+                    threshold: 0.7,
                 }
             );
 
@@ -66,10 +60,8 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
             return () => observer.disconnect();
         };
 
-        // Initial check
         const cleanup = checkMobileAndObserve();
 
-        // Handle resize
         const handleResize = () => {
             if (window.innerWidth >= 768) {
                 setActiveCardId(null);
@@ -87,68 +79,68 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
     return (
         <>
             {mobileView && <MobileCataloguePreview view={mobileView} />}
-            <section className={`${mobileView ? 'hidden md:block' : ''} py-12 md:py-20 bg-slate-900 min-h-screen`}>
-                <div className="container mx-auto px-4">
-                {/* Filter Bar */}
-                <div className="relative mb-12 -mx-4 px-4 py-4 bg-transparent border-b border-white/5 md:mx-0 md:px-0 md:border-none">
-                    <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide pl-1">
-                        {categories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setActiveCategory(category)}
-                                className={`
-                                    px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 whitespace-nowrap flex-shrink-0
-                                    ${activeCategory === category
-                                        ? 'bg-yellow-400 text-slate-900 shadow-lg shadow-yellow-400/20 scale-105'
-                                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white border border-slate-700'
-                                    }
-                                `}
+            <section className={`${mobileView ? 'hidden md:block' : ''} py-12 md:py-20 bg-black min-h-screen text-white border-t border-white/[0.08]`}>
+                <div className="container mx-auto px-6 md:px-12">
+                    {/* Filter Bar */}
+                    <div className="relative mb-12 py-3 bg-transparent border-b border-white/[0.08]">
+                        <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                            {categories.map((category) => (
+                                <button
+                                    key={category}
+                                    onClick={() => setActiveCategory(category)}
+                                    className={`
+                                        px-5 py-2 text-xs font-mono uppercase tracking-widest transition-all duration-200 whitespace-nowrap flex-shrink-0 cursor-pointer border
+                                        ${activeCategory === category
+                                            ? 'bg-white text-black border-white font-medium'
+                                            : 'bg-white/[0.03] text-white/60 hover:text-white border-white/10 hover:border-white/30'
+                                        }
+                                    `}
+                                >
+                                    {category} Expeditions
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Treks Grid */}
+                    <div
+                        ref={scrollContainerRef}
+                        className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:pb-0 md:mx-0 md:px-0 scrollbar-hide"
+                    >
+                        {filteredTreks.map((trek) => (
+                            <div
+                                key={trek.id}
+                                data-id={trek.id}
+                                className="trek-card-wrapper min-w-[85vw] snap-center md:min-w-0"
                             >
-                                {category}
-                            </button>
+                                <TrekCard
+                                    trek={trek}
+                                    isActive={trek.id === activeCardId}
+                                    onBook={handleBook}
+                                />
+                            </div>
                         ))}
                     </div>
-                </div>
 
-                {/* Carousel */}
-                <div
-                    ref={scrollContainerRef}
-                    className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:pb-0 md:mx-0 md:px-0 scrollbar-hide"
-                >
-                    {filteredTreks.map((trek) => (
-                        <div
-                            key={trek.id}
-                            data-id={trek.id}
-                            className="trek-card-wrapper min-w-[85vw] snap-center md:min-w-0"
-                        >
-                            <TrekCard
-                                trek={trek}
-                                isActive={trek.id === activeCardId}
-                                onBook={handleBook}
-                            />
+                    {/* Empty State */}
+                    {filteredTreks.length === 0 && (
+                        <div className="text-center py-20">
+                            <p className="text-white/50 text-sm font-sans">No treks found in this catalogue category.</p>
+                            <button
+                                onClick={() => setActiveCategory('All')}
+                                className="mt-4 text-xs font-mono uppercase tracking-wider text-white hover:underline"
+                            >
+                                View all treks
+                            </button>
                         </div>
-                    ))}
-                </div>
+                    )}
 
-                {/* Empty State */}
-                {filteredTreks.length === 0 && (
-                    <div className="text-center py-20">
-                        <p className="text-slate-400 text-lg">No treks found in this category.</p>
-                        <button
-                            onClick={() => setActiveCategory('All')}
-                            className="mt-4 text-yellow-400 hover:underline"
-                        >
-                            View all treks
-                        </button>
+                    {/* Coming Soon Note */}
+                    <div className="mt-20 text-center border-t border-white/[0.08] pt-12">
+                        <p className="text-white/40 font-display text-xl sm:text-2xl italic">
+                            More untamed Himalayan ridges currently undergoing cartographic vetting...
+                        </p>
                     </div>
-                )}
-
-                {/* Coming Soon Note */}
-                <div className="mt-16 text-center border-t border-slate-800 pt-12">
-                    <p className="text-slate-500 text-lg italic">
-                        More breathtaking Himalayan treks coming soon...
-                    </p>
-                </div>
                 </div>
             </section>
         </>

@@ -1,17 +1,23 @@
 import React from 'react';
+import { Compass } from 'lucide-react';
 
 const AboutHero: React.FC = () => {
     return (
-        <section className="relative min-h-screen flex items-center justify-center bg-slate-900 text-white pt-32 pb-20">
-            <div className="container mx-auto px-4 text-center">
-                <p className="text-yellow-400 uppercase tracking-widest text-sm font-medium mb-8">
-                    Our Philosophy
-                </p>
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight max-w-5xl mx-auto mb-12">
-                    The mountains don't <span className="text-gray-500">yield</span>, they <span className="text-yellow-400">transform</span> us — if we know who to follow.
+        <section className="relative min-h-[65vh] flex items-center justify-center bg-black text-white pt-36 pb-20 border-b border-white/[0.08]">
+            <div className="container mx-auto px-6 text-center max-w-4xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 border border-white/15 bg-white/[0.03] backdrop-blur-md mb-8">
+                    <Compass className="w-3.5 h-3.5 text-white/70" />
+                    <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-white/75">
+                        Our Guiding Philosophy
+                    </span>
+                </div>
+
+                <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight leading-[1.08] max-w-4xl mx-auto mb-8 text-white">
+                    The mountains don't yield — they <span className="italic text-white/90">transform us</span>, if we know who to follow.
                 </h1>
-                <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                    We believe the best way to experience the Himalayas is by walking alongside the locals who know its every trail and legend.
+
+                <p className="font-sans text-base sm:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed font-normal">
+                    We believe the most profound way to experience the Himalayas is by walking alongside native guardians who know every glacial moraine, sacred spring, and unwritten legend.
                 </p>
             </div>
         </section>

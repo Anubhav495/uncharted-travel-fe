@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import React from 'react';
+import { Star, ShieldCheck } from 'lucide-react';
 
 interface CustomerReview {
     name: string;
@@ -8,217 +8,110 @@ interface CustomerReview {
     tour: string;
     quote: string;
     profession?: string;
+    date: string;
 }
 
 const customerReviews: CustomerReview[] = [
     {
         name: 'Vivek Verma',
-        avatarUrl: 'https://picsum.photos/seed/vivek/100/100',
+        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
         rating: 5,
-        tour: 'Kareri Lake Trek',
-        quote: 'The lake was unreal, pictures don\'t do it justice. The whole trail through the forest was so peaceful and our guide kept the energy up the entire time. Best weekend I\'ve had in a long time.',
-        profession: 'Software Engineer'
+        tour: 'Kareri Glacial Lake',
+        quote: 'The alpine stillness of Kareri is impossible to capture in photos. Hiking with Aatish felt like walking through centuries of unwritten mountain heritage.',
+        profession: 'Software Architect',
+        date: 'Autumn Traverse',
     },
     {
         name: 'Pranjal Gupta',
-        avatarUrl: 'https://picsum.photos/seed/pranjal/100/100',
+        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
         rating: 5,
-        tour: 'Sar Pass Trek',
-        quote: 'First time doing a snow trek and I was nervous but the guides made it super easy. Crossed actual snow patches which was crazy. Views from the top were insane!',
-        profession: 'CA'
+        tour: 'Sar Pass High Traverse',
+        quote: 'Crossing the snow ridges at 13,800 ft under Kapil’s watchful guidance was transcendent. Zero tourist rush. Just wind, ice, and absolute focus.',
+        profession: 'Chartered Accountant',
+        date: 'Early Summer',
     },
     {
         name: 'Nidhi Tripathi',
-        avatarUrl: 'https://picsum.photos/seed/nidhi/100/100',
+        avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop',
         rating: 5,
-        tour: 'Kheerganga Trek',
-        quote: 'Such a beautiful trek, perfect for beginners. The hot springs at the top were the highlight for me. Would totally do it again with friends.',
-        profession: 'Teacher'
+        tour: 'Kheerganga Hot Springs',
+        quote: 'Pritam shared the mythologies of every stream we crossed. Reaching the steaming mineral pools after hours in the pinewood was pure medicine.',
+        profession: 'Educator & Writer',
+        date: 'Spring Equinox',
     }
 ];
 
-const ReviewCard: React.FC<{ review: CustomerReview }> = ({ review }) => (
-    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg h-[280px] sm:h-[300px] flex flex-col">
-        <div className="flex items-center mb-4">
-            <img
-                src={review.avatarUrl}
-                alt={review.name}
-                className="w-12 h-12 rounded-full mr-4 object-cover"
-                loading="lazy"
-            />
-            <div>
-                <p className="font-bold text-gray-900 text-sm sm:text-base">{review.name}</p>
-                <p className="text-xs sm:text-sm text-gray-600">
-                    {review.profession && <span className="font-medium">{review.profession} &bull; </span>}
-                    {review.tour}
-                </p>
-            </div>
-        </div>
-
-        <div className="flex mb-4">
-            {[...Array(5)].map((_, i) => (
-                <Star
-                    key={i}
-                    className={`w-4 h-4 sm:w-5 sm:h-5 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                        }`}
-                />
-            ))}
-        </div>
-
-        <p className="text-gray-700 italic text-sm sm:text-base leading-relaxed flex-grow">
-            "{review.quote}"
-        </p>
-    </div>
-);
-
 const ReviewsSection: React.FC = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-    const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
-    const minSwipeDistance = 50;
-
-    const goToPrevious = useCallback(() => {
-        const isFirstSlide = currentIndex === 0;
-        const newIndex = isFirstSlide ? customerReviews.length - 1 : currentIndex - 1;
-        setCurrentIndex(newIndex);
-    }, [currentIndex]);
-
-    const goToNext = useCallback(() => {
-        const isLastSlide = currentIndex === customerReviews.length - 1;
-        const newIndex = isLastSlide ? 0 : currentIndex + 1;
-        setCurrentIndex(newIndex);
-    }, [currentIndex]);
-
-    // Auto-advance slides (slower than guides section)
-    useEffect(() => {
-        if (isPaused) return;
-        const timer = setInterval(() => {
-            goToNext();
-        }, 5000); // 5 seconds for reviews
-        return () => {
-            clearInterval(timer);
-        };
-    }, [isPaused, currentIndex, goToNext]);
-
-    // Touch handlers for mobile swipe
-    const onTouchStart = (e: React.TouchEvent) => {
-        setTouchEnd(null);
-        setTouchStart(e.targetTouches[0].clientX);
-    };
-
-    const onTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX);
-    };
-
-    const onTouchEnd = () => {
-        if (!touchStart || !touchEnd) return;
-
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe) {
-            goToNext();
-        } else if (isRightSwipe) {
-            goToPrevious();
-        }
-    };
-
-    const getCardStyle = (index: number) => {
-        const total = customerReviews.length;
-        const prevIndex = (currentIndex - 1 + total) % total;
-        const nextIndex = (currentIndex + 1) % total;
-
-        let styles = 'absolute top-0 w-full max-w-xs sm:max-w-md transform transition-all duration-500 ease-out';
-
-        if (index === currentIndex) {
-            // Active card - centered and full scale
-            styles += ' scale-100 opacity-100 z-20 left-1/2 -translate-x-1/2';
-        } else if (index === prevIndex) {
-            // Previous card - left side, smaller and faded
-            styles += ' scale-90 opacity-60 z-10 left-1/2 -translate-x-[120%] sm:-translate-x-[140%]';
-        } else if (index === nextIndex) {
-            // Next card - right side, smaller and faded
-            styles += ' scale-90 opacity-60 z-10 left-1/2 translate-x-[20%] sm:translate-x-[40%]';
-        } else {
-            // Hidden cards
-            styles += ' scale-75 opacity-0 z-0 left-1/2 -translate-x-1/2';
-        }
-
-        return styles;
-    };
-
     return (
         <section
-            className="relative py-16 sm:py-20 md:py-24 bg-cover bg-center bg-fixed overflow-hidden"
-            style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
-            }}
+            className="border-t border-white/[0.08] px-6 md:px-12 lg:px-20 py-24 md:py-32 bg-black relative text-white"
             id="reviews"
         >
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="max-w-6xl mx-auto">
+                {/* Section Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                    <div>
+                        <p className="text-xs uppercase tracking-widest text-white/45 mb-3 font-sans font-medium">
+                            Field Journals &middot; Verified Expeditions
+                        </p>
+                        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                            Chronicles of <span className="italic text-white/90">the Traverse.</span>
+                        </h2>
+                    </div>
+                    <div className="flex items-center gap-2 border border-white/10 px-3 py-1.5 bg-white/[0.02]">
+                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                        <span className="text-xs font-mono uppercase tracking-wider text-white/70">
+                            100% Verified Field Explorers
+                        </span>
+                    </div>
+                </div>
 
-            <div className="relative container mx-auto px-4 text-center mb-8 sm:mb-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-                    <span className="text-yellow-400">Hear</span> From Our Travelers
-                </h2>
+                {/* Editorial Reviews Grid */}
+                <div className="grid md:grid-cols-3 gap-6">
+                    {customerReviews.map((review, idx) => (
+                        <div
+                            key={idx}
+                            className="border border-white/[0.08] bg-white/[0.02] p-8 flex flex-col justify-between hover:border-white/20 hover:bg-white/[0.03] transition duration-200 relative group"
+                        >
+                            <div>
+                                <div className="flex items-center justify-between mb-6">
+                                    <div className="flex items-center gap-1 text-white/90">
+                                        {[...Array(review.rating)].map((_, i) => (
+                                            <Star key={i} className="w-3.5 h-3.5 fill-white text-white" />
+                                        ))}
+                                    </div>
+                                    <span className="text-[10px] font-mono uppercase tracking-wider text-white/40 border border-white/[0.08] px-2 py-0.5">
+                                        {review.date}
+                                    </span>
+                                </div>
 
-                <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-                    Real experiences from trekkers who explored the Himalayas with our local guides.
-                </p>
-            </div>
+                                <p className="font-display text-xl font-normal italic text-white/85 leading-relaxed mb-8">
+                                    "{review.quote}"
+                                </p>
+                            </div>
 
-            <div
-                className="relative h-[350px] sm:h-[380px]"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-            >
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                    {customerReviews.map((review, index) => (
-                        <div key={index} className={getCardStyle(index)}>
-                            <div className="mx-4">
-                                <ReviewCard review={review} />
+                            <div className="pt-6 border-t border-white/[0.06] flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <img
+                                        src={review.avatarUrl}
+                                        alt={review.name}
+                                        className="w-10 h-10 object-cover border border-white/20"
+                                    />
+                                    <div>
+                                        <p className="text-sm font-sans font-medium text-white">{review.name}</p>
+                                        <p className="text-[11px] font-mono text-white/45 uppercase tracking-wider">
+                                            {review.profession}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <span className="text-[10px] px-2 py-1 border border-white/10 text-white/60 font-mono uppercase tracking-wider bg-black/40">
+                                    {review.tour}
+                                </span>
                             </div>
                         </div>
                     ))}
                 </div>
-
-                {/* Navigation Buttons - Hidden on mobile, visible on larger screens */}
-                <button
-                    onClick={goToPrevious}
-                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
-                    aria-label="Previous Review"
-                >
-                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
-                </button>
-                <button
-                    onClick={goToNext}
-                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
-                    aria-label="Next Review"
-                >
-                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
-                </button>
-            </div>
-
-            {/* Much Smaller Dots for Mobile */}
-            <div className="relative flex justify-center items-center space-x-1 sm:space-x-1.5 mt-6">
-                {customerReviews.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setCurrentIndex(index)}
-                        style={{ minWidth: 0, minHeight: 0 }}
-                        className={`rounded-full transition-all duration-300 flex-shrink-0 p-0 !min-w-0 !min-h-0 ${currentIndex === index
-                            ? 'bg-yellow-400 !w-[10px] !h-[10px] sm:!w-[12px] sm:!h-[12px] md:!w-[14px] md:!h-[14px]'
-                            : 'bg-white/50 !w-[8px] !h-[8px] sm:!w-[10px] sm:!h-[10px] md:!w-[12px] md:!h-[12px] hover:bg-white/70'
-                            }`}
-                        aria-label={`Go to review ${index + 1}`}
-                    />
-                ))}
             </div>
         </section>
     );
