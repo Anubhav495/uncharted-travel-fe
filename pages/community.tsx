@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { NextSeo } from 'next-seo';
-import { Trophy, Medal, Star, TrendingUp, Search } from 'lucide-react';
+import { Trophy, Medal, Star, TrendingUp, Search, Gift, Compass } from 'lucide-react';
 import { useAuth } from '../src/context/AuthContext';
 import { SEEDED_LEADERBOARD, LeaderboardEntry } from './api/getLeaderboard';
 import Link from 'next/link';
@@ -334,6 +334,39 @@ export default function Community() {
                                     );
                                 })
                             )}
+                        </div>
+                    </div>
+
+                    {/* Upcoming Features / System Roadmap */}
+                    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div className="border border-white/10 bg-neutral-950/80 p-5 relative overflow-hidden transition-colors hover:border-white/20">
+                            <div className="flex items-center gap-2 mb-2.5">
+                                <span className="inline-block px-2 py-0.5 text-[9px] font-sans uppercase tracking-widest text-amber-400 border border-amber-400/30 bg-amber-400/10 font-medium">
+                                    Roadmap &middot; In Development
+                                </span>
+                            </div>
+                            <h3 className="font-display text-lg text-white mb-2 flex items-center gap-2">
+                                <Compass className="w-4 h-4 text-amber-400 shrink-0" />
+                                Dynamic XP Model
+                            </h3>
+                            <p className="text-white/60 text-xs font-sans leading-relaxed">
+                                We are actively developing a dynamic XP reward model. Soon, your XP will be awarded based on specific trek parameters including technicality, harsh weather conditions, and overall difficulty!
+                            </p>
+                        </div>
+
+                        <div className="border border-white/10 bg-neutral-950/80 p-5 relative overflow-hidden transition-colors hover:border-white/20">
+                            <div className="flex items-center gap-2 mb-2.5">
+                                <span className="inline-block px-2 py-0.5 text-[9px] font-sans uppercase tracking-widest text-emerald-400 border border-emerald-400/30 bg-emerald-400/10 font-medium">
+                                    Upcoming Perks
+                                </span>
+                            </div>
+                            <h3 className="font-display text-lg text-white mb-2 flex items-center gap-2">
+                                <Gift className="w-4 h-4 text-emerald-400 shrink-0" />
+                                Rank-Based Rewards
+                            </h3>
+                            <p className="text-white/60 text-xs font-sans leading-relaxed">
+                                We will also be introducing exclusive rewards and perks for our top-ranked trekkers. Keep climbing the leaderboard to unlock them!
+                            </p>
                         </div>
                     </div>
 
