@@ -40,6 +40,7 @@ export default function Community() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [currentUserRank, setCurrentUserRank] = useState<number | null>(null);
+    const [standingPreview, setStandingPreview] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
@@ -48,12 +49,13 @@ export default function Community() {
             .then(data => {
                 setLeaderboard(Array.isArray(data.leaderboard) ? data.leaderboard : []);
                 setCurrentUserRank(typeof data.currentUserRank === 'number' ? data.currentUserRank : null);
+                setStandingPreview(data.standingPreview === true);
             })
             .catch(console.error)
             .finally(() => setLoading(false));
     }, []);
 
-    const userRank = user ? currentUserRank : null;
+    const userRank = user || standingPreview ? currentUserRank : null;
 
     // Filtered list based on search query (showing top 20 or matching search)
     const filteredLeaderboard = useMemo(() => {
@@ -144,14 +146,14 @@ export default function Community() {
                     </div>
 
                     {/* Current User Standing Banner */}
-                    {user && userRank !== null && userRank > 0 && (
+                    {userRank !== null && userRank > 0 && (
                         <div className="border border-yellow-400/30 bg-yellow-400/10 p-4 sm:p-5 flex items-center justify-between mb-8 shadow-xl">
                             <div className="flex items-center gap-3.5">
                                 <div className="w-10 h-10 border border-yellow-400/30 bg-yellow-400/10 flex items-center justify-center shrink-0">
                                     <Star className="w-5 h-5 text-yellow-400" />
                                 </div>
                                 <div>
-                                    <span className="text-[10px] font-sans uppercase tracking-widest text-yellow-400/80 block font-semibold">Your Standing</span>
+                                    <span className="text-[10px] font-sans uppercase tracking-widest text-yellow-400/80 block font-semibold">Your Standing{standingPreview ? ' · Preview' : ''}</span>
                                     <p className="text-sm font-sans text-slate-200">
                                         Ranked <span className="font-bold text-yellow-400">#{userRank}</span> globally
                                     </p>
