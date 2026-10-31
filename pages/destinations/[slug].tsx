@@ -234,7 +234,7 @@ const TrekDetailsPage = () => {
                     <div className="lg:col-span-2 space-y-14">
                         {/* Overview */}
                         <section>
-                            <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Trajectory Overview</h2>
+                            <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Overview</h2>
                             <p className="text-base sm:text-lg leading-relaxed text-slate-300 font-sans font-normal">
                                 {trek.overview}
                             </p>
@@ -242,7 +242,7 @@ const TrekDetailsPage = () => {
 
                         {/* Highlights */}
                         <section>
-                            <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">Alpine Highlights</h2>
+                            <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">Highlights</h2>
                             <ul className="grid gap-3">
                                 {trek.highlights?.map((highlight) => (
                                     <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/70 border border-slate-700 hover:border-slate-600 transition-colors">
@@ -271,7 +271,6 @@ const TrekDetailsPage = () => {
                         {(totalGuides > 0 || totalCompanies > 0) ? (
                             <section>
                                 <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-4 border-yellow-400 pl-4">Local Guides & Operators</h2>
-                                <p className="text-slate-400 text-xs font-sans mb-6 pl-4">Request a verified local guide or certified trek team.</p>
 
                                 {totalGuides > 0 && totalCompanies > 0 && (
                                     <div className="mb-6 flex gap-2 border border-slate-700 bg-slate-800 p-1 w-full sm:w-auto inline-flex">
