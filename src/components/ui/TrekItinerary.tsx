@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, MapPin, TrendingUp, Utensils } from 'lucide-react';
+import { ChevronDown, ChevronUp, MapPin, TrendingDown, TrendingUp } from 'lucide-react';
 import { ItineraryDay } from '@/types/trek';
 
 interface TrekItineraryProps {
@@ -17,7 +17,6 @@ const TrekItinerary: React.FC<TrekItineraryProps> = ({ itinerary }) => {
                         Trail Itinerary
                     </h2>
                     <p className="text-slate-400 text-xs font-sans mt-1 pl-4">
-                        Day-by-day route architecture and elevation gains.
                     </p>
                 </div>
                 <button
@@ -40,7 +39,12 @@ const TrekItinerary: React.FC<TrekItineraryProps> = ({ itinerary }) => {
                 id="trek-itinerary-days"
                 className="relative space-y-4 before:absolute before:inset-0 before:ml-5 before:h-full before:w-px before:-translate-x-px before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent md:space-y-8 md:before:mx-auto md:before:translate-x-0"
             >
-                {itinerary.map((day) => (
+                {itinerary.map((day, index) => {
+                    const currentElevation = Number(day.elevation?.replace(/[^\d.]/g, ''));
+                    const previousElevation = Number(itinerary[index - 1]?.elevation?.replace(/[^\d.]/g, ''));
+                    const isDescent = index > 0 && Number.isFinite(currentElevation) && Number.isFinite(previousElevation) && currentElevation < previousElevation;
+
+                    return (
                     <div
                         key={day.day}
                         className="group relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse"
@@ -54,7 +58,7 @@ const TrekItinerary: React.FC<TrekItineraryProps> = ({ itinerary }) => {
                         <div className="w-[calc(100%-3.5rem)] border border-slate-700 bg-slate-800/70 p-5 md:p-6 shadow-xl transition-all hover:border-yellow-400/40 md:w-[calc(50%-2.5rem)]">
                             <div className="flex items-baseline justify-between gap-2 mb-2">
                                 <span className="text-[10px] font-sans uppercase tracking-widest text-slate-500 font-semibold">
-                                    Stage {day.day < 10 ? `0${day.day}` : day.day}
+                                    Day {day.day < 10 ? `0${day.day}` : day.day}
                                 </span>
                             </div>
 
@@ -74,7 +78,7 @@ const TrekItinerary: React.FC<TrekItineraryProps> = ({ itinerary }) => {
                                         )}
                                         {day.elevation && (
                                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 border border-slate-700 bg-slate-800 text-[11px] font-sans text-slate-300">
-                                                <TrendingUp className="h-3 w-3 text-emerald-400" aria-hidden="true" />
+                                                {isDescent ? <TrendingDown className="h-3 w-3 text-sky-400" aria-hidden="true" /> : <TrendingUp className="h-3 w-3 text-emerald-400" aria-hidden="true" />}
                                                 {day.elevation}
                                             </span>
                                         )}
@@ -85,17 +89,11 @@ const TrekItinerary: React.FC<TrekItineraryProps> = ({ itinerary }) => {
                                     {day.description}
                                 </p>
 
-                                {day.meals && (
-                                    <div className="mt-4 flex items-center gap-2 border-t border-slate-700/60 pt-3 text-xs font-sans text-slate-400">
-                                        <Utensils className="w-3.5 h-3.5 text-yellow-400" />
-                                        <span className="uppercase tracking-wider text-slate-400 font-semibold">Meals:</span>
-                                        <span className="text-slate-200">{day.meals}</span>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
-                ))}
+                    );
+                })}
             </div>
         </section>
     );

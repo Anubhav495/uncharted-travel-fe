@@ -112,9 +112,6 @@ const GalleryPage = () => {
 
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                             <div>
-                                <div className="inline-block border border-yellow-400/30 px-3 py-1 bg-yellow-400/10 text-[10px] font-sans uppercase tracking-widest text-yellow-400 mb-4 font-semibold">
-                                    Visual Archive &middot; High Altitude Reconnaissance
-                                </div>
                                 <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal text-white tracking-tight leading-tight">
                                     {trek.title}
                                 </h1>

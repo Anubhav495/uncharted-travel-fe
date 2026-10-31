@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { HiX } from 'react-icons/hi';
-import { MapPin, TrendingUp, Utensils } from 'lucide-react';
+import { MapPin, TrendingUp } from 'lucide-react';
 import { ItineraryDay } from '@/types/trek';
 
 interface ItineraryModalProps {
@@ -87,13 +87,6 @@ const ItineraryModal: React.FC<ItineraryModalProps> = ({
                                 <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed mb-3 font-normal">
                                     {day.description}
                                 </p>
-                                {day.meals && (
-                                    <div className="pt-3 border-t border-slate-700/60 flex items-center gap-2 text-xs font-sans text-slate-400">
-                                        <Utensils className="w-3.5 h-3.5 text-yellow-400" />
-                                        <span className="uppercase tracking-wider text-slate-400 font-semibold">Meals:</span> 
-                                        <span className="text-slate-200">{day.meals}</span>
-                                    </div>
-                                )}
                             </div>
                         ))}
                     </div>
