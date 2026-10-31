@@ -1,5 +1,4 @@
 import React from 'react';
-import { MapPin } from 'lucide-react';
 
 const MissionSection: React.FC = () => {
     return (
@@ -25,12 +24,13 @@ const MissionSection: React.FC = () => {
 
                     {/* Visual Side */}
                     <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <div className="relative w-full max-w-md aspect-square border border-slate-700 bg-slate-800/80 flex flex-col justify-center items-center p-8 shadow-2xl text-center">
-                            <MapPin className="w-16 h-16 text-yellow-400 mx-auto mb-4 stroke-1" />
-                            <div className="font-display text-2xl text-white mb-2">Local Mountain Expertise</div>
-                            <p className="text-xs text-slate-400 font-sans max-w-xs leading-relaxed">
-                                Direct connection with generational Himalayan guides for unforgettable journeys.
-                            </p>
+                        <div className="relative w-full max-w-md border border-slate-700 bg-slate-800/90 p-2 shadow-2xl">
+                            <img
+                                src="/assets/become-a-guide-main-page.jpg"
+                                alt="A trekking group making their way through snowy mountain terrain"
+                                loading="lazy"
+                                className="w-full h-[450px] object-cover object-bottom filter contrast-[1.05]"
+                            />
                         </div>
                     </div>
                 </div>

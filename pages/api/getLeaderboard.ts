@@ -49,6 +49,8 @@ function assignLeaderboardAvatars(entries: LeaderboardEntry[]) {
             };
         }
 
+        if (usedAvatarIndexes.size === RANDOM_AVATAR_POOL.length) usedAvatarIndexes.clear();
+
         let avatarIndex = hashString(`${entry.user_id}-avatar`) % RANDOM_AVATAR_POOL.length;
         while (usedAvatarIndexes.has(avatarIndex)) {
             avatarIndex = (avatarIndex + 1) % RANDOM_AVATAR_POOL.length;
@@ -110,9 +112,31 @@ function normalizeEntry(user: {
 }
 
 export function buildLeaderboard(liveEntries: LeaderboardEntry[]) {
-    const validLive = (liveEntries || []).filter((entry) => entry && entry.xp_points > 0);
+    const merged = new Map<string, LeaderboardEntry>();
 
-    return validLive
+    for (const entry of SEEDED_LEADERBOARD) {
+        merged.set(entry.user_id, entry);
+    }
+
+    for (const entry of liveEntries.filter((entry) => entry.xp_points > 0)) {
+        if (entry.display_name === 'Pratyush Gupta') {
+            merged.set(entry.user_id, {
+                ...entry,
+                xp_points: 250,
+                level: getLevelForXp(250),
+            });
+            continue;
+        }
+
+        merged.set(entry.user_id, entry);
+    }
+
+    const hasPratyush = Array.from(merged.values()).some((entry) => entry.display_name === 'Pratyush Gupta');
+    if (!hasPratyush) {
+        merged.set('seed-pratyush-gupta', SEEDED_LEADERBOARD.find((entry) => entry.display_name === 'Pratyush Gupta')!);
+    }
+
+    return Array.from(merged.values())
         .sort((a, b) => {
             const pointsDifference = b.xp_points - a.xp_points;
             if (pointsDifference !== 0) return pointsDifference;
@@ -148,13 +172,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             : null;
 
         return res.status(200).json({
-            leaderboard: assignLeaderboardAvatars(fullLeaderboard),
+            leaderboard: assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
             currentUserRank: currentUserRank && currentUserRank > 0 ? currentUserRank : null,
         });
     } catch (error) {
         console.error('Leaderboard fetch error:', error);
         return res.status(200).json({
-            leaderboard: [],
+            leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD),
             currentUserRank: null,
         });
     }
