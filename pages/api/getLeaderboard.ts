@@ -49,6 +49,8 @@ function assignLeaderboardAvatars(entries: LeaderboardEntry[]) {
             };
         }
 
+        if (usedAvatarIndexes.size === RANDOM_AVATAR_POOL.length) usedAvatarIndexes.clear();
+
         let avatarIndex = hashString(`${entry.user_id}-avatar`) % RANDOM_AVATAR_POOL.length;
         while (usedAvatarIndexes.has(avatarIndex)) {
             avatarIndex = (avatarIndex + 1) % RANDOM_AVATAR_POOL.length;
@@ -62,7 +64,7 @@ function assignLeaderboardAvatars(entries: LeaderboardEntry[]) {
     });
 }
 
-const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
+export const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
     { user_id: 'seed-arjun-mehta', display_name: 'Arjun Mehta', avatar_url: null, xp_points: 700, level: getLevelForXp(700) },
     { user_id: 'seed-sana-khan', display_name: 'Sana Khan', avatar_url: null, xp_points: 650, level: getLevelForXp(650) },
     { user_id: 'seed-raghav-sharma', display_name: 'Raghav Sharma', avatar_url: null, xp_points: 600, level: getLevelForXp(600) },

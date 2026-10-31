@@ -11,23 +11,26 @@ interface TrekCardProps {
 
 const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) => {
     return (
-        <div className={`group relative bg-slate-800/50 rounded-2xl overflow-hidden border border-slate-700/50 hover:border-yellow-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-yellow-400/10 ${isActive ? 'is-active border-yellow-400/50 shadow-2xl shadow-yellow-400/10' : ''}`}>
+        <div
+            className={`group relative bg-slate-800/90 overflow-hidden border border-slate-700 hover:border-yellow-400/60 transition-all duration-300 shadow-xl flex flex-col justify-between ${
+                isActive ? 'is-active border-yellow-400' : ''
+            }`}
+        >
             {/* Image Container */}
-            <div className="relative h-[60vh] md:h-[400px] overflow-hidden">
+            <div className="relative h-[280px] sm:h-[320px] md:h-[340px] overflow-hidden">
                 <TrekImage
                     src={trek.image}
                     alt={trek.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110 group-[.is-active]:scale-110"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105 group-[.is-active]:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 group-[.is-active]:opacity-90 transition-opacity duration-500" />
 
                 {/* Badges */}
-                <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
                     {trek.badges.map((badge, index) => (
                         <span
                             key={index}
-                            className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 bg-yellow-400 rounded-full shadow-lg"
+                            className="text-xs font-sans uppercase tracking-wider px-2.5 py-0.5 border border-yellow-400/30 bg-slate-900/90 text-yellow-400 backdrop-blur-md font-semibold"
                         >
                             {badge}
                         </span>
@@ -35,46 +38,46 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) =
                 </div>
             </div>
 
-            {/* Content Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 group-[.is-active]:translate-y-0 transition-transform duration-500">
-                <div className="space-y-3">
-                    {/* Title & Location */}
+            {/* Content Section */}
+            <div className="p-6 bg-slate-900 flex flex-col justify-between flex-grow -mt-8 relative z-10 border-t border-slate-800">
+                <div>
+                    {/* Location */}
+                    <div className="flex items-center gap-1.5 text-slate-400 text-xs font-sans mb-2">
+                        <MapPin className="w-3.5 h-3.5 text-yellow-400" />
+                        <span>{trek.location}</span>
+                    </div>
+
+                    {/* Title in Instrument Serif */}
+                    <h3 className="font-display text-2xl sm:text-3xl font-normal text-white leading-tight mb-4 group-hover:text-yellow-400 transition-colors">
+                        {trek.title}
+                    </h3>
+
+                    {/* Specs Grid */}
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-slate-800 text-xs font-sans text-slate-300 mb-5">
+                        <div className="flex items-center gap-2">
+                            <Clock className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{trek.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <TrendingUp className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{trek.difficulty}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Price & Action */}
+                <div className="flex items-center justify-between pt-1">
                     <div>
-                        <div className="flex items-center gap-2 text-yellow-400 text-sm font-medium mb-1">
-                            <MapPin className="w-4 h-4" />
-                            <span>{trek.location}</span>
-                        </div>
-                        <h3 className="text-2xl font-bold text-white leading-tight group-hover:text-yellow-400 group-[.is-active]:text-yellow-400 transition-colors duration-300">
-                            {trek.title}
-                        </h3>
+                        <p className="text-xs text-slate-400 font-sans">Starting from</p>
+                        <p className="text-base sm:text-lg font-sans font-medium text-white">{trek.price}</p>
                     </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4 py-4 border-t border-white/10">
-                        <div className="flex items-center gap-2 text-slate-300">
-                            <Clock className="w-4 h-4 text-yellow-400" />
-                            <span className="text-sm">{trek.duration}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-slate-300">
-                            <TrendingUp className="w-4 h-4 text-yellow-400" />
-                            <span className="text-sm">{trek.difficulty}</span>
-                        </div>
-                    </div>
-
-                    {/* Price & Action */}
-                    <div className="flex items-center justify-between pt-2 opacity-0 group-hover:opacity-100 group-[.is-active]:opacity-100 transform translate-y-4 group-hover:translate-y-0 group-[.is-active]:translate-y-0 transition-all duration-500 delay-100">
-                        <div>
-                            <p className="text-xs text-slate-400 uppercase tracking-wider">Price</p>
-                            <p className="text-xl font-bold text-white">{trek.price}</p>
-                        </div>
-                        <button
-                            onClick={() => onBook(trek.slug)}
-                            className="flex items-center gap-2 bg-yellow-400 text-slate-900 px-4 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 transition-colors"
-                        >
-                            View Info
-                            <ArrowRight className="w-4 h-4" />
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => onBook(trek.slug)}
+                        className="flex items-center gap-2 bg-yellow-400 text-slate-950 hover:bg-yellow-300 px-4 py-2.5 text-xs font-sans font-bold uppercase tracking-widest transition-all cursor-pointer shadow-md shadow-yellow-400/10"
+                    >
+                        <span>View Trek</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
                 </div>
             </div>
         </div>

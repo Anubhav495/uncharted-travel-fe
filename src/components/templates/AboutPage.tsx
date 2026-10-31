@@ -7,7 +7,7 @@ import ValuesSection from '../sections/about/ValuesSection';
 
 const AboutPage: React.FC = () => {
     return (
-        <main className="bg-slate-900 min-h-screen">
+        <main className="bg-slate-900 text-white min-h-screen">
             <AboutHero />
             <MissionSection />
             <StorySection />
