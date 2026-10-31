@@ -80,8 +80,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
             setSubmitError('');
 
             if (user) {
-                setValue('name', user.user_metadata.full_name || '');
-                setValue('email', user.email || '');
+                const fullName = user.user_metadata?.full_name || '';
+                const email = user.email || '';
+                if (fullName) setValue('name', fullName, { shouldValidate: true });
+                if (email) setValue('email', email, { shouldValidate: true });
             } else {
                 reset({ name: '', email: '', phone: '', date: '', guests: 1 });
             }
@@ -92,6 +94,16 @@ const BookingModal: React.FC<BookingModalProps> = ({
         }
         return () => { document.body.style.overflow = 'unset'; };
     }, [isOpen, user, setValue, reset]);
+
+    // Keep fields synced if user session resolves after modal is open
+    useEffect(() => {
+        if (user && isOpen) {
+            const fullName = user.user_metadata?.full_name || '';
+            const email = user.email || '';
+            if (fullName) setValue('name', fullName, { shouldValidate: true });
+            if (email) setValue('email', email, { shouldValidate: true });
+        }
+    }, [user, isOpen, setValue]);
 
     const onFormSubmit = async (data: BookingFormData) => {
         setSubmitError('');
@@ -116,26 +128,26 @@ const BookingModal: React.FC<BookingModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-[200]">
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-[200]">
             <div
                 ref={modalContentRef}
-                className="bg-white w-full sm:w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl transform transition-all duration-300 ease-out relative overflow-hidden flex flex-col max-h-[90vh]"
+                className="bg-slate-900 border border-slate-700 w-full sm:w-full sm:max-w-lg rounded-none shadow-2xl transform transition-all duration-300 ease-out relative overflow-hidden flex flex-col max-h-[90vh] text-white"
                 role="dialog"
                 aria-modal="true"
             >
                 {/* Header */}
                 {step === 'form' && (
-                    <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 bg-gray-50">
+                    <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-700 bg-slate-800/80">
                         <div>
-                            <h2 className="text-xl font-bold text-gray-900">
+                            <h2 className="text-xl font-bold text-white">
                                 {bookingPreference?.type !== 'general' && bookingPreference?.name
                                     ? `Request with ${bookingPreference.name}`
                                     : 'Request Availability'}
                             </h2>
-                            <p className="text-sm text-gray-500 mt-1">For <span className="font-semibold text-yellow-600">{trekTitle}</span></p>
+                            <p className="text-sm text-slate-300 mt-1">For <span className="font-semibold text-yellow-400">{trekTitle}</span></p>
                         </div>
-                        <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 transition-colors">
-                            <HiX className="w-6 h-6 text-gray-500" />
+                        <button onClick={onClose} className="p-2 rounded-none hover:bg-slate-700 text-slate-400 hover:text-white transition-colors">
+                            <HiX className="w-6 h-6" />
                         </button>
                     </div>
                 )}
@@ -147,46 +159,46 @@ const BookingModal: React.FC<BookingModalProps> = ({
                             {/* Personal Details */}
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
                                     <div className="relative">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                                         <input
                                             type="text"
-                                            disabled={!!user}
-                                            className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.name ? 'border-red-500' : 'border-gray-300'} ${user ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                                            disabled={Boolean(user?.user_metadata?.full_name)}
+                                            className={`w-full pl-10 pr-4 py-3 border rounded-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors bg-slate-800 text-white placeholder:text-slate-500 ${errors.name ? 'border-red-500' : 'border-slate-700'} ${user?.user_metadata?.full_name ? 'bg-slate-800/50 text-slate-400 cursor-not-allowed' : ''}`}
                                             placeholder="John Doe"
                                             {...register('name')}
                                         />
                                     </div>
-                                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                        <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
                                         <div className="relative">
-                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                                             <input
                                                 type="email"
-                                                disabled={!!user}
-                                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.email ? 'border-red-500' : 'border-gray-300'} ${user ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                                                disabled={Boolean(user?.email)}
+                                                className={`w-full pl-10 pr-4 py-3 border rounded-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors bg-slate-800 text-white placeholder:text-slate-500 ${errors.email ? 'border-red-500' : 'border-slate-700'} ${user?.email ? 'bg-slate-800/50 text-slate-400 cursor-not-allowed' : ''}`}
                                                 placeholder="john@example.com"
                                                 {...register('email')}
                                             />
                                         </div>
-                                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                                        {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                        <label className="block text-sm font-medium text-slate-300 mb-1">Phone</label>
                                         <div className="relative">
-                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                            <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-500 font-medium text-sm border-r border-gray-300 pr-2 mr-2">
+                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                            <div className="absolute left-10 top-1/2 -translate-y-1/2 text-slate-400 font-medium text-sm border-r border-slate-700 pr-2 mr-2">
                                                 +91
                                             </div>
                                             <input
                                                 type="tel"
                                                 maxLength={11}
-                                                className={`w-full pl-[4.5rem] pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+                                                className={`w-full pl-[4.5rem] pr-4 py-3 border rounded-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors bg-slate-800 text-white placeholder:text-slate-500 ${errors.phone ? 'border-red-500' : 'border-slate-700'}`}
                                                 placeholder="98765 43210"
                                                 {...(() => {
                                                     const { onChange, ...rest } = register('phone');
@@ -204,44 +216,44 @@ const BookingModal: React.FC<BookingModalProps> = ({
                                                 })()}
                                             />
                                         </div>
-                                        {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                                        {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="h-px bg-gray-100 my-4" />
+                            <div className="h-px bg-slate-800 my-4" />
 
                             {/* Trip Details */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Approx. Date</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-1">Approx. Date</label>
                                     <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
                                         <input
                                             type="date"
-                                            className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.date ? 'border-red-500' : 'border-gray-300'} appearance-none`}
-                                            min={new Date().toISOString().split('T')[0]} // JSON date string format YYYY-MM-DD
+                                            className={`w-full pl-10 pr-4 py-3 border rounded-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors bg-slate-800 text-white ${errors.date ? 'border-red-500' : 'border-slate-700'} appearance-none`}
+                                            min={new Date().toISOString().split('T')[0]}
                                             {...register('date')}
                                         />
                                     </div>
-                                    {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>}
+                                    {errors.date && <p className="text-red-400 text-xs mt-1">{errors.date.message}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-1">Guests</label>
                                     <div className="relative">
-                                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                                         <input
                                             type="number"
-                                            className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors ${errors.guests ? 'border-red-500' : 'border-gray-300'}`}
+                                            className={`w-full pl-10 pr-4 py-3 border rounded-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors bg-slate-800 text-white placeholder:text-slate-500 ${errors.guests ? 'border-red-500' : 'border-slate-700'}`}
                                             {...register('guests', { valueAsNumber: true })}
                                         />
                                     </div>
-                                    {errors.guests && <p className="text-red-500 text-xs mt-1">{errors.guests.message}</p>}
+                                    {errors.guests && <p className="text-red-400 text-xs mt-1">{errors.guests.message}</p>}
                                 </div>
                             </div>
 
                             {submitError && (
-                                <p className="text-red-500 text-sm bg-red-50 p-3 rounded-lg border border-red-100">
+                                <p className="text-red-400 text-sm bg-red-950/40 p-3 rounded-none border border-red-800">
                                     {submitError}
                                 </p>
                             )}
@@ -249,7 +261,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold py-4 px-6 rounded-none shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {isSubmitting ? (
                                     <>Processing...</>
@@ -260,18 +272,18 @@ const BookingModal: React.FC<BookingModalProps> = ({
                         </form>
                     ) : (
                         <div className="text-center py-8">
-                            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <CheckCircle className="w-10 h-10 text-green-500" />
+                            <div className="w-16 h-16 bg-yellow-400/10 border border-yellow-400/30 rounded-none flex items-center justify-center mx-auto mb-6">
+                                <CheckCircle className="w-8 h-8 text-yellow-400" />
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Received!</h3>
-                            <p className="text-gray-600 mb-8 max-w-xs mx-auto">
+                            <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
+                            <p className="text-slate-300 mb-8 max-w-xs mx-auto">
                                 Thanks!
                                 <br />
                                 We have received your request and will contact you soon.
                             </p>
                             <button
                                 onClick={onClose}
-                                className="bg-gray-900 text-white font-semibold py-3 px-8 rounded-xl hover:bg-gray-800 transition-colors"
+                                className="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-semibold py-3 px-8 rounded-none transition-colors"
                             >
                                 Close
                             </button>

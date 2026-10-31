@@ -49,6 +49,8 @@ function assignLeaderboardAvatars(entries: LeaderboardEntry[]) {
             };
         }
 
+        if (usedAvatarIndexes.size === RANDOM_AVATAR_POOL.length) usedAvatarIndexes.clear();
+
         let avatarIndex = hashString(`${entry.user_id}-avatar`) % RANDOM_AVATAR_POOL.length;
         while (usedAvatarIndexes.has(avatarIndex)) {
             avatarIndex = (avatarIndex + 1) % RANDOM_AVATAR_POOL.length;
@@ -62,7 +64,7 @@ function assignLeaderboardAvatars(entries: LeaderboardEntry[]) {
     });
 }
 
-const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
+export const SEEDED_LEADERBOARD: LeaderboardEntry[] = [
     { user_id: 'seed-arjun-mehta', display_name: 'Arjun Mehta', avatar_url: null, xp_points: 700, level: getLevelForXp(700) },
     { user_id: 'seed-sana-khan', display_name: 'Sana Khan', avatar_url: null, xp_points: 650, level: getLevelForXp(650) },
     { user_id: 'seed-raghav-sharma', display_name: 'Raghav Sharma', avatar_url: null, xp_points: 600, level: getLevelForXp(600) },
@@ -157,27 +159,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const currentUser = await getAuthenticatedUser(req, res);
-        const { data, error } = await getAdminSupabase()
-            .from('user_profiles')
-            .select('user_id, display_name, avatar_url, xp_points, level')
-            .order('xp_points', { ascending: false });
+        const profiles: LeaderboardEntry[] = [];
+        const pageSize = 1000;
+        for (let offset = 0; ; offset += pageSize) {
+            const { data, error } = await getAdminSupabase()
+                .from('user_profiles')
+                .select('user_id, display_name, avatar_url, xp_points, level')
+                .order('xp_points', { ascending: false })
+                .order('user_id', { ascending: true })
+                .range(offset, offset + pageSize - 1);
+            if (error) throw error;
+            profiles.push(...(data || []).map(normalizeEntry));
+            if (!data || data.length < pageSize) break;
+        }
 
-        if (error) throw error;
-
-        const fullLeaderboard = buildLeaderboard((data || []).map(normalizeEntry));
+        const fullLeaderboard = buildLeaderboard(profiles);
         const currentUserRank = currentUser
             ? fullLeaderboard.findIndex((entry) => entry.user_id === currentUser.id) + 1
             : null;
 
         return res.status(200).json({
-            leaderboard: assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+            leaderboard: [
+                ...assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+                ...assignLeaderboardAvatars(fullLeaderboard.slice(20)),
+            ],
             currentUserRank: currentUserRank && currentUserRank > 0 ? currentUserRank : null,
         });
     } catch (error) {
         console.error('Leaderboard fetch error:', error);
+        const previewRank = process.env.NODE_ENV === 'development'
+            ? SEEDED_LEADERBOARD.findIndex((entry) => entry.user_id === 'seed-pratyush-gupta') + 1
+            : 0;
         return res.status(200).json({
             leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD),
-            currentUserRank: null,
+            currentUserRank: previewRank || null,
+            standingPreview: previewRank > 0,
         });
     }
 }

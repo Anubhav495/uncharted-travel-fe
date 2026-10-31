@@ -2,20 +2,20 @@ import React from 'react';
 
 const MobileDestinationsHero: React.FC = () => {
     return (
-        <section className="relative overflow-hidden bg-slate-900 px-5 pb-10 pt-28 md:hidden">
+        <section className="relative overflow-hidden bg-slate-900 px-6 pb-12 pt-28 md:hidden text-white border-b border-slate-800">
             <div
-                className="absolute inset-0 bg-cover bg-center opacity-40"
+                className="absolute inset-0 bg-cover bg-center opacity-60"
                 style={{
                     backgroundImage: 'url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop")',
                 }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/70 to-slate-900" />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/50 to-slate-900" />
             <div className="relative mx-auto max-w-md">
-                <h1 className="max-w-sm text-4xl font-bold leading-[1.05] tracking-tight text-white">
-                    Find Your Next <span className="text-yellow-400">Expedition</span>
+                <h1 className="font-display text-4xl font-normal leading-[1.05] tracking-tight text-white">
+                    Find your next <span className="italic text-yellow-400">expedition.</span>
                 </h1>
-                <p className="mt-4 max-w-sm text-base leading-relaxed text-slate-300">
-                    Explore the uncharted territories of the Himalayas. Handpicked trails, expert local guides, and unforgettable stories.
+                <p className="mt-3 text-sm leading-relaxed text-slate-300 font-sans">
+                    Explore the uncharted territories of the Himalayas. Handpicked trails and expert local guides.
                 </p>
             </div>
         </section>

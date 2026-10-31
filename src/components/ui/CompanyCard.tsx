@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Star, Building, CalendarDays } from 'lucide-react';
+import { Star, Building, CalendarDays, ArrowRight } from 'lucide-react';
 import { Company } from '@/types/trek';
 import ItineraryModal from '../modals/ItineraryModal';
 
@@ -36,59 +36,76 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
     }, [company.id]);
 
     return (
-        <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700 hover:border-yellow-400/50 transition-colors group h-full flex flex-col">
-            <div className="flex items-center gap-4 mb-4">
-                <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-slate-600 group-hover:border-yellow-400 transition-colors bg-slate-900 flex items-center justify-center">
-                    {company.logo ? (
-                        <Image
-                            src={company.logo}
-                            alt={company.name}
-                            fill
-                            className="object-cover"
-                        />
-                    ) : (
-                        <Building className="w-8 h-8 text-slate-500" />
-                    )}
-                </div>
-                <div>
-                    <h3 className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors">{company.name}</h3>
-                    <div className="flex items-center gap-1 text-yellow-400 text-sm">
-                        <Star className="w-4 h-4 fill-current" />
-                        <span className="font-bold">{rating}</span>
-                        {reviewCount > 0 && <span className="text-slate-500 text-xs ml-1">({reviewCount} reviews)</span>}
+        <div className="border border-slate-700 bg-slate-800/70 hover:border-yellow-400/50 p-6 sm:p-7 transition-all duration-200 group h-full flex flex-col justify-between shadow-xl">
+            <div>
+                {/* Header: Logo + Name + Rating */}
+                <div className="flex items-center gap-4 mb-5">
+                    <div className="relative w-16 h-16 shrink-0 border-2 border-slate-600 group-hover:border-yellow-400 bg-slate-800 overflow-hidden shadow-md flex items-center justify-center transition-colors">
+                        {company.logo ? (
+                            <Image
+                                src={company.logo}
+                                alt={company.name}
+                                fill
+                                className="object-cover"
+                            />
+                        ) : (
+                            <Building className="w-7 h-7 text-slate-400" />
+                        )}
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-sans uppercase tracking-widest text-slate-400 mb-1 font-semibold">
+                            Trek Agency
+                        </div>
+                        <h3 className="font-display text-2xl font-normal text-white group-hover:text-yellow-400 transition-colors leading-tight">
+                            {company.name}
+                        </h3>
+                        <div className="flex items-center gap-1.5 text-yellow-400 text-xs font-sans mt-1">
+                            <Star className="w-3.5 h-3.5 fill-current" />
+                            <span className="font-semibold text-white">{rating}</span>
+                            {reviewCount > 0 && (
+                                <span className="text-slate-400">({reviewCount} reviews)</span>
+                            )}
+                        </div>
                     </div>
                 </div>
+
+                {/* Company Description */}
+                <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed mb-6 font-normal">
+                    {company.description}
+                </p>
             </div>
 
-            <p className="text-slate-300 text-sm leading-relaxed mb-6 flex-grow">
-                {company.description}
-            </p>
-
-            <div className="space-y-3 pt-4 border-t border-white/5 mt-auto">
-                <div className="flex items-center gap-2 text-sm text-slate-400">
-                    <CalendarDays className="w-4 h-4 text-yellow-400" />
-                    <span>Established {company.establishedYear}</span>
+            <div>
+                {/* Established Year */}
+                <div className="space-y-2.5 pt-4 border-t border-slate-700/60 text-xs font-sans text-slate-400">
+                    <div className="flex items-center gap-2">
+                        <CalendarDays className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                        <span className="text-slate-200">Established {company.establishedYear}</span>
+                    </div>
                 </div>
-            </div>
-            
-            <div className="flex flex-col gap-3 mt-6">
-                {company.itinerary && company.itinerary.length > 0 && (
-                    <button
-                        onClick={() => setIsItineraryOpen(true)}
-                        className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-slate-500 rounded-xl text-slate-300 text-sm font-bold transition-all duration-300 shadow-sm flex justify-center items-center"
-                    >
-                        View Itinerary & Meals
-                    </button>
-                )}
-                {onBook && (
-                    <button
-                        type="button"
-                        onClick={() => onBook(company.id, company.name, 'company')}
-                        className="w-full rounded-xl bg-yellow-400 px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-yellow-300"
-                    >
-                        Request This Company
-                    </button>
-                )}
+
+                {/* Buttons */}
+                <div className="flex flex-col gap-2.5 mt-6">
+                    {company.itinerary && company.itinerary.length > 0 && (
+                        <button
+                            type="button"
+                            onClick={() => setIsItineraryOpen(true)}
+                            className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white text-xs font-sans uppercase tracking-widest transition-all shadow-sm flex justify-center items-center cursor-pointer font-bold"
+                        >
+                            View Itinerary & Meals
+                        </button>
+                    )}
+                    {onBook && (
+                        <button
+                            type="button"
+                            onClick={() => onBook(company.id, company.name, 'company')}
+                            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-5 text-xs uppercase tracking-widest font-sans font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                            <span>Request This Company</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                    )}
+                </div>
             </div>
 
             {company.itinerary && company.itinerary.length > 0 && (

@@ -15,6 +15,7 @@ import { AuthProvider } from '../src/context/AuthContext';
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isRegistrationPage = router.pathname === '/register/guide';
+  const isLoginPage = router.pathname === '/login';
   const headerVariant = isRegistrationPage ? 'minimal' : 'default';
 
   return (
@@ -23,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <OrganizationJsonLd
         type="Organization"
         id="https://unchartedtravel.in/#organization"
-        logo="https://unchartedtravel.in/assets/logo.png"
+        logo="https://unchartedtravel.in/assets/brand-logo.png"
         legalName="Uncharted Travel"
         name="Uncharted Travel"
         address={{
@@ -46,9 +47,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <ToastProvider>
         <AuthProvider>
           <div className="min-h-screen">
-            <Header variant={headerVariant} />
+            {!isLoginPage && <Header variant={headerVariant} />}
             <Component {...pageProps} />
-            {!isRegistrationPage && <Footer />}
+            {!isRegistrationPage && !isLoginPage && <Footer />}
             <Analytics />
             <SpeedInsights />
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd, BreadcrumbJsonLd } from 'next-seo';
-import Image from 'next/image';
+import TrekImage from '@/components/ui/TrekImage';
 import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
@@ -16,7 +16,7 @@ const TrekDetailsPage = () => {
     const router = useRouter();
     const { slug } = router.query;
     const { showToast } = useToast();
-    const { user, loginWithGoogle } = useAuth();
+    const { user } = useAuth();
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [hasEnquired, setHasEnquired] = useState(false);
     const [bookingPreference, setBookingPreference] = useState<BookingPreference>({ type: 'general' });
@@ -91,14 +91,15 @@ const TrekDetailsPage = () => {
 
     if (!trek && router.isReady) {
         return (
-            <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold mb-4">Trek Not Found</h1>
+            <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white px-6">
+                <div className="text-center max-w-md border border-slate-700 bg-slate-800/90 p-10 shadow-2xl rounded-none">
+                    <h1 className="font-display text-4xl font-normal mb-3 text-white">Route Not Found</h1>
+                    <p className="text-xs text-slate-400 font-sans mb-6">The requested Himalayan expedition route does not exist in our registry.</p>
                     <button
                         onClick={() => router.push('/destinations')}
-                        className="text-yellow-400 hover:underline"
+                        className="px-6 py-3 bg-yellow-400 text-slate-950 hover:bg-yellow-300 text-xs uppercase tracking-widest font-sans font-bold transition-all rounded-none cursor-pointer shadow-lg"
                     >
-                        Back to Destinations
+                        Browse Destinations
                     </button>
                 </div>
             </div>
@@ -110,14 +111,12 @@ const TrekDetailsPage = () => {
     const handleRequestInfo = async (id?: string, name?: string, type: 'guide' | 'company' | 'general' = 'general') => {
         setBookingPreference({ id, name, type });
         if (!user) {
-            const callbackUrl = new URL(router.asPath, window.location.origin);
-            callbackUrl.searchParams.set('action', 'book');
-            if (id && type !== 'general') {
-                callbackUrl.searchParams.set('providerType', type);
-                callbackUrl.searchParams.set('providerId', id);
-                if (name) callbackUrl.searchParams.set('providerName', name);
+            const currentSlug = trek?.slug || (router.query.slug as string);
+            let returnPath = `/destinations/${currentSlug}?action=book`;
+            if (type !== 'general' && id) {
+                returnPath += `&providerType=${encodeURIComponent(type)}&providerId=${encodeURIComponent(id)}&providerName=${encodeURIComponent(name || '')}`;
             }
-            await loginWithGoogle(callbackUrl.toString());
+            router.push(`/login?returnUrl=${encodeURIComponent(returnPath)}`);
             return;
         }
         setIsBookingModalOpen(true);
@@ -153,16 +152,16 @@ const TrekDetailsPage = () => {
     return (
         <>
             <NextSeo 
-                title={`${trek.title} Trek | Uncharted Travel`}
+                title={trek.title}
                 description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}.`}
                 canonical={`https://unchartedtravel.in/destinations/${trek.slug}`}
                 openGraph={{
-                    images: [
+                    images: trek.image ? [
                         {
                             url: `https://unchartedtravel.in${trek.image}`,
                             alt: trek.title,
                         }
-                    ]
+                    ] : []
                 }}
             />
             <BreadcrumbJsonLd
@@ -173,8 +172,8 @@ const TrekDetailsPage = () => {
                 ]}
             />
             <ProductJsonLd 
-                productName={`${trek.title} Trek`}
-                images={[`https://unchartedtravel.in${trek.image}`]}
+                productName={trek.title}
+                images={trek.image ? [`https://unchartedtravel.in${trek.image}`] : undefined}
                 description={trek.overview}
                 brand="Uncharted Travel"
                 offers={{
@@ -186,10 +185,10 @@ const TrekDetailsPage = () => {
                 }}
             />
 
-            <main className="bg-slate-900 min-h-screen pb-20">
+            <main className="bg-slate-900 min-h-screen pb-24 text-white border-b border-slate-800">
                 {/* Hero Section */}
-                <section className="relative h-[70vh] min-h-[500px]">
-                    <Image
+                <section className="relative h-[70vh] min-h-[520px]">
+                    <TrekImage
                         src={trek.image}
                         alt={trek.title}
                         fill
@@ -199,29 +198,29 @@ const TrekDetailsPage = () => {
                             } ${trek.imageClassName || ''}`}
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 from-5% via-slate-900/60 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 from-10% via-slate-900/60 to-transparent pointer-events-none" />
 
-                    <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-12 z-10">
+                    <div className="absolute bottom-0 left-0 right-0 container mx-auto px-6 pb-12 z-10">
                         <div className="max-w-4xl">
-                            <div className="flex items-center gap-2 text-yellow-400 mb-4 font-medium uppercase tracking-wider text-sm">
-                                <MapPin className="w-5 h-5" />
+                            <div className="flex items-center gap-2 text-yellow-400 mb-4 font-sans text-xs font-semibold uppercase tracking-wider">
+                                <MapPin className="w-4 h-4 text-yellow-400" />
                                 <span>{trek.location}</span>
                             </div>
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal text-white mb-6 leading-tight">
                                 {trek.title}
                             </h1>
-                            <div className="flex flex-wrap gap-4 md:gap-8 text-white/90">
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <Clock className="w-5 h-5 text-yellow-400" />
+                            <div className="flex flex-wrap gap-3 text-white/90">
+                                <div className="flex items-center gap-2 bg-slate-800/80 backdrop-blur-md px-3.5 py-1.5 border border-slate-700 text-xs font-sans text-slate-200">
+                                    <Clock className="w-3.5 h-3.5 text-yellow-400" />
                                     <span>{trek.duration}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <TrendingUp className="w-5 h-5 text-yellow-400" />
+                                <div className="flex items-center gap-2 bg-slate-800/80 backdrop-blur-md px-3.5 py-1.5 border border-slate-700 text-xs font-sans text-slate-200">
+                                    <TrendingUp className="w-3.5 h-3.5 text-yellow-400" />
                                     <span>{trek.difficulty}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                <div className="flex items-center gap-2 bg-slate-800/80 backdrop-blur-md px-3.5 py-1.5 border border-slate-700 text-xs font-sans text-slate-200">
                                     <span className="text-yellow-400 font-bold">Price:</span>
-                                    <span>{trek.price}</span>
+                                    <span className="font-bold text-white">{trek.price}</span>
                                 </div>
                             </div>
                         </div>
@@ -229,26 +228,26 @@ const TrekDetailsPage = () => {
                 </section>
 
                 {/* Content Layout */}
-                <div className="container mx-auto px-4 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12 text-slate-300">
+                <div className="container mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-3 gap-12 text-slate-300">
 
                     {/* Main Content */}
-                    <div className="lg:col-span-2 space-y-12">
+                    <div className="lg:col-span-2 space-y-14">
                         {/* Overview */}
                         <section>
-                            <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Overview</h2>
-                            <p className="text-lg leading-relaxed text-slate-300">
+                            <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Overview</h2>
+                            <p className="text-base sm:text-lg leading-relaxed text-slate-300 font-sans font-normal">
                                 {trek.overview}
                             </p>
                         </section>
 
                         {/* Highlights */}
                         <section>
-                            <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-yellow-400 pl-4">Highlights</h2>
-                            <ul className="grid gap-4">
+                            <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">Highlights</h2>
+                            <ul className="grid gap-3">
                                 {trek.highlights?.map((highlight) => (
-                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
-                                        <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-                                        <span className="text-lg">{highlight}</span>
+                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/70 border border-slate-700 hover:border-slate-600 transition-colors">
+                                        <CheckCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-1" />
+                                        <span className="text-sm font-sans text-slate-200">{highlight}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -271,17 +270,16 @@ const TrekDetailsPage = () => {
                         {/* Trekking Options */}
                         {(totalGuides > 0 || totalCompanies > 0) ? (
                             <section>
-                                <h2 className="text-2xl font-bold text-white mb-2 border-l-4 border-yellow-400 pl-4">Choose Your Trek Provider</h2>
-                                <p className="text-slate-400 mb-6 pl-4">Request a specific local guide or trekking company. We are constantly working on onboarding more experts to our platform.</p>
+                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-4 border-yellow-400 pl-4">Local Guides & Operators</h2>
 
                                 {totalGuides > 0 && totalCompanies > 0 && (
-                                    <div className="mb-6 flex gap-2 rounded-xl bg-slate-800 p-1">
+                                    <div className="mb-6 flex gap-2 border border-slate-700 bg-slate-800 p-1 w-full sm:w-auto inline-flex">
                                         {(['guides', 'companies'] as const).map((tab) => (
                                             <button
                                                 key={tab}
                                                 type="button"
                                                 onClick={() => setActiveTab(tab)}
-                                                className={`flex-1 rounded-lg px-4 py-2 font-semibold capitalize ${activeTab === tab ? 'bg-yellow-400 text-slate-900' : 'text-slate-300 hover:bg-slate-700'}`}
+                                                className={`px-5 py-2 text-xs font-sans uppercase tracking-wider transition-all font-semibold ${activeTab === tab ? 'bg-yellow-400 text-slate-900 font-bold' : 'text-slate-300 hover:bg-slate-700'}`}
                                             >
                                                 {tab}
                                             </button>
@@ -308,15 +306,15 @@ const TrekDetailsPage = () => {
                                         <button 
                                             disabled={guidePage === 1}
                                             onClick={() => setGuidePage(p => p - 1)}
-                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                            className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 transition-all cursor-pointer font-medium"
                                         >
                                             Previous
                                         </button>
-                                        <span className="text-sm font-medium text-slate-400">Page {guidePage} of {totalGuidePages}</span>
+                                        <span className="text-xs font-sans text-slate-400">Page {guidePage} of {totalGuidePages}</span>
                                         <button 
                                             disabled={guidePage === totalGuidePages}
                                             onClick={() => setGuidePage(p => p + 1)}
-                                            className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700 hover:text-white transition-all duration-300"
+                                            className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 transition-all cursor-pointer font-medium"
                                         >
                                             Next
                                         </button>
@@ -324,9 +322,9 @@ const TrekDetailsPage = () => {
                                 )}
                                 {(activeTab === 'companies' || totalGuides === 0) && totalCompanyPages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700">Previous</button>
-                                        <span className="text-sm font-medium text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
-                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-50 hover:bg-slate-700">Next</button>
+                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 cursor-pointer font-medium">Previous</button>
+                                        <span className="text-xs font-sans text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
+                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 cursor-pointer font-medium">Next</button>
                                     </div>
                                 )}
                             </section>
@@ -335,23 +333,24 @@ const TrekDetailsPage = () => {
 
                     {/* Sidebar / CTA */}
                     <div className="lg:col-span-1 order-first lg:order-last mb-8 lg:mb-0">
-                        <div className="lg:sticky lg:top-24 lg:bg-slate-800 lg:border lg:border-slate-700 lg:rounded-2xl lg:p-6 lg:shadow-2xl">
+                        <div className="lg:sticky lg:top-28 border border-slate-700 bg-slate-800/80 p-7 shadow-2xl">
                             <div className="hidden lg:block">
-                                <h3 className="text-2xl font-bold text-white mb-2">Enquire About This Adventure</h3>
-                                <p className="text-slate-400 mb-6">Ready to explore the uncharted?</p>
+                                <span className="text-xs font-sans uppercase tracking-wider text-yellow-400 block mb-2 font-semibold">Trek Overview</span>
+                                <h3 className="font-display text-2xl font-normal text-white mb-2">Book Your Trek</h3>
+                                <p className="text-xs text-slate-400 mb-6 font-sans">Connect directly with vetted local guides.</p>
 
-                                <div className="space-y-4 mb-8">
-                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Duration</span>
-                                        <span className="text-white font-medium">{trek.duration}</span>
+                                <div className="space-y-3 mb-8 text-xs font-sans">
+                                    <div className="flex justify-between items-center py-2.5 border-b border-slate-700/60">
+                                        <span className="text-slate-400">Duration</span>
+                                        <span className="text-slate-200">{trek.duration}</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Difficulty</span>
-                                        <span className="text-white font-medium">{trek.difficulty}</span>
+                                    <div className="flex justify-between items-center py-2.5 border-b border-slate-700/60">
+                                        <span className="text-slate-400">Difficulty</span>
+                                        <span className="text-slate-200">{trek.difficulty}</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-3 border-b border-slate-700">
-                                        <span>Price</span>
-                                        <span className="text-2xl font-bold text-yellow-400">{trek.price}</span>
+                                    <div className="flex justify-between items-center py-2.5 border-b border-slate-700/60">
+                                        <span className="text-slate-400">Price</span>
+                                        <span className="text-base text-yellow-400 font-bold">{trek.price}</span>
                                     </div>
                                 </div>
                             </div>
@@ -359,23 +358,23 @@ const TrekDetailsPage = () => {
                             {hasEnquired ? (
                                 <button
                                     onClick={() => router.push('/dashboard')}
-                                    className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-yellow-400/20"
+                                    className="w-full bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg font-sans"
                                 >
-                                    View Enquiry
-                                    <ArrowRight className="w-5 h-5" />
+                                    <span>View Enquiry</span>
+                                    <ArrowRight className="w-4 h-4" />
                                 </button>
                             ) : (
                                 <button
                                     onClick={() => handleRequestInfo()}
-                                    className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-yellow-400/20"
+                                    className="w-full bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold py-3.5 text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg font-sans"
                                 >
-                                    Request Info
-                                    <ArrowRight className="w-5 h-5" />
+                                    <span>Request Trek Info</span>
+                                    <ArrowRight className="w-4 h-4" />
                                 </button>
                             )}
 
-                            <p className="mt-4 text-xs text-center text-slate-400">
-                                Enquiry is cost-free. We'll contact you with details.
+                            <p className="mt-4 text-xs font-sans text-center text-slate-400">
+                                Zero booking fee &middot; Direct guide contact
                             </p>
                         </div>
                     </div>

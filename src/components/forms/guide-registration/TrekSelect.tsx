@@ -5,6 +5,7 @@ const POPULAR_TREKS = [
     "Kedarkantha Trek",
     "Roopkund Trek",
     "Hampta Pass Trek",
+    "Baraadsar Lake Trek",
     "Valley of Flowers",
     "Triund Trek",
     "Chadar Trek",
@@ -51,31 +52,31 @@ const TrekSelect: React.FC<TrekSelectProps> = ({ selectedTreks, onChange }) => {
 
     return (
         <div className="relative" ref={dropdownRef}>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">
                 Which treks do you guide?
             </label>
 
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg py-3 px-4 text-left text-white focus:outline-none focus:ring-2 focus:ring-yellow-400/50 flex justify-between items-center"
+                className="w-full bg-slate-900/90 border border-slate-700 py-3 px-4 text-left text-white focus:outline-none focus:border-yellow-400 flex justify-between items-center text-sm font-sans"
             >
-                <span className="block truncate">
+                <span className="block truncate text-slate-200">
                     {selectedTreks.length === 0
                         ? "Select treks..."
                         : `${selectedTreks.length} trek${selectedTreks.length > 1 ? 's' : ''} selected`
                     }
                 </span>
-                <ChevronsUpDown className="w-4 h-4 text-gray-400" />
+                <ChevronsUpDown className="w-4 h-4 text-slate-400" />
             </button>
 
             {isOpen && (
-                <div className="absolute z-10 mt-1 w-full bg-gray-800 border border-gray-700 rounded-lg shadow-xl max-h-60 overflow-auto">
+                <div className="absolute z-10 mt-1 w-full bg-slate-800 border border-slate-700 shadow-2xl max-h-60 overflow-auto divide-y divide-slate-700/50">
                     {POPULAR_TREKS.map((trek) => (
                         <div
                             key={trek}
                             onClick={() => toggleTrek(trek)}
-                            className="cursor-pointer select-none relative py-3 pl-10 pr-4 hover:bg-gray-700 text-gray-200"
+                            className="cursor-pointer select-none relative py-3 pl-10 pr-4 hover:bg-slate-700 text-slate-200 text-sm font-sans"
                         >
                             <span className={`block truncate ${selectedTreks.includes(trek) ? 'font-medium text-yellow-400' : 'font-normal'}`}>
                                 {trek}
@@ -93,14 +94,14 @@ const TrekSelect: React.FC<TrekSelectProps> = ({ selectedTreks, onChange }) => {
             {/* Selected Tags */}
             <div className="flex flex-wrap gap-2 mt-3">
                 {selectedTreks.map(trek => (
-                    <span key={trek} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-400/10 text-yellow-400 border border-yellow-400/20">
+                    <span key={trek} className="inline-flex items-center px-3 py-1 text-xs font-medium bg-yellow-400/10 text-yellow-400 border border-yellow-400/30 font-sans">
                         {trek}
                         <button
                             type="button"
                             onClick={() => toggleTrek(trek)}
-                            className="ml-2 hover:text-yellow-200 focus:outline-none"
+                            className="ml-2 hover:text-yellow-200 focus:outline-none text-sm leading-none"
                         >
-                            ×
+                            &times;
                         </button>
                     </span>
                 ))}

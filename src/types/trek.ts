@@ -54,4 +54,13 @@ export interface Trek {
         steps: string[];
     };
     gallery?: string[];
+    maxAltitude?: string;
+    basecamp?: string;
+    trekDistance?: string;
+    bestTimeToVisit?: string;
+    theme?: string;
+    heroImage?: string;
+    shortDescription?: string;
+    inclusions?: string[];
+    exclusions?: string[];
 }

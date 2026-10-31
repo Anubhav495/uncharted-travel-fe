@@ -78,14 +78,12 @@ export async function sendBookingCancelledEmail(
     await sendEmail({ to, subject, html });
 }
 
-/**
- * Send a reach-out email asking the user to call back.
- */
+/** Send a reach-out email asking the user to call back. */
 export async function sendReachOutEmail(
     to: string,
     userName: string
 ): Promise<void> {
-    const subject = `Uncharted Travel - We tried to reach you!`;
+    const subject = 'Uncharted Travel - We tried to reach you!';
     const html = reachOutEmailTemplate(userName);
     await sendEmail({ to, subject, html });
 }
