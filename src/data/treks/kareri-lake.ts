@@ -80,6 +80,8 @@ export const kareriLakeTrek: Trek = {
         '/assets/kareri/5.jpg',
         '/assets/kareri/6.jpg',
         '/assets/kareri/7.jpg',
-        '/assets/kareri/8.jpg'
+        '/assets/kareri/8.jpg',
+        '/assets/kareri/9.jpg',
+        '/assets/kareri/10.jpg'
     ]
 };
