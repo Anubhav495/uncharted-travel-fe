@@ -45,22 +45,30 @@ export const hamptaPassTrek: Trek = {
         {
             day: 1,
             title: 'Manali to Jobra, Trek to Chika',
-            description: 'Drive from Manali to Jobra (9,800 ft), then begin a short 2 km trek to the Chika campsite (10,100 ft) walking through mixed forests of pine, green maple, and birch.'
+            description: 'Drive from Manali to Jobra (9,800 ft), then begin a short 2 km trek to the Chika campsite (10,100 ft) walking through mixed forests of pine, green maple, and birch.',
+            distance: '2 km trek',
+            elevation: '10,100 ft',
         },
         {
             day: 2,
             title: 'Chika to Balu Ka Ghera',
-            description: 'Trek from Chika to Balu Ka Ghera (11,900 ft). A relatively flat walk along the river banks with spectacular views of the Dhauladhar ranges.'
+            description: 'Trek from Chika to Balu Ka Ghera (11,900 ft). A relatively flat walk along the river banks with spectacular views of the Dhauladhar ranges.',
+            distance: '8.5 km',
+            elevation: '11,900 ft',
         },
         {
             day: 3,
             title: 'Balu Ka Ghera to Shea Goru via Hampta Pass',
-            description: 'The most challenging day. Trek from Balu Ka Ghera, cross the Hampta Pass at 14,100 ft, and descend steeply to Shea Goru (12,900 ft) into the Lahaul valley.'
+            description: 'The most challenging day. Trek from Balu Ka Ghera, cross the Hampta Pass at 14,100 ft, and descend steeply to Shea Goru (12,900 ft) into the Lahaul valley.',
+            distance: '9 km',
+            elevation: '12,900 ft',
         },
         {
             day: 4,
             title: 'Shea Goru to Chhatru',
-            description: 'Descend from Shea Goru to Chhatru (11,000 ft). Cross the icy river and walk alongside the Chandra river to reach the campsite.'
+            description: 'Descend from Shea Goru to Chhatru (11,000 ft). Cross the icy river and walk alongside the Chandra river to reach the campsite.',
+            distance: '5 km trek',
+            elevation: '11,000 ft',
         },
         {
             day: 5,

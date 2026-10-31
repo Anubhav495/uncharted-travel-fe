@@ -21,9 +21,6 @@ const GalleryPreview: React.FC<GalleryPreviewProps> = ({ images, trekSlug, trekT
                 <h2 className="font-display text-3xl font-normal text-white border-l-4 border-yellow-400 pl-4">
                     Gallery
                 </h2>
-                <p className="text-slate-400 text-xs font-sans mt-1 pl-4">
-                    Visual terrain reconnaissance and ridgeline perspectives.
-                </p>
             </div>
 
             <div className="flex gap-3 md:gap-4 h-64 md:h-80 lg:h-96">

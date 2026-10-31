@@ -57,11 +57,15 @@ export const baraadsarLakeTrek: Trek = {
             day: 2,
             title: 'Sankri to Kasla, trek to Rala',
             description: 'Travel to Kasla by a suitable local vehicle and begin walking towards Rala. Follow the village trails and spend the night in Rala before continuing higher.',
+            distance: '5 km trek',
+            elevation: '7,546 ft',
         },
         {
             day: 3,
             title: 'Rala to Devbhasa via Daldhar',
             description: 'Climb towards Daldhar, where the views open up across the surrounding Himalayan ranges. Continue to Devbhasa for the night. Water sources can be far from camp, so carry the supply agreed with your guide.',
+            distance: '8 km',
+            elevation: '11,975 ft',
         },
         {
             day: 4,
@@ -72,16 +76,22 @@ export const baraadsarLakeTrek: Trek = {
             day: 5,
             title: 'Baraadsar Lake and begin the descent',
             description: 'Climb to the lake, spend time taking in the surroundings and respect its significance to the local communities. Begin the return towards Devbhasa, with the overnight stop confirmed by your guide.',
+            distance: '14 km round trip',
+            elevation: '14,108 ft',
         },
         {
             day: 6,
             title: 'Descend towards Rala',
             description: 'Continue down from the higher camps towards Rala. The return stages may change with snow conditions and the pace of the group.',
+            distance: '7–8 km',
+            elevation: '8,840 ft',
         },
         {
             day: 7,
             title: 'Return to Kasla and Sankri',
             description: 'Complete the remaining descent to Kasla and return to Sankri by local vehicle. Allow time for changes to the mountain route before planning onward travel.',
+            distance: '3 km trek',
+            elevation: '6,500 ft',
         },
     ],
     gallery: [
