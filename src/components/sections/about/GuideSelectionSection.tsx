@@ -26,7 +26,7 @@ const GuideSelectionSection: React.FC = () => {
 
                     {/* Visual Side */}
                     <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <div className="relative border border-slate-700 bg-slate-800/80 p-2 shadow-2xl">
+                        <div className="relative border border-slate-700 bg-slate-800/90 p-2 shadow-2xl">
                             <img
                                 src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop"
                                 alt="Guides in the mountains"

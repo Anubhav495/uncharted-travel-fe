@@ -36,7 +36,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onBook }) => {
     }, [company.id]);
 
     return (
-        <div className="border border-slate-700 bg-slate-800/50 hover:border-yellow-400/50 p-6 sm:p-7 transition-all duration-200 group h-full flex flex-col justify-between shadow-xl">
+        <div className="border border-slate-700 bg-slate-800/70 hover:border-yellow-400/50 p-6 sm:p-7 transition-all duration-200 group h-full flex flex-col justify-between shadow-xl">
             <div>
                 {/* Header: Logo + Name + Rating */}
                 <div className="flex items-center gap-4 mb-5">

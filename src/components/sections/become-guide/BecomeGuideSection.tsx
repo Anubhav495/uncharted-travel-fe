@@ -47,7 +47,7 @@ const BecomeGuideSection: React.FC = () => {
                         ].map((item, idx) => (
                             <div
                                 key={idx}
-                                className="p-5 border border-slate-700/80 bg-slate-800/60 hover:border-yellow-400/40 hover:bg-slate-800/90 transition-all shadow-lg"
+                                className="p-5 border border-slate-700/80 bg-slate-800/80 hover:border-yellow-400/40 hover:bg-slate-800/90 transition-all shadow-lg"
                             >
                                 <item.icon className="w-5 h-5 text-yellow-400 mb-3" />
                                 <h3 className="font-display text-xl font-normal text-white mb-1.5">{item.title}</h3>

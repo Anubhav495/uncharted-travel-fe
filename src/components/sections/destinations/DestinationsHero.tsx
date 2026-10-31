@@ -6,8 +6,8 @@ const DestinationsHero: React.FC = () => {
         <section className="relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden bg-slate-900 text-white pt-20">
             {/* Background Image with Dark Fade */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/60 to-slate-900 z-10" />
-                <div className="w-full h-full relative opacity-40">
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/30 to-slate-900 z-10" />
+                <div className="w-full h-full relative opacity-70">
                     <Image
                         src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop"
                         alt="Himalayan Mountains"

@@ -92,7 +92,7 @@ const TrekDetailsPage = () => {
     if (!trek && router.isReady) {
         return (
             <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white px-6">
-                <div className="text-center max-w-md border border-slate-700 bg-slate-800/80 p-10 shadow-2xl rounded-none">
+                <div className="text-center max-w-md border border-slate-700 bg-slate-800/90 p-10 shadow-2xl rounded-none">
                     <h1 className="font-display text-4xl font-normal mb-3 text-white">Route Not Found</h1>
                     <p className="text-xs text-slate-400 font-sans mb-6">The requested Himalayan expedition route does not exist in our registry.</p>
                     <button
@@ -245,7 +245,7 @@ const TrekDetailsPage = () => {
                             <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">Alpine Highlights</h2>
                             <ul className="grid gap-3">
                                 {trek.highlights?.map((highlight) => (
-                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/50 border border-slate-700 hover:border-slate-600 transition-colors">
+                                    <li key={highlight} className="flex items-start gap-4 p-4 bg-slate-800/70 border border-slate-700 hover:border-slate-600 transition-colors">
                                         <CheckCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-1" />
                                         <span className="text-sm font-sans text-slate-200">{highlight}</span>
                                     </li>
@@ -334,7 +334,7 @@ const TrekDetailsPage = () => {
 
                     {/* Sidebar / CTA */}
                     <div className="lg:col-span-1 order-first lg:order-last mb-8 lg:mb-0">
-                        <div className="lg:sticky lg:top-28 border border-slate-700 bg-slate-800/60 p-7 shadow-2xl">
+                        <div className="lg:sticky lg:top-28 border border-slate-700 bg-slate-800/80 p-7 shadow-2xl">
                             <div className="hidden lg:block">
                                 <span className="text-xs font-sans uppercase tracking-wider text-yellow-400 block mb-2 font-semibold">Trek Overview</span>
                                 <h3 className="font-display text-2xl font-normal text-white mb-2">Book Your Trek</h3>

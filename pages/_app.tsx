@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <OrganizationJsonLd
         type="Organization"
         id="https://unchartedtravel.in/#organization"
-        logo="https://unchartedtravel.in/assets/logo.png"
+        logo="https://unchartedtravel.in/assets/brand-logo.png"
         legalName="Uncharted Travel"
         name="Uncharted Travel"
         address={{

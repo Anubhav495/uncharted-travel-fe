@@ -245,22 +245,31 @@ const HimalayanMapSection: React.FC = () => {
     const spot = TREK_SPOTS[currentIdx];
 
     return (
-        <section ref={sectionRef} className="relative bg-black text-white border-t border-white/[0.08] overflow-hidden">
+        <section id="expedition-map" ref={sectionRef} className="relative z-10 isolate bg-black text-white">
             {/* Satellite map */}
             <div
                 ref={mapContainerRef}
-                className="w-full h-[50vh] sm:h-[60vh] md:h-[68vh] min-h-[340px] max-h-[700px]"
+                className="w-full h-[50vh] sm:h-[60vh] md:h-[68vh] min-h-[340px] max-h-[700px] overflow-hidden"
                 style={{ opacity: mapReady ? 1 : 0, transition: 'opacity 1.5s ease' }}
             />
 
-            {/* Lighter overlays so satellite is visible */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none" />
+            {/* Keep the terrain visible while giving the text contrast. */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/10 to-transparent pointer-events-none" />
 
-            {!mapReady && <div className="absolute inset-0 bg-neutral-950" />}
+            {!mapReady && <div className="absolute inset-0 bg-black" />}
+
+            {/* Fade across the section edges to blend the forest and satellite imagery. */}
+            <div aria-hidden="true" className="absolute inset-x-0 -top-24 sm:-top-32 pointer-events-none">
+                <div className="expedition-map-edge-fade h-24 sm:h-32 rotate-180" />
+                <div className="expedition-map-edge-fade h-32 sm:h-48" />
+            </div>
+            <div aria-hidden="true" className="absolute inset-x-0 -bottom-24 sm:-bottom-32 pointer-events-none">
+                <div className="expedition-map-edge-fade h-32 sm:h-48 rotate-180" />
+                <div className="expedition-map-edge-fade h-24 sm:h-32" />
+            </div>
 
             {/* Content overlay */}
-            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+            <div className="absolute inset-0 z-10 flex flex-col justify-between pointer-events-none">
 
                 {/* Top-left heading */}
                 <div className="px-5 pt-6 sm:px-8 sm:pt-8 md:px-12 md:pt-10">
@@ -292,7 +301,7 @@ const HimalayanMapSection: React.FC = () => {
 
                     {/* Trek card */}
                     <div
-                        className="max-w-[280px] sm:max-w-sm bg-black/60 backdrop-blur-md border border-white/10 p-4 sm:p-5 rounded-none"
+                        className="max-w-[280px] sm:max-w-sm bg-black/75 backdrop-blur-md border border-white/10 p-4 sm:p-5 rounded-none"
                         style={{
                             opacity: fading ? 0 : 1,
                             transform: fading ? 'translateY(6px)' : 'translateY(0)',

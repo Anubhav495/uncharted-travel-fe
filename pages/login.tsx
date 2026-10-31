@@ -66,8 +66,13 @@ export default function LoginPage() {
 
                 {/* Main Card */}
                 <div className="flex-1 flex items-center justify-center px-6 pb-20 relative z-10">
-                    <div className="w-full max-w-md border border-slate-700/80 bg-slate-900/90 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
-                        <div className="mb-2">
+                    <div className="w-full max-w-md border border-slate-700/80 bg-slate-900/95 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
+                        <div className="mb-2 flex items-center gap-3">
+                            <img
+                                src="/assets/brand-logo.png"
+                                alt="UnchartedTravel Logo"
+                                className="h-10 w-10 shrink-0 object-contain"
+                            />
                             <span className="font-display text-3xl sm:text-4xl text-white tracking-tight">
                                 Uncharted<span className="text-yellow-400">Travel</span>
                             </span>

@@ -4,7 +4,6 @@ import HeroSection from '../sections/home/HeroSection';
 import WhyUsSection from '../sections/home/WhyUsSection';
 import GuideStoriesSection from '../sections/home/GuideStoriesSection';
 import ReviewsSection from '../sections/home/ReviewsSection';
-import HowItWorksSection from '../sections/home/HowItWorksSection';
 
 const HimalayanMapSection = dynamic(
     () => import('../sections/home/HimalayanMapSection'),
@@ -21,7 +20,6 @@ const HomePage: React.FC<HomePageProps> = () => {
             <HimalayanMapSection />
             <GuideStoriesSection />
             <ReviewsSection />
-            <HowItWorksSection />
         </main>
     );
 };

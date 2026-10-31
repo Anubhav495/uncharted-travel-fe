@@ -51,7 +51,7 @@ const TrekItinerary: React.FC<TrekItineraryProps> = ({ itinerary }) => {
                         </div>
 
                         {/* Day Card */}
-                        <div className="w-[calc(100%-3.5rem)] border border-slate-700 bg-slate-800/50 p-5 md:p-6 shadow-xl transition-all hover:border-yellow-400/40 md:w-[calc(50%-2.5rem)]">
+                        <div className="w-[calc(100%-3.5rem)] border border-slate-700 bg-slate-800/70 p-5 md:p-6 shadow-xl transition-all hover:border-yellow-400/40 md:w-[calc(50%-2.5rem)]">
                             <div className="flex items-baseline justify-between gap-2 mb-2">
                                 <span className="text-[10px] font-sans uppercase tracking-widest text-slate-500 font-semibold">
                                     Stage {day.day < 10 ? `0${day.day}` : day.day}

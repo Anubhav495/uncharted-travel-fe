@@ -77,7 +77,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Star Rating */}
-                    <div className="flex flex-col items-center justify-center py-4 bg-slate-800/80 rounded-none border border-slate-700">
+                    <div className="flex flex-col items-center justify-center py-4 bg-slate-800/90 rounded-none border border-slate-700">
                         <div className="flex gap-2">
                             {[1, 2, 3, 4, 5].map((star) => (
                                 <button

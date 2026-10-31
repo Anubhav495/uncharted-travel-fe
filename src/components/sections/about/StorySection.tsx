@@ -26,7 +26,7 @@ const StorySection: React.FC = () => {
 
                     {/* Visual Side */}
                     <div className="w-full md:w-1/2 flex justify-center md:justify-start">
-                        <div className="relative border border-slate-700 bg-slate-800/80 p-2 shadow-2xl">
+                        <div className="relative border border-slate-700 bg-slate-800/90 p-2 shadow-2xl">
                             <img
                                 src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=2070&auto=format&fit=crop"
                                 alt="Hikers on a trail"

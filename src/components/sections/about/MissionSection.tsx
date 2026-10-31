@@ -25,7 +25,7 @@ const MissionSection: React.FC = () => {
 
                     {/* Visual Side */}
                     <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <div className="relative w-full max-w-md aspect-square border border-slate-700 bg-slate-800/60 flex flex-col justify-center items-center p-8 shadow-2xl text-center">
+                        <div className="relative w-full max-w-md aspect-square border border-slate-700 bg-slate-800/80 flex flex-col justify-center items-center p-8 shadow-2xl text-center">
                             <MapPin className="w-16 h-16 text-yellow-400 mx-auto mb-4 stroke-1" />
                             <div className="font-display text-2xl text-white mb-2">Local Mountain Expertise</div>
                             <p className="text-xs text-slate-400 font-sans max-w-xs leading-relaxed">

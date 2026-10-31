@@ -188,7 +188,7 @@ export default function Dashboard() {
                         </div>
 
                         {bookings.filter(b => b.status === 'pending').length === 0 ? (
-                            <div className="border border-white/10 bg-neutral-950/70 p-12 text-center">
+                            <div className="border border-white/10 bg-neutral-950/90 p-12 text-center">
                                 <div className="w-14 h-14 border border-white/10 bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
                                     <MapPin className="w-6 h-6 text-white/40" />
                                 </div>
@@ -208,7 +208,7 @@ export default function Dashboard() {
                                 {bookings.filter(b => b.status === 'pending').map((booking) => (
                                     <div
                                         key={booking.id}
-                                        className="border border-white/10 bg-neutral-950/80 hover:border-white/25 p-6 sm:p-7 transition-all duration-200 group"
+                                        className="border border-white/10 bg-neutral-950/90 hover:border-white/25 p-6 sm:p-7 transition-all duration-200 group"
                                     >
                                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                             <div>
@@ -300,7 +300,7 @@ export default function Dashboard() {
                                     {bookings.filter(b => b.status === 'completed' || b.status === 'cancelled').map((booking) => (
                                         <div
                                             key={booking.id}
-                                            className="border border-white/10 bg-neutral-950/60 p-6 sm:p-7 transition-all duration-200 group"
+                                            className="border border-white/10 bg-neutral-950/80 p-6 sm:p-7 transition-all duration-200 group"
                                         >
                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                 <div>

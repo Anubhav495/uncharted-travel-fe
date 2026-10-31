@@ -56,6 +56,11 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
                 <div className="h-full w-full bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem]" />
             </div>
 
+            <div
+                aria-hidden="true"
+                className="hero-forest-fade absolute inset-x-0 bottom-0 h-40 sm:h-56 rotate-180 pointer-events-none z-10"
+            />
+
             {/* Hero Main Content — Clean editorial typography directly on video with zero card/box */}
             <div className="relative z-20 container mx-auto px-5 sm:px-8 md:px-12 text-center pt-24 pb-16 max-w-4xl">
                 {/* Editorial Display Heading (Instrument Serif) */}

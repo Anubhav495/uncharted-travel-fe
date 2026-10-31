@@ -5,6 +5,7 @@ import { ArrowRight, Clock, MapPin, Search, TrendingUp } from 'lucide-react';
 import { treks } from '@/data/treks';
 import { Trek } from '@/types/trek';
 import { MobileCatalogueView } from './mobileCatalogueView';
+import useSwipeNudge from './useSwipeNudge';
 
 interface MobileCataloguePreviewProps {
     view: MobileCatalogueView;
@@ -36,6 +37,7 @@ const CompareCatalogue: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activePage, setActivePage] = useState(0);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const catalogueRef = useRef<HTMLDivElement>(null);
     const normalizedQuery = searchQuery.trim().toLowerCase();
     const filteredTreks = normalizedQuery
         ? treks.filter((trek) => [
@@ -49,14 +51,17 @@ const CompareCatalogue: React.FC = () => {
         { length: Math.ceil(filteredTreks.length / TREKS_PER_PAGE) },
         (_, index) => filteredTreks.slice(index * TREKS_PER_PAGE, (index + 1) * TREKS_PER_PAGE),
     );
+    const { cancelNudge, isNudging } = useSwipeNudge(scrollRef, catalogueRef, trekPages.length);
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        cancelNudge();
         setSearchQuery(event.target.value);
         setActivePage(0);
         scrollRef.current?.scrollTo?.({ left: 0, behavior: 'auto' });
     };
 
     const updateActivePage = () => {
+        if (isNudging.current) return;
         const container = scrollRef.current;
         if (!container) return;
 
@@ -71,7 +76,7 @@ const CompareCatalogue: React.FC = () => {
     };
 
     return (
-        <div>
+        <div ref={catalogueRef}>
             <TrekCountHeader
                 title="Choose your trail"
                 count={filteredTreks.length}
@@ -110,7 +115,7 @@ const CompareCatalogue: React.FC = () => {
                                     <Link
                                         key={trek.id}
                                         href={`/destinations/${trek.slug}`}
-                                        className="group grid min-h-[160px] grid-cols-[38%_1fr] overflow-hidden border border-slate-700 bg-slate-800/80 transition-colors hover:border-yellow-400/50"
+                                        className="group grid min-h-[160px] grid-cols-[38%_1fr] overflow-hidden border border-slate-700 bg-slate-800/90 transition-colors hover:border-yellow-400/50"
                                         aria-label={`View ${trek.title}`}
                                     >
                                         <div className="relative min-h-full overflow-hidden">
@@ -216,7 +221,7 @@ const ImmerseCatalogue: React.FC = () => {
                     <Link
                         key={trek.id}
                         href={`/destinations/${trek.slug}`}
-                        className="group relative min-h-[500px] w-[88vw] max-w-[390px] shrink-0 snap-start overflow-hidden border border-slate-700 bg-slate-800/80 shadow-2xl"
+                        className="group relative min-h-[500px] w-[88vw] max-w-[390px] shrink-0 snap-start overflow-hidden border border-slate-700 bg-slate-800/90 shadow-2xl"
                         aria-label={`View ${trek.title}`}
                     >
                         <TrekImage
@@ -283,7 +288,7 @@ const ConvertCatalogue: React.FC = () => (
                 <Link
                     key={trek.id}
                     href={`/destinations/${trek.slug}`}
-                    className="group flex min-w-0 flex-col overflow-hidden border border-slate-700 bg-slate-800/80 transition-colors hover:border-yellow-400/50"
+                    className="group flex min-w-0 flex-col overflow-hidden border border-slate-700 bg-slate-800/90 transition-colors hover:border-yellow-400/50"
                     aria-label={`View ${trek.title}`}
                 >
                     <div className="relative aspect-[4/3] overflow-hidden">

@@ -1,28 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Mail, ArrowUpRight } from 'lucide-react';
+import HowItWorksSection from '@/components/sections/home/HowItWorksSection';
+import FooterLandscape from '@/components/layout/FooterLandscape';
 
-const FooterLink: React.FC<{ href: string; children: React.ReactNode; isExternal?: boolean }> = ({
+const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({
     href,
     children,
-    isExternal = false
 }) => {
-    if (isExternal) {
-        return (
-            <li>
-                <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-white/55 hover:text-white transition-colors duration-150 inline-flex items-center gap-1 font-sans"
-                >
-                    <span>{children}</span>
-                    <ArrowUpRight className="w-3 h-3 text-white/30" />
-                </a>
-            </li>
-        );
-    }
     return (
         <li>
             <Link
@@ -70,94 +55,68 @@ const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-slate-950 text-white border-t border-slate-800 relative">
-            <div className="container mx-auto px-6 md:px-12 py-16 md:py-20">
-                {/* Upper Brand & Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-                    {/* Brand Info */}
-                    <div className="md:col-span-5">
-                        <Link href="/" className="inline-flex items-center gap-2.5 mb-5 group">
-                            <img
-                                src="/assets/brand-logo.png"
-                                alt="UnchartedTravel Logo"
-                                className="h-6 w-auto invert opacity-90 group-hover:opacity-100 transition-opacity"
-                            />
-                            <span className="font-display text-2xl tracking-tight text-white">
-                                UnchartedTravel
-                            </span>
-                        </Link>
-                        <p className="text-xs text-slate-400 leading-relaxed font-sans max-w-sm mb-6">
-                            Authentic Himalayan treks and expeditions guided by vetted local experts. Discover personal, responsible journeys across the high Himalayas.
-                        </p>
+        <footer className="bg-slate-950 text-white relative isolate">
+            <div
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-full h-24 sm:h-32 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none"
+            />
+            <FooterLandscape />
+            <div className="container mx-auto px-6 md:px-12 py-8 md:py-12 relative z-10">
+                <HowItWorksSection />
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-6 md:gap-x-12 md:gap-y-8 mb-8 md:mb-10">
+                    <div className="order-1">
+                        <h3 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-3 font-semibold">
+                            Platform
+                        </h3>
+                        <ul className="space-y-2">
+                            <FooterLink href="/">Home</FooterLink>
+                            <FooterSectionLink targetId="why-us">Why Us</FooterSectionLink>
+                        </ul>
                     </div>
 
-                    {/* Navigation Columns */}
-                    <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
-                        {/* Platform */}
-                        <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
-                                Platform
-                            </h4>
-                            <ul className="space-y-2.5">
-                                <FooterLink href="/">Home</FooterLink>
-                                <FooterLink href="/destinations">Destinations</FooterLink>
-                                <FooterSectionLink targetId="why-us">Why Us</FooterSectionLink>
-                                <FooterSectionLink targetId="stories">Guide Stories</FooterSectionLink>
-                            </ul>
-                        </div>
+                    <div className="order-3 lg:order-2">
+                        <h3 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-3 font-semibold">
+                            Company
+                        </h3>
+                        <ul className="space-y-2">
+                            <FooterLink href="/about">About Us</FooterLink>
+                        </ul>
+                    </div>
 
-                        {/* Company */}
-                        <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
-                                Company
-                            </h4>
-                            <ul className="space-y-2.5">
-                                <FooterLink href="/about">About Us</FooterLink>
-                            </ul>
-                        </div>
+                    <div className="order-2 lg:order-3">
+                        <h3 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-3 font-semibold">
+                            Community
+                        </h3>
+                        <ul className="space-y-2">
+                            <FooterLink href="/become-a-guide">Become a Guide</FooterLink>
+                        </ul>
+                    </div>
 
-                        {/* Community */}
-                        <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
-                                Community
-                            </h4>
-                            <ul className="space-y-2.5">
-                                <FooterLink href="/become-a-guide">Become a Guide</FooterLink>
-                                <FooterLink href="/community">Community</FooterLink>
-                            </ul>
-                        </div>
-
-                        {/* Get in Touch */}
-                        <div>
-                            <h4 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-4 font-semibold">
-                                Contact
-                            </h4>
-                            <ul className="space-y-2.5">
-                                <li>
-                                    <a
-                                        href="mailto:hello@unchartedtravel.in"
-                                        className="text-xs text-slate-400 hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5 font-sans"
-                                    >
-                                        <Mail className="w-3.5 h-3.5 text-yellow-400" />
-                                        <span>hello@unchartedtravel.in</span>
-                                    </a>
-                                </li>
-                                <li className="text-xs text-slate-500 font-sans pt-1">
-                                    Kasol, Parvati Valley<br />
-                                    Himachal Pradesh 175105
-                                </li>
-                            </ul>
-                        </div>
+                    <div className="order-4 min-w-0">
+                        <h3 className="text-xs font-sans uppercase tracking-wider text-slate-300 mb-3 font-semibold">
+                            Get in Touch
+                        </h3>
+                        <ul className="space-y-2 break-words">
+                            <FooterLink href="mailto:hello@unchartedtravel.com">
+                                hello@unchartedtravel.com
+                            </FooterLink>
+                        </ul>
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-xs font-sans text-slate-500">
+                <div className="pt-5 sm:pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <Link href="/" className="inline-flex items-center gap-2.5">
+                        <img
+                            src="/assets/brand-logo.png"
+                            alt="UnchartedTravel Logo"
+                            className="h-8 w-8 shrink-0 object-contain"
+                        />
+                        <span className="font-display text-2xl tracking-tight text-white">
+                            UnchartedTravel
+                        </span>
+                    </Link>
+                    <p className="text-xs font-sans text-slate-500 text-center sm:text-right">
                         &copy; {currentYear} UnchartedTravel. All rights reserved.
-                    </p>
-                    <p className="text-xs font-sans text-slate-500">
-                        Himalayan Treks & Local Expeditions
                     </p>
                 </div>
             </div>

@@ -51,7 +51,7 @@ const ValuesSection: React.FC = () => {
                             return (
                                 <div
                                     key={val.title}
-                                    className="border border-slate-700/80 bg-slate-800/60 p-8 flex flex-col justify-between hover:border-yellow-400/40 hover:bg-slate-800/90 transition duration-200 shadow-lg"
+                                    className="border border-slate-700/80 bg-slate-800/80 p-8 flex flex-col justify-between hover:border-yellow-400/40 hover:bg-slate-800/90 transition duration-200 shadow-lg"
                                 >
                                     <div>
                                         <div className="h-9 w-9 border border-slate-700 bg-slate-900/80 flex items-center justify-center text-yellow-400 mb-6">

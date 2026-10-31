@@ -138,7 +138,7 @@ const GalleryPage = () => {
                 {/* Gallery Grid */}
                 <section className="max-w-7xl mx-auto px-6 sm:px-8 mt-12 relative z-10">
                     {gallery.length === 0 ? (
-                        <div className="text-center py-24 border border-slate-700 bg-slate-800/50 p-12">
+                        <div className="text-center py-24 border border-slate-700 bg-slate-800/70 p-12">
                             <Camera className="w-10 h-10 text-slate-500 mx-auto mb-3" />
                             <h3 className="font-display text-2xl font-normal text-white mb-2">No photos archived yet</h3>
                             <p className="text-slate-400 text-xs font-sans max-w-sm mx-auto">

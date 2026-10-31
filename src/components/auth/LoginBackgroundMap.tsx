@@ -237,7 +237,7 @@ export default function LoginBackgroundMap() {
 
             {/* Location Card — Bottom Left (Interactive, clickable) */}
             <div
-                className="absolute bottom-6 left-6 z-20 hidden md:block max-w-xs bg-black/75 backdrop-blur-md border border-white/15 p-4 pointer-events-auto rounded-none"
+                className="absolute bottom-6 left-6 z-20 hidden md:block max-w-xs bg-black/90 backdrop-blur-md border border-white/15 p-4 pointer-events-auto rounded-none"
                 style={{
                     opacity: mapReady ? 1 : 0,
                     transition: 'opacity 0.6s ease',
@@ -280,7 +280,7 @@ export default function LoginBackgroundMap() {
 
             {/* Mobile bottom pill */}
             <div
-                className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex items-center justify-between px-3.5 py-2.5 bg-black/80 backdrop-blur-md border border-white/15 pointer-events-auto rounded-none"
+                className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex items-center justify-between px-3.5 py-2.5 bg-black/90 backdrop-blur-md border border-white/15 pointer-events-auto rounded-none"
                 style={{ opacity: mapReady ? 1 : 0, transition: 'opacity 0.6s ease' }}
             >
                 <div className="flex items-center gap-2">

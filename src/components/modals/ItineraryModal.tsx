@@ -61,7 +61,7 @@ const ItineraryModal: React.FC<ItineraryModalProps> = ({
                 <div className="p-5 sm:p-6 overflow-y-auto w-full">
                     <div className="space-y-4">
                         {itinerary.map((day) => (
-                            <div key={day.day} className="bg-slate-800/50 p-5 border border-slate-700 hover:border-slate-600 transition-colors">
+                            <div key={day.day} className="bg-slate-800/70 p-5 border border-slate-700 hover:border-slate-600 transition-colors">
                                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2">
                                     <div className="flex items-center gap-2.5">
                                         <span className="text-[10px] font-sans uppercase tracking-wider text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-2 py-0.5 font-bold">

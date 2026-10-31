@@ -97,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                     <img
                         src="/assets/brand-logo.png"
                         alt="UnchartedTravel Logo"
-                        className="h-6 w-auto opacity-90 group-hover:opacity-100 transition-opacity invert"
+                        className="h-8 w-8 shrink-0 object-contain"
                     />
                     <span className="font-display text-2xl tracking-tight text-white group-hover:text-white/90 transition-colors">
                         UnchartedTravel
@@ -212,7 +212,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             <img
                                 src="/assets/brand-logo.png"
                                 alt="UnchartedTravel Logo"
-                                className="h-6 w-auto invert"
+                                className="h-8 w-8 shrink-0 object-contain"
                             />
                             <span className="font-display text-2xl tracking-tight text-white">
                                 UnchartedTravel

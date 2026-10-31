@@ -165,7 +165,7 @@ const GuideRegistrationWizard: React.FC = () => {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="bg-slate-800/80 backdrop-blur-xl border border-slate-700/80 p-12 shadow-2xl flex flex-col items-center"
+                    className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/80 p-12 shadow-2xl flex flex-col items-center"
                 >
                     <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-6">
                         <CheckCircle className="w-10 h-10 text-emerald-400" />
@@ -217,7 +217,7 @@ const GuideRegistrationWizard: React.FC = () => {
                         e.preventDefault();
                     }
                 }}
-                className="bg-slate-800/80 backdrop-blur-xl border border-slate-700/80 p-6 sm:p-10 shadow-2xl"
+                className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/80 p-6 sm:p-10 shadow-2xl"
             >
                 <AnimatePresence mode="wait">
                     {step === 1 && (

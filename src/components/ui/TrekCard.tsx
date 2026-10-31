@@ -12,7 +12,7 @@ interface TrekCardProps {
 const TrekCard: React.FC<TrekCardProps> = ({ trek, isActive = false, onBook }) => {
     return (
         <div
-            className={`group relative bg-slate-800/80 overflow-hidden border border-slate-700 hover:border-yellow-400/60 transition-all duration-300 shadow-xl flex flex-col justify-between ${
+            className={`group relative bg-slate-800/90 overflow-hidden border border-slate-700 hover:border-yellow-400/60 transition-all duration-300 shadow-xl flex flex-col justify-between ${
                 isActive ? 'is-active border-yellow-400' : ''
             }`}
         >

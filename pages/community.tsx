@@ -98,7 +98,7 @@ export default function Community() {
 
                     {/* How XP Works - Clean Architectural Bar */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
-                        <div className="border border-slate-700/60 bg-slate-800/40 p-4 flex items-center justify-between">
+                        <div className="border border-slate-700/60 bg-slate-800/60 p-4 flex items-center justify-between">
                             <div>
                                 <span className="text-[10px] font-sans uppercase tracking-widest text-slate-400 block">Complete Trek</span>
                                 <span className="font-display text-base text-white">Full Expedition</span>
@@ -108,7 +108,7 @@ export default function Community() {
                             </span>
                         </div>
 
-                        <div className="border border-slate-700/60 bg-slate-800/40 p-4 flex items-center justify-between">
+                        <div className="border border-slate-700/60 bg-slate-800/60 p-4 flex items-center justify-between">
                             <div>
                                 <span className="text-[10px] font-sans uppercase tracking-widest text-slate-400 block">Submit Review</span>
                                 <span className="font-display text-base text-white">Verified Feedback</span>
@@ -118,7 +118,7 @@ export default function Community() {
                             </span>
                         </div>
 
-                        <div className="border border-slate-700/60 bg-slate-800/40 p-4 flex items-center justify-between">
+                        <div className="border border-slate-700/60 bg-slate-800/60 p-4 flex items-center justify-between">
                             <div>
                                 <span className="text-[10px] font-sans uppercase tracking-widest text-slate-400 block">High Altitude</span>
                                 <span className="font-display text-base text-white">Pass Crossing</span>
@@ -170,7 +170,7 @@ export default function Community() {
                     </div>
 
                     {/* Professional Scrollable Leaderboard Table (ALL loaded, smooth scroll) */}
-                    <div className="border border-slate-700 bg-slate-800/50 shadow-2xl overflow-hidden">
+                    <div className="border border-slate-700 bg-slate-800/70 shadow-2xl overflow-hidden">
                         {/* Sticky Table Header */}
                         <div className="grid grid-cols-[3.5rem_1fr_6rem_5.5rem] sm:grid-cols-[4.5rem_1fr_8rem_7rem] items-center px-4 sm:px-6 py-3.5 border-b border-slate-700 text-[10px] sm:text-xs font-sans text-slate-400 uppercase tracking-widest bg-slate-900/90 font-semibold">
                             <span className="text-center">Rank</span>
@@ -281,7 +281,7 @@ export default function Community() {
 
                     {/* Upcoming Features / System Roadmap */}
                     <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div className="border border-slate-700/70 bg-slate-800/50 p-5 relative overflow-hidden transition-colors hover:border-slate-600">
+                        <div className="border border-slate-700/70 bg-slate-800/70 p-5 relative overflow-hidden transition-colors hover:border-slate-600">
                             <div className="flex items-center gap-2 mb-2.5">
                                 <span className="inline-block px-2 py-0.5 text-[9px] font-sans uppercase tracking-widest text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 font-semibold">
                                     Roadmap &middot; In Development
@@ -296,7 +296,7 @@ export default function Community() {
                             </p>
                         </div>
 
-                        <div className="border border-slate-700/70 bg-slate-800/50 p-5 relative overflow-hidden transition-colors hover:border-slate-600">
+                        <div className="border border-slate-700/70 bg-slate-800/70 p-5 relative overflow-hidden transition-colors hover:border-slate-600">
                             <div className="flex items-center gap-2 mb-2.5">
                                 <span className="inline-block px-2 py-0.5 text-[9px] font-sans uppercase tracking-widest text-sky-400 border border-sky-400/30 bg-sky-400/10 font-semibold">
                                     Upcoming Perks
