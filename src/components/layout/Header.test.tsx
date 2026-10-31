@@ -18,7 +18,7 @@ const signOut = jest.fn();
 
 function openMenu() {
     fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
-    return screen.getByRole('link', { name: 'Contact' }).closest('.mobile-menu') as HTMLElement;
+    return screen.getByRole('dialog', { name: 'Navigation menu' });
 }
 
 describe('Header mobile menu', () => {
@@ -35,56 +35,57 @@ describe('Header mobile menu', () => {
         });
     });
 
-    it('keeps the white menu outside the solid header when opened after scrolling', () => {
+    it('keeps the revamped menu outside the blurred header when opened after scrolling', () => {
         render(<Header />);
         Object.defineProperty(window, 'scrollY', { configurable: true, value: 500 });
         fireEvent.scroll(window);
 
         const header = screen.getByRole('banner');
-        expect(header).toHaveClass('bg-white');
+        expect(header).toHaveClass('bg-slate-900/95');
 
         const menu = openMenu();
         expect(header).not.toContainElement(menu);
-        expect(header).not.toHaveClass('shadow-lg');
+        expect(menu.parentElement).toBe(document.body);
         expect(header.querySelector('a[href="/"]')).not.toHaveClass('invisible');
-        expect(menu).toHaveClass('fixed', 'inset-0', 'bg-white', 'overflow-y-auto');
-        expect(within(menu).getAllByRole('link').map((link) => link.textContent)).toEqual([
-            'Destinations', 'Become a Guide', 'Community', 'About Us', 'Contact',
-        ]);
+        expect(menu).toHaveClass('fixed', 'inset-0', 'bg-slate-900', 'overflow-y-auto');
+        expect(within(menu).getByRole('img', { name: 'UnchartedTravel Logo' })).toHaveAttribute('src', '/assets/brand-logo.png');
+        expect(within(menu).getByRole('link', { name: 'About Us' })).toHaveAttribute('href', '/about');
         expect(within(menu).getByRole('link', { name: 'Destinations' })).toHaveClass(
-            'py-3', 'px-4', 'text-gray-700', 'font-medium',
+            'py-3', 'px-4', 'text-white/80', 'font-sans',
         );
         expect(document.body.style.position).toBe('fixed');
         expect(document.body.style.top).toBe('-500px');
 
         fireEvent.keyDown(document, { key: 'Escape' });
-        expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         expect(document.body.style.position).toBe('');
         expect(document.documentElement.style.overflow).toBe('');
-        expect(header).toHaveClass('shadow-lg');
+        expect(header).toHaveClass('shadow-2xl');
         expect(header.querySelector('a[href="/"]')).not.toHaveClass('invisible');
         expect(window.scrollTo).toHaveBeenCalledWith({ top: 500, behavior: 'instant' });
     });
 
     it('closes the menu when toggled or when navigating to a section', () => {
         render(<Header />);
-        openMenu();
-        fireEvent.click(screen.getByRole('button', { name: 'Close menu' }));
-        expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+        const firstMenu = openMenu();
+        fireEvent.click(within(firstMenu).getByRole('button', { name: 'Close menu' }));
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
         const menu = openMenu();
-        fireEvent.click(within(menu).getByRole('link', { name: 'Contact' }));
-        expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+        fireEvent.click(within(menu).getByRole('link', { name: 'Destinations' }));
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         expect(document.body.style.position).toBe('');
     });
 
-    it('keeps the original login action and closes the menu on login', () => {
+    it('keeps the sign-in page link and closes the menu when navigating to it', () => {
         render(<Header />);
         const menu = openMenu();
-        fireEvent.click(within(menu).getByRole('button', { name: 'Login' }));
+        const signIn = within(menu).getByRole('link', { name: 'Sign In' });
+        expect(signIn).toHaveAttribute('href', '/login');
+        fireEvent.click(signIn);
 
-        expect(loginWithGoogle).toHaveBeenCalledTimes(1);
-        expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+        expect(loginWithGoogle).not.toHaveBeenCalled();
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
     it('shows account actions for signed-in users and closes on logout', () => {
@@ -97,11 +98,11 @@ describe('Header mobile menu', () => {
 
         expect(within(menu).getByText('trekker@example.com')).toBeInTheDocument();
         expect(within(menu).getByRole('link', { name: 'Dashboard' })).toHaveAttribute('href', '/dashboard');
-        expect(within(menu).queryByRole('button', { name: 'Login' })).not.toBeInTheDocument();
+        expect(within(menu).queryByRole('link', { name: 'Sign In' })).not.toBeInTheDocument();
         fireEvent.click(within(menu).getByRole('button', { name: 'Log out' }));
 
         expect(signOut).toHaveBeenCalledTimes(1);
-        expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
     it('releases the scroll lock when unmounted with the menu open', () => {

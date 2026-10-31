@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { useAuth } from '../../context/AuthContext';
@@ -8,10 +9,14 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
-    const { user, loginWithGoogle, signOut } = useAuth();
+    const { user, signOut } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [showPulse, setShowPulse] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,11 +26,6 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    // Control the pulse animation: run whenever header is transparent (not scrolled)
-    useEffect(() => {
-        setShowPulse(!scrolled);
-    }, [scrolled]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -65,43 +65,39 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     }, [isMenuOpen]);
 
     const headerClasses = `
-        fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out
+        fixed top-0 left-0 right-0 z-[100] transition-all duration-200 ease-out border-none
         ${scrolled
-            ? `bg-white ${isMenuOpen ? '' : 'shadow-lg'} py-2`
-            : 'bg-transparent py-4'
+            ? 'bg-slate-900/95 backdrop-blur-2xl py-3 shadow-2xl border-b border-slate-800'
+            : 'bg-gradient-to-b from-slate-950/90 via-slate-950/50 to-transparent py-4 sm:py-5'
         }
     `;
 
-    // Reusable NavLink component with dynamic text color and new hover effect
     const NavLink: React.FC<{ href: string; children: React.ReactNode; isMobile?: boolean; onClick?: () => void }> = ({
         href,
         children,
         isMobile = false,
         onClick
     }) => {
-        // Mobile links have a simple hover effect
         if (isMobile) {
             return (
-                <Link href={href} className="block py-3 px-4 text-gray-700 hover:text-blue-600 rounded-md hover:bg-gray-100 transition-colors duration-200 font-medium" onClick={onClick}>
+                <Link
+                    href={href}
+                    className="block py-3 px-4 text-white/80 hover:text-white rounded-none border-b border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-150 text-sm tracking-wider uppercase font-sans"
+                    onClick={onClick}
+                >
                     {children}
                 </Link>
             );
         }
 
-        // Desktop links get the animated underline
-        const linkClasses = `
-            font-medium transition-colors duration-300 ease-out relative group py-2
-            ${scrolled
-                ? 'text-gray-700' // Dark text for scrolled header
-                : 'text-white [text-shadow:0_1px_2px_rgb(0_0_0_/_0.3)]' // White text for transparent header
-            }
-        `;
-
         return (
-            <Link href={href} className={linkClasses} onClick={onClick}>
+            <Link
+                href={href}
+                className="text-xs uppercase tracking-widest text-white/70 hover:text-white transition-colors duration-200 relative group py-1 font-sans font-medium"
+                onClick={onClick}
+            >
                 {children}
-                {/* --- THIS IS THE ANIMATED UNDERLINE --- */}
-                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-yellow-400 transition-all duration-300 ease-out group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-white transition-all duration-200 ease-out group-hover:w-full opacity-80" />
             </Link>
         );
     };
@@ -109,171 +105,202 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
     return (
         <>
             <header className={headerClasses}>
-                <div className="container mx-auto px-4 flex justify-between items-center h-10">
-                    {/* Brand Logo/Name */}
+                <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
+                    {/* Brand Logo */}
                     <Link
                         href="/"
-                        className={`text-xl sm:text-2xl font-bold transition-colors z-10 ${
-                            scrolled
-                                ? 'text-yellow-500 hover:text-yellow-600'
-                                : 'text-yellow-400 hover:text-yellow-300'
-                        }`}
+                        aria-label="UnchartedTravel"
+                        className="flex items-center gap-2.5 group cursor-pointer z-10"
                     >
-                        UnchartedTravel
+                        <img
+                            src="/assets/brand-logo.png"
+                            alt="UnchartedTravel Logo"
+                            className="h-8 w-8 shrink-0 object-contain"
+                        />
+                        <span className="font-display text-2xl tracking-tight text-white group-hover:text-white/90 transition-colors">
+                            UnchartedTravel
+                        </span>
                     </Link>
 
                     {/* Desktop Navigation */}
                     {variant === 'default' && (
                         <nav className="hidden lg:flex items-center space-x-8">
-                            <NavLink href="/about">About Us</NavLink>
                             <NavLink href="/destinations">Destinations</NavLink>
                             <NavLink href="/become-a-guide">Become a Guide</NavLink>
                             <NavLink href="/community">Community</NavLink>
+                            <NavLink href="/about">About Us</NavLink>
 
                             {user ? (
                                 <div className="relative ml-4 group">
-                                    <button className="flex items-center space-x-2 focus:outline-none">
-                                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white overflow-hidden border-2 border-white shadow-md">
+                                    <button className="flex items-center space-x-2 focus:outline-none p-1 border border-white/15 bg-white/[0.04] hover:border-white/30 transition duration-150">
+                                        <div className="w-7 h-7 bg-neutral-900 flex items-center justify-center text-white overflow-hidden text-xs">
                                             {user.user_metadata.avatar_url ? (
                                                 <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                                             ) : (
-                                                <span className="text-sm font-bold">{user.email?.charAt(0).toUpperCase()}</span>
+                                                <span className="font-medium">{user.email?.charAt(0).toUpperCase()}</span>
                                             )}
                                         </div>
+                                        <span className="text-xs text-white/75 px-1 truncate max-w-[100px]">
+                                            {user.user_metadata.full_name?.split(' ')[0] || user.email?.split('@')[0]}
+                                        </span>
                                     </button>
 
                                     {/* Dropdown Menu */}
-                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right">
-                                        <div className="px-4 py-2 border-b border-gray-100">
-                                            <p className="text-sm text-gray-900 font-medium truncate">{user.user_metadata.full_name || 'User'}</p>
-                                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                    <div className="absolute right-0 mt-2 w-52 bg-slate-900 border border-slate-700 shadow-2xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 transform origin-top-right backdrop-blur-xl">
+                                        <div className="px-4 py-3 border-b border-slate-800">
+                                            <p className="text-xs text-white font-medium truncate">{user.user_metadata.full_name || 'Traveler'}</p>
+                                            <p className="text-xs text-slate-400 truncate font-sans mt-0.5">{user.email}</p>
                                         </div>
-                                        <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <Link href="/dashboard" className="block px-4 py-2 text-xs uppercase tracking-wider text-slate-200 hover:bg-slate-800 hover:text-white font-sans">
                                             Dashboard
                                         </Link>
                                         <button
                                             onClick={() => signOut()}
-                                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                            className="block w-full text-left px-4 py-2 text-xs uppercase tracking-wider text-rose-400 hover:bg-rose-500/10 font-sans"
                                         >
                                             Log out
                                         </button>
                                     </div>
                                 </div>
                             ) : (
-                                <button
-                                    onClick={() => loginWithGoogle()}
-                                    className="ml-4 px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700 border border-transparent"
+                                <Link
+                                    href="/login"
+                                    className="ml-2 px-5 py-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold transition-all duration-200 text-xs uppercase tracking-widest font-sans shadow-md"
                                 >
-                                    Login
-                                </button>
+                                    Sign In
+                                </Link>
                             )}
                         </nav>
                     )}
 
-                    {/* Mobile Menu Button */}
+                    {/* Mobile Navigation Controls */}
                     {variant === 'default' && (
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsMenuOpen(!isMenuOpen);
-                            }}
-                            className={`menu-button lg:hidden p-3 relative rounded-lg hover:bg-black/10 transition-colors z-50 ${!isMenuOpen && showPulse ? 'animate-glow-pulse' : ''}`}
-                            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                        >
-                            {isMenuOpen ? (
-                                <HiX className="h-6 w-6 text-gray-700" />
+                        <div className="flex items-center gap-2 lg:hidden">
+                            {user ? (
+                                <Link
+                                    href="/dashboard"
+                                    className="px-2.5 py-1.5 border border-white/20 bg-neutral-900/90 text-white text-[11px] font-sans uppercase tracking-wider hover:border-white/40 transition-all backdrop-blur-md"
+                                >
+                                    {user.user_metadata.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Account'}
+                                </Link>
                             ) : (
-                                <HiMenu className={`h-6 w-6 transition-colors duration-300 ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+                                <Link
+                                    href="/login"
+                                    className="px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold text-[11px] font-sans uppercase tracking-wider backdrop-blur-md transition-all shadow-sm active:scale-95"
+                                >
+                                    Sign In
+                                </Link>
                             )}
-                        </button>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsMenuOpen(!isMenuOpen);
+                                }}
+                                className={`menu-button p-2.5 border transition-all duration-150 z-50 flex items-center justify-center active:scale-95 ${
+                                    isMenuOpen
+                                        ? 'bg-white text-black border-white shadow-xl'
+                                        : 'bg-neutral-900/90 hover:bg-neutral-900 border-white/20 hover:border-white/40 text-white backdrop-blur-md shadow-lg'
+                                }`}
+                                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                            >
+                                {isMenuOpen ? (
+                                    <HiX className="h-5 w-5 text-black" />
+                                ) : (
+                                    <HiMenu className="h-5 w-5 text-white" />
+                                )}
+                            </button>
+                        </div>
                     )}
                 </div>
             </header>
 
-            {/* Keep the fixed overlay outside the header so backdrop blur cannot clip it. */}
-            {isMenuOpen && variant === 'default' && (
-                <div className="mobile-menu fixed inset-0 top-0 bg-white z-40 lg:hidden overflow-y-auto overscroll-contain">
-                    <div className="pt-20 pb-8">
-                        <nav className="container mx-auto px-4">
-                            <div className="space-y-1">
-                                <NavLink
-                                    href="/destinations"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Destinations
-                                </NavLink>
-                                <NavLink
-                                    href="/become-a-guide"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Become a Guide
-                                </NavLink>
-                                <NavLink
-                                    href="/community"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Community
-                                </NavLink>
+            {/* Mobile Menu Portal */}
+            {mounted && isMenuOpen && variant === 'default' && createPortal(
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Navigation menu"
+                    className="mobile-menu fixed inset-0 w-screen h-screen min-h-screen bg-slate-900 z-[99999] lg:hidden flex flex-col overflow-y-auto overscroll-contain"
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#0f172a' }}
+                >
+                    {/* Header bar inside menu */}
+                    <div className="h-16 px-5 sm:px-8 flex items-center justify-between border-b border-slate-800 shrink-0 bg-slate-900">
+                        <Link
+                            href="/"
+                            onClick={() => setIsMenuOpen(false)}
+                            className="flex items-center gap-2.5"
+                        >
+                            <img
+                                src="/assets/brand-logo.png"
+                                alt="UnchartedTravel Logo"
+                                className="h-8 w-8 shrink-0 object-contain"
+                            />
+                            <span className="font-display text-2xl tracking-tight text-white">
+                                UnchartedTravel
+                            </span>
+                        </Link>
 
-                                <div className="border-t border-gray-200 my-4"></div>
+                        <button
+                            type="button"
+                            onClick={() => setIsMenuOpen(false)}
+                            className="p-2.5 bg-white text-black border border-white transition-transform active:scale-95 flex items-center justify-center cursor-pointer shadow-lg"
+                            aria-label="Close menu"
+                        >
+                            <HiX className="h-5 w-5 text-black" />
+                        </button>
+                    </div>
 
-                                <NavLink
-                                    href="/about"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    About Us
-                                </NavLink>
-                                <NavLink
-                                    href="#contact"
-                                    isMobile={true}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Contact
-                                </NavLink>
+                    {/* Nav links with Sign In together */}
+                    <div className="flex-1 px-6 py-6 max-w-lg w-full mx-auto flex flex-col">
+                        <nav className="space-y-1">
+                            <NavLink href="/destinations" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Destinations
+                            </NavLink>
+                            <NavLink href="/become-a-guide" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Become a Guide
+                            </NavLink>
+                            <NavLink href="/community" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Community
+                            </NavLink>
+                            <NavLink href="/about" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                About Us
+                            </NavLink>
 
-                                {user ? (
-                                    <>
-                                        <div className="px-4 py-2">
-                                            <div className="flex items-center space-x-3 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
-                                                    {user.email?.charAt(0).toUpperCase()}
-                                                </div>
-                                                <div className="text-sm font-medium text-gray-900">{user.email}</div>
-                                            </div>
-                                            <NavLink href="/dashboard" isMobile={true} onClick={() => setIsMenuOpen(false)}>
-                                                Dashboard
-                                            </NavLink>
-                                            <button
-                                                onClick={() => {
-                                                    signOut();
-                                                    setIsMenuOpen(false);
-                                                }}
-                                                className="block w-full text-left py-3 px-4 text-red-600 hover:bg-red-50 rounded-md font-medium"
-                                            >
-                                                Log out
-                                            </button>
-                                        </div>
-                                    </>
-                                ) : (
+                            {/* Sign In / User Tabs kept right above with all tabs */}
+                            {user ? (
+                                <div className="pt-3 border-t border-white/10 mt-3 space-y-1">
+                                    <div className="px-4 py-1.5 text-xs text-white/50 font-sans">
+                                        Signed in as <span className="text-white">{user.email}</span>
+                                    </div>
+                                    <NavLink href="/dashboard" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                        Dashboard
+                                    </NavLink>
                                     <button
                                         onClick={() => {
-                                            loginWithGoogle();
+                                            signOut();
                                             setIsMenuOpen(false);
                                         }}
-                                        className="block w-full py-3 px-6 bg-blue-600 text-white hover:bg-blue-700 rounded-full font-medium shadow-md shadow-blue-500/25 transition-colors duration-200"
+                                        className="block w-full text-left py-3 px-4 text-xs uppercase tracking-wider text-rose-400 hover:bg-rose-500/10 transition-colors font-sans"
                                     >
-                                        Login
+                                        Log out
                                     </button>
-                                )}
-
-                            </div>
+                                </div>
+                            ) : (
+                                <div className="pt-4">
+                                    <Link
+                                        href="/login"
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="w-full py-3.5 bg-yellow-400 text-slate-900 font-bold text-xs uppercase tracking-widest hover:bg-yellow-300 transition-all text-center block shadow-lg font-sans"
+                                    >
+                                        Sign In
+                                    </Link>
+                                </div>
+                            )}
                         </nav>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     );

@@ -3,22 +3,22 @@ import { Heart, Globe, Users, Compass } from 'lucide-react';
 
 const values = [
     {
-        icon: <Users className="w-6 h-6 text-yellow-400" />,
+        icon: Users,
         title: 'Local Empowerment',
         description: 'We connect you directly with local guides, ensuring the community benefits from every trek.'
     },
     {
-        icon: <Heart className="w-6 h-6 text-yellow-400" />,
+        icon: Heart,
         title: 'Safe Adventures',
         description: 'Every guide is thoroughly vetted for their expertise in high-altitude environments.'
     },
     {
-        icon: <Globe className="w-6 h-6 text-yellow-400" />,
+        icon: Globe,
         title: 'Sustainability',
         description: 'We adhere strictly to leave-no-trace policies to preserve the Himalayas.'
     },
     {
-        icon: <Compass className="w-6 h-6 text-yellow-400" />,
+        icon: Compass,
         title: 'Curiosity',
         description: 'Embrace the unknown and learn the untaught stories of the mountains.'
     }
@@ -26,60 +26,50 @@ const values = [
 
 const ValuesSection: React.FC = () => {
     return (
-        <section className="py-24 bg-slate-900 text-white">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row gap-16 items-start">
-                    {/* Text Side */}
-                    <div className="w-full md:w-1/2 md:sticky md:top-24">
-                        <div className="flex items-center space-x-4 mb-6">
-                            <div className="h-px w-8 bg-yellow-400"></div>
-                            <span className="text-yellow-400 uppercase tracking-widest text-sm font-medium">Our Values</span>
+        <section className="py-24 md:py-32 bg-slate-900 text-white">
+            <div className="container mx-auto px-6 md:px-12">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                        <div>
+                            <div className="flex items-center space-x-3 mb-3">
+                                <span className="text-xs uppercase tracking-widest text-yellow-400 font-sans font-semibold">
+                                    Our Values
+                                </span>
+                            </div>
+                            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                                Guiding <span className="italic text-yellow-400">Principles</span>
+                            </h2>
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-bold leading-tight mb-8">
-                            Guiding <br />
-                            <span className="text-gray-500">Principles</span>
-                        </h2>
-                        <p className="text-xl text-gray-400 leading-relaxed max-w-md">
+                        <p className="text-sm text-slate-400 max-w-sm font-sans leading-relaxed">
                             These core values shape every experience we curate and every connection we facilitate.
                         </p>
                     </div>
 
-                    {/* Content Side */}
-                    <div className="w-full md:w-1/2">
-                        {/* Mobile View: Minimalist List */}
-                        <div className="flex flex-col space-y-12 md:hidden">
-                            {values.map((value, index) => (
-                                <div key={index} className="flex gap-6 items-start group">
-                                    <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-2xl bg-slate-800 text-yellow-400 group-hover:bg-yellow-400 group-hover:text-slate-900 transition-all duration-300 shadow-lg shadow-black/20">
-                                        {React.cloneElement(value.icon as React.ReactElement, { className: "w-6 h-6" })}
-                                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {values.map((val) => {
+                            const Icon = val.icon;
+                            return (
+                                <div
+                                    key={val.title}
+                                    className="border border-slate-700/80 bg-slate-800/80 p-8 flex flex-col justify-between hover:border-yellow-400/40 hover:bg-slate-800/90 transition duration-200 shadow-lg"
+                                >
                                     <div>
-                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">{value.title}</h3>
-                                        <p className="text-gray-400 leading-relaxed">
-                                            {value.description}
+                                        <div className="h-9 w-9 border border-slate-700 bg-slate-900/80 flex items-center justify-center text-yellow-400 mb-6">
+                                            <Icon className="w-4 h-4 text-yellow-400" />
+                                        </div>
+
+                                        <h3 className="font-display text-2xl font-normal text-white mb-3">
+                                            {val.title}
+                                        </h3>
+                                        <p className="text-sm text-slate-300 leading-relaxed font-sans">
+                                            {val.description}
                                         </p>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* Desktop View: Cards Grid */}
-                        <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {values.map((value, index) => (
-                                <div key={index} className="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 hover:border-yellow-400/30 transition-colors duration-300 group">
-                                    <div className="bg-slate-900 w-12 h-12 rounded-lg flex items-center justify-center mb-6 border border-slate-800 group-hover:border-yellow-400/50 transition-colors duration-300">
-                                        {React.cloneElement(value.icon as React.ReactElement, { className: "w-6 h-6 group-hover:text-yellow-400 transition-colors duration-300" })}
-                                    </div>
-                                    <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
-                                    <p className="text-gray-400 text-sm leading-relaxed">
-                                        {value.description}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
-
             </div>
         </section>
     );

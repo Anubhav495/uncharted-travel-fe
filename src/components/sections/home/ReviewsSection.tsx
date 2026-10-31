@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import React from 'react';
+import { Star } from 'lucide-react';
+import CardCarousel from '@/components/ui/CardCarousel';
 
 interface CustomerReview {
     name: string;
@@ -16,16 +17,16 @@ const customerReviews: CustomerReview[] = [
         avatarUrl: 'https://picsum.photos/seed/vivek/100/100',
         rating: 5,
         tour: 'Kareri Lake Trek',
-        quote: 'The lake was unreal, pictures don\'t do it justice. The whole trail through the forest was so peaceful and our guide kept the energy up the entire time. Best weekend I\'ve had in a long time.',
-        profession: 'Software Engineer'
+        quote: 'The trek with Aatish was incredible. As someone new to high-altitude trekking, his knowledge of the trails and calm demeanor made all the difference. Can’t wait for my next trek with Uncharted!',
+        profession: 'Software Engineer',
     },
     {
         name: 'Pranjal Gupta',
         avatarUrl: 'https://picsum.photos/seed/pranjal/100/100',
         rating: 5,
-        tour: 'Sar Pass Trek',
-        quote: 'First time doing a snow trek and I was nervous but the guides made it super easy. Crossed actual snow patches which was crazy. Views from the top were insane!',
-        profession: 'CA'
+        tour: 'Hampta Pass Trek',
+        quote: 'Kapil was more than just a guide; he was a mentor on the trail. The way he handled our group through the snow sections showed his years of experience. Truly an unforgettable journey.',
+        profession: 'Finance Professional',
     },
     {
         name: 'Nidhi Tripathi',
@@ -33,192 +34,73 @@ const customerReviews: CustomerReview[] = [
         rating: 5,
         tour: 'Kheerganga Trek',
         quote: 'Such a beautiful trek, perfect for beginners. The hot springs at the top were the highlight for me. Would totally do it again with friends.',
-        profession: 'Teacher'
+        profession: 'Teacher',
     }
 ];
 
-const ReviewCard: React.FC<{ review: CustomerReview }> = ({ review }) => (
-    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg h-[280px] sm:h-[300px] flex flex-col">
-        <div className="flex items-center mb-4">
-            <img
-                src={review.avatarUrl}
-                alt={review.name}
-                className="w-12 h-12 rounded-full mr-4 object-cover"
-                loading="lazy"
-            />
-            <div>
-                <p className="font-bold text-gray-900 text-sm sm:text-base">{review.name}</p>
-                <p className="text-xs sm:text-sm text-gray-600">
-                    {review.profession && <span className="font-medium">{review.profession} &bull; </span>}
-                    {review.tour}
-                </p>
-            </div>
-        </div>
-
-        <div className="flex mb-4">
-            {[...Array(5)].map((_, i) => (
-                <Star
-                    key={i}
-                    className={`w-4 h-4 sm:w-5 sm:h-5 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                        }`}
-                />
-            ))}
-        </div>
-
-        <p className="text-gray-700 italic text-sm sm:text-base leading-relaxed flex-grow">
-            "{review.quote}"
-        </p>
-    </div>
-);
-
 const ReviewsSection: React.FC = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-    const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
-    const minSwipeDistance = 50;
-
-    const goToPrevious = useCallback(() => {
-        const isFirstSlide = currentIndex === 0;
-        const newIndex = isFirstSlide ? customerReviews.length - 1 : currentIndex - 1;
-        setCurrentIndex(newIndex);
-    }, [currentIndex]);
-
-    const goToNext = useCallback(() => {
-        const isLastSlide = currentIndex === customerReviews.length - 1;
-        const newIndex = isLastSlide ? 0 : currentIndex + 1;
-        setCurrentIndex(newIndex);
-    }, [currentIndex]);
-
-    // Auto-advance slides (slower than guides section)
-    useEffect(() => {
-        if (isPaused) return;
-        const timer = setInterval(() => {
-            goToNext();
-        }, 5000); // 5 seconds for reviews
-        return () => {
-            clearInterval(timer);
-        };
-    }, [isPaused, currentIndex, goToNext]);
-
-    // Touch handlers for mobile swipe
-    const onTouchStart = (e: React.TouchEvent) => {
-        setTouchEnd(null);
-        setTouchStart(e.targetTouches[0].clientX);
-    };
-
-    const onTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX);
-    };
-
-    const onTouchEnd = () => {
-        if (!touchStart || !touchEnd) return;
-
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe) {
-            goToNext();
-        } else if (isRightSwipe) {
-            goToPrevious();
-        }
-    };
-
-    const getCardStyle = (index: number) => {
-        const total = customerReviews.length;
-        const prevIndex = (currentIndex - 1 + total) % total;
-        const nextIndex = (currentIndex + 1) % total;
-
-        let styles = 'absolute top-0 w-full max-w-xs sm:max-w-md transform transition-all duration-500 ease-out';
-
-        if (index === currentIndex) {
-            // Active card - centered and full scale
-            styles += ' scale-100 opacity-100 z-20 left-1/2 -translate-x-1/2';
-        } else if (index === prevIndex) {
-            // Previous card - left side, smaller and faded
-            styles += ' scale-90 opacity-60 z-10 left-1/2 -translate-x-[120%] sm:-translate-x-[140%]';
-        } else if (index === nextIndex) {
-            // Next card - right side, smaller and faded
-            styles += ' scale-90 opacity-60 z-10 left-1/2 translate-x-[20%] sm:translate-x-[40%]';
-        } else {
-            // Hidden cards
-            styles += ' scale-75 opacity-0 z-0 left-1/2 -translate-x-1/2';
-        }
-
-        return styles;
-    };
-
     return (
         <section
-            className="relative py-16 sm:py-20 md:py-24 bg-cover bg-center bg-fixed overflow-hidden"
-            style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop)'
-            }}
+            className="forest-background border-t border-slate-800 px-6 md:px-12 lg:px-20 py-24 md:py-32 relative text-white"
             id="reviews"
         >
-            <div className="absolute inset-0 bg-black/50" />
-
-            <div className="relative container mx-auto px-4 text-center mb-8 sm:mb-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-                    <span className="text-yellow-400">Hear</span> From Our Travelers
-                </h2>
-
-                <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-                    Real experiences from trekkers who explored the Himalayas with our local guides.
-                </p>
-            </div>
-
-            <div
-                className="relative h-[350px] sm:h-[380px]"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-            >
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                    {customerReviews.map((review, index) => (
-                        <div key={index} className={getCardStyle(index)}>
-                            <div className="mx-4">
-                                <ReviewCard review={review} />
-                            </div>
-                        </div>
-                    ))}
+            <div className="max-w-6xl mx-auto relative z-10">
+                {/* Section Header */}
+                <div className="max-w-2xl mb-16">
+                    <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+                        Hear From Our <span className="italic text-yellow-400">Travelers</span>
+                    </h2>
+                    <p className="text-sm text-slate-300 mt-4 font-sans leading-relaxed">
+                        Real experiences from trekkers who explored the Himalayas with our local guides.
+                    </p>
                 </div>
 
-                {/* Navigation Buttons - Hidden on mobile, visible on larger screens */}
-                <button
-                    onClick={goToPrevious}
-                    className="hidden sm:flex absolute left-4 md:left-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
-                    aria-label="Previous Review"
-                >
-                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
-                </button>
-                <button
-                    onClick={goToNext}
-                    className="hidden sm:flex absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 bg-white/80 rounded-full shadow-md hover:bg-white transition items-center justify-center"
-                    aria-label="Next Review"
-                >
-                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
-                </button>
-            </div>
+                <CardCarousel
+                    label="Traveler reviews"
+                    interval={5000}
+                    items={customerReviews.map(review => ({
+                        id: review.name,
+                        label: review.name,
+                        content: (
+                            <article
+                                className="w-full border border-slate-700 bg-slate-800/95 p-4 sm:p-8 flex flex-col justify-between hover:border-yellow-400/40 transition duration-200 shadow-xl"
+                            >
+                                <div>
+                                    <div className="flex items-center gap-1 mb-4 sm:mb-6">
+                                        {[...Array(review.rating)].map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                        ))}
+                                    </div>
 
-            {/* Much Smaller Dots for Mobile */}
-            <div className="relative flex justify-center items-center space-x-1 sm:space-x-1.5 mt-6">
-                {customerReviews.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setCurrentIndex(index)}
-                        style={{ minWidth: 0, minHeight: 0 }}
-                        className={`rounded-full transition-all duration-300 flex-shrink-0 p-0 !min-w-0 !min-h-0 ${currentIndex === index
-                            ? 'bg-yellow-400 !w-[10px] !h-[10px] sm:!w-[12px] sm:!h-[12px] md:!w-[14px] md:!h-[14px]'
-                            : 'bg-white/50 !w-[8px] !h-[8px] sm:!w-[10px] sm:!h-[10px] md:!w-[12px] md:!h-[12px] hover:bg-white/70'
-                            }`}
-                        aria-label={`Go to review ${index + 1}`}
-                    />
-                ))}
+                                    <p className="font-display text-base sm:text-xl font-normal italic text-slate-200 leading-relaxed mb-5 sm:mb-8">
+                                        "{review.quote}"
+                                    </p>
+                                </div>
+
+                                <div className="pt-4 sm:pt-6 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={review.avatarUrl}
+                                            alt={review.name}
+                                            loading="lazy"
+                                            className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 object-cover border border-slate-700"
+                                        />
+                                        <div>
+                                            <p className="text-sm font-sans font-medium text-white">{review.name}</p>
+                                            <p className="text-xs font-sans text-slate-400">
+                                                {review.profession}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <span className="text-xs px-2.5 py-1 border border-yellow-400/30 text-yellow-400 bg-yellow-400/10 font-sans font-semibold">
+                                        {review.tour}
+                                    </span>
+                                </div>
+                            </article>
+                        ),
+                    }))}
+                />
             </div>
         </section>
     );

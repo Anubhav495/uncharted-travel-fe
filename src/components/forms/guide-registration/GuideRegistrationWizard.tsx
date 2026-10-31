@@ -165,21 +165,21 @@ const GuideRegistrationWizard: React.FC = () => {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-12 shadow-2xl flex flex-col items-center"
+                    className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/80 p-12 shadow-2xl flex flex-col items-center"
                 >
-                    <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mb-6">
-                        <CheckCircle className="w-12 h-12 text-green-500" />
+                    <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-6">
+                        <CheckCircle className="w-10 h-10 text-emerald-400" />
                     </div>
-                    <h2 className="text-3xl font-bold text-white mb-4">Application Submitted!</h2>
-                    <p className="text-gray-300 text-lg mb-2">
+                    <h2 className="text-3xl font-display font-normal text-white mb-4">Application Submitted!</h2>
+                    <p className="text-slate-300 text-lg mb-2 font-sans">
                         Your application is currently under review.
                     </p>
-                    <p className="text-gray-400 text-base mb-8">
+                    <p className="text-slate-400 text-sm mb-8 font-sans">
                         We will send you an email once your profile has been approved. Redirecting you to the home page...
                     </p>
-                    <div className="w-full bg-gray-700 rounded-full h-2 max-w-xs overflow-hidden">
+                    <div className="w-full bg-slate-700 h-1.5 max-w-xs overflow-hidden">
                         <motion.div
-                            className="h-full bg-green-500"
+                            className="h-full bg-yellow-400"
                             initial={{ width: "0%" }}
                             animate={{ width: "100%" }}
                             transition={{ duration: 3, ease: "linear" }}
@@ -194,12 +194,12 @@ const GuideRegistrationWizard: React.FC = () => {
         <div className="max-w-2xl mx-auto">
             {/* Progress Bar */}
             <div className="mb-8">
-                <div className="flex justify-between text-sm font-medium text-gray-400 mb-2">
-                    <span className={step >= 1 ? "text-yellow-400" : ""}>Account</span>
-                    <span className={step >= 2 ? "text-yellow-400" : ""}>Profile</span>
-                    <span className={step >= 3 ? "text-yellow-400" : ""}>Experience</span>
+                <div className="flex justify-between text-xs font-sans uppercase tracking-wider text-slate-400 mb-2 font-medium">
+                    <span className={step >= 1 ? "text-yellow-400 font-semibold" : ""}>Account</span>
+                    <span className={step >= 2 ? "text-yellow-400 font-semibold" : ""}>Profile</span>
+                    <span className={step >= 3 ? "text-yellow-400 font-semibold" : ""}>Experience</span>
                 </div>
-                <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                <div className="h-1 bg-slate-800 overflow-hidden border border-slate-700/50">
                     <motion.div
                         className="h-full bg-yellow-400"
                         initial={{ width: "33%" }}
@@ -217,7 +217,7 @@ const GuideRegistrationWizard: React.FC = () => {
                         e.preventDefault();
                     }
                 }}
-                className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-4 sm:p-8 shadow-2xl"
+                className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/80 p-6 sm:p-10 shadow-2xl"
             >
                 <AnimatePresence mode="wait">
                     {step === 1 && (
@@ -228,48 +228,48 @@ const GuideRegistrationWizard: React.FC = () => {
                             exit={{ opacity: 0, x: -20 }}
                             className="space-y-6"
                         >
-                            <h2 className="text-2xl font-bold text-white mb-6">Let's get you started</h2>
+                            <h2 className="text-2xl font-display font-normal text-white mb-6">Let's get you started</h2>
 
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                                    <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">Full Name</label>
                                     <input
                                         type="text"
-                                        className={`w-full bg-gray-800 border ${errors.fullName ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                        className={`w-full bg-slate-900/90 border ${errors.fullName ? 'border-rose-500' : 'border-slate-700'} px-4 py-3 text-white placeholder-slate-500 focus:border-yellow-400 outline-none transition-all text-sm font-sans`}
                                         placeholder="e.g. Rahul Sharma"
                                         {...register('fullName')}
                                     />
                                     {errors.fullName && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+                                        <p className="text-rose-400 text-xs mt-1 font-sans">{errors.fullName.message}</p>
                                     )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                                    <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">Email Address</label>
                                     <input
                                         type="email"
-                                        className={`w-full bg-gray-800 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                        className={`w-full bg-slate-900/90 border ${errors.email ? 'border-rose-500' : 'border-slate-700'} px-4 py-3 text-white placeholder-slate-500 focus:border-yellow-400 outline-none transition-all text-sm font-sans`}
                                         placeholder="rahul@example.com"
                                         {...register('email')}
                                     />
                                     {errors.email && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                                        <p className="text-rose-400 text-xs mt-1 font-sans">{errors.email.message}</p>
                                     )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+                                    <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">Phone Number</label>
                                     <div className="relative">
-                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium border-r border-gray-600 pr-3">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium border-r border-slate-700 pr-3 text-sm font-sans">
                                             +91
                                         </div>
                                         <input
                                             type="tel"
-                                            className={`w-full bg-gray-800 border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded-lg pl-16 pr-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                            className={`w-full bg-slate-900/90 border ${errors.phone ? 'border-rose-500' : 'border-slate-700'} pl-16 pr-4 py-3 text-white placeholder-slate-500 focus:border-yellow-400 outline-none transition-all text-sm font-sans`}
                                             placeholder="98765 43210"
                                             {...register('phone')}
                                         />
                                     </div>
                                     {errors.phone && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                                        <p className="text-rose-400 text-xs mt-1 font-sans">{errors.phone.message}</p>
                                     )}
                                 </div>
 
@@ -285,44 +285,44 @@ const GuideRegistrationWizard: React.FC = () => {
                             exit={{ opacity: 0, x: -20 }}
                             className="space-y-6"
                         >
-                            <h2 className="text-2xl font-bold text-white mb-6">Where are you based?</h2>
+                            <h2 className="text-2xl font-display font-normal text-white mb-6">Where are you based?</h2>
 
                             <div className="space-y-4">
                                 <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-300 mb-1">City</label>
+                                        <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">City</label>
                                         <input
                                             type="text"
-                                            className={`w-full bg-gray-800 border ${errors.city ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                            className={`w-full bg-slate-900/90 border ${errors.city ? 'border-rose-500' : 'border-slate-700'} px-4 py-3 text-white placeholder-slate-500 focus:border-yellow-400 outline-none transition-all text-sm font-sans`}
                                             placeholder="e.g. Manali"
                                             {...register('city')}
                                         />
                                         {errors.city && (
-                                            <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>
+                                            <p className="text-rose-400 text-xs mt-1 font-sans">{errors.city.message}</p>
                                         )}
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-300 mb-1">State</label>
+                                        <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">State</label>
                                         <input
                                             type="text"
-                                            className={`w-full bg-gray-800 border ${errors.state ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                            className={`w-full bg-slate-900/90 border ${errors.state ? 'border-rose-500' : 'border-slate-700'} px-4 py-3 text-white placeholder-slate-500 focus:border-yellow-400 outline-none transition-all text-sm font-sans`}
                                             placeholder="e.g. Himachal Pradesh"
                                             {...register('state')}
                                         />
                                         {errors.state && (
-                                            <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
+                                            <p className="text-rose-400 text-xs mt-1 font-sans">{errors.state.message}</p>
                                         )}
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">Profile Photo</label>
-                                    <div className="border-2 border-dashed border-gray-700 rounded-xl p-8 text-center hover:border-yellow-400/50 transition-colors cursor-pointer bg-gray-800/50">
-                                        <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
-                                            <Upload className="w-8 h-8" />
+                                    <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-2 font-medium">Profile Photo</label>
+                                    <div className="border border-dashed border-slate-700 hover:border-yellow-400/60 p-8 text-center transition-colors cursor-pointer bg-slate-900/50">
+                                        <div className="w-12 h-12 bg-slate-800 border border-slate-700 flex items-center justify-center mx-auto mb-3 text-yellow-400">
+                                            <Upload className="w-5 h-5" />
                                         </div>
-                                        <p className="text-sm text-gray-300 font-medium">Click to upload or drag and drop</p>
-                                        <p className="text-xs text-gray-500 mt-1">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                                        <p className="text-sm text-slate-200 font-medium font-sans">Click to upload or drag and drop</p>
+                                        <p className="text-xs text-slate-400 mt-1 font-sans">SVG, PNG, JPG or GIF (max. 800x400px)</p>
                                     </div>
                                 </div>
                             </div>
@@ -337,13 +337,13 @@ const GuideRegistrationWizard: React.FC = () => {
                             exit={{ opacity: 0, x: -20 }}
                             className="space-y-6"
                         >
-                            <h2 className="text-2xl font-bold text-white mb-6">Your Expertise</h2>
+                            <h2 className="text-2xl font-display font-normal text-white mb-6">Your Expertise</h2>
 
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">Years of Experience</label>
+                                    <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">Years of Experience</label>
                                     <select
-                                        className={`w-full bg-gray-800 border ${errors.yearsExperience ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all appearance-none`}
+                                        className={`w-full bg-slate-900/90 border ${errors.yearsExperience ? 'border-rose-500' : 'border-slate-700'} px-4 py-3 text-white focus:border-yellow-400 outline-none transition-all appearance-none text-sm font-sans`}
                                         {...register('yearsExperience')}
                                     >
                                         <option value="">Select experience...</option>
@@ -353,20 +353,20 @@ const GuideRegistrationWizard: React.FC = () => {
                                         <option value="10+">10+ years</option>
                                     </select>
                                     {errors.yearsExperience && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.yearsExperience.message}</p>
+                                        <p className="text-rose-400 text-xs mt-1 font-sans">{errors.yearsExperience.message}</p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">Languages Spoken</label>
+                                    <label className="block text-xs font-sans uppercase tracking-wider text-slate-300 mb-1.5 font-medium">Languages Spoken</label>
                                     <input
                                         type="text"
-                                        className={`w-full bg-gray-800 border ${errors.languages ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-transparent outline-none transition-all`}
+                                        className={`w-full bg-slate-900/90 border ${errors.languages ? 'border-rose-500' : 'border-slate-700'} px-4 py-3 text-white placeholder-slate-500 focus:border-yellow-400 outline-none transition-all text-sm font-sans`}
                                         placeholder="e.g. English, Hindi, Pahari"
                                         {...register('languages')}
                                     />
                                     {errors.languages && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.languages.message}</p>
+                                        <p className="text-rose-400 text-xs mt-1 font-sans">{errors.languages.message}</p>
                                     )}
                                 </div>
 
@@ -380,14 +380,14 @@ const GuideRegistrationWizard: React.FC = () => {
                 </AnimatePresence>
 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between mt-8 pt-6 border-t border-gray-800">
+                <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-700/70">
                     {step > 1 ? (
                         <button
                             type="button"
                             onClick={prevStep}
-                            className="flex items-center text-gray-400 hover:text-white transition-colors font-medium"
+                            className="flex items-center text-slate-400 hover:text-white transition-colors font-sans text-xs uppercase tracking-wider font-semibold cursor-pointer"
                         >
-                            <ChevronLeft className="w-5 h-5 mr-1" />
+                            <ChevronLeft className="w-4 h-4 mr-1" />
                             Back
                         </button>
                     ) : (
@@ -402,19 +402,19 @@ const GuideRegistrationWizard: React.FC = () => {
                                 e.stopPropagation();
                                 nextStep();
                             }}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg transition-all flex items-center"
+                            className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-sans text-xs uppercase tracking-widest font-bold py-3.5 px-8 transition-all flex items-center shadow-lg shadow-yellow-400/10 cursor-pointer"
                         >
                             Next Step
-                            <ChevronRight className="w-5 h-5 ml-1" />
+                            <ChevronRight className="w-4 h-4 ml-1.5" />
                         </button>
                     ) : (
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-all flex items-center shadow-lg hover:shadow-green-500/20"
+                            className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-sans text-xs uppercase tracking-widest font-bold py-3.5 px-8 transition-all flex items-center shadow-lg shadow-yellow-400/10 cursor-pointer disabled:opacity-50"
                         >
                             {isSubmitting ? 'Submitting...' : user ? 'Complete Registration' : 'Sign in & Complete'}
-                            <CheckCircle className="w-5 h-5 ml-2" />
+                            <CheckCircle className="w-4 h-4 ml-2" />
                         </button>
                     )}
                 </div>

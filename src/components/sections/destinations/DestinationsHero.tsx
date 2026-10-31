@@ -1,14 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 
-
 const DestinationsHero: React.FC = () => {
     return (
-        <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-900">
-            {/* Background Image with CSS Mask for smooth fade */}
-            <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]">
-                <div className="absolute inset-0 bg-black/40 z-10" />
-                <div className="w-full h-full transform scale-105 animate-slow-zoom relative">
+        <section className="relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden bg-slate-900 text-white pt-20">
+            {/* Background Image with Dark Fade */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/30 to-slate-900 z-10" />
+                <div className="w-full h-full relative opacity-70">
                     <Image
                         src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop"
                         alt="Himalayan Mountains"
@@ -20,15 +19,14 @@ const DestinationsHero: React.FC = () => {
             </div>
 
             {/* Content */}
-            <div className="relative z-20 container mx-auto px-4 text-center">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight [text-shadow:0_4px_8px_rgb(0_0_0_/_0.5)]">
-                    Find Your Next <span className="text-yellow-400">Expedition</span>
+            <div className="relative z-20 container mx-auto px-6 text-center max-w-4xl py-16">
+                <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight text-white mb-6">
+                    Find Your Next <span className="italic text-yellow-400">Expedition</span>
                 </h1>
-                <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+
+                <p className="font-sans text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
                     Explore the uncharted territories of the Himalayas. Handpicked trails, expert local guides, and unforgettable stories.
                 </p>
-
-
             </div>
         </section>
     );
