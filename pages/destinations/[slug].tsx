@@ -1,16 +1,79 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd, BreadcrumbJsonLd } from 'next-seo';
+import Link from 'next/link';
 import TrekImage from '@/components/ui/TrekImage';
-import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight, ArrowLeft, Mountain, Calendar, Compass } from 'lucide-react';
 import { treks } from '@/data/treks';
+import { Trek } from '@/types/trek';
 import GuideCard from '@/components/ui/GuideCard';
 import CompanyCard from '@/components/ui/CompanyCard';
 import GalleryPreview from '@/components/ui/GalleryPreview';
 import TrekItinerary from '@/components/ui/TrekItinerary';
-import BookingModal, { BookingFormData, BookingPreference } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
+import BookingModal, { BookingFormData, BookingPreference } from '@/components/modals/booking/BookingModal';
 import { useToast } from '@/context/ToastContext';
 import { useAuth } from '@/context/AuthContext';
+
+/** Build FAQ items from trek data — only facts present in code, never invented. */
+function buildFaqItems(trek: Trek) {
+    const items: { q: string; a: string }[] = [];
+
+    // Q1: Price
+    items.push({
+        q: `How much does the ${trek.title} cost?`,
+        a: `The ${trek.title} starts at ${trek.price} per person. This includes the services of your local guide and the trek experience itself. Contact us for group pricing and exact inclusions.`,
+    });
+
+    // Q2: Duration
+    items.push({
+        q: `How many days is the ${trek.title}?`,
+        a: `The ${trek.title} is ${trek.duration}. ${trek.itinerary && trek.itinerary.length > 0 ? `The route covers ${trek.itinerary.length} stages from ${trek.itinerary[0].title} to ${trek.itinerary[trek.itinerary.length - 1].title}.` : ''}`,
+    });
+
+    // Q3: Difficulty
+    items.push({
+        q: `How difficult is the ${trek.title}?`,
+        a: `The ${trek.title} is rated ${trek.difficulty}. ${trek.difficulty === 'Easy' ? 'It is suitable for first-time trekkers and families with basic fitness.' : trek.difficulty === 'Moderate' ? 'You should have a basic level of fitness and some trekking experience. No technical climbing is required.' : trek.difficulty === 'Hard' ? 'This trek requires good physical fitness, prior trekking experience, and some high-altitude exposure. It is not recommended for beginners.' : 'This is an expert-level trek requiring excellent fitness, high-altitude experience, and technical skills.'}`,
+    });
+
+    // Q4: Max altitude (if available)
+    if (trek.maxAltitude) {
+        items.push({
+            q: `What is the maximum altitude of the ${trek.title}?`,
+            a: `The highest point of the ${trek.title} is ${trek.maxAltitude}. ${trek.difficulty === 'Moderate' || trek.difficulty === 'Hard' || trek.difficulty === 'Expert' ? 'Acclimatisation is important — take it slow and stay hydrated.' : ''}`,
+        });
+    }
+
+    // Q5: Best time (if available)
+    if (trek.bestTimeToVisit) {
+        items.push({
+            q: `When is the best time to do the ${trek.title}?`,
+            a: `The best time to do the ${trek.title} is ${trek.bestTimeToVisit}. Conditions and trail accessibility can vary — your guide will confirm before departure.`,
+        });
+    }
+
+    // Q6: Starting point
+    items.push({
+        q: `Where does the ${trek.title} start?`,
+        a: trek.basecamp
+            ? `The ${trek.title} starts from ${trek.basecamp}, located in ${trek.location}.`
+            : `The ${trek.title} is located in ${trek.location}. Contact us for the exact trailhead details and how to reach the starting point.`,
+    });
+
+    return items;
+}
+
+// Related trek suggestions (same region or similar difficulty)
+function getRelatedTreks(current: Trek) {
+    return treks
+        .filter(
+            (t) =>
+                t.slug !== current.slug &&
+                (t.location.split(',')[0] === current.location.split(',')[0] ||
+                    t.difficulty === current.difficulty),
+        )
+        .slice(0, 2);
+}
 
 const TrekDetailsPage = () => {
     const router = useRouter();
@@ -149,17 +212,37 @@ const TrekDetailsPage = () => {
         }
     };
 
+    const faqItems = buildFaqItems(trek);
+    const relatedTreks = getRelatedTreks(trek);
+
+    // FAQ JSON-LD
+    const faqJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.a,
+            },
+        })),
+    };
+
+    // Clean price number for ProductJsonLd
+    const priceNumeric = trek.price.replace(/[^\d.]/g, '').split('/')[0].trim();
+
     return (
         <>
-            <NextSeo 
+            <NextSeo
                 title={trek.title}
-                description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}.`}
+                description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}. ${trek.duration} · ${trek.difficulty} · ${trek.price}.`}
                 canonical={`https://unchartedtravel.in/destinations/${trek.slug}`}
                 openGraph={{
                     images: trek.image ? [
                         {
                             url: `https://unchartedtravel.in${trek.image}`,
-                            alt: trek.title,
+                            alt: `${trek.title} — ${trek.location}`,
                         }
                     ] : []
                 }}
@@ -171,18 +254,23 @@ const TrekDetailsPage = () => {
                     { position: 3, name: trek.title, item: `https://unchartedtravel.in/destinations/${trek.slug}` }
                 ]}
             />
-            <ProductJsonLd 
+            <ProductJsonLd
                 productName={trek.title}
                 images={trek.image ? [`https://unchartedtravel.in${trek.image}`] : undefined}
                 description={trek.overview}
                 brand="Uncharted Travel"
                 offers={{
-                    price: trek.price.replace(/[^0-9.-]+/g,""),
+                    price: priceNumeric,
                     priceCurrency: 'INR',
                     availability: 'https://schema.org/InStock',
                     url: `https://unchartedtravel.in/destinations/${trek.slug}`,
                     seller: { name: 'Uncharted Travel' }
                 }}
+            />
+            {/* FAQ JSON-LD — answers also visible in page body below */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
             />
 
             <main className="bg-slate-900 min-h-screen pb-24 text-white border-b border-slate-800">
@@ -190,7 +278,7 @@ const TrekDetailsPage = () => {
                 <section className="relative h-[70vh] min-h-[520px]">
                     <TrekImage
                         src={trek.image}
-                        alt={trek.title}
+                        alt={`${trek.title} trail — ${trek.location}`}
                         fill
                         className={`object-cover ${trek.imagePosition === 'top' ? 'object-top' :
                                 trek.imagePosition === 'bottom' ? 'object-bottom' :
@@ -232,6 +320,66 @@ const TrekDetailsPage = () => {
 
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-14">
+
+                        {/* GEO: Direct answer first — for AI crawlers and featured snippets */}
+                        <section className="border-l-4 border-yellow-400 pl-4 py-1">
+                            <p className="text-base sm:text-lg leading-relaxed text-slate-200 font-sans font-normal">
+                                The <strong className="text-white">{trek.title}</strong> is a <strong className="text-white">{trek.difficulty.toLowerCase()}</strong> {trek.duration.toLowerCase()} trek in <strong className="text-white">{trek.location}</strong>, starting at <strong className="text-white">{trek.price}</strong> per person.
+                                {trek.maxAltitude && ` It reaches a maximum altitude of ${trek.maxAltitude}.`}
+                                {trek.bestTimeToVisit && ` The best time to trek is ${trek.bestTimeToVisit}.`}
+                            </p>
+                            <p className="text-xs text-slate-500 font-sans mt-3">
+                                Last updated: November 2026
+                            </p>
+                        </section>
+
+                        {/* Quick Facts block */}
+                        <section>
+                            <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Quick Facts</h2>
+                            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs font-sans">
+                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                    <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Clock className="w-3 h-3 text-yellow-400" /> Duration</dt>
+                                    <dd className="text-white font-semibold">{trek.duration}</dd>
+                                </div>
+                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                    <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><TrendingUp className="w-3 h-3 text-yellow-400" /> Difficulty</dt>
+                                    <dd className="text-white font-semibold">{trek.difficulty}</dd>
+                                </div>
+                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                    <dt className="text-slate-400 uppercase tracking-wider mb-1">Price</dt>
+                                    <dd className="text-yellow-400 font-bold text-sm">{trek.price}</dd>
+                                </div>
+                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                    <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><MapPin className="w-3 h-3 text-yellow-400" /> Location</dt>
+                                    <dd className="text-white font-semibold">{trek.location}</dd>
+                                </div>
+                                {trek.maxAltitude && (
+                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                        <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Mountain className="w-3 h-3 text-yellow-400" /> Max Altitude</dt>
+                                        <dd className="text-white font-semibold">{trek.maxAltitude}</dd>
+                                    </div>
+                                )}
+                                {trek.basecamp && (
+                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                        <dt className="text-slate-400 uppercase tracking-wider mb-1">Basecamp</dt>
+                                        <dd className="text-white font-semibold">{trek.basecamp}</dd>
+                                    </div>
+                                )}
+                                {trek.trekDistance && (
+                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                        <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Compass className="w-3 h-3 text-yellow-400" /> Distance</dt>
+                                        <dd className="text-white font-semibold">{trek.trekDistance}</dd>
+                                    </div>
+                                )}
+                                {trek.bestTimeToVisit && (
+                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
+                                        <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Calendar className="w-3 h-3 text-yellow-400" /> Best Time</dt>
+                                        <dd className="text-white font-semibold">{trek.bestTimeToVisit}</dd>
+                                    </div>
+                                )}
+                            </dl>
+                        </section>
+
                         {/* Overview */}
                         <section>
                             <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Overview</h2>
@@ -258,6 +406,41 @@ const TrekDetailsPage = () => {
                             <TrekItinerary itinerary={trek.itinerary} />
                         )}
 
+                        {/* Inclusions & Exclusions */}
+                        {(trek.inclusions || trek.exclusions) && (
+                            <section>
+                                <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">Inclusions &amp; Exclusions</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    {trek.inclusions && trek.inclusions.length > 0 && (
+                                        <div>
+                                            <h3 className="text-sm font-sans font-semibold text-green-400 uppercase tracking-wider mb-3">Included</h3>
+                                            <ul className="space-y-2">
+                                                {trek.inclusions.map((item) => (
+                                                    <li key={item} className="flex items-start gap-2 text-sm font-sans text-slate-300">
+                                                        <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {trek.exclusions && trek.exclusions.length > 0 && (
+                                        <div>
+                                            <h3 className="text-sm font-sans font-semibold text-rose-400 uppercase tracking-wider mb-3">Not Included</h3>
+                                            <ul className="space-y-2">
+                                                {trek.exclusions.map((item) => (
+                                                    <li key={item} className="flex items-start gap-2 text-sm font-sans text-slate-400">
+                                                        <span className="text-rose-400 font-bold shrink-0 mt-0.5">✕</span>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            </section>
+                        )}
+
                         {/* Gallery Preview */}
                         {trek.gallery && trek.gallery.length > 0 && (
                             <GalleryPreview
@@ -270,7 +453,7 @@ const TrekDetailsPage = () => {
                         {/* Trekking Options */}
                         {(totalGuides > 0 || totalCompanies > 0) ? (
                             <section>
-                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-4 border-yellow-400 pl-4">Local Guides & Operators</h2>
+                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-4 border-yellow-400 pl-4">Local Guides &amp; Operators</h2>
 
                                 {totalGuides > 0 && totalCompanies > 0 && (
                                     <div className="mb-6 flex gap-2 border border-slate-700 bg-slate-800 p-1 w-full sm:w-auto inline-flex">
@@ -303,7 +486,7 @@ const TrekDetailsPage = () => {
                                 {/* Pagination Controls */}
                                 {activeTab === 'guides' && totalGuidePages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button 
+                                        <button
                                             disabled={guidePage === 1}
                                             onClick={() => setGuidePage(p => p - 1)}
                                             className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 transition-all cursor-pointer font-medium"
@@ -311,7 +494,7 @@ const TrekDetailsPage = () => {
                                             Previous
                                         </button>
                                         <span className="text-xs font-sans text-slate-400">Page {guidePage} of {totalGuidePages}</span>
-                                        <button 
+                                        <button
                                             disabled={guidePage === totalGuidePages}
                                             onClick={() => setGuidePage(p => p + 1)}
                                             className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 transition-all cursor-pointer font-medium"
@@ -329,6 +512,56 @@ const TrekDetailsPage = () => {
                                 )}
                             </section>
                         ) : null}
+
+                        {/* FAQ Section — visible text (mirrors FAQ JSON-LD above) */}
+                        <section id="faq">
+                            <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">
+                                Frequently Asked Questions
+                            </h2>
+                            <div className="space-y-4">
+                                {faqItems.map((item) => (
+                                    <div key={item.q} className="border border-slate-700 bg-slate-800/50 p-5">
+                                        <h3 className="font-sans font-semibold text-white text-sm mb-2">{item.q}</h3>
+                                        <p className="font-sans text-slate-300 text-sm leading-relaxed">{item.a}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Internal links — related treks + back to catalogue + gallery */}
+                        <section>
+                            <h2 className="font-display text-2xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">
+                                Explore More
+                            </h2>
+                            <div className="flex flex-wrap gap-3">
+                                <Link
+                                    href="/destinations"
+                                    className="inline-flex items-center gap-2 border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 px-4 py-2.5 text-xs font-sans uppercase tracking-wider transition-all"
+                                >
+                                    <ArrowLeft className="w-3.5 h-3.5" />
+                                    <span>All Treks</span>
+                                </Link>
+                                {trek.gallery && trek.gallery.length > 0 && (
+                                    <Link
+                                        href={`/destinations/${trek.slug}/gallery`}
+                                        className="inline-flex items-center gap-2 border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 px-4 py-2.5 text-xs font-sans uppercase tracking-wider transition-all"
+                                    >
+                                        <span>View Photo Gallery</span>
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </Link>
+                                )}
+                                {relatedTreks.map((related) => (
+                                    <Link
+                                        key={related.slug}
+                                        href={`/destinations/${related.slug}`}
+                                        className="inline-flex items-center gap-2 border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 px-4 py-2.5 text-xs font-sans uppercase tracking-wider transition-all"
+                                    >
+                                        <span>{related.title}</span>
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
                     </div>
 
                     {/* Sidebar / CTA */}
@@ -352,6 +585,18 @@ const TrekDetailsPage = () => {
                                         <span className="text-slate-400">Price</span>
                                         <span className="text-base text-yellow-400 font-bold">{trek.price}</span>
                                     </div>
+                                    {trek.maxAltitude && (
+                                        <div className="flex justify-between items-center py-2.5 border-b border-slate-700/60">
+                                            <span className="text-slate-400">Max Altitude</span>
+                                            <span className="text-slate-200">{trek.maxAltitude}</span>
+                                        </div>
+                                    )}
+                                    {trek.bestTimeToVisit && (
+                                        <div className="flex justify-between items-center py-2.5 border-b border-slate-700/60">
+                                            <span className="text-slate-400">Best Time</span>
+                                            <span className="text-slate-200">{trek.bestTimeToVisit}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 

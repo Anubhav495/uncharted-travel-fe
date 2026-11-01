@@ -42,7 +42,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="metadata"
             >
                 <source src="/assets/spiti-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
                 <source src="/assets/spiti.mp4" type="video/mp4" />

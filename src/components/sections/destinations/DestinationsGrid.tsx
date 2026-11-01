@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Search } from 'lucide-react';
 import TrekCard from '@/components/ui/TrekCard';
 import { treks } from '@/data/treks';
@@ -177,6 +178,14 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
                         <p className="text-slate-400 font-display text-xl sm:text-2xl italic">
                             More Himalayan destinations coming soon.
                         </p>
+                        <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs font-sans uppercase tracking-wider">
+                            <Link href="/guides" className="border border-slate-700 bg-slate-800 hover:border-yellow-400/50 hover:text-yellow-400 px-5 py-2.5 text-slate-300 transition-colors">
+                                Meet Our Mountain Guides &rarr;
+                            </Link>
+                            <Link href="/articles" className="border border-slate-700 bg-slate-800 hover:border-yellow-400/50 hover:text-yellow-400 px-5 py-2.5 text-slate-300 transition-colors">
+                                Route Guides &amp; Cost Breakdowns &rarr;
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>

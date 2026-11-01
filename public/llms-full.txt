@@ -1,0 +1,260 @@
+# Uncharted Travel — llms-full.txt
+# Full detail version — generated from src/data/treks/ — November 2026
+# For AI search engines and language models requiring complete trip data.
+
+> Uncharted Travel connects trekkers with verified local mountain guides across Himachal Pradesh and Uttarakhand. Contact: hello@unchartedtravel.in | https://unchartedtravel.in
+
+---
+
+## TREK 1: Sar Pass Trek
+- URL: https://unchartedtravel.in/destinations/sar-pass-trek
+- Gallery: https://unchartedtravel.in/destinations/sar-pass-trek/gallery
+- Price: ₹6,500 per person
+- Duration: 5 Days
+- Difficulty: Moderate
+- Location: Parvati Valley, Himachal Pradesh
+- Guide: Pritam Negi (8 Years experience, English / Hindi / Pahadi)
+- Overview: Classic beginner-friendly trek in Parvati Valley. "Sar" means lake in the local dialect. Trail passes through pine forests, meadows, and villages with views of Himalayan peaks.
+- Itinerary:
+  - Day 1: Kasol to Grahan Village — 10 km, 7,700 ft
+  - Day 2: Grahan to Min Thach — 7 km, 11,200 ft
+  - Day 3: Min Thach to Nagaru — 8 km, 12,500 ft
+  - Day 4: Nagaru to Biskeri Thach via Sar Pass — 14 km, 13,800 ft (pass summit)
+  - Day 5: Biskeri Thach to Barshaini via Pulga — 6 km, 7,800 ft
+- Highlights: Pine and rhododendron forests; Parvati Valley views; Grahan Village culture; frozen Sar Lake at 13,800 ft; snow slide descent
+
+---
+
+## TREK 2: Hampta Pass Trek
+- URL: https://unchartedtravel.in/destinations/hampta-pass
+- Gallery: https://unchartedtravel.in/destinations/hampta-pass/gallery
+- Price: ₹9,500 per person
+- Duration: 5 Days / 4 Nights
+- Difficulty: Moderate
+- Location: Kullu & Lahaul Spiti, Himachal Pradesh
+- Basecamp: Manali, Himachal Pradesh
+- Max Altitude: 14,100 ft
+- Best Time: Mid June to October
+- Trek Distance: 25 km
+- Guide: Pritam Negi (8 Years experience, English / Hindi / Pahadi)
+- Overview: Most dramatic crossover trek in the Himalayas — connects lush Kullu Valley with barren Lahaul. Sudden shift in scenery from forests to cold desert.
+- Itinerary:
+  - Day 1: Manali to Jobra (drive), trek to Chika — 2 km, 10,100 ft
+  - Day 2: Chika to Balu Ka Ghera — 8.5 km, 11,900 ft
+  - Day 3: Balu Ka Ghera to Shea Goru via Hampta Pass — 9 km, 12,900 ft (pass at 14,100 ft)
+  - Day 4: Shea Goru to Chhatru — 5 km, 11,000 ft
+  - Day 5: Chhatru to Chandratal (if roads open) and drive to Manali
+- Inclusions: Dome tents (2-3 sharing), hot vegetarian meals, trek leader, permits, microspikes/gaiters, first aid
+- Exclusions: Transport to/from Manali, backpack offloading, meals in transit, personal expenses/insurance
+
+---
+
+## TREK 3: Kedarkantha Trek
+- URL: https://unchartedtravel.in/destinations/kedarkantha-trek
+- Gallery: https://unchartedtravel.in/destinations/kedarkantha-trek/gallery
+- Price: ₹3,500 per person
+- Duration: 4 Days
+- Difficulty: Moderate
+- Location: Sankri, Uttarakhand
+- Guide: Kapil Rawat (8 Years experience, English / Hindi / Garhwali)
+- Overview: Finest winter trek in the Himalayas. Starting from Sankri, through pine forests, frozen lakes, and snow meadows. Summit at 12,500 ft with 360-degree views of Swargarohini, Black Peak, Bandarpoonch.
+- Itinerary:
+  - Day 1: Sankri to Juda-ka-Talab — 4 km, 9,100 ft
+  - Day 2: Juda-ka-Talab to Base Camp — 4 km, 11,250 ft
+  - Day 3: Summit (12,500 ft) and descent to Hargaon — 6 km
+  - Day 4: Hargaon to Sankri — 6 km, 6,400 ft
+- Highlights: Snowy summit climb; pine and oak forests; Juda-ka-Talab frozen lake; views of Swargarohini and Black Peak; stargazing
+
+---
+
+## TREK 4: Har Ki Dun Trek
+- URL: https://unchartedtravel.in/destinations/har-ki-dun-trek
+- Gallery: https://unchartedtravel.in/destinations/har-ki-dun-trek/gallery
+- Price: ₹4,500 per person
+- Duration: 5 Days
+- Difficulty: Moderate
+- Location: Sankri, Uttarakhand
+- Guide: Kapil Rawat (8 Years experience, English / Hindi / Garhwali)
+- Overview: "Valley of Gods" — historically significant trek in Govind Pashu Vihar National Park. Traces a path the Pandavas took to heaven. Ancient villages, rich flora, alpine meadows below glaciated peaks.
+- Itinerary:
+  - Day 1: Sankri to Pauni Garaat via Taluka — 10 km, 8,200 ft
+  - Day 2: Pauni Garaat to Kalkatiyadhaar (past Osla village) — 7 km, 8,950 ft
+  - Day 3: Kalkatiyadhaar to Har Ki Dun valley and back — 10 km, 11,700 ft
+  - Day 4: Kalkatiyadhaar to Pauni Garaat — 7 km, 8,200 ft
+  - Day 5: Pauni Garaat to Sankri — 10 km, 6,400 ft
+- Highlights: Valley of the Gods; Osla ancient wooden architecture; Supin River camping; Himalayan wildlife; Swargarohini peak views
+
+---
+
+## TREK 5: Rupin Pass Trek
+- URL: https://unchartedtravel.in/destinations/rupin-pass-trek
+- Gallery: https://unchartedtravel.in/destinations/rupin-pass-trek/gallery
+- Price: ₹15,500 per person
+- Duration: 7 Days
+- Difficulty: Hard
+- Location: Shimla, Himachal Pradesh (start) — Uttarakhand (finish)
+- Guide: Kapil Rawat (8 Years experience, English / Hindi / Garhwali)
+- Overview: Most diverse and visually stunning trek in India. Connects Himachal Pradesh to Uttarakhand. At 15,250 ft, the pass has dramatic snow walls, hanging meadows, glacial rivers, and the Rupin waterfall.
+- Itinerary:
+  - Day 1: Shimla to Jiskun via Rohru (drive) — 7,700 ft
+  - Day 2: Jiskun to Saruwas Thatch — 8 km, 9,800 ft
+  - Day 3: Saruwas Thatch to Upper Waterfall — 6 km, 11,800 ft
+  - Day 4: Upper Waterfall to Rati Pheri — 5 km, 13,600 ft
+  - Day 5: Rati Pheri to Rupin Pass (15,250 ft) to Ronti Gad — 10 km, 12,500 ft
+  - Day 6: Ronti Gad to Sangla Valley — 12 km, 8,600 ft
+  - Day 7: Sangla to Shimla (drive)
+
+---
+
+## TREK 6: Buni Buni Pass Trek
+- URL: https://unchartedtravel.in/destinations/buni-buni-pass
+- Gallery: https://unchartedtravel.in/destinations/buni-buni-pass/gallery
+- Price: ₹2,499 per person
+- Duration: 2-3 Days
+- Difficulty: Easy
+- Location: Parvati Valley, Himachal Pradesh
+- Guide: Pritam Negi (8 Years experience, English / Hindi / Pahadi)
+- Overview: Spectacular offbeat alternative to crowded Kheerganga. Alpine meadows, dense forests, panoramic views up to ~11,000 ft. Option to combine with Kheerganga hot springs descent.
+- Itinerary:
+  - Day 1: Kalga to Buni Buni Pass — 8 km, 10,980 ft
+  - Day 2: Buni Buni Pass to Kheerganga — 5 km, 9,700 ft
+  - Day 3: Kheerganga to Barshaini — 12 km, 7,400 ft
+
+---
+
+## TREK 7: Dev Roopa Trek
+- URL: https://unchartedtravel.in/destinations/dev-roopa-trek
+- Gallery: https://unchartedtravel.in/destinations/dev-roopa-trek/gallery
+- Price: ₹8,000 per person
+- Duration: 5 to 6 Days
+- Difficulty: Moderate
+- Location: Parvati Valley, Himachal Pradesh (Malana region)
+- Guides: Pritam Negi (8 Years) + Bhojraj (5 Years)
+- Overview: "Descent of God" — offbeat trek in Malana region. Vast pristine grasslands, high-altitude glacial streams, meadows at ~14,000 ft. Away from crowds.
+- Itinerary:
+  - Day 1: Kasol to Malana Dam, trek to Waichin
+  - Day 2: Waichin to Mota Grahan — 10,200 ft
+  - Day 3: Mota Grahan to Bogdi — 6 km, 12,500 ft
+  - Day 4: Bogdi to Dev Roopa meadows and back — 8 km, 14,100 ft
+  - Day 5: Bogdi to Mota Grahan — 10,200 ft
+  - Day 6: Trek to Malana Dam and drive to Kasol
+
+---
+
+## TREK 8: Kareri Lake Trek
+- URL: https://unchartedtravel.in/destinations/kareri-lake-trek
+- Gallery: https://unchartedtravel.in/destinations/kareri-lake-trek/gallery
+- Price: ₹1,500 per person
+- Duration: 2 Days
+- Difficulty: Easy
+- Location: Dharamshala, Himachal Pradesh
+- Guide: Aatish (7 Years experience, English / Hindi / Pahadi)
+- Overview: Pristine glacial lake in Dhauladhar range at 9,626 ft. Trail through oak, deodar, rhododendron forests; Gaddi shepherds' settlements; Dhauladhar peak reflections in the lake.
+- Itinerary:
+  - Day 1: Dharamshala to Kareri Village, trek to Lioti — 8 km, 8,200 ft
+  - Day 2: Lioti to Kareri Lake — 6 km, 9,626 ft
+  - Day 3: Kareri Lake to Kareri Village, drive to Dharamshala — 14 km, 6,200 ft
+
+---
+
+## TREK 9: Kheerganga Trek
+- URL: https://unchartedtravel.in/destinations/kheerganga-trek
+- Gallery: https://unchartedtravel.in/destinations/kheerganga-trek/gallery
+- Price: ₹999 per person
+- Duration: 2 Days
+- Difficulty: Easy
+- Location: Parvati Valley, Himachal Pradesh
+- Guide: Pritam Negi (8 Years experience, English / Hindi / Pahadi)
+- Overview: Most popular beginners' trek in Himachal. Natural hot springs at 9,700 ft. Pine forests, Himachali villages, Parvati River. Lord Shiva is said to have meditated here for 3,000 years.
+- Itinerary:
+  - Day 1: Barshaini to Kheerganga via Nakthan and Rudra Nag — 12 km, 9,700 ft
+  - Day 2: Kheerganga to Barshaini — 12 km, 7,500 ft
+
+---
+
+## TREK 10: Baraadsar Lake Trek
+- URL: https://unchartedtravel.in/destinations/baraadsar-lake-trek
+- Gallery: https://unchartedtravel.in/destinations/baraadsar-lake-trek/gallery
+- Price: ₹20,999 per person
+- Duration: 7 Days (suggested)
+- Difficulty: Hard
+- Location: Uttarkashi, Uttarakhand / Himachal Pradesh border
+- Guide: Kailash Rawat (20 Years experience, Hindi / Pahadi)
+- Overview: Sacred high-altitude lake near Uttarakhand-Himachal border at ~4,300 m (14,108 ft). Sits between Rupin and Supin valleys on high ridges. Route: Kasla → Rala → Daldhar → Devbhasa → Baraadsar. Expect steep sections, remote camps, scarce water. Seven-day plan is suggested; guide confirms camps based on snow and weather.
+- Itinerary:
+  - Day 1: Arrive in Sankri — meet guide, check equipment
+  - Day 2: Sankri to Kasla (drive), trek to Rala — 5 km, 7,546 ft
+  - Day 3: Rala to Devbhasa via Daldhar — 8 km, 11,975 ft
+  - Day 4: Devbhasa to high camp via Baraadsar ridge (snow-dependent)
+  - Day 5: Baraadsar Lake (14,108 ft) and begin descent — 14 km round trip
+  - Day 6: Descend towards Rala — 7-8 km, 8,840 ft
+  - Day 7: Return to Kasla and Sankri — 3 km
+
+---
+
+## GUIDES
+
+### Pritam Negi (guide-pritam-negi)
+- Profile: https://unchartedtravel.in/guides/guide-pritam-negi
+- Experience: 8 Years
+- Languages: English, Hindi, Pahadi
+- Based in: Tosh village, Parvati Valley, Himachal Pradesh
+- Leads: Sar Pass Trek, Kheerganga Trek, Buni Buni Pass Trek, Dev Roopa Trek, Hampta Pass Trek
+
+### Kapil Rawat (guide-kapil-rawat)
+- Profile: https://unchartedtravel.in/guides/guide-kapil-rawat
+- Experience: 8 Years
+- Languages: English, Hindi, Garhwali
+- Based in: Sankri, Uttarakhand
+- Leads: Kedarkantha Trek, Har Ki Dun Trek, Rupin Pass Trek
+
+### Kailash Rawat (guide-kailash-rawat)
+- Profile: https://unchartedtravel.in/guides/guide-kailash-rawat
+- Experience: 20 Years
+- Languages: Hindi, Pahadi
+- Based in: Sankri, Uttarakhand
+- Leads: Baraadsar Lake Trek
+
+### Bhojraj (guide-bhojraj)
+- Profile: https://unchartedtravel.in/guides/guide-bhojraj
+- Experience: 5 Years
+- Languages: Hindi, Pahadi, English
+- Leads: Dev Roopa Trek
+
+### Aatish (guide-aatish)
+- Profile: https://unchartedtravel.in/guides/guide-aatish
+- Experience: 7 Years
+- Languages: English, Hindi, Pahadi
+- Based in: Foothills of Dhauladhar, Himachal Pradesh
+- Leads: Kareri Lake Trek
+
+---
+
+Last updated: November 2026
+Source: https://unchartedtravel.in | hello@unchartedtravel.in
+
+
+## ARTICLES & GUIDES (22 Published Editions)
+
+1. /articles/sar-pass-trek-cost-itinerary — Sar Pass Trek Cost, Itinerary and Difficulty: Complete Guide from Kasol
+2. /articles/hampta-pass-vs-sar-pass — Hampta Pass vs Sar Pass: Which Trek Should You Choose?
+3. /articles/kedarkantha-winter-trek-guide — Kedarkantha Winter Trek: Cost, Difficulty, Packing and Best Time
+4. /articles/rupin-pass-difficulty-beginners — Is Rupin Pass Trek Safe for Beginners? Difficulty, Altitude and Preparation
+5. /articles/kheerganga-trek-guide — Kheerganga Trek from Barshaini: Cost, Route and Hot Springs Guide
+6. /articles/kareri-lake-trek-guide — Kareri Lake Trek: A 2-Day Easy Trek from Dharamshala
+7. /articles/har-ki-dun-trek-guide — Har Ki Dun Trek from Sankri: Itinerary, Cost and Best Season
+8. /articles/dev-roopa-trek-guide — Dev Roopa Trek: The Hidden Meadow Trek in Parvati Valley
+9. /articles/buni-buni-pass-trek-guide — Buni Buni Pass: A Short, Easy Alternative to Kheerganga
+10. /articles/baraadsar-lake-trek-guide — Baraadsar Lake Trek: Remote 7-Day Trek on the Himachal-Uttarakhand Border
+11. /articles/best-time-himalayan-treks — Best Time for Himalayan Treks: Month-by-Month Guide for Himachal and Uttarakhand
+12. /articles/himalayan-trek-local-guide-vs-company — Local Guide vs Trekking Company in the Himalayas: Cost, Safety and What You Actually Get
+13. /articles/sar-pass-vs-kheerganga — Sar Pass vs Kheerganga: Beginner Trek Comparison in Parvati Valley
+14. /articles/hampta-pass-trek-packing-list — Hampta Pass Trek Packing List: Everything You Need from Jobra to Chhatru
+15. /articles/how-to-reach-sankri-from-dehradun — How to Reach Sankri from Dehradun for Kedarkantha and Har Ki Dun
+16. /articles/kareri-lake-trek-in-summer — Kareri Lake Trek in May and June: Snow Melt, Campsites and Shepherd Trails
+17. /articles/baraadsar-lake-safety-difficulty — Baraadsar Lake Ridge Crossing Safety: What You Must Know Before Attempting
+18. /articles/kasol-to-grahan-trek — Kasol to Grahan Village Trek Route: First Day on the Sar Pass Trail
+19. /articles/altitude-sickness-himalayan-treks-ams — High Altitude Sickness (AMS) Guide for Himalayan Treks Above 12,000 ft
+20. /articles/har-ki-dun-osla-village-culture — Har Ki Dun Ancient Culture: Exploring Osla Village and the Supin Valley
+21. /articles/dev-roopa-vs-hampta-pass — Dev Roopa vs Hampta Pass: Offbeat Parvati Meadows vs Spiti Crossover
+22. /articles/tosh-village-trekking-guide — Tosh Village to Barshaini: The Local Guide's Guide to Lower Parvati Trails

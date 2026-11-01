@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { Star, Award, MessageCircle, User, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { Star, Award, MessageCircle, User, ArrowRight, ExternalLink } from 'lucide-react';
 import { Guide } from '@/types/trek';
 
 interface GuideCardProps {
@@ -42,7 +43,7 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
                         {guide.avatar ? (
                             <Image
                                 src={guide.avatar}
-                                alt={guide.name}
+                                alt={`${guide.name} — local Himalayan trek guide`}
                                 fill
                                 className="object-cover"
                             />
@@ -96,17 +97,29 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
                     </div>
                 )}
 
-                {/* Request This Guide Button */}
-                {onBook && (
-                    <button
-                        type="button"
-                        onClick={() => onBook(guide.id, guide.name, 'guide')}
-                        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-5 text-xs uppercase tracking-widest font-sans font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                {/* Action Buttons */}
+                <div className="mt-4 flex flex-col gap-3">
+                    {/* View Full Profile link */}
+                    <Link
+                        href={`/guides/${guide.id}`}
+                        className="w-full border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 py-2.5 px-5 text-xs uppercase tracking-widest font-sans font-semibold transition-all flex items-center justify-center gap-2"
                     >
-                        <span>Request This Guide</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                )}
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>View Full Profile</span>
+                    </Link>
+
+                    {/* Request This Guide Button */}
+                    {onBook && (
+                        <button
+                            type="button"
+                            onClick={() => onBook(guide.id, guide.name, 'guide')}
+                            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-5 text-xs uppercase tracking-widest font-sans font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                            <span>Request This Guide</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
