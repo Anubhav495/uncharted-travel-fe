@@ -8,7 +8,7 @@ jest.mock('@/context/AuthContext', () => ({ useAuth: jest.fn() }));
 jest.mock('next-seo', () => ({ NextSeo: () => null }));
 
 const originalFetch = global.fetch;
-const leaderboard = Array.from({ length: 20 }, (_, index) => ({
+const leaderboard = Array.from({ length: 30 }, (_, index) => ({
     user_id: `user-${index + 1}`,
     display_name: `Explorer ${index + 1}`,
     avatar_url: null,
@@ -34,6 +34,18 @@ it('keeps the global rank when searching the redesigned leaderboard', async () =
     const row = screen.getByText('Explorer 17').closest('.grid') as HTMLElement;
     expect(within(row).getByText('#17')).toBeInTheDocument();
     expect(screen.queryByText('Explorer 1')).not.toBeInTheDocument();
+});
+
+it('shows only the top 20 by default but searches the entire leaderboard', async () => {
+    render(<Community />);
+    await screen.findByText('Explorer 20');
+    expect(screen.queryByText('Explorer 25')).not.toBeInTheDocument();
+    fireEvent.change(screen.getByPlaceholderText('Search explorer by name...'), { target: { value: 'Explorer 25' } });
+    const row = screen.getByText('Explorer 25').closest('.grid') as HTMLElement;
+    expect(within(row).getByText('#25')).toBeInTheDocument();
+    fireEvent.change(screen.getByPlaceholderText('Search explorer by name...'), { target: { value: '' } });
+    expect(screen.queryByText('Explorer 25')).not.toBeInTheDocument();
+    expect(screen.getByText('Explorer 20')).toBeInTheDocument();
 });
 
 it('shows the server-calculated global rank even when the user is outside the public top 20', async () => {

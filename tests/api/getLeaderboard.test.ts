@@ -15,6 +15,7 @@ const makeEntry = (user_id: string, display_name: string, xp_points: number): Le
     level: getLevelForXp(xp_points),
 });
 
+const mockRange = jest.fn();
 const mockOrder = jest.fn();
 const mockedGetAuthenticatedUser = jest.mocked(getAuthenticatedUser);
 const mockedGetAdminSupabase = jest.mocked(getAdminSupabase);
@@ -22,7 +23,8 @@ const mockedGetAdminSupabase = jest.mocked(getAdminSupabase);
 beforeEach(() => {
     jest.clearAllMocks();
     mockedGetAuthenticatedUser.mockResolvedValue(null);
-    mockOrder.mockResolvedValue({ data: [], error: null });
+    mockRange.mockResolvedValue({ data: [], error: null });
+    mockOrder.mockReturnValue({ order: mockOrder, range: mockRange });
     mockedGetAdminSupabase.mockReturnValue({
         from: jest.fn().mockReturnValue({ select: jest.fn().mockReturnValue({ order: mockOrder }) }),
     } as unknown as ReturnType<typeof getAdminSupabase>);
@@ -84,26 +86,34 @@ describe('production leaderboard calculation', () => {
 });
 
 describe('leaderboard API', () => {
-    it('returns the public top 20 while preserving the current user’s global rank', async () => {
+    it('fetches profiles beyond the first database page', async () => {
+        mockRange.mockResolvedValueOnce({ data: Array.from({ length: 1000 }, (_, i) => makeEntry(`user-${i}`, `Explorer ${i}`, 300)), error: null })
+            .mockResolvedValueOnce({ data: [makeEntry('later-user', 'Later Explorer', 100)], error: null });
+        const response = await getResponse();
+        const result = response.json.mock.calls[0][0];
+        expect(mockRange).toHaveBeenNthCalledWith(2, 1000, 1999);
+        expect(result.leaderboard.some((entry: LeaderboardEntry) => entry.user_id === 'later-user')).toBe(true);
+    });
+    it('returns the full leaderboard while preserving the current user’s global rank', async () => {
         mockedGetAuthenticatedUser.mockResolvedValue({ id: 'outside-top-twenty', email: 'trekker@example.com', name: 'Outside Top Twenty' });
-        mockOrder.mockResolvedValue({ data: [makeEntry('outside-top-twenty', 'Outside Top Twenty', 100)], error: null });
+        mockRange.mockResolvedValue({ data: [makeEntry('outside-top-twenty', 'Outside Top Twenty', 100)], error: null });
         const response = await getResponse();
         const result = response.json.mock.calls[0][0];
         expect(response.status).toHaveBeenCalledWith(200);
-        expect(result.leaderboard).toHaveLength(20);
+        expect(result.leaderboard).toHaveLength(29);
         expect(result.currentUserRank).toBe(29);
-        expect(result.leaderboard.some((entry: LeaderboardEntry) => entry.user_id === 'outside-top-twenty')).toBe(false);
+        expect(result.leaderboard[28].user_id).toBe('outside-top-twenty');
     });
 
     it('derives tiers from XP instead of trusting a stale stored level', async () => {
-        mockOrder.mockResolvedValue({ data: [{ ...makeEntry('live', 'Live Explorer', 800), level: 'newcomer' }], error: null });
+        mockRange.mockResolvedValue({ data: [{ ...makeEntry('live', 'Live Explorer', 800), level: 'newcomer' }], error: null });
         const response = await getResponse();
         expect(response.json.mock.calls[0][0].leaderboard[0]).toMatchObject({ user_id: 'live', xp_points: 800, level: 'gold' });
     });
 
     it('returns no current-user rank for a profile with zero XP', async () => {
         mockedGetAuthenticatedUser.mockResolvedValue({ id: 'new-user', email: 'new@example.com', name: 'New User' });
-        mockOrder.mockResolvedValue({ data: [makeEntry('new-user', 'New User', 0)], error: null });
+        mockRange.mockResolvedValue({ data: [makeEntry('new-user', 'New User', 0)], error: null });
         const response = await getResponse();
         expect(response.json.mock.calls[0][0].currentUserRank).toBeNull();
     });
@@ -112,7 +122,7 @@ describe('leaderboard API', () => {
         const first = (await getResponse()).json.mock.calls[0][0];
         const second = (await getResponse()).json.mock.calls[0][0];
         expect(first).toEqual(second);
-        const avatars = first.leaderboard.map((entry: LeaderboardEntry) => entry.avatar_url).filter(Boolean);
+        const avatars = first.leaderboard.slice(0, 20).map((entry: LeaderboardEntry) => entry.avatar_url).filter(Boolean);
         expect(avatars).toHaveLength(8);
         expect(new Set(avatars).size).toBe(8);
         expect(first.currentUserRank).toBeNull();
@@ -121,7 +131,7 @@ describe('leaderboard API', () => {
     it('returns the production mock fallback if the database is unavailable', async () => {
         const error = new Error('Database unavailable');
         jest.spyOn(console, 'error').mockImplementation(() => {});
-        mockOrder.mockResolvedValue({ data: null, error });
+        mockRange.mockResolvedValue({ data: null, error });
         const response = await getResponse();
         const result = response.json.mock.calls[0][0];
         expect(response.status).toHaveBeenCalledWith(200);

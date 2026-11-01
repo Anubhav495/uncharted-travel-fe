@@ -159,27 +159,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const currentUser = await getAuthenticatedUser(req, res);
-        const { data, error } = await getAdminSupabase()
-            .from('user_profiles')
-            .select('user_id, display_name, avatar_url, xp_points, level')
-            .order('xp_points', { ascending: false });
+        const profiles: LeaderboardEntry[] = [];
+        const pageSize = 1000;
+        for (let offset = 0; ; offset += pageSize) {
+            const { data, error } = await getAdminSupabase()
+                .from('user_profiles')
+                .select('user_id, display_name, avatar_url, xp_points, level')
+                .order('xp_points', { ascending: false })
+                .order('user_id', { ascending: true })
+                .range(offset, offset + pageSize - 1);
+            if (error) throw error;
+            profiles.push(...(data || []).map(normalizeEntry));
+            if (!data || data.length < pageSize) break;
+        }
 
-        if (error) throw error;
-
-        const fullLeaderboard = buildLeaderboard((data || []).map(normalizeEntry));
+        const fullLeaderboard = buildLeaderboard(profiles);
         const currentUserRank = currentUser
             ? fullLeaderboard.findIndex((entry) => entry.user_id === currentUser.id) + 1
             : null;
 
         return res.status(200).json({
-            leaderboard: assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+            leaderboard: [
+                ...assignLeaderboardAvatars(fullLeaderboard.slice(0, 20)),
+                ...assignLeaderboardAvatars(fullLeaderboard.slice(20)),
+            ],
             currentUserRank: currentUserRank && currentUserRank > 0 ? currentUserRank : null,
         });
     } catch (error) {
         console.error('Leaderboard fetch error:', error);
+        const previewRank = process.env.NODE_ENV === 'development'
+            ? SEEDED_LEADERBOARD.findIndex((entry) => entry.user_id === 'seed-pratyush-gupta') + 1
+            : 0;
         return res.status(200).json({
             leaderboard: assignLeaderboardAvatars(SEEDED_LEADERBOARD),
-            currentUserRank: null,
+            currentUserRank: previewRank || null,
+            standingPreview: previewRank > 0,
         });
     }
 }

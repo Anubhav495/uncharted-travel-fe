@@ -59,18 +59,6 @@ const TREK_SPOTS: TrekSpot[] = [
         pitch: 48,
     },
     {
-        id: 'spiti',
-        name: 'Spiti Valley',
-        region: 'Lahaul & Spiti, Himachal Pradesh',
-        elevation: '14,100 ft',
-        description: 'A barren moonscape of millennium-old Tibetan monasteries, fossil villages, and crystal blue crescent waters.',
-        lat: 32.2276,
-        lng: 78.0710,
-        zoom: 11.5,
-        bearing: 25,
-        pitch: 40,
-    },
-    {
         id: 'kareri',
         name: 'Kareri Lake',
         region: 'Kangra District, Dhauladhar Range',
@@ -93,6 +81,41 @@ const TREK_SPOTS: TrekSpot[] = [
         zoom: 12.8,
         bearing: 15,
         pitch: 44,
+    },
+    {
+        id: 'sar-pass', name: 'Sar Pass', region: 'Parvati Valley, Himachal Pradesh', elevation: '13,850 ft',
+        description: 'Pine forests, alpine meadows and a high mountain pass above the Parvati Valley.',
+        lat: 32.07, lng: 77.388455, zoom: 12.5, bearing: 15, pitch: 45,
+    },
+    {
+        id: 'har-ki-dun', name: 'Har Ki Dun', region: 'Uttarkashi, Uttarakhand', elevation: '11,700 ft',
+        description: 'A Himalayan valley of ancient villages, alpine meadows and snow-covered peaks.',
+        lat: 31.1533, lng: 78.4308, zoom: 12, bearing: -15, pitch: 45,
+    },
+    {
+        id: 'rupin-pass', name: 'Rupin Pass', region: 'Himachal Pradesh', elevation: '15,250 ft',
+        description: 'A high mountain crossing with waterfalls, snowfields and sweeping valley views.',
+        lat: 31.344722, lng: 78.164444, zoom: 12, bearing: 20, pitch: 45,
+    },
+    {
+        id: 'dev-roopa', name: 'Dev Roopa', region: 'Malana region, Himachal Pradesh', elevation: '14,000 ft',
+        description: 'Explore remote meadows and mountain streams above the Malana region.',
+        lat: 32.065, lng: 77.27, zoom: 10, bearing: 0, pitch: 35,
+    },
+    {
+        id: 'buni-buni-pass', name: 'Buni Buni Pass', region: 'Parvati Valley, Himachal Pradesh', elevation: '11,000 ft',
+        description: 'Forested trails and alpine meadows above the villages of the Parvati Valley.',
+        lat: 32.025, lng: 77.44, zoom: 10, bearing: 0, pitch: 35,
+    },
+    {
+        id: 'hampta-pass', name: 'Hampta Pass', region: 'Kullu and Lahaul, Himachal Pradesh', elevation: '14,100 ft',
+        description: 'Cross from the green Kullu Valley into the dramatic landscape of Lahaul.',
+        lat: 32.25, lng: 77.3667, zoom: 11, bearing: -20, pitch: 45,
+    },
+    {
+        id: 'baraadsar-lake', name: 'Baraadsar Lake', region: 'Uttarakhand and Himachal border', elevation: '14,100 ft',
+        description: 'A sacred mountain lake reached by remote trails and Himalayan ridges.',
+        lat: 31.23071, lng: 78.21178, zoom: 12, bearing: 15, pitch: 45,
     },
 ];
 

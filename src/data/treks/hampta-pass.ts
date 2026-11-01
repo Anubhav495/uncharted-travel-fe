@@ -53,7 +53,7 @@ export const hamptaPassTrek: Trek = {
             day: 2,
             title: 'Chika to Balu Ka Ghera',
             description: 'Trek from Chika to Balu Ka Ghera (11,900 ft). A relatively flat walk along the river banks with spectacular views of the Dhauladhar ranges.',
-            distance: '8.5 km',
+            distance: '5 km',
             elevation: '11,900 ft',
         },
         {
