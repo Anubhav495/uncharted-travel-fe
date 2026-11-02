@@ -66,3 +66,26 @@ it('describes the production XP rewards without advertising an unsupported altit
     expect(screen.getByText('+50 XP')).toBeInTheDocument();
     expect(screen.queryByText('+100 XP')).not.toBeInTheDocument();
 });
+
+it('shows the current explorer’s full name, rank, score, and You badge together', async () => {
+    const currentExplorer = {
+        ...leaderboard[5],
+        display_name: 'Anubhav Kumar Srivastava',
+    };
+    (useAuth as jest.Mock).mockReturnValue({ user: { id: currentExplorer.user_id } });
+    (global.fetch as jest.Mock).mockResolvedValue({
+        json: async () => ({
+            leaderboard: leaderboard.map(entry => entry.user_id === currentExplorer.user_id ? currentExplorer : entry),
+            currentUserRank: 6,
+        }),
+    });
+
+    render(<Community />);
+    const name = await screen.findByText(currentExplorer.display_name);
+    const row = within(name.closest('.grid') as HTMLElement);
+
+    expect(row.getByText('#6')).toBeInTheDocument();
+    expect(row.getByText('You')).toBeInTheDocument();
+    expect(row.getByText(currentExplorer.xp_points.toLocaleString())).toBeInTheDocument();
+    expect(screen.getAllByText('You')).toHaveLength(1);
+});
