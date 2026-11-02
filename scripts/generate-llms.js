@@ -7,7 +7,7 @@ const projectRoot = path.resolve(__dirname, '..');
 const siteUrl = 'https://unchartedtravel.in';
 const generatedNotice = '> Generated from src/data/treks/ by npm run generate:llms. Do not edit by hand.';
 
-// Compile only the public trek catalogue and shared FAQ builder. This works on
+// Compile only the public trek catalogue. This works on
 // Node 18+ without a TS runtime, and keeps the site's TypeScript data authoritative.
 function loadTrekContent() {
     const outputDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'uncharted-llms-'));
@@ -15,7 +15,6 @@ function loadTrekContent() {
     try {
         const program = ts.createProgram([
             path.join(projectRoot, 'src/data/treks/index.ts'),
-            path.join(projectRoot, 'src/lib/trekFaqs.ts'),
         ], {
             module: ts.ModuleKind.CommonJS,
             moduleResolution: ts.ModuleResolutionKind.NodeJs,
@@ -41,7 +40,6 @@ function loadTrekContent() {
 
         return {
             treks: require(path.join(outputDirectory, 'data/treks/index.js')).treks,
-            buildTrekFaqs: require(path.join(outputDirectory, 'lib/trekFaqs.js')).buildTrekFaqs,
         };
     } finally {
         fs.rmSync(outputDirectory, { recursive: true, force: true });
@@ -61,7 +59,7 @@ function addList(lines, heading, items) {
     lines.push(`### ${heading}`, '', ...items.map((item) => `- ${inline(item)}`), '');
 }
 
-function buildLlmsFiles(treks, buildTrekFaqs) {
+function buildLlmsFiles(treks) {
     const summary = [
         '# Uncharted Travel', '', generatedNotice, '',
         '> Himalayan treks with local guides and operators in Himachal Pradesh and Uttarakhand.', '',
@@ -79,7 +77,7 @@ function buildLlmsFiles(treks, buildTrekFaqs) {
         '## Booking', '',
         'Open a trek page, choose a guide or operator, and submit an enquiry to confirm availability, the final price, and arrangements.', '',
         '## More Information', '',
-        `- Complete trek details and FAQs: ${siteUrl}/llms-full.txt`,
+        `- Complete trek details: ${siteUrl}/llms-full.txt`,
         `- Sitemap: ${siteUrl}/sitemap.xml`,
         `- Robots: ${siteUrl}/robots.txt`, '',
     ];
@@ -137,10 +135,6 @@ function buildLlmsFiles(treks, buildTrekFaqs) {
         if (trek.arrivalInstructions) {
             addList(full, trek.arrivalInstructions.title, trek.arrivalInstructions.steps);
         }
-        full.push('### Frequently Asked Questions', '');
-        for (const item of buildTrekFaqs(trek)) {
-            full.push(`Q: ${inline(item.q)}`, `A: ${inline(item.a)}`, '');
-        }
         full.push('---', '');
     }
 
@@ -148,8 +142,8 @@ function buildLlmsFiles(treks, buildTrekFaqs) {
 }
 
 function generateLlmsFiles({ check = false } = {}) {
-    const { treks, buildTrekFaqs } = loadTrekContent();
-    const files = buildLlmsFiles(treks, buildTrekFaqs);
+    const { treks } = loadTrekContent();
+    const files = buildLlmsFiles(treks);
     const staleFiles = [];
     for (const [name, content] of Object.entries(files)) {
         const file = path.join(projectRoot, 'public', name);

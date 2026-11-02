@@ -23,7 +23,7 @@
 | Dev Roopa Trek | https://unchartedtravel.in/destinations/dev-roopa-trek | ₹8,000 | 5 to 6 Days | Moderate | Parvati Valley, Himachal Pradesh |
 | Buni Buni Pass Trek | https://unchartedtravel.in/destinations/buni-buni-pass | ₹2,499 | 2-3 Days | Easy | Parvati Valley, Himachal Pradesh |
 | Hampta Pass Trek | https://unchartedtravel.in/destinations/hampta-pass | ₹9,500 | 5 Days / 4 Nights | Moderate | Kullu & Lahaul Spiti, Himachal Pradesh |
-| Baraadsar Lake Trek | https://unchartedtravel.in/destinations/baraadsar-lake-trek | ₹20,999 / person | 7 Days (suggested) | Hard | Uttarkashi, Uttarakhand · Himachal border |
+| Baraadsar Lake Trek | https://unchartedtravel.in/destinations/baraadsar-lake-trek | ₹15,999 / person | 7 Days (suggested) | Hard | Uttarkashi, Uttarakhand · Himachal border |
 
 ## Booking
 
@@ -31,6 +31,6 @@ Open a trek page, choose a guide or operator, and submit an enquiry to confirm a
 
 ## More Information
 
-- Complete trek details and FAQs: https://unchartedtravel.in/llms-full.txt
+- Complete trek details: https://unchartedtravel.in/llms-full.txt
 - Sitemap: https://unchartedtravel.in/sitemap.xml
 - Robots: https://unchartedtravel.in/robots.txt

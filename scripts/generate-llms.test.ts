@@ -2,12 +2,11 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import { treks } from '@/data/treks';
-import { buildTrekFaqs } from '@/lib/trekFaqs';
 
 const { buildLlmsFiles } = require('./generate-llms');
 
-it('includes every current trek, exact listed price, and shared FAQ in the generated documents', () => {
-    const files = buildLlmsFiles(treks, buildTrekFaqs);
+it('includes every current trek and exact listed price in the generated documents', () => {
+    const files = buildLlmsFiles(treks);
 
     for (const trek of treks) {
         const url = `https://unchartedtravel.in/destinations/${trek.slug}`;
@@ -15,10 +14,6 @@ it('includes every current trek, exact listed price, and shared FAQ in the gener
         expect(files['llms.txt']).toContain(trek.price);
         expect(files['llms-full.txt']).toContain(`- URL: ${url}`);
         expect(files['llms-full.txt']).toContain(`- Listed price: ${trek.price}`);
-        for (const item of buildTrekFaqs(trek)) {
-            expect(files['llms-full.txt']).toContain(`Q: ${item.q}`);
-            expect(files['llms-full.txt']).toContain(`A: ${item.a}`);
-        }
     }
 });
 
@@ -33,7 +28,7 @@ it('reflects source changes rather than retaining manually copied trek informati
         guides: [{ ...treks[0].guides![0], name: 'Updated Guide' }],
         itinerary: [{ day: 1, title: 'Updated camp', description: 'Updated route details.' }],
     };
-    const files = buildLlmsFiles([trek], buildTrekFaqs);
+    const files = buildLlmsFiles([trek]);
 
     for (const content of Object.values(files) as string[]) {
         expect(content).toContain('Updated Trek');
@@ -61,16 +56,17 @@ it('handles unavailable optional details and escapes Markdown table separators',
         inclusions: undefined,
         exclusions: undefined,
         arrivalInstructions: undefined,
-    }], buildTrekFaqs);
+    }]);
 
     expect(files['llms.txt']).toContain('Valley \\| Region');
     expect(files['llms-full.txt']).not.toMatch(/undefined|null|\[object Object\]/);
     expect(files['llms-full.txt']).not.toContain('### Itinerary');
     expect(files['llms-full.txt']).not.toContain('### Inclusions');
+    expect(files['llms-full.txt']).not.toContain('### Frequently Asked Questions');
 });
 
 it('keeps the checked-in public documents synchronized with the catalogue', () => {
-    const files = buildLlmsFiles(treks, buildTrekFaqs);
+    const files = buildLlmsFiles(treks);
 
     for (const [name, content] of Object.entries(files)) {
         expect(readFileSync(path.join(process.cwd(), 'public', name), 'utf8')).toBe(content);
