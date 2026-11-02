@@ -234,9 +234,9 @@ export default function Community() {
                                                     )}
                                                 </div>
 
-                                                <div className="min-w-0">
-                                                    <div className="flex items-center gap-2">
-                                                        <span className={`text-xs sm:text-sm truncate font-sans ${isCurrentUser ? 'font-bold text-yellow-400' : 'text-slate-200'}`}>
+                                                <div className="min-w-0 flex-1">
+                                                    <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
+                                                        <span className={`min-w-0 max-w-full break-words text-xs sm:text-sm font-sans ${isCurrentUser ? 'font-bold text-yellow-400' : 'text-slate-200'}`}>
                                                             {entry.display_name || 'Anonymous Trekker'}
                                                         </span>
                                                         {isCurrentUser && (
