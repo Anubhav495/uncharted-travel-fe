@@ -5,7 +5,6 @@ import TrekImage from '@/components/ui/TrekImage';
 import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import GuideCard from '@/components/ui/GuideCard';
-import CompanyCard from '@/components/ui/CompanyCard';
 import GalleryPreview from '@/components/ui/GalleryPreview';
 import TrekItinerary from '@/components/ui/TrekItinerary';
 import BookingModal, { BookingFormData, BookingPreference } from '@/components/modals/booking/BookingModal'; // Adjust path if needed
@@ -20,9 +19,7 @@ const TrekDetailsPage = () => {
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [hasEnquired, setHasEnquired] = useState(false);
     const [bookingPreference, setBookingPreference] = useState<BookingPreference>({ type: 'general' });
-    const [activeTab, setActiveTab] = useState<'guides' | 'companies'>('guides');
     const [guidePage, setGuidePage] = useState(1);
-    const [companyPage, setCompanyPage] = useState(1);
     const ITEMS_PER_PAGE = 4;
 
     // Find the trek
@@ -32,10 +29,6 @@ const TrekDetailsPage = () => {
     const totalGuides = trek?.guides?.length || 0;
     const totalGuidePages = Math.ceil(totalGuides / ITEMS_PER_PAGE);
     const visibleGuides = trek?.guides?.slice((guidePage - 1) * ITEMS_PER_PAGE, guidePage * ITEMS_PER_PAGE);
-
-    const totalCompanies = trek?.companies?.length || 0;
-    const totalCompanyPages = Math.ceil(totalCompanies / ITEMS_PER_PAGE);
-    const visibleCompanies = trek?.companies?.slice((companyPage - 1) * ITEMS_PER_PAGE, companyPage * ITEMS_PER_PAGE);
 
     // Check for prior enquiry (only pending/confirmed are "active")
     useEffect(() => {
@@ -55,12 +48,14 @@ const TrekDetailsPage = () => {
         const handleBookAction = async () => {
             if (router.isReady && user && router.query.action === 'book' && trek) {
                 const providerType = router.query.providerType;
-                if ((providerType === 'guide' || providerType === 'company') && typeof router.query.providerId === 'string') {
+                if (providerType === 'guide' && typeof router.query.providerId === 'string') {
                     setBookingPreference({
                         type: providerType,
                         id: router.query.providerId,
                         name: typeof router.query.providerName === 'string' ? router.query.providerName : undefined,
                     });
+                } else {
+                    setBookingPreference({ type: 'general' });
                 }
                 // Perform a fresh check to be sure (state might not be ready)
                 const response = await fetch(`/api/submitBooking?trekTitle=${encodeURIComponent(trek.title)}`);
@@ -108,7 +103,8 @@ const TrekDetailsPage = () => {
 
     if (!trek) return null; // Loading state
 
-    const handleRequestInfo = async (id?: string, name?: string, type: 'guide' | 'company' | 'general' = 'general') => {
+    const handleRequestInfo = async (id?: string, name?: string) => {
+        const type = id ? 'guide' : 'general';
         setBookingPreference({ id, name, type });
         if (!user) {
             const currentSlug = trek?.slug || (router.query.slug as string);
@@ -151,7 +147,7 @@ const TrekDetailsPage = () => {
 
     return (
         <>
-            <NextSeo 
+            <NextSeo
                 title={trek.title}
                 description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}.`}
                 canonical={`https://unchartedtravel.in/destinations/${trek.slug}`}
@@ -171,7 +167,7 @@ const TrekDetailsPage = () => {
                     { position: 3, name: trek.title, item: `https://unchartedtravel.in/destinations/${trek.slug}` }
                 ]}
             />
-            <ProductJsonLd 
+            <ProductJsonLd
                 productName={trek.title}
                 images={trek.image ? [`https://unchartedtravel.in${trek.image}`] : undefined}
                 description={trek.overview}
@@ -267,43 +263,21 @@ const TrekDetailsPage = () => {
                             />
                         )}
 
-                        {/* Trekking Options */}
-                        {(totalGuides > 0 || totalCompanies > 0) ? (
+                        {/* Local Guides */}
+                        {totalGuides > 0 && (
                             <section>
-                                <h2 className="font-display text-3xl font-normal text-white mb-2 border-l-4 border-yellow-400 pl-4">Local Guides & Operators</h2>
-
-                                {totalGuides > 0 && totalCompanies > 0 && (
-                                    <div className="mb-6 flex gap-2 border border-slate-700 bg-slate-800 p-1 w-full sm:w-auto inline-flex">
-                                        {(['guides', 'companies'] as const).map((tab) => (
-                                            <button
-                                                key={tab}
-                                                type="button"
-                                                onClick={() => setActiveTab(tab)}
-                                                className={`px-5 py-2 text-xs font-sans uppercase tracking-wider transition-all font-semibold ${activeTab === tab ? 'bg-yellow-400 text-slate-900 font-bold' : 'text-slate-300 hover:bg-slate-700'}`}
-                                            >
-                                                {tab}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-
+                                <h2 className="font-display text-3xl font-normal text-white mb-6 border-l-4 border-yellow-400 pl-4">Local Guides</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {(activeTab === 'guides' && totalGuides > 0 ? visibleGuides : []).map((guide) => (
+                                    {visibleGuides.map((guide) => (
                                         <div key={guide.id} className="h-full">
                                             <GuideCard guide={guide} onBook={handleRequestInfo} />
                                         </div>
                                     ))}
-                                    {(activeTab === 'companies' || totalGuides === 0 ? visibleCompanies : []).map((company) => (
-                                        <div key={company.id} className="h-full">
-                                            <CompanyCard company={company} onBook={handleRequestInfo} />
-                                        </div>
-                                    ))}
                                 </div>
 
-                                {/* Pagination Controls */}
-                                {activeTab === 'guides' && totalGuidePages > 1 && (
+                                {totalGuidePages > 1 && (
                                     <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button 
+                                        <button
                                             disabled={guidePage === 1}
                                             onClick={() => setGuidePage(p => p - 1)}
                                             className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 transition-all cursor-pointer font-medium"
@@ -311,7 +285,7 @@ const TrekDetailsPage = () => {
                                             Previous
                                         </button>
                                         <span className="text-xs font-sans text-slate-400">Page {guidePage} of {totalGuidePages}</span>
-                                        <button 
+                                        <button
                                             disabled={guidePage === totalGuidePages}
                                             onClick={() => setGuidePage(p => p + 1)}
                                             className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 transition-all cursor-pointer font-medium"
@@ -320,15 +294,8 @@ const TrekDetailsPage = () => {
                                         </button>
                                     </div>
                                 )}
-                                {(activeTab === 'companies' || totalGuides === 0) && totalCompanyPages > 1 && (
-                                    <div className="flex justify-center items-center gap-4 mt-8">
-                                        <button disabled={companyPage === 1} onClick={() => setCompanyPage((page) => page - 1)} className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 cursor-pointer font-medium">Previous</button>
-                                        <span className="text-xs font-sans text-slate-400">Page {companyPage} of {totalCompanyPages}</span>
-                                        <button disabled={companyPage === totalCompanyPages} onClick={() => setCompanyPage((page) => page + 1)} className="px-4 py-2 border border-slate-700 bg-slate-800 text-xs font-sans uppercase tracking-wider text-slate-200 disabled:opacity-30 hover:border-slate-500 hover:bg-slate-700 cursor-pointer font-medium">Next</button>
-                                    </div>
-                                )}
                             </section>
-                        ) : null}
+                        )}
                     </div>
 
                     {/* Sidebar / CTA */}

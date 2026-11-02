@@ -1,0 +1,536 @@
+# Uncharted Travel — full trek details
+
+> Generated from src/data/treks/ by npm run generate:llms. Do not edit by hand.
+
+## Sar Pass Trek
+
+- URL: https://unchartedtravel.in/destinations/sar-pass-trek
+- Gallery: https://unchartedtravel.in/destinations/sar-pass-trek/gallery
+- Listed price: ₹6,500
+- Duration: 5 Days
+- Difficulty: Moderate
+- Location: Parvati Valley, Himachal
+
+### Overview
+
+The Sar Pass Trek is a classic beginner-friendly trek in the Parvati Valley of Himachal Pradesh. "Sar" in the local dialect means a lake. While trekking across the path from Tila Lotni to Biskeri Ridge, one has to pass by a small frozen lake (Sar) and hence the name Sar Pass Trek. The trail takes you through dense pine forests, lush green meadows, and tiny hamlets, offering breathtaking views of the Himalayan peaks.
+
+### Highlights
+
+- traverse through dense pine and rhododendron forests
+- Spectacular views of the Parvati Valley
+- Experience the local culture of Grahan Village
+- Cross the frozen Sar Lake at 13,800 ft
+- Slide down snow slopes during the descent
+
+### Guides
+
+- Pritam Negi — 8 Years experience — Languages: English, Hindi, Pahadi — A local from Tosh village, Pritam has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.
+
+### Operators
+
+- Pritam tour and travels 99
+
+### Itinerary
+
+- Day 1: Arrival in Kasol & Trek to Grahan Village
+  - Description: Start your journey from the colorful town of Kasol. The trail winds through dense pine forests and follows the Grahan Nal (stream). It is a gentle climb offering beautiful views of the valley. Grahan is a traditional village with distinct wooden architecture.
+  - Distance: 10 km
+  - Elevation: 7,700 ft
+- Day 2: Grahan to Min Thach
+  - Description: The trail today becomes steeper as you head towards Min Thach. You will walk through thick forests of Deodar and Oak. As the forest clears, you reach the meadow of Min Thach, offering stunning views of Chanderkhani Stretch and other peaks.
+  - Distance: 7 km
+  - Elevation: 11,200 ft
+- Day 3: Min Thach to Nagaru
+  - Description: A short but steep climb today. The air gets thinner and the views get wider. You reach Nagaru, the highest campsite of the trek. It can get windy and cold here, but the sunset over the mountains is magical.
+  - Distance: 8 km
+  - Elevation: 12,500 ft
+- Day 4: Nagaru to Biskeri Thach via Sar Pass
+  - Description: The big day! Start early to cross the Sar Pass. The climb is steep through snow. At the top (13,800 ft), enjoy 360-degree views of the Himalayas. The descent involves an exciting slide down the snow slopes to reach the lush green meadows of Biskeri Thach.
+  - Distance: 14 km
+  - Elevation: 13,800 ft
+- Day 5: Biskeri Thach to Barshaini via Pulga
+  - Description: A gentle descent through dense pine forests. You will pass through the quaint village of Pulga before reaching Barshaini. The trek ends here with a bag full of memories.
+  - Distance: 6 km
+  - Elevation: 7,800 ft
+
+---
+
+## Kheerganga Trek
+
+- URL: https://unchartedtravel.in/destinations/kheerganga-trek
+- Gallery: https://unchartedtravel.in/destinations/kheerganga-trek/gallery
+- Listed price: ₹999
+- Duration: 2 Days
+- Difficulty: Easy
+- Location: Parvati Valley, Himachal
+
+### Overview
+
+The Kheerganga Trek is one of the most popular treks in Himachal Pradesh, perfect for beginners and solo travelers. Located in the mystical Parvati Valley at an altitude of 9,700 ft, this trek rewards you with natural hot water springs believed to have healing properties. The trail passes through dense pine forests, charming Himachali villages, and offers stunning views of the Parvati River. Legend has it that Lord Shiva meditated here for 3,000 years, making it a spiritually significant destination.
+
+### Highlights
+
+- Soak in natural hot water springs at the summit
+- Trek through lush pine and deodar forests
+- Visit the sacred Shiva temple at Kheerganga
+- Witness the stunning Rudra Nag waterfall
+- Camp under star-studded Himalayan skies
+- Experience the vibrant culture of Parvati Valley villages
+
+### Guides
+
+- Pritam Negi — 8 Years experience — Languages: English, Hindi, Pahadi — A local from Tosh village, Pritam has been guiding trekkers through the Parvati Valley since his early twenties. His knowledge of local trails and hidden spots makes every trek memorable.
+
+### Operators
+
+- Pritam tour and travels 99
+
+### Itinerary
+
+- Day 1: Barshaini to Kheerganga via Nakthan & Rudra Nag
+  - Description: Start early from Barshaini and begin your trek along the Parvati River. The trail passes through the picturesque village of Nakthan with its traditional wooden houses. Continue through dense pine forests to reach the beautiful Rudra Nag waterfall – a perfect spot for a break. The final stretch is a steep climb through rhododendron trees before you reach the magical meadows of Kheerganga. End the day with a rejuvenating dip in the natural hot springs.
+  - Distance: 12 km
+  - Elevation: 9,700 ft
+- Day 2: Kheerganga to Barshaini & Departure
+  - Description: Wake up to a stunning Himalayan sunrise. After breakfast, visit the ancient Shiva temple and take one last soak in the hot springs. Begin your descent back to Barshaini – the downhill trek is easier and offers different perspectives of the valley. Reach Barshaini by afternoon where your trek concludes with unforgettable memories.
+  - Distance: 12 km
+  - Elevation: 7,500 ft
+
+---
+
+## Kareri Lake Trek
+
+- URL: https://unchartedtravel.in/destinations/kareri-lake-trek
+- Gallery: https://unchartedtravel.in/destinations/kareri-lake-trek/gallery
+- Listed price: ₹1,500
+- Duration: 2 Days
+- Difficulty: Easy
+- Location: Dharamshala, Himachal
+
+### Overview
+
+The Kareri Lake Trek is a stunning alpine adventure nestled in the Dhauladhar range near Dharamshala, Himachal Pradesh. Sitting at an altitude of 9,626 ft, Kareri Lake is a pristine glacial lake fed by snowmelt from the surrounding peaks. The trek takes you through dense forests of oak, deodar, and rhododendron, across gurgling streams, and past the charming Gaddi shepherds' settlements. The lake, surrounded by snow-capped mountains and lush meadows, offers a mesmerizing reflection of the Dhauladhar peaks — a sight that stays with you long after the trek ends.
+
+### Highlights
+
+- Witness the crystal-clear glacial Kareri Lake at 9,626 ft
+- Trek through dense oak, deodar & rhododendron forests
+- Stunning views of the Dhauladhar mountain range
+- Camp beside the pristine alpine lake under starlit skies
+- Interact with Gaddi shepherds and their unique culture
+- Explore the ancient Kareri Village with terraced fields
+
+### Guides
+
+- Aatish — 7 Years experience — Languages: English, Hindi, Pahadi — Aatish grew up in the foothills of the Dhauladhar range and has been leading treks to Kareri Lake and beyond since his teenage years. His deep understanding of alpine terrain and local Gaddi culture makes every expedition both safe and enriching.
+
+### Operators
+
+- Kareri Hikers
+
+### Itinerary
+
+- Day 1: Dharamshala to Kareri Village & Trek to Lioti
+  - Description: Drive from Dharamshala to the quaint Kareri Village (6,200 ft), surrounded by terraced fields and traditional Himachali homes. Begin the trek with a gradual ascent through dense oak and deodar forests. Cross a few small streams as the trail climbs steadily. Reach Lioti, a beautiful campsite nestled in a meadow clearing with views of the Dhauladhar ridge. Settle into camp and enjoy a warm dinner under the stars.
+  - Distance: 8 km
+  - Elevation: 8,200 ft
+  - Meals: Dinner at campsite (Local Himachali cuisine)
+- Day 2: Lioti to Kareri Lake
+  - Description: After breakfast, resume the trek through rhododendron and birch forests. The trail steepens as you approach the treeline. Cross the Kareri stream on rocky terrain before the final push to the lake. The moment Kareri Lake comes into view — its turquoise waters reflecting the towering Dhauladhar peaks — is truly breathtaking. Spend the afternoon exploring the lake shore, taking photos, and soaking in the serene atmosphere. Camp beside the lake for a magical night.
+  - Distance: 6 km
+  - Elevation: 9,626 ft
+  - Meals: Breakfast, Packed Lunch, Evening Tea, Dinner
+- Day 3: Kareri Lake to Kareri Village & Drive to Dharamshala
+  - Description: Wake up to a spectacular sunrise over the lake. After breakfast, begin the descent back to Kareri Village. The downhill trek is faster and offers fresh perspectives of the valley and surrounding peaks. Arrive at Kareri Village by early afternoon, where a vehicle takes you back to Dharamshala. The trek concludes with unforgettable memories of the Dhauladhar wilderness.
+  - Distance: 14 km
+  - Elevation: 6,200 ft
+  - Meals: Breakfast at campsite, Lunch at Kareri Village
+
+---
+
+## Kedarkantha Trek
+
+- URL: https://unchartedtravel.in/destinations/kedarkantha-trek
+- Gallery: https://unchartedtravel.in/destinations/kedarkantha-trek/gallery
+- Listed price: ₹3,500
+- Duration: 4 Days
+- Difficulty: Moderate
+- Location: Sankri, Uttarakhand
+
+### Overview
+
+Kedarkantha is one of the finest winter treks in the Himalayas. Starting from the scenic village of Sankri, the trail takes you through dense pine forests, frozen lakes, and magical snow-draped meadows. The highlight is the thrilling summit climb which offers a 360-degree view of legendary peaks like Swargarohini, Black Peak, and Bandarpoonch.
+
+### Highlights
+
+- Experience the thrill of a snowy summit climb at 12,500 ft
+- Immerse yourself in thick pine and oak forests
+- Camp at the stunning Juda-ka-Talab frozen lake
+- Witness majestic views of Swargarohini and Black Peak
+- Enjoy clear winter skies perfect for stargazing
+- Explore the vibrant culture of Sankri village
+
+### Guides
+
+- Kapil Rawat — 8 Years experience — Languages: English, Hindi, Garhwali — Kapil is a native of Sankri and has been leading expeditions in the Garhwal Himalayas for nearly a decade. His expertise in snow navigation and high-altitude safety makes him an incredible expedition leader.
+
+### Itinerary
+
+- Day 1: Sankri to Juda-ka-Talab
+  - Description: Trek through dense pine forests to reach the beautiful frozen lake campsite of Juda-ka-Talab.
+  - Distance: 4 km
+  - Elevation: 9,100 ft
+- Day 2: Juda-ka-Talab to Kedarkantha Base Camp
+  - Description: A shorter day trekking above the treeline with sweeping valley views to reach the base camp.
+  - Distance: 4 km
+  - Elevation: 11,250 ft
+- Day 3: Summit Day and descent to Hargaon
+  - Description: Start early for the thrilling climb to the Kedarkantha summit (12,500 ft) for sunrise, then descend to Hargaon campsite.
+  - Distance: 6 km
+  - Elevation: 12,500 ft
+- Day 4: Hargaon to Sankri
+  - Description: Descend through apple orchards back to Sankri for celebration and rest.
+  - Distance: 6 km
+  - Elevation: 6,400 ft
+
+---
+
+## Har Ki Dun Trek
+
+- URL: https://unchartedtravel.in/destinations/har-ki-dun-trek
+- Gallery: https://unchartedtravel.in/destinations/har-ki-dun-trek/gallery
+- Listed price: ₹4,500
+- Duration: 5 Days
+- Difficulty: Moderate
+- Location: Sankri, Uttarakhand
+
+### Overview
+
+Known as the "Valley of Gods", Har Ki Dun is a historically significant and visually stunning trek in Govind Pashu Vihar National Park. Tracing the path supposedly taken by the Pandavas to heaven, this cradle-shaped valley is brimming with untouched ancient villages, rich flora and fauna, and spectacular alpine meadows draped below towering glaciated peaks.
+
+### Highlights
+
+- Trek through the legendary Valley of the Gods
+- Witness ancient wooden architecture in Osla village
+- Camp beside the gushing Supin River
+- Spot Himalayan flora and diverse wildlife
+- Enjoy unparalleled views of Swargarohini peak
+- Immerse in the rich, preserved culture of the Garhwal Himalayas
+
+### Guides
+
+- Kapil Rawat — 8 Years experience — Languages: English, Hindi, Garhwali — Kapil is a native of Sankri and has been leading expeditions in the Garhwal Himalayas for nearly a decade. His expertise in snow navigation and high-altitude safety makes him an incredible expedition leader.
+
+### Itinerary
+
+- Day 1: Sankri to Pauni Garaat via Taluka
+  - Description: Drive briefly to Taluka, then start the trek through dense forests along the Supin river to the campsite.
+  - Distance: 10 km
+  - Elevation: 8,200 ft
+- Day 2: Pauni Garaat to Kalkatiyadhaar
+  - Description: Trek past the ancient village of Osla architecture and continue ascending to Kalkatiyadhaar.
+  - Distance: 7 km
+  - Elevation: 8,950 ft
+- Day 3: Kalkatiyadhaar to Har Ki Dun and back
+  - Description: Reach the breathtaking Har Ki Dun valley, spend time exploring, and return to Kalkatiyadhaar.
+  - Distance: 10 km
+  - Elevation: 11,700 ft
+- Day 4: Kalkatiyadhaar to Pauni Garaat
+  - Description: Retrace your steps back downhill observing the valley from a new perspective.
+  - Distance: 7 km
+  - Elevation: 8,200 ft
+- Day 5: Pauni Garaat to Sankri
+  - Description: Relish the final day of trekking back to Taluka, catching transport back to Sankri.
+  - Distance: 10 km
+  - Elevation: 6,400 ft
+
+---
+
+## Rupin Pass Trek
+
+- URL: https://unchartedtravel.in/destinations/rupin-pass-trek
+- Gallery: https://unchartedtravel.in/destinations/rupin-pass-trek/gallery
+- Listed price: ₹15,500
+- Duration: 7 Days
+- Difficulty: Hard
+- Location: Shimla, Himachal Pradesh
+
+### Overview
+
+The Rupin Pass Trek is one of the most diverse and visually stunning treks in India, connecting the lush green valleys of Himachal Pradesh to the rugged terrain of Uttarakhand. At 15,250 ft, the pass rewards trekkers with dramatic snow walls, hanging meadows, glacial rivers, and the spectacular Rupin waterfall. This trek is a masterclass in changing landscapes — from dense forests and terraced villages to alpine meadows and snow-clad passes.
+
+### Highlights
+
+- Cross the dramatic Rupin Pass at 15,250 ft with towering snow walls
+- Witness the magnificent Rupin waterfall cascading from great heights
+- Trek through diverse landscapes — forests, meadows, snow fields, and alpine terrain
+- Camp at the stunning Upper Waterfall campsite with panoramic views
+- Experience the cultural richness of remote Himalayan villages like Jiskun and Jakha
+- Traverse hanging gardens and wildflower meadows unique to this region
+
+### Guides
+
+- Kapil Rawat — 8 Years experience — Languages: English, Hindi, Garhwali — Kapil is a native of Sankri and has been leading expeditions in the Garhwal Himalayas for nearly a decade. His expertise in snow navigation and high-altitude safety makes him an incredible expedition leader.
+
+### Itinerary
+
+- Day 1: Shimla to Jiskun via Rohru
+  - Description: Drive from Shimla through the scenic Pabbar Valley to the remote village of Jiskun, the starting point of the trek. Explore the traditional wooden architecture and settle in for the night.
+  - Distance: —
+  - Elevation: 7,700 ft
+- Day 2: Jiskun to Saruwas Thatch
+  - Description: Begin the trek through dense forests of oak and maple, crossing streams and ascending gradually to the beautiful meadow of Saruwas Thatch.
+  - Distance: 8 km
+  - Elevation: 9,800 ft
+  - Meals: Breakfast, Lunch, Dinner
+- Day 3: Saruwas Thatch to Upper Waterfall
+  - Description: Trek through enchanting hanging meadows and get your first views of the magnificent Rupin waterfall. The campsite sits right above the waterfall with breathtaking views.
+  - Distance: 6 km
+  - Elevation: 11,800 ft
+  - Meals: Breakfast, Lunch, Snacks, Dinner
+- Day 4: Upper Waterfall to Rupin Pass Base (Rati Pheri)
+  - Description: Ascend through rocky terrain and snow patches to reach Rati Pheri, the base camp for the pass crossing. Acclimatize and prepare for the summit push.
+  - Distance: 5 km
+  - Elevation: 13,600 ft
+  - Meals: Breakfast, Lunch, Snacks, Dinner
+- Day 5: Rati Pheri to Rupin Pass to Ronti Gad
+  - Description: The big day! Cross the Rupin Pass at 15,250 ft through dramatic snow walls. Descend steeply on the Uttarakhand side through snow fields to Ronti Gad campsite.
+  - Distance: 10 km
+  - Elevation: 15,250 ft (pass) → 12,500 ft
+  - Meals: Breakfast, Lunch, Snacks, Dinner
+- Day 6: Ronti Gad to Sangla Valley
+  - Description: Descend through alpine meadows and birch forests into the beautiful Sangla Valley. The landscape transitions dramatically as you enter Kinnaur.
+  - Distance: 12 km
+  - Elevation: 8,600 ft
+  - Meals: Breakfast, Lunch, Snacks, Dinner
+- Day 7: Sangla to Shimla
+  - Description: Drive back to Shimla through the stunning Kinnaur Valley, passing apple orchards and dramatic river gorges. Trek ends with unforgettable memories.
+  - Distance: —
+  - Elevation: —
+
+---
+
+## Dev Roopa Trek
+
+- URL: https://unchartedtravel.in/destinations/dev-roopa-trek
+- Gallery: https://unchartedtravel.in/destinations/dev-roopa-trek/gallery
+- Listed price: ₹8,000
+- Duration: 5 to 6 Days
+- Difficulty: Moderate
+- Location: Parvati Valley, Himachal Pradesh
+
+### Overview
+
+Often referred to as the "Descent of God," Dev Roopa is a scenic and offbeat Himalayan trek located in the Malana region of Parvati Valley. Known for its vast, pristine grasslands, high-altitude glacial streams, and proximity to remote areas, this trek offers a unique experience away from the crowds. The trail takes you through dense forests, grazing fields, and eventually to the spectacular Dev Roopa meadows at around 14,000 ft.
+
+### Highlights
+
+- Trek through the legendary Parvati and Malana Valleys
+- Experience the vast and pristine Dev Roopa meadows
+- Follow high-altitude glacial streams meandering through grasslands
+- Camp in remote, offbeat locations away from typical tourist crowds
+- Immerse in the unique culture of the surrounding villages
+
+### Guides
+
+- Pritam Negi — 8 Years experience — Languages: English, Hindi, Pahadi — A highly experienced guide from the Parvati Valley region, Pritam knows the offbeat trails like the back of his hand.
+- Bhojraj — 5 Years experience — Languages: Hindi, Pahadi, English — Bhojraj is an experienced local guide with a passion for the pristine landscapes of Himachal. He ensures a safe and memorable journey through the challenging trails of Dev Roopa.
+
+### Itinerary
+
+- Day 1: Kasol to Malana Dam and trek to Waichin
+  - Description: Drive from Kasol to Malana Dam, then trek to Waichin for the first overnight stay.
+- Day 2: Waichin to Mota Grahan
+  - Description: Continue from Waichin to the Mota Grahan campsite.
+  - Elevation: 10,200 ft
+- Day 3: Mota Grahan to Bogdi
+  - Description: Ascend further into the alpine region, leaving the tree line behind to reach the high-altitude camp at Bogdi.
+  - Distance: 6 km
+  - Elevation: 12,500 ft
+- Day 4: Bogdi to Dev Roopa and back
+  - Description: The summit day. Trek to the spectacular Dev Roopa meadows, explore the meandering streams, and return to Bogdi.
+  - Distance: 8 km
+  - Elevation: 14,100 ft
+- Day 5: Bogdi to Mota Grahan
+  - Description: Begin the descent back to Mota Grahan along the return route.
+  - Elevation: 10,200 ft
+- Day 6: Trek to Malana Dam and drive to Kasol
+  - Description: Complete the final leg of the descent to Malana Dam, followed by a drive back to Kasol.
+
+### How to reach Waichin
+
+- Reach Kasol, then travel towards Jari on the Parvati Valley road.
+- From Jari, take a local taxi towards the Malana Dam roadhead.
+- Continue on foot from the roadhead to Waichin, where day 1 ends.
+
+---
+
+## Buni Buni Pass Trek
+
+- URL: https://unchartedtravel.in/destinations/buni-buni-pass
+- Gallery: https://unchartedtravel.in/destinations/buni-buni-pass/gallery
+- Listed price: ₹2,499
+- Duration: 2-3 Days
+- Difficulty: Easy
+- Location: Parvati Valley, Himachal Pradesh
+
+### Overview
+
+The Buni Buni Pass (also known as Bunbuni or Bhunbhuni Pass) is a spectacular and offbeat alternative to the crowded Kheerganga trek in the Parvati Valley. It offers stunning alpine meadows, dense oak and rhododendron forests, and panoramic views of snow-capped Himalayan peaks. With altitudes reaching around 11,000 ft, this trek presents a moderate challenge with steep ascents, rewarding trekkers with pristine landscapes and tranquility away from the typical tourist trails.
+
+### Highlights
+
+- Hike through dense pine and deodar forests
+- Experience the vast, untouched alpine meadows of Bunbuni
+- Enjoy panoramic views of snow-capped peaks in the Parvati Valley
+- Camp under the stars in a pristine, offbeat location
+- Optionally combine the trek with a descent to the famous Kheerganga hot springs
+
+### Guides
+
+- Pritam Negi — 8 Years experience — Languages: English, Hindi, Pahadi — A highly experienced guide from the Parvati Valley region, Pritam knows the offbeat trails like the back of his hand.
+
+### Itinerary
+
+- Day 1: Kalga to Buni Buni Pass
+  - Description: Begin the steep ascent from Kalga through dense forests. After several hours of climbing, emerge into the beautiful alpine meadows of Bunbuni. Set up camp and enjoy the panoramic views.
+  - Distance: 8 km
+  - Elevation: 10,980 ft
+- Day 2: Buni Buni Pass to Kheerganga
+  - Description: Descend from the pass towards Kheerganga. The trail offers magnificent views. Upon reaching Kheerganga, relax in the natural hot springs.
+  - Distance: 5 km
+  - Elevation: 9,700 ft
+- Day 3: Kheerganga to Barshaini
+  - Description: Trek downhill back to Barshaini, tracing the Parvati river, and depart for your onward journey.
+  - Distance: 12 km
+  - Elevation: 7,400 ft
+
+---
+
+## Hampta Pass Trek
+
+- URL: https://unchartedtravel.in/destinations/hampta-pass
+- Gallery: https://unchartedtravel.in/destinations/hampta-pass/gallery
+- Listed price: ₹9,500
+- Duration: 5 Days / 4 Nights
+- Difficulty: Moderate
+- Location: Kullu & Lahaul Spiti, Himachal Pradesh
+- Maximum altitude: 14,100 ft
+- Base camp: Manali, Himachal Pradesh
+- Trekking distance: 25 km
+- Best time to visit: Mid June to October
+
+### Overview
+
+The Hampta Pass trek is arguably the most dramatic crossover trek in the Himalayas. It connects the lush green Kullu Valley with the stark, barren landscapes of Lahaul. The sudden shift in scenery from dense pine forests and expansive meadows to a rugged, cold desert is breathtaking.
+
+### Highlights
+
+- Witness a dramatic shift in landscapes from lush green valleys to cold deserts.
+- Cross two icy glacial rivers on foot.
+- Camp at iconic sites like Balu Ka Ghera and Shea Goru.
+- Experience the thrill of a 14,100 ft pass crossing.
+
+### Guides
+
+- Pritam Negi — 8 Years experience — Languages: English, Hindi, Pahadi — A highly experienced guide from the Parvati Valley region, Pritam knows the offbeat trails like the back of his hand.
+
+### Itinerary
+
+- Day 1: Manali to Jobra, Trek to Chika
+  - Description: Drive from Manali to Jobra (9,800 ft), then begin a short 2 km trek to the Chika campsite (10,100 ft) walking through mixed forests of pine, green maple, and birch.
+  - Distance: 2 km trek
+  - Elevation: 10,100 ft
+- Day 2: Chika to Balu Ka Ghera
+  - Description: Trek from Chika to Balu Ka Ghera (11,900 ft). A relatively flat walk along the river banks with spectacular views of the Dhauladhar ranges.
+  - Distance: 5 km
+  - Elevation: 11,900 ft
+- Day 3: Balu Ka Ghera to Shea Goru via Hampta Pass
+  - Description: The most challenging day. Trek from Balu Ka Ghera, cross the Hampta Pass at 14,100 ft, and descend steeply to Shea Goru (12,900 ft) into the Lahaul valley.
+  - Distance: 9 km
+  - Elevation: 12,900 ft
+- Day 4: Shea Goru to Chhatru
+  - Description: Descend from Shea Goru to Chhatru (11,000 ft). Cross the icy river and walk alongside the Chandra river to reach the campsite.
+  - Distance: 5 km trek
+  - Elevation: 11,000 ft
+- Day 5: Chhatru to Chandratal and back to Manali
+  - Description: If the roads are open, visit the stunning Chandratal Lake in the morning before driving back to Manali via the Rohtang Pass or Atal Tunnel.
+
+### Inclusions
+
+- Accommodation in high-quality dome tents (2-3 sharing)
+- Nutritious, hot vegetarian meals during the trek
+- Expert Trek Leader and support staff
+- All necessary permits and entry fees
+- Microspikes and gaiters (if required)
+- First aid kit, oxygen cylinder, and stretcher for emergencies
+
+### Exclusions
+
+- Transport to and from Manali (Basecamp)
+- Backpack offloading (can be opted for at an extra cost)
+- Meals during transit (Manali to Jobra and Chhatru to Manali)
+- Any personal expenses or insurance
+
+---
+
+## Baraadsar Lake Trek
+
+- URL: https://unchartedtravel.in/destinations/baraadsar-lake-trek
+- Gallery: https://unchartedtravel.in/destinations/baraadsar-lake-trek/gallery
+- Listed price: ₹15,999 / person
+- Duration: 7 Days (suggested)
+- Difficulty: Hard
+- Location: Uttarkashi, Uttarakhand · Himachal border
+
+### Overview
+
+Baraadsar Lake is a sacred high-altitude lake near the Uttarakhand–Himachal border. It sits at around 4,300 metres between the Rupin and Supin valleys, surrounded by high ridges. Local communities consider it sacred and believe that prayers offered here never go unanswered. Our route starts from Kasla, passes through Rala and the open ridges of Daldhar, and continues to Devbhasa before the climb towards the lake. Expect steep sections, remote camps and stretches where water is scarce. The seven-day itinerary is a suggested plan; your guide will confirm the camps and return stages based on snow, weather and the pace of the group.
+
+### Highlights
+
+- Reach the sacred Baraadsar Lake, known locally as a wish-fulfilling lake
+- Walk the Daldhar ridges with views of Swargarohini and Kalanag (Black Peak)
+- Follow the quieter route through Kasla, Rala and Devbhasa
+- Experience the changing landscape from village trails to high mountain ridges
+- Plan water supplies and porter support with your guide before leaving the villages
+
+### Guides
+
+- Kailash Rawat — 20 Years experience — Languages: Hindi, Pahadi — Based in Sankri, Kailash is a veteran trek leader with 20 years of experience and has been leading treks with Uncharted Travel for many years. His experience helps him navigate difficult trails, handle challenging situations and guide his team through changing mountain conditions.
+
+### Itinerary
+
+- Day 1: Arrive in Sankri
+  - Description: Reach Sankri, meet your guide and settle in. Use the evening to check your equipment and discuss the suggested route, camps and water arrangements.
+- Day 2: Sankri to Kasla, trek to Rala
+  - Description: Travel to Kasla by a suitable local vehicle and begin walking towards Rala. Follow the village trails and spend the night in Rala before continuing higher.
+  - Distance: 5 km trek
+  - Elevation: 7,546 ft
+- Day 3: Rala to Devbhasa via Daldhar
+  - Description: Climb towards Daldhar, where the views open up across the surrounding Himalayan ranges. Continue to Devbhasa for the night. Water sources can be far from camp, so carry the supply agreed with your guide.
+  - Distance: 8 km
+  - Elevation: 11,975 ft
+- Day 4: Devbhasa to high camp via the Baraadsar ridge
+  - Description: Take on the steep ridge crossing towards the lake basin. Snow can make this section demanding, and the guide will decide whether conditions allow the group to continue. The high camp location depends on the conditions.
+- Day 5: Baraadsar Lake and begin the descent
+  - Description: Climb to the lake, spend time taking in the surroundings and respect its significance to the local communities. Begin the return towards Devbhasa, with the overnight stop confirmed by your guide.
+  - Distance: 14 km round trip
+  - Elevation: 14,108 ft
+- Day 6: Descend towards Rala
+  - Description: Continue down from the higher camps towards Rala. The return stages may change with snow conditions and the pace of the group.
+  - Distance: 7–8 km
+  - Elevation: 8,840 ft
+- Day 7: Return to Kasla and Sankri
+  - Description: Complete the remaining descent to Kasla and return to Sankri by local vehicle. Allow time for changes to the mountain route before planning onward travel.
+  - Distance: 3 km trek
+  - Elevation: 6,500 ft
+
+### How to reach the trailhead
+
+- Travel to Dehradun and arrange onward transport to Sankri before departure.
+- Meet your guide in Sankri and confirm the route, equipment, porter support and water arrangements.
+- Arrange a suitable local vehicle from Sankri to Kasla, where the walking route begins.
+
+---
