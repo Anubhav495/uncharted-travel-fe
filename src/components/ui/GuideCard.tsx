@@ -42,7 +42,7 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
                         {guide.avatar ? (
                             <Image
                                 src={guide.avatar}
-                                alt={`${guide.name} — local Himalayan trek guide`}
+                                alt={guide.name}
                                 fill
                                 className="object-cover"
                             />
@@ -96,20 +96,17 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
                     </div>
                 )}
 
-                {/* Action Buttons */}
-                <div className="mt-4 flex flex-col gap-3">
-                    {/* Request This Guide Button */}
-                    {onBook && (
-                        <button
-                            type="button"
-                            onClick={() => onBook(guide.id, guide.name, 'guide')}
-                            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-5 text-xs uppercase tracking-widest font-sans font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                            <span>Request This Guide</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
-                    )}
-                </div>
+                {/* Request This Guide Button */}
+                {onBook && (
+                    <button
+                        type="button"
+                        onClick={() => onBook(guide.id, guide.name, 'guide')}
+                        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-5 text-xs uppercase tracking-widest font-sans font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                        <span>Request This Guide</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                )}
             </div>
         </div>
     );

@@ -1,5 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { existsSync } from 'fs';
+import path from 'path';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import SEO from '../../next-seo.config';
@@ -101,5 +103,35 @@ describe('trek page SEO', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Request This Guide' }));
 
         expect(mockPush).toHaveBeenCalledWith(expect.stringContaining('/login'));
+    });
+
+    it('adds matching visible FAQs and structured answers to the production trek layout', () => {
+        const { container } = render(<TrekDetailsPage />);
+        const faq = within(screen.getByRole('region', { name: 'Frequently Asked Questions' }));
+        const questions = faq.getAllByRole('heading', { level: 3 });
+        const structuredFaq = Array.from(container.querySelectorAll('script[type="application/ld+json"]'))
+            .map((script) => JSON.parse(script.textContent || '{}'))
+            .find((data) => data['@type'] === 'FAQPage');
+
+        expect(structuredFaq.mainEntity).toHaveLength(questions.length);
+        for (const question of structuredFaq.mainEntity) {
+            expect(faq.getByRole('heading', { name: question.name })).toBeInTheDocument();
+            expect(faq.getByText(question.acceptedAnswer.text)).toBeInTheDocument();
+        }
+        expect(faq.getByText(/starts at ₹9,500 per person/)).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Overview' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Highlights' })).toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: 'Inclusions & Exclusions' })).not.toBeInTheDocument();
+        expect(screen.queryByText('Max Altitude')).not.toBeInTheDocument();
+        expect(screen.queryByText('Best Time')).not.toBeInTheDocument();
+    });
+
+    it('uses an existing local image for the default sharing preview', () => {
+        const image = SEO.openGraph.images[0];
+        const pathname = decodeURIComponent(new URL(image.url).pathname);
+
+        expect(existsSync(path.join(process.cwd(), 'public', pathname))).toBe(true);
+        expect(image.width).toBe(757);
+        expect(image.height).toBe(1024);
     });
 });

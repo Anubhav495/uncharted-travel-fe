@@ -1,55 +1,36 @@
-# Uncharted Travel — llms.txt
-# Generated from src/data/treks/ — November 2026
-# Format follows the llms.txt draft specification (https://llmstxt.org/)
+# Uncharted Travel
 
-> Uncharted Travel connects trekkers with verified local mountain guides and boutique expedition agencies across the Himachal Pradesh and Uttarakhand Himalayas. No middlemen. No markup. Real local guides, real routes.
+> Generated from src/data/treks/ by npm run generate:llms. Do not edit by hand.
+
+> Himalayan treks with local guides and operators in Himachal Pradesh and Uttarakhand.
 
 ## About
 
 - Homepage: https://unchartedtravel.in/
-- Contact: hello@unchartedtravel.in | +91 8318217817
-- Headquarters: Parvati Valley, Kasol, Himachal Pradesh 175105, India
 - All destinations: https://unchartedtravel.in/destinations
+- Contact: hello@unchartedtravel.in | +91 8318217817
 
 ## Treks Offered
 
-| Trek | Slug URL | Price | Duration | Difficulty | Location |
+| Trek | URL | Listed price | Duration | Difficulty | Location |
 |---|---|---|---|---|---|
-| Sar Pass Trek | /destinations/sar-pass-trek | ₹6,500 | 5 Days | Moderate | Parvati Valley, Himachal |
-| Hampta Pass Trek | /destinations/hampta-pass | ₹9,500 | 5 Days / 4 Nights | Moderate | Kullu & Lahaul Spiti, Himachal Pradesh |
-| Kedarkantha Trek | /destinations/kedarkantha-trek | ₹3,500 | 4 Days | Moderate | Sankri, Uttarakhand |
-| Har Ki Dun Trek | /destinations/har-ki-dun-trek | ₹4,500 | 5 Days | Moderate | Sankri, Uttarakhand |
-| Rupin Pass Trek | /destinations/rupin-pass-trek | ₹15,500 | 7 Days | Hard | Shimla, Himachal Pradesh |
-| Buni Buni Pass Trek | /destinations/buni-buni-pass | ₹2,499 | 2-3 Days | Easy | Parvati Valley, Himachal Pradesh |
-| Dev Roopa Trek | /destinations/dev-roopa-trek | ₹8,000 | 5 to 6 Days | Moderate | Parvati Valley, Himachal Pradesh |
-| Kareri Lake Trek | /destinations/kareri-lake-trek | ₹1,500 | 2 Days | Easy | Dharamshala, Himachal |
-| Kheerganga Trek | /destinations/kheerganga-trek | ₹999 | 2 Days | Easy | Parvati Valley, Himachal |
-| Baraadsar Lake Trek | /destinations/baraadsar-lake-trek | ₹20,999 / person | 7 Days (suggested) | Hard | Uttarkashi, Uttarakhand / Himachal border |
+| Sar Pass Trek | https://unchartedtravel.in/destinations/sar-pass-trek | ₹6,500 | 5 Days | Moderate | Parvati Valley, Himachal |
+| Kheerganga Trek | https://unchartedtravel.in/destinations/kheerganga-trek | ₹999 | 2 Days | Easy | Parvati Valley, Himachal |
+| Kareri Lake Trek | https://unchartedtravel.in/destinations/kareri-lake-trek | ₹1,500 | 2 Days | Easy | Dharamshala, Himachal |
+| Kedarkantha Trek | https://unchartedtravel.in/destinations/kedarkantha-trek | ₹3,500 | 4 Days | Moderate | Sankri, Uttarakhand |
+| Har Ki Dun Trek | https://unchartedtravel.in/destinations/har-ki-dun-trek | ₹4,500 | 5 Days | Moderate | Sankri, Uttarakhand |
+| Rupin Pass Trek | https://unchartedtravel.in/destinations/rupin-pass-trek | ₹15,500 | 7 Days | Hard | Shimla, Himachal Pradesh |
+| Dev Roopa Trek | https://unchartedtravel.in/destinations/dev-roopa-trek | ₹8,000 | 5 to 6 Days | Moderate | Parvati Valley, Himachal Pradesh |
+| Buni Buni Pass Trek | https://unchartedtravel.in/destinations/buni-buni-pass | ₹2,499 | 2-3 Days | Easy | Parvati Valley, Himachal Pradesh |
+| Hampta Pass Trek | https://unchartedtravel.in/destinations/hampta-pass | ₹9,500 | 5 Days / 4 Nights | Moderate | Kullu & Lahaul Spiti, Himachal Pradesh |
+| Baraadsar Lake Trek | https://unchartedtravel.in/destinations/baraadsar-lake-trek | ₹20,999 / person | 7 Days (suggested) | Hard | Uttarkashi, Uttarakhand · Himachal border |
 
-## FAQ
+## Booking
 
-Q: What is the cheapest Himalayan trek on Uncharted Travel?
-A: The Kheerganga Trek at ₹999 per person (2 Days, Easy, Parvati Valley, Himachal).
+Open a trek page, choose a guide or operator, and submit an enquiry to confirm availability, the final price, and arrangements.
 
-Q: What is the most affordable multi-day trek?
-A: The Kareri Lake Trek at ₹1,500 per person for a 2-day Easy trek from Dharamshala.
+## More Information
 
-Q: Which treks are best for beginners?
-A: Kheerganga Trek (₹999), Kareri Lake Trek (₹1,500), and Buni Buni Pass Trek (₹2,499) are all rated Easy and suitable for first-time trekkers.
-
-Q: Which treks are Hard difficulty?
-A: Rupin Pass Trek (7 Days, ₹15,500, starts from Shimla) and Baraadsar Lake Trek (7 Days suggested, ₹20,999/person, Uttarkashi / Himachal border).
-
-Q: How do I book a trek?
-A: Visit the trek page on unchartedtravel.in, choose a local guide or operator, and submit an enquiry. There is no booking fee — you connect directly with the guide.
-
-Q: What is the highest altitude trek?
-A: Rupin Pass Trek reaches 15,250 ft (the pass elevation). Baraadsar Lake sits at approximately 14,108 ft.
-
-Q: What is the best time for Hampta Pass Trek?
-A: Mid June to October (from trek data).
-
-## Sitemap Reference
-
+- Complete trek details and FAQs: https://unchartedtravel.in/llms-full.txt
 - Sitemap: https://unchartedtravel.in/sitemap.xml
 - Robots: https://unchartedtravel.in/robots.txt

@@ -9,11 +9,9 @@ const config = {
     siteName: 'Uncharted Travel',
     images: [
       {
-        // TODO (owner): supply public/assets/og-cover.jpg — 1200x630, Himalaya + brand cover.
-        // The file does NOT exist yet; this config path is ready when you add the image.
-        url: 'https://unchartedtravel.in/assets/og-cover.jpg',
-        width: 1200,
-        height: 630,
+        url: 'https://unchartedtravel.in/assets/dev-roopa/WhatsApp%20Image%202026-06-28%20at%2010.05.47%20(1).jpeg',
+        width: 757,
+        height: 1024,
         alt: 'Uncharted Travel — Himalayan Treks & Expeditions',
       },
     ],
