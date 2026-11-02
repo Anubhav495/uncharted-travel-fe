@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd, BreadcrumbJsonLd } from 'next-seo';
-import Link from 'next/link';
 import TrekImage from '@/components/ui/TrekImage';
-import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight, ArrowLeft, Mountain, Calendar, Compass } from 'lucide-react';
+import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
 import { Trek } from '@/types/trek';
 import GuideCard from '@/components/ui/GuideCard';
@@ -61,18 +60,6 @@ function buildFaqItems(trek: Trek) {
     });
 
     return items;
-}
-
-// Related trek suggestions (same region or similar difficulty)
-function getRelatedTreks(current: Trek) {
-    return treks
-        .filter(
-            (t) =>
-                t.slug !== current.slug &&
-                (t.location.split(',')[0] === current.location.split(',')[0] ||
-                    t.difficulty === current.difficulty),
-        )
-        .slice(0, 2);
 }
 
 const TrekDetailsPage = () => {
@@ -213,7 +200,6 @@ const TrekDetailsPage = () => {
     };
 
     const faqItems = buildFaqItems(trek);
-    const relatedTreks = getRelatedTreks(trek);
 
     // FAQ JSON-LD
     const faqJsonLd = {
@@ -328,58 +314,7 @@ const TrekDetailsPage = () => {
                                 {trek.maxAltitude && ` It reaches a maximum altitude of ${trek.maxAltitude}.`}
                                 {trek.bestTimeToVisit && ` The best time to trek is ${trek.bestTimeToVisit}.`}
                             </p>
-                            <p className="text-xs text-slate-500 font-sans mt-3">
-                                Last updated: November 2026
-                            </p>
                         </section>
-
-                        {/* Quick Facts block */}
-                        <section>
-                            <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Quick Facts</h2>
-                            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs font-sans">
-                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                    <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Clock className="w-3 h-3 text-yellow-400" /> Duration</dt>
-                                    <dd className="text-white font-semibold">{trek.duration}</dd>
-                                </div>
-                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                    <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><TrendingUp className="w-3 h-3 text-yellow-400" /> Difficulty</dt>
-                                    <dd className="text-white font-semibold">{trek.difficulty}</dd>
-                                </div>
-                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                    <dt className="text-slate-400 uppercase tracking-wider mb-1">Price</dt>
-                                    <dd className="text-yellow-400 font-bold text-sm">{trek.price}</dd>
-                                </div>
-                                <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                    <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><MapPin className="w-3 h-3 text-yellow-400" /> Location</dt>
-                                    <dd className="text-white font-semibold">{trek.location}</dd>
-                                </div>
-                                {trek.maxAltitude && (
-                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                        <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Mountain className="w-3 h-3 text-yellow-400" /> Max Altitude</dt>
-                                        <dd className="text-white font-semibold">{trek.maxAltitude}</dd>
-                                    </div>
-                                )}
-                                {trek.basecamp && (
-                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                        <dt className="text-slate-400 uppercase tracking-wider mb-1">Basecamp</dt>
-                                        <dd className="text-white font-semibold">{trek.basecamp}</dd>
-                                    </div>
-                                )}
-                                {trek.trekDistance && (
-                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                        <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Compass className="w-3 h-3 text-yellow-400" /> Distance</dt>
-                                        <dd className="text-white font-semibold">{trek.trekDistance}</dd>
-                                    </div>
-                                )}
-                                {trek.bestTimeToVisit && (
-                                    <div className="bg-slate-800/70 border border-slate-700 px-4 py-3">
-                                        <dt className="text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Calendar className="w-3 h-3 text-yellow-400" /> Best Time</dt>
-                                        <dd className="text-white font-semibold">{trek.bestTimeToVisit}</dd>
-                                    </div>
-                                )}
-                            </dl>
-                        </section>
-
                         {/* Overview */}
                         <section>
                             <h2 className="font-display text-3xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">Overview</h2>
@@ -524,41 +459,6 @@ const TrekDetailsPage = () => {
                                         <h3 className="font-sans font-semibold text-white text-sm mb-2">{item.q}</h3>
                                         <p className="font-sans text-slate-300 text-sm leading-relaxed">{item.a}</p>
                                     </div>
-                                ))}
-                            </div>
-                        </section>
-
-                        {/* Internal links — related treks + back to catalogue + gallery */}
-                        <section>
-                            <h2 className="font-display text-2xl font-normal text-white mb-4 border-l-4 border-yellow-400 pl-4">
-                                Explore More
-                            </h2>
-                            <div className="flex flex-wrap gap-3">
-                                <Link
-                                    href="/destinations"
-                                    className="inline-flex items-center gap-2 border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 px-4 py-2.5 text-xs font-sans uppercase tracking-wider transition-all"
-                                >
-                                    <ArrowLeft className="w-3.5 h-3.5" />
-                                    <span>All Treks</span>
-                                </Link>
-                                {trek.gallery && trek.gallery.length > 0 && (
-                                    <Link
-                                        href={`/destinations/${trek.slug}/gallery`}
-                                        className="inline-flex items-center gap-2 border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 px-4 py-2.5 text-xs font-sans uppercase tracking-wider transition-all"
-                                    >
-                                        <span>View Photo Gallery</span>
-                                        <ArrowRight className="w-3.5 h-3.5" />
-                                    </Link>
-                                )}
-                                {relatedTreks.map((related) => (
-                                    <Link
-                                        key={related.slug}
-                                        href={`/destinations/${related.slug}`}
-                                        className="inline-flex items-center gap-2 border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 px-4 py-2.5 text-xs font-sans uppercase tracking-wider transition-all"
-                                    >
-                                        <span>{related.title}</span>
-                                        <ArrowRight className="w-3.5 h-3.5" />
-                                    </Link>
                                 ))}
                             </div>
                         </section>
