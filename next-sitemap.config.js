@@ -13,39 +13,6 @@ const TREK_SLUGS = [
   'baraadsar-lake-trek',
 ];
 
-const GUIDE_IDS = [
-  'guide-pritam-negi',
-  'guide-kapil-rawat',
-  'guide-kailash-rawat',
-  'guide-bhojraj',
-  'guide-aatish',
-];
-
-const ARTICLE_SLUGS = [
-  'sar-pass-trek-cost-itinerary',
-  'hampta-pass-vs-sar-pass',
-  'kedarkantha-winter-trek-guide',
-  'rupin-pass-difficulty-beginners',
-  'kheerganga-trek-guide',
-  'kareri-lake-trek-guide',
-  'har-ki-dun-trek-guide',
-  'dev-roopa-trek-guide',
-  'buni-buni-pass-trek-guide',
-  'baraadsar-lake-trek-guide',
-  'best-time-himalayan-treks',
-  'himalayan-trek-local-guide-vs-company',
-  'sar-pass-vs-kheerganga',
-  'hampta-pass-trek-packing-list',
-  'how-to-reach-sankri-from-dehradun',
-  'kareri-lake-trek-in-summer',
-  'baraadsar-lake-safety-difficulty',
-  'kasol-to-grahan-trek',
-  'altitude-sickness-himalayan-treks-ams',
-  'har-ki-dun-osla-village-culture',
-  'dev-roopa-vs-hampta-pass',
-  'tosh-village-trekking-guide',
-];
-
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://unchartedtravel.in',
   generateRobotsTxt: true,
@@ -59,19 +26,6 @@ module.exports = {
       result.push(await config.transform(config, `/destinations/${slug}`));
       result.push(await config.transform(config, `/destinations/${slug}/gallery`));
     }
-
-    // Guide profile pages
-    result.push(await config.transform(config, '/guides'));
-    for (const id of GUIDE_IDS) {
-      result.push(await config.transform(config, `/guides/${id}`));
-    }
-
-    // Article pages
-    result.push(await config.transform(config, '/articles'));
-    for (const slug of ARTICLE_SLUGS) {
-      result.push(await config.transform(config, `/articles/${slug}`));
-    }
-
     return result;
   },
 

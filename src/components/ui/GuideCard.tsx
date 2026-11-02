@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Star, Award, MessageCircle, User, ArrowRight, ExternalLink } from 'lucide-react';
+import { Star, Award, MessageCircle, User, ArrowRight } from 'lucide-react';
 import { Guide } from '@/types/trek';
 
 interface GuideCardProps {
@@ -99,15 +98,6 @@ const GuideCard: React.FC<GuideCardProps> = ({ guide, onBook }) => {
 
                 {/* Action Buttons */}
                 <div className="mt-4 flex flex-col gap-3">
-                    {/* View Full Profile link */}
-                    <Link
-                        href={`/guides/${guide.id}`}
-                        className="w-full border border-slate-600 hover:border-yellow-400/60 text-slate-300 hover:text-yellow-400 py-2.5 px-5 text-xs uppercase tracking-widest font-sans font-semibold transition-all flex items-center justify-center gap-2"
-                    >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span>View Full Profile</span>
-                    </Link>
-
                     {/* Request This Guide Button */}
                     {onBook && (
                         <button

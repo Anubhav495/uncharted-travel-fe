@@ -41,6 +41,7 @@
   }
   .font-display, .font-serif, .font-heading {
     font-family: 'Instrument Serif', Georgia, serif;
+    font-style: normal;
   }
 }
 

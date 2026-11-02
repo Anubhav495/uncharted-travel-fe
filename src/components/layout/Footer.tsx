@@ -71,8 +71,6 @@ const Footer: React.FC = () => {
                         <ul className="space-y-2">
                             <FooterLink href="/">Home</FooterLink>
                             <FooterLink href="/destinations">Destinations</FooterLink>
-                            <FooterLink href="/guides">Local Guides</FooterLink>
-                            <FooterLink href="/articles">Trekking Guides &amp; Articles</FooterLink>
                             <FooterSectionLink targetId="why-us">Why Us</FooterSectionLink>
                         </ul>
                     </div>
