@@ -5,36 +5,6 @@ import { useAuth } from '../src/context/AuthContext';
 import { LeaderboardEntry } from './api/getLeaderboard';
 import Link from 'next/link';
 
-function getTierBadge(level: string) {
-    switch (level) {
-        case 'platinum':
-            return {
-                label: 'Platinum',
-                className: 'border-cyan-500/30 text-cyan-400 bg-cyan-500/10',
-            };
-        case 'gold':
-            return {
-                label: 'Gold',
-                className: 'border-yellow-400/30 text-yellow-400 bg-yellow-400/10',
-            };
-        case 'silver':
-            return {
-                label: 'Silver',
-                className: 'border-slate-500/30 text-slate-300 bg-slate-700/50',
-            };
-        case 'bronze':
-            return {
-                label: 'Bronze',
-                className: 'border-amber-600/30 text-amber-500 bg-amber-600/10',
-            };
-        default:
-            return {
-                label: 'Newcomer',
-                className: 'border-slate-700 text-slate-400 bg-slate-800/50',
-            };
-    }
-}
-
 export default function Community() {
     const { user } = useAuth();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
@@ -94,15 +64,19 @@ export default function Community() {
                             <p className="text-[10px] font-sans uppercase tracking-widest text-slate-400 mb-3">
                                 How you earn XP
                             </p>
-                            <ul aria-label="XP rewards" className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-sans text-slate-300">
-                                <li className="inline-flex items-center gap-2">
-                                    <Mountain className="w-4 h-4 text-slate-400" aria-hidden="true" />
-                                    <span>Complete a trek</span>
+                            <ul aria-label="XP rewards" className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-center sm:gap-8 text-[11px] sm:text-xs font-sans text-slate-300">
+                                <li className="min-w-0 flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2">
+                                    <span className="inline-flex items-center gap-1.5 sm:gap-2">
+                                        <Mountain className="w-4 h-4 shrink-0 text-slate-400" aria-hidden="true" />
+                                        <span>Complete a trek</span>
+                                    </span>
                                     <span className="text-yellow-400 font-semibold">+250 XP</span>
                                 </li>
-                                <li className="inline-flex items-center gap-2">
-                                    <Star className="w-4 h-4 text-slate-400" aria-hidden="true" />
-                                    <span>Verified feedback</span>
+                                <li className="min-w-0 flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2">
+                                    <span className="inline-flex items-center gap-1.5 sm:gap-2">
+                                        <Star className="w-4 h-4 shrink-0 text-slate-400" aria-hidden="true" />
+                                        <span>Verified feedback</span>
+                                    </span>
                                     <span className="text-yellow-400 font-semibold">+50 XP</span>
                                 </li>
                             </ul>
@@ -188,10 +162,9 @@ export default function Community() {
                     {/* Professional Scrollable Leaderboard Table (ALL loaded, smooth scroll) */}
                     <div className="border border-slate-700 bg-slate-800/70 shadow-2xl overflow-hidden">
                         {/* Sticky Table Header */}
-                        <div className="grid grid-cols-[3.5rem_1fr_6rem_5.5rem] sm:grid-cols-[4.5rem_1fr_8rem_7rem] items-center px-4 sm:px-6 py-3.5 border-b border-slate-700 text-[10px] sm:text-xs font-sans text-slate-400 uppercase tracking-widest bg-slate-900/90 font-semibold">
+                        <div className="grid grid-cols-[3.5rem_minmax(0,1fr)_5.5rem] sm:grid-cols-[4.5rem_minmax(0,1fr)_7rem] items-center px-4 sm:px-6 py-3.5 border-b border-slate-700 text-[10px] sm:text-xs font-sans text-slate-400 uppercase tracking-widest bg-slate-900/90 font-semibold">
                             <span className="text-center">Rank</span>
                             <span>Explorer</span>
-                            <span className="text-center">Tier</span>
                             <span className="text-right flex items-center justify-end gap-1">
                                 <TrendingUp className="w-3 h-3 text-slate-400" /> Score
                             </span>
@@ -218,12 +191,11 @@ export default function Community() {
                                 filteredLeaderboard.map(entry => {
                                     const rank = leaderboard.findIndex(user => user.user_id === entry.user_id) + 1;
                                     const isCurrentUser = user?.id === entry.user_id;
-                                    const tier = getTierBadge(entry.level);
 
                                     return (
                                         <div
                                             key={entry.user_id}
-                                            className={`grid grid-cols-[3.5rem_1fr_6rem_5.5rem] sm:grid-cols-[4.5rem_1fr_8rem_7rem] items-center px-4 sm:px-6 py-3.5 transition-colors ${
+                                            className={`grid grid-cols-[3.5rem_minmax(0,1fr)_5.5rem] sm:grid-cols-[4.5rem_minmax(0,1fr)_7rem] items-center px-4 sm:px-6 py-3.5 transition-colors ${
                                                 isCurrentUser
                                                     ? 'bg-yellow-400/10 border-l-2 border-yellow-400'
                                                     : 'hover:bg-slate-800/70'
@@ -274,13 +246,6 @@ export default function Community() {
                                                         )}
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            {/* Tier Badge */}
-                                            <div className="text-center">
-                                                <span className={`inline-block px-2 py-0.5 text-[9px] sm:text-[10px] font-sans uppercase tracking-wider border font-medium ${tier.className}`}>
-                                                    {tier.label}
-                                                </span>
                                             </div>
 
                                             {/* Score */}
