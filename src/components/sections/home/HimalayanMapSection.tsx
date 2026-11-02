@@ -301,7 +301,7 @@ const HimalayanMapSection: React.FC = () => {
                     </p>
                     <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-normal text-white leading-tight drop-shadow-lg">
                         Where we<br />
-                        <span className="italic text-white/80">guide you</span>
+                        <span className="text-white/80">guide you</span>
                     </h2>
                 </div>
 

@@ -7,7 +7,7 @@ export default function Home({ }: HomeProps) {
   return (
     <>
       <NextSeo 
-        title="Uncharted Travel | Epic Himalayan Treks & Expeditions"
+        title="Epic Himalayan Treks &amp; Expeditions"
         description="Discover the most breathtaking Himalayan treks, offbeat trails, and expert local guides with Uncharted Travel. Book your next adventure today."
         canonical="https://unchartedtravel.in/"
       />

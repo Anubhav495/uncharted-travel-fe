@@ -12,7 +12,7 @@ const MissionSection: React.FC = () => {
                         </div>
                         <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal leading-tight mb-8">
                             Bridging the <br />
-                            <span className="italic text-yellow-400">Altitude</span>
+                            <span className="text-yellow-400">Altitude</span>
                         </h2>
                         <p className="font-sans text-base sm:text-lg text-slate-300 leading-relaxed mb-6 font-normal">
                             We're moving beyond commercialized tour packages to offer authentic, unscripted, and deeply personal Himalayan expeditions.

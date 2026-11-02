@@ -12,7 +12,7 @@ export const baraadsarLakeTrek: Trek = {
     location: 'Uttarkashi, Uttarakhand · Himachal border',
     duration: '7 Days (suggested)',
     difficulty: 'Hard',
-    price: '₹20,999 / person',
+    price: '₹15,999 / person',
     image: '/assets/images/treks/baraadsar-lake/lake-cover.jpg',
     guideName: 'Kailash Rawat',
     guideAvatar: '/assets/kailash-rawat.jpeg',

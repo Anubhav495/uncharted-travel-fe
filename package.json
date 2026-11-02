@@ -29,6 +29,8 @@
   },
   "scripts": {
     "dev": "next dev",
+    "generate:llms": "node scripts/generate-llms.js",
+    "prebuild": "npm run generate:llms",
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start",

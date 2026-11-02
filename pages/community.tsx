@@ -58,7 +58,7 @@ export default function Community() {
                             Showing Top 20 Trekkers Globally
                         </div>
                         <h1 className="font-display text-4xl sm:text-6xl font-normal text-white mb-4 tracking-tight">
-                            Trekker <span className="italic text-yellow-400">Leaderboard</span>
+                            Trekker <span className="text-yellow-400">Leaderboard</span>
                         </h1>
                         <div className="mb-5 text-center">
                             <p className="text-[10px] font-sans uppercase tracking-widest text-slate-400 mb-3">

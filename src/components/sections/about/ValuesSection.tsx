@@ -37,7 +37,7 @@ const ValuesSection: React.FC = () => {
                                 </span>
                             </div>
                             <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-                                Guiding <span className="italic text-yellow-400">Principles</span>
+                                Guiding <span className="text-yellow-400">Principles</span>
                             </h2>
                         </div>
                         <p className="text-sm text-slate-400 max-w-sm font-sans leading-relaxed">

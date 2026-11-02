@@ -174,7 +174,7 @@ const DestinationsGrid: React.FC<DestinationsGridProps> = ({ mobileView }) => {
 
                     {/* Coming Soon Note */}
                     <div className="mt-20 text-center border-t border-slate-800 pt-12">
-                        <p className="text-slate-400 font-display text-xl sm:text-2xl italic">
+                        <p className="text-slate-400 font-display text-xl sm:text-2xl">
                             More Himalayan destinations coming soon.
                         </p>
                     </div>
