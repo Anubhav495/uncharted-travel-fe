@@ -9,8 +9,6 @@
 - Homepage: https://unchartedtravel.in/
 - Contact: hello@unchartedtravel.in | +91 8318217817
 - Headquarters: Parvati Valley, Kasol, Himachal Pradesh 175105, India
-- Guides directory: https://unchartedtravel.in/guides
-- Articles / blog: https://unchartedtravel.in/articles
 - All destinations: https://unchartedtravel.in/destinations
 
 ## Treks Offered
@@ -28,41 +26,6 @@
 | Kheerganga Trek | /destinations/kheerganga-trek | ₹999 | 2 Days | Easy | Parvati Valley, Himachal |
 | Baraadsar Lake Trek | /destinations/baraadsar-lake-trek | ₹20,999 / person | 7 Days (suggested) | Hard | Uttarkashi, Uttarakhand / Himachal border |
 
-## Guides
-
-| Guide | Profile | Experience | Languages |
-|---|---|---|---|
-| Pritam Negi | /guides/guide-pritam-negi | 8 Years | English, Hindi, Pahadi |
-| Kapil Rawat | /guides/guide-kapil-rawat | 8 Years | English, Hindi, Garhwali |
-| Kailash Rawat | /guides/guide-kailash-rawat | 20 Years | Hindi, Pahadi |
-| Bhojraj | /guides/guide-bhojraj | 5 Years | Hindi, Pahadi, English |
-| Aatish | /guides/guide-aatish | 7 Years | English, Hindi, Pahadi |
-
-## Articles
-
-- /articles/sar-pass-trek-cost-itinerary — Sar Pass Trek Cost, Itinerary and Difficulty: Complete Guide from Kasol
-- /articles/hampta-pass-vs-sar-pass — Hampta Pass vs Sar Pass: Which Trek Should You Choose?
-- /articles/kedarkantha-winter-trek-guide — Kedarkantha Winter Trek: Cost, Difficulty, Packing and Best Time
-- /articles/rupin-pass-difficulty-beginners — Is Rupin Pass Trek Safe for Beginners? Difficulty, Altitude and Preparation
-- /articles/kheerganga-trek-guide — Kheerganga Trek from Barshaini: Cost, Route and Hot Springs Guide
-- /articles/kareri-lake-trek-guide — Kareri Lake Trek: A 2-Day Easy Trek from Dharamshala
-- /articles/har-ki-dun-trek-guide — Har Ki Dun Trek from Sankri: Itinerary, Cost and Best Season
-- /articles/dev-roopa-trek-guide — Dev Roopa Trek: The Hidden Meadow Trek in Parvati Valley
-- /articles/buni-buni-pass-trek-guide — Buni Buni Pass: A Short, Easy Alternative to Kheerganga
-- /articles/baraadsar-lake-trek-guide — Baraadsar Lake Trek: Remote 7-Day Trek on the Himachal-Uttarakhand Border
-- /articles/best-time-himalayan-treks — Best Time for Himalayan Treks: Month-by-Month Guide for Himachal and Uttarakhand
-- /articles/himalayan-trek-local-guide-vs-company — Local Guide vs Trekking Company in the Himalayas: Cost, Safety and What You Actually Get
-- /articles/sar-pass-vs-kheerganga — Sar Pass vs Kheerganga: Beginner Trek Comparison in Parvati Valley
-- /articles/hampta-pass-trek-packing-list — Hampta Pass Trek Packing List: Everything You Need from Jobra to Chhatru
-- /articles/how-to-reach-sankri-from-dehradun — How to Reach Sankri from Dehradun for Kedarkantha and Har Ki Dun
-- /articles/kareri-lake-trek-in-summer — Kareri Lake Trek in May and June: Snow Melt, Campsites and Shepherd Trails
-- /articles/baraadsar-lake-safety-difficulty — Baraadsar Lake Ridge Crossing Safety: What You Must Know Before Attempting
-- /articles/kasol-to-grahan-trek — Kasol to Grahan Village Trek Route: First Day on the Sar Pass Trail
-- /articles/altitude-sickness-himalayan-treks-ams — High Altitude Sickness (AMS) Guide for Himalayan Treks Above 12,000 ft
-- /articles/har-ki-dun-osla-village-culture — Har Ki Dun Ancient Culture: Exploring Osla Village and the Supin Valley
-- /articles/dev-roopa-vs-hampta-pass — Dev Roopa vs Hampta Pass: Offbeat Parvati Meadows vs Spiti Crossover
-- /articles/tosh-village-trekking-guide — Tosh Village to Barshaini: The Local Guide's Guide to Lower Parvati Trails
-
 ## FAQ
 
 Q: What is the cheapest Himalayan trek on Uncharted Travel?
@@ -79,12 +42,6 @@ A: Rupin Pass Trek (7 Days, ₹15,500, starts from Shimla) and Baraadsar Lake Tr
 
 Q: How do I book a trek?
 A: Visit the trek page on unchartedtravel.in, choose a local guide or operator, and submit an enquiry. There is no booking fee — you connect directly with the guide.
-
-Q: Does Uncharted Travel have guides in Uttarakhand?
-A: Yes. Kapil Rawat and Kailash Rawat are based in the Garhwal Himalayas (Sankri area) and lead Kedarkantha, Har Ki Dun, Rupin Pass, and Baraadsar Lake treks.
-
-Q: Does Uncharted Travel have guides in Himachal Pradesh?
-A: Yes. Pritam Negi leads treks in Parvati Valley including Sar Pass, Kheerganga, Buni Buni Pass, Dev Roopa, and Hampta Pass. Aatish leads the Kareri Lake Trek from Dharamshala.
 
 Q: What is the highest altitude trek?
 A: Rupin Pass Trek reaches 15,250 ft (the pass elevation). Baraadsar Lake sits at approximately 14,108 ft.

@@ -23,7 +23,7 @@ const RegisterGuidePage: React.FC = () => {
                             Local Mountain Experts
                         </span>
                         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal mb-4 tracking-tight text-white">
-                            Join our Community of <span className="italic text-yellow-400">Guides</span>
+                            Join our Community of <span className="text-yellow-400">Guides</span>
                         </h1>
                         <p className="text-slate-400 max-w-xl mx-auto text-sm sm:text-base font-sans leading-relaxed">
                             Share your passion, earn on your terms, and meet travelers from around the world.

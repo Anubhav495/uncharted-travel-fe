@@ -12,7 +12,7 @@ const GuideSelectionSection: React.FC = () => {
                         </div>
                         <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal leading-tight mb-8">
                             How We Choose <br />
-                            <span className="italic text-yellow-400">Our Experts</span>
+                            <span className="text-yellow-400">Our Experts</span>
                         </h2>
                         <div className="space-y-6 text-base sm:text-lg text-slate-300 leading-relaxed font-sans font-normal">
                             <p>

@@ -48,7 +48,7 @@ const ReviewsSection: React.FC = () => {
                 {/* Section Header */}
                 <div className="max-w-2xl mb-16">
                     <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-                        Hear From Our <span className="italic text-yellow-400">Travelers</span>
+                        Hear From Our <span className="text-yellow-400">Travelers</span>
                     </h2>
                     <p className="text-sm text-slate-300 mt-4 font-sans leading-relaxed">
                         Real experiences from trekkers who explored the Himalayas with our local guides.
@@ -72,7 +72,7 @@ const ReviewsSection: React.FC = () => {
                                         ))}
                                     </div>
 
-                                    <p className="font-display text-base sm:text-xl font-normal italic text-slate-200 leading-relaxed mb-5 sm:mb-8">
+                                    <p className="font-display text-base sm:text-xl font-normal text-slate-200 leading-relaxed mb-5 sm:mb-8">
                                         "{review.quote}"
                                     </p>
                                 </div>

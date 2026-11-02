@@ -97,7 +97,7 @@ const WhyUsSection: React.FC = () => {
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="max-w-2xl mx-auto text-center mb-16">
                     <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight mb-4">
-                        Why Travel <span className="italic text-yellow-400">With Us?</span>
+                        Why Travel <span className="text-yellow-400">With Us?</span>
                     </h2>
                     <p className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
                         We're building a community founded on trust, passion, and the magic of experiencing the Himalayas through a local's eyes.

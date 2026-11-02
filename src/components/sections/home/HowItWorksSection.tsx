@@ -20,7 +20,7 @@ const HowItWorksSection: React.FC = () => {
 
                 {/* Section Title */}
                 <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-white leading-tight mb-3">
-                    Find Your Perfect <span className="italic text-yellow-400">Guide</span>
+                    Find Your Perfect <span className="text-yellow-400">Guide</span>
                 </h2>
 
                 <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto font-sans leading-relaxed mb-6">
