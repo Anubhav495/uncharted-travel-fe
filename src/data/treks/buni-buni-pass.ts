@@ -7,7 +7,7 @@ export const buniBuniPassTrek: Trek = {
     location: 'Parvati Valley, Himachal Pradesh',
     duration: '2-3 Days',
     difficulty: 'Easy',
-    price: '₹2,499',
+    price: '₹3,000',
     image: '/assets/buni-buni-pass/photo-2.jpg',
     imagePosition: 'center',
     guideName: 'Pritam Negi',
