@@ -13,7 +13,7 @@ const AboutHero: React.FC = () => {
                 </div>
 
                 <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight leading-[1.08] max-w-4xl mx-auto mb-8 text-white">
-                    The mountains don't yield, they <span className="italic text-yellow-400">transform us</span> — if we know who to follow.
+                    The mountains don't yield, they <span className="text-yellow-400">transform us</span> — if we know who to follow.
                 </h1>
 
                 <p className="font-sans text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">

@@ -1,10 +1,47 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /login
 Disallow: /dashboard
-Disallow: /register/*
+Disallow: /register/
 Disallow: /compare
-Disallow: /api/*
+Disallow: /api/
+
+# GPTBot
+User-agent: GPTBot
+Allow: /
+
+# ChatGPT-User
+User-agent: ChatGPT-User
+Allow: /
+
+# OAI-SearchBot
+User-agent: OAI-SearchBot
+Allow: /
+
+# ClaudeBot
+User-agent: ClaudeBot
+Allow: /
+
+# anthropic-ai
+User-agent: anthropic-ai
+Allow: /
+
+# PerplexityBot
+User-agent: PerplexityBot
+Allow: /
+
+# Google-Extended
+User-agent: Google-Extended
+Allow: /
+
+# Applebot-Extended
+User-agent: Applebot-Extended
+Allow: /
+
+# CCBot
+User-agent: CCBot
+Allow: /
 
 # Host
 Host: https://unchartedtravel.in

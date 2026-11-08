@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ArrowLeft, Loader2 } from 'lucide-react';
@@ -44,9 +44,10 @@ export default function LoginPage() {
     return (
         <>
             <NextSeo
-                title="Sign In | Uncharted Travel"
+                title="Sign In"
                 description="Sign in to your Uncharted Travel explorer dashboard."
                 canonical="https://unchartedtravel.in/login"
+                noindex={true}
             />
 
             <div className="min-h-screen bg-slate-900 text-white flex flex-col relative overflow-hidden">
@@ -136,3 +137,4 @@ export default function LoginPage() {
         </>
     );
 }
+

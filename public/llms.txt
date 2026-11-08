@@ -1,0 +1,36 @@
+# Uncharted Travel
+
+> Generated from src/data/treks/ by npm run generate:llms. Do not edit by hand.
+
+> Himalayan treks with local guides and operators in Himachal Pradesh and Uttarakhand.
+
+## About
+
+- Homepage: https://unchartedtravel.in/
+- All destinations: https://unchartedtravel.in/destinations
+- Contact: hello@unchartedtravel.in | +91 8318217817
+
+## Treks Offered
+
+| Trek | URL | Listed price | Duration | Difficulty | Location |
+|---|---|---|---|---|---|
+| Sar Pass Trek | https://unchartedtravel.in/destinations/sar-pass-trek | ₹6,500 | 5 Days | Moderate | Parvati Valley, Himachal |
+| Kheerganga Trek | https://unchartedtravel.in/destinations/kheerganga-trek | ₹999 | 2 Days | Easy | Parvati Valley, Himachal |
+| Kareri Lake Trek | https://unchartedtravel.in/destinations/kareri-lake-trek | ₹1,500 | 2 Days | Easy | Dharamshala, Himachal |
+| Kedarkantha Trek | https://unchartedtravel.in/destinations/kedarkantha-trek | ₹3,500 | 4 Days | Moderate | Sankri, Uttarakhand |
+| Har Ki Dun Trek | https://unchartedtravel.in/destinations/har-ki-dun-trek | ₹4,500 | 5 Days | Moderate | Sankri, Uttarakhand |
+| Rupin Pass Trek | https://unchartedtravel.in/destinations/rupin-pass-trek | ₹15,500 | 7 Days | Hard | Shimla, Himachal Pradesh |
+| Dev Roopa Trek | https://unchartedtravel.in/destinations/dev-roopa-trek | ₹8,000 | 5 to 6 Days | Moderate | Parvati Valley, Himachal Pradesh |
+| Buni Buni Pass Trek | https://unchartedtravel.in/destinations/buni-buni-pass | ₹3,000 | 2-3 Days | Easy | Parvati Valley, Himachal Pradesh |
+| Hampta Pass Trek | https://unchartedtravel.in/destinations/hampta-pass | ₹9,500 | 5 Days / 4 Nights | Moderate | Kullu & Lahaul Spiti, Himachal Pradesh |
+| Baraadsar Lake Trek | https://unchartedtravel.in/destinations/baraadsar-lake-trek | ₹15,999 / person | 7 Days (suggested) | Hard | Uttarkashi, Uttarakhand · Himachal border |
+
+## Booking
+
+Open a trek page, choose a guide or operator, and submit an enquiry to confirm availability, the final price, and arrangements.
+
+## More Information
+
+- Complete trek details: https://unchartedtravel.in/llms-full.txt
+- Sitemap: https://unchartedtravel.in/sitemap.xml
+- Robots: https://unchartedtravel.in/robots.txt

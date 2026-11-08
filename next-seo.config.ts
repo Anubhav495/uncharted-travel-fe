@@ -9,10 +9,10 @@ const config = {
     siteName: 'Uncharted Travel',
     images: [
       {
-        url: 'https://unchartedtravel.in/assets/dev-roopa/WhatsApp Image 2026-06-28 at 10.05.47 (1).jpeg', // Use a beautiful default image
-        width: 1200,
-        height: 630,
-        alt: 'Uncharted Travel - Himalayan Adventures',
+        url: 'https://unchartedtravel.in/assets/dev-roopa/WhatsApp%20Image%202026-06-28%20at%2010.05.47%20(1).jpeg',
+        width: 757,
+        height: 1024,
+        alt: 'Uncharted Travel — Himalayan Treks & Expeditions',
       },
     ],
   },

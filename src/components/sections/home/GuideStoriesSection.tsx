@@ -51,7 +51,7 @@ const GuideStoriesSection: React.FC = () => {
                             Real Local Experts
                         </div>
                         <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-white leading-tight">
-                            Stories From Our Founding <span className="italic text-yellow-400">Guides</span>
+                            Stories From Our Founding <span className="text-yellow-400">Guides</span>
                         </h2>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-300 max-w-sm font-sans leading-relaxed">
@@ -84,7 +84,7 @@ const GuideStoriesSection: React.FC = () => {
                                     <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-normal text-white mb-3 sm:mb-4">
                                         {guide.name}
                                     </h3>
-                                    <blockquote className="border-l-2 border-yellow-400 pl-3 sm:pl-4 py-1 mb-4 sm:mb-6 font-display text-base sm:text-xl italic text-slate-100 leading-relaxed">
+                                    <blockquote className="border-l-2 border-yellow-400 pl-3 sm:pl-4 py-1 mb-4 sm:mb-6 font-display text-base sm:text-xl text-slate-100 leading-relaxed">
                                         "{guide.quote}"
                                     </blockquote>
                                     <div className="flex flex-wrap gap-1.5">

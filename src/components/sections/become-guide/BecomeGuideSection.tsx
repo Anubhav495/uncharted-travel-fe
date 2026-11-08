@@ -21,7 +21,7 @@ const BecomeGuideSection: React.FC = () => {
 
                     <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal mb-6 leading-[1.05] tracking-tight text-white">
                         Share your world, <br />
-                        <span className="italic text-yellow-400">your way.</span>
+                        <span className="text-yellow-400">your way.</span>
                     </h1>
 
                     <p className="font-sans text-slate-300 text-base sm:text-lg mb-10 max-w-xl leading-relaxed font-normal">

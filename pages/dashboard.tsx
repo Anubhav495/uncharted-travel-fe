@@ -162,7 +162,7 @@ export default function Dashboard() {
                                 My Dashboard
                             </h1>
                             <p className="text-white/60 text-sm sm:text-base mt-2 font-sans">
-                                Welcome back, <span className="font-display italic text-amber-400 text-lg sm:text-xl font-normal">{user.user_metadata.full_name || user.email}</span>
+                                Welcome back, <span className="font-display text-amber-400 text-lg sm:text-xl font-normal">{user.user_metadata.full_name || user.email}</span>
                             </p>
                         </div>
                         <Link

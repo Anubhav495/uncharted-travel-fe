@@ -21,7 +21,7 @@ const DestinationsHero: React.FC = () => {
             {/* Content */}
             <div className="relative z-20 container mx-auto px-6 text-center max-w-4xl py-16">
                 <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight text-white mb-6">
-                    Find Your Next <span className="italic text-yellow-400">Expedition</span>
+                    Find Your Next <span className="text-yellow-400">Expedition</span>
                 </h1>
 
                 <p className="font-sans text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">

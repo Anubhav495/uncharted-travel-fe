@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { HiMenu, HiX } from 'react-icons/hi';
@@ -43,7 +43,6 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
         if (isMenuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
             document.addEventListener('keydown', handleEscape);
-            // Lock page scroll. `overflow: hidden` alone doesn't stop iOS Safari from scrolling the page behind.
             scrollY = window.scrollY;
             document.documentElement.style.overflow = 'hidden';
             document.body.style.position = 'fixed';
@@ -124,31 +123,31 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
 
                     {/* Desktop Navigation */}
                     {variant === 'default' && (
-                        <nav className="hidden lg:flex items-center space-x-8">
+                        <nav className="hidden lg:flex items-center space-x-7">
                             <NavLink href="/destinations">Destinations</NavLink>
-                            <NavLink href="/become-a-guide">Become a Guide</NavLink>
                             <NavLink href="/community">Community</NavLink>
+                            <NavLink href="/become-a-guide">Become a Guide</NavLink>
                             <NavLink href="/about">About Us</NavLink>
 
                             {user ? (
                                 <div className="relative ml-4 group">
                                     <button className="flex items-center space-x-2 focus:outline-none p-1 border border-white/15 bg-white/[0.04] hover:border-white/30 transition duration-150">
                                         <div className="w-7 h-7 bg-neutral-900 flex items-center justify-center text-white overflow-hidden text-xs">
-                                            {user.user_metadata.avatar_url ? (
+                                            {user.user_metadata?.avatar_url ? (
                                                 <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                                             ) : (
                                                 <span className="font-medium">{user.email?.charAt(0).toUpperCase()}</span>
                                             )}
                                         </div>
                                         <span className="text-xs text-white/75 px-1 truncate max-w-[100px]">
-                                            {user.user_metadata.full_name?.split(' ')[0] || user.email?.split('@')[0]}
+                                            {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
                                         </span>
                                     </button>
 
                                     {/* Dropdown Menu */}
                                     <div className="absolute right-0 mt-2 w-52 bg-slate-900 border border-slate-700 shadow-2xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 transform origin-top-right backdrop-blur-xl">
                                         <div className="px-4 py-3 border-b border-slate-800">
-                                            <p className="text-xs text-white font-medium truncate">{user.user_metadata.full_name || 'Traveler'}</p>
+                                            <p className="text-xs text-white font-medium truncate">{user.user_metadata?.full_name || 'Traveler'}</p>
                                             <p className="text-xs text-slate-400 truncate font-sans mt-0.5">{user.email}</p>
                                         </div>
                                         <Link href="/dashboard" className="block px-4 py-2 text-xs uppercase tracking-wider text-slate-200 hover:bg-slate-800 hover:text-white font-sans">
@@ -165,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             ) : (
                                 <Link
                                     href="/login"
-                                    className="ml-2 px-5 py-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold transition-all duration-200 text-xs uppercase tracking-widest font-sans shadow-md"
+                                    className="px-4 py-2 bg-yellow-400 text-slate-900 font-bold hover:bg-yellow-300 transition-all text-xs uppercase tracking-widest font-sans ml-4 shadow-md"
                                 >
                                     Sign In
                                 </Link>
@@ -181,7 +180,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                     href="/dashboard"
                                     className="px-2.5 py-1.5 border border-white/20 bg-neutral-900/90 text-white text-[11px] font-sans uppercase tracking-wider hover:border-white/40 transition-all backdrop-blur-md"
                                 >
-                                    {user.user_metadata.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Account'}
+                                    {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Account'}
                                 </Link>
                             ) : (
                                 <Link
@@ -257,17 +256,17 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             <NavLink href="/destinations" isMobile={true} onClick={() => setIsMenuOpen(false)}>
                                 Destinations
                             </NavLink>
-                            <NavLink href="/become-a-guide" isMobile={true} onClick={() => setIsMenuOpen(false)}>
-                                Become a Guide
-                            </NavLink>
                             <NavLink href="/community" isMobile={true} onClick={() => setIsMenuOpen(false)}>
                                 Community
+                            </NavLink>
+                            <NavLink href="/become-a-guide" isMobile={true} onClick={() => setIsMenuOpen(false)}>
+                                Become a Guide
                             </NavLink>
                             <NavLink href="/about" isMobile={true} onClick={() => setIsMenuOpen(false)}>
                                 About Us
                             </NavLink>
 
-                            {/* Sign In / User Tabs kept right above with all tabs */}
+                            {/* Sign In / User Tabs */}
                             {user ? (
                                 <div className="pt-3 border-t border-white/10 mt-3 space-y-1">
                                     <div className="px-4 py-1.5 text-xs text-white/50 font-sans">
@@ -307,3 +306,4 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
 };
 
 export default Header;
+

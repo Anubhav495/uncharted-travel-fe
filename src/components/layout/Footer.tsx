@@ -70,6 +70,7 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-2">
                             <FooterLink href="/">Home</FooterLink>
+                            <FooterLink href="/destinations">Destinations</FooterLink>
                             <FooterSectionLink targetId="why-us">Why Us</FooterSectionLink>
                         </ul>
                     </div>
@@ -88,6 +89,7 @@ const Footer: React.FC = () => {
                             Community
                         </h3>
                         <ul className="space-y-2">
+                            <FooterLink href="/community">Leaderboard</FooterLink>
                             <FooterLink href="/become-a-guide">Become a Guide</FooterLink>
                         </ul>
                     </div>
@@ -97,8 +99,8 @@ const Footer: React.FC = () => {
                             Get in Touch
                         </h3>
                         <ul className="space-y-2 break-words">
-                            <FooterLink href="mailto:hello@unchartedtravel.com">
-                                hello@unchartedtravel.com
+                            <FooterLink href="mailto:hello@unchartedtravel.in">
+                                hello@unchartedtravel.in
                             </FooterLink>
                         </ul>
                     </div>
@@ -108,15 +110,15 @@ const Footer: React.FC = () => {
                     <Link href="/" className="inline-flex items-center gap-2.5">
                         <img
                             src="/assets/brand-logo.png"
-                            alt="UnchartedTravel Logo"
+                            alt="Uncharted Travel Logo"
                             className="h-8 w-8 shrink-0 object-contain"
                         />
                         <span className="font-display text-2xl tracking-tight text-white">
-                            UnchartedTravel
+                            Uncharted <span className="text-yellow-400">Travel</span>
                         </span>
                     </Link>
                     <p className="text-xs font-sans text-slate-500 text-center sm:text-right">
-                        &copy; {currentYear} UnchartedTravel. All rights reserved.
+                        &copy; {currentYear} Uncharted Travel. All rights reserved.
                     </p>
                 </div>
             </div>
