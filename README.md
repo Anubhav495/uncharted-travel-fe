@@ -53,6 +53,11 @@ A modern travel platform that connects adventure seekers with local trekking gui
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser 🎉
 
+Development writes generated files to `.next-dev`; production builds and
+`npm start` use `.next`. This keeps a production build from overwriting files used
+by a running development server. Localhost comparison links require the local
+server to stay running; links copied from the deployed site use its public domain.
+
 ### Available Scripts
 
 | Command         | Description                  |
