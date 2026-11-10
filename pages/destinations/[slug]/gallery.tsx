@@ -1,18 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
+import type { GetStaticPaths, GetStaticProps } from 'next';
+import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ChevronLeft, ChevronRight, X, Camera, MapPin, Maximize2 } from 'lucide-react';
 import { treks } from '@/data/treks';
+import type { Trek } from '@/types/trek';
 
-const GalleryPage = () => {
-    const router = useRouter();
-    const { slug } = router.query;
+interface GalleryPageProps {
+    trek: Trek;
+}
+
+export const getStaticPaths: GetStaticPaths = () => ({
+    paths: treks.map(trek => ({ params: { slug: trek.slug } })),
+    fallback: false,
+});
+
+export const getStaticProps: GetStaticProps<GalleryPageProps, { slug: string }> = ({ params }) => {
+    const trek = treks.find(trek => trek.slug === params?.slug);
+    return trek ? { props: { trek } } : { notFound: true };
+};
+
+const GalleryPage = ({ trek }: GalleryPageProps) => {
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const trek = treks.find(t => t.slug === slug);
+    const canonicalUrl = `https://unchartedtravel.in/destinations/${trek.slug}/gallery`;
+    const imageUrl = trek.image ? new URL(trek.image, 'https://unchartedtravel.in').href : undefined;
 
     const closeLightbox = useCallback(() => {
         setLightboxOpen(false);
@@ -45,25 +59,6 @@ const GalleryPage = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [lightboxOpen, trek, closeLightbox]);
 
-    if (!trek && router.isReady) {
-        return (
-            <div className="min-h-screen bg-black flex items-center justify-center text-white px-6">
-                <div className="text-center max-w-md border border-white/10 bg-neutral-950 p-10">
-                    <h1 className="font-display text-4xl font-normal mb-3 text-white">Gallery Not Found</h1>
-                    <p className="text-xs text-white/50 font-sans mb-6">The requested expedition visual registry does not exist.</p>
-                    <button
-                        onClick={() => router.push('/destinations')}
-                        className="px-6 py-3 border border-white/20 bg-white text-black hover:bg-neutral-200 text-xs uppercase tracking-widest font-sans font-medium transition-all"
-                    >
-                        Browse Destinations
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (!trek) return null;
-
     const gallery = trek.gallery || [];
 
     const openLightbox = (index: number) => {
@@ -87,10 +82,15 @@ const GalleryPage = () => {
 
     return (
         <>
-            <Head>
-                <title>{trek.title} Gallery &middot; Visual Archive | Uncharted Travel</title>
-                <meta name="description" content={`Expedition photo gallery and terrain reconnaissance for ${trek.title} in ${trek.location}.`} />
-            </Head>
+            <NextSeo
+                title={`${trek.title} Gallery · Visual Archive`}
+                description={`Expedition photo gallery and terrain reconnaissance for ${trek.title} in ${trek.location}.`}
+                canonical={canonicalUrl}
+                openGraph={{
+                    url: canonicalUrl,
+                    images: imageUrl ? [{ url: imageUrl, alt: trek.title }] : [],
+                }}
+            />
 
             <main className="bg-slate-900 text-white min-h-screen pb-28 relative">
                 {/* Subtle Ambient Topo Grid */}

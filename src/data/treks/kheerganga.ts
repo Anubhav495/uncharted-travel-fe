@@ -7,7 +7,7 @@ export const kheergangaTrek: Trek = {
     location: 'Parvati Valley, Himachal',
     duration: '2 Days',
     difficulty: 'Easy',
-    price: '₹999',
+    price: '₹1,000',
     image: '/assets/kheerganga.jpg',
     imagePosition: 'center',
     guideName: 'Pritam Negi',
