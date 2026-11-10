@@ -278,9 +278,9 @@ export default function LoginBackgroundMap() {
                 </div>
             </div>
 
-            {/* Mobile bottom pill */}
+            {/* Mobile location summary and destination buttons */}
             <div
-                className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex items-center justify-between px-3.5 py-2.5 bg-black/90 backdrop-blur-md border border-white/15 pointer-events-auto rounded-none"
+                className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex flex-col gap-2.5 px-3.5 py-2.5 bg-black/90 backdrop-blur-md border border-white/15 pointer-events-auto rounded-none"
                 style={{ opacity: mapReady ? 1 : 0, transition: 'opacity 0.6s ease' }}
             >
                 <div className="flex items-center gap-2">
@@ -291,13 +291,14 @@ export default function LoginBackgroundMap() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="grid grid-cols-2 xs:grid-cols-4 gap-1" role="group" aria-label="Map destinations">
                     {TREK_LOCATIONS.map((loc, i) => (
                         <button
                             key={loc.id}
                             type="button"
                             onClick={() => handleSelectSpot(i)}
-                            className={`h-6 px-2 text-[9px] uppercase font-sans tracking-wider transition-colors rounded-none ${
+                            aria-pressed={i === currentIdx}
+                            className={`min-w-0 h-6 px-2 text-[9px] uppercase font-sans tracking-wider transition-colors rounded-none ${
                                 i === currentIdx
                                     ? 'bg-white text-black font-medium'
                                     : 'text-white/60 hover:text-white'
