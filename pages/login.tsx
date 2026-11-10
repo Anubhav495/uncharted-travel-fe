@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { NextSeo } from 'next-seo';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 import { useAuth } from '../src/context/AuthContext';
 import { useToast } from '../src/context/ToastContext';
 
@@ -74,9 +75,7 @@ export default function LoginPage() {
                                 alt="UnchartedTravel Logo"
                                 className="h-10 w-10 shrink-0 object-contain"
                             />
-                            <span className="font-display text-3xl sm:text-4xl text-white tracking-tight">
-                                Uncharted<span className="text-yellow-400">Travel</span>
-                            </span>
+                            <BrandWordmark className="text-3xl sm:text-4xl" />
                         </div>
 
                         <h1 className="text-xl sm:text-2xl font-normal font-display text-white mt-4">

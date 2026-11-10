@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { BRAND_NAME } from '@/lib/brand';
 import {
     completedEmailTemplate,
     cancelledEmailTemplate,
@@ -38,8 +39,8 @@ async function sendEmail({ to, subject, html }: SendEmailOptions): Promise<void>
 
     try {
         await transporter.sendMail({
-            from: `"Uncharted Travel" <${GMAIL_USER}>`,
-            replyTo: `"Uncharted Travel" <${GMAIL_USER}>`,
+            from: `"${BRAND_NAME}" <${GMAIL_USER}>`,
+            replyTo: `"${BRAND_NAME}" <${GMAIL_USER}>`,
             to,
             subject,
             html,
@@ -83,14 +84,14 @@ export async function sendReachOutEmail(
     to: string,
     userName: string
 ): Promise<void> {
-    const subject = 'Uncharted Travel - We tried to reach you!';
+    const subject = `${BRAND_NAME} - We tried to reach you!`;
     const html = reachOutEmailTemplate(userName);
     await sendEmail({ to, subject, html });
 }
 
 /** Send the route, packing list, and confirmed guide details to a traveller. */
 export async function sendGuideAssignmentEmail(to: string, details: GuideAssignmentEmailData): Promise<void> {
-    const subject = `Meet your guide for ${details.trek.title} | Uncharted Travel`;
+    const subject = `Meet your guide for ${details.trek.title} | ${BRAND_NAME}`;
     const html = guideAssignmentEmailTemplate(details);
     await sendEmail({ to, subject, html });
 }

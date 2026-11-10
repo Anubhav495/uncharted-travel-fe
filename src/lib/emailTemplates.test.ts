@@ -1,7 +1,35 @@
+/** @jest-environment node */
+
 import { devRoopaTrek } from '@/data/treks/dev-roopa';
-import { completedEmailTemplate, guideAssignmentEmailTemplate, reachOutEmailTemplate } from './emailTemplates';
+import { cancelledEmailTemplate, completedEmailTemplate, guideAssignmentEmailTemplate, reachOutEmailTemplate } from './emailTemplates';
 
 describe('email templates', () => {
+    it.each([
+        ['completed', () => completedEmailTemplate('Mehul', 'Dev Roopa Trek', 250)],
+        ['cancelled', () => cancelledEmailTemplate('Mehul', 'Dev Roopa Trek')],
+        ['reach-out', () => reachOutEmailTemplate('Mehul')],
+        ['guide assignment', () => guideAssignmentEmailTemplate({
+            userName: 'Mehul',
+            trek: devRoopaTrek,
+            guide: devRoopaTrek.guides![0],
+        })],
+    ] as const)('uses the shared inline wordmark in the %s email', (_name, template) => {
+        const html = template();
+        const brandHeader = html.match(/<a href="https:\/\/unchartedtravel\.in"[^>]*>([\s\S]*?)<\/a>/)?.[1];
+
+        expect(brandHeader).toBeDefined();
+        expect(brandHeader).toMatch(/Uncharted<span[^>]*>Travel<\/span>/);
+        expect(brandHeader).toContain('color:#ffffff');
+        expect(brandHeader).toContain('color:#facc15');
+        expect(brandHeader).toContain('letter-spacing:normal');
+        expect(brandHeader).toContain('font-weight:400');
+        expect(brandHeader).toContain('Instrument Serif');
+        expect(brandHeader).toContain('Georgia');
+        expect(brandHeader).not.toContain('class=');
+        expect(html).toContain('<title>UnchartedTravel</title>');
+        expect(html).not.toContain('Uncharted Travel');
+    });
+
     it('asks an unreachable customer to call back and escapes their name', () => {
         const html = reachOutEmailTemplate('<b>Mehul</b>');
 

@@ -1,3 +1,7 @@
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import BrandWordmark from '@/components/ui/BrandWordmark';
+import { BRAND_NAME } from '@/lib/brand';
 import type { Guide, Trek } from '@/types/trek';
 
 /**
@@ -6,6 +10,7 @@ import type { Guide, Trek } from '@/types/trek';
  */
 
 const SITE_URL = 'https://unchartedtravel.in';
+const brandWordmarkHtml = renderToStaticMarkup(createElement(BrandWordmark, { variant: 'email' }));
 
 /** Shared base wrapper for all email templates */
 function baseLayout(content: string): string {
@@ -15,7 +20,7 @@ function baseLayout(content: string): string {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uncharted Travel</title>
+    <title>${BRAND_NAME}</title>
 </head>
 <body style="margin:0;padding:0;background-color:#0f172a;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f172a;padding:40px 20px;">
@@ -26,8 +31,8 @@ function baseLayout(content: string): string {
                     <tr>
                         <td align="center" style="padding-bottom:32px;">
                             <a href="${SITE_URL}" style="text-decoration:none;">
-                                <img src="${SITE_URL}/assets/brand-logo.png" alt="Uncharted Travel" width="48" height="48" style="display:inline-block;vertical-align:middle;width:48px;height:48px;margin-right:12px;" />
-                                <span style="font-size:28px;font-weight:800;color:#facc15;letter-spacing:-0.5px;vertical-align:middle;">Uncharted Travel</span>
+                                <img src="${SITE_URL}/assets/brand-logo.png" alt="${BRAND_NAME}" width="48" height="48" style="display:inline-block;vertical-align:middle;width:48px;height:48px;margin-right:12px;" />
+                                ${brandWordmarkHtml}
                             </a>
                         </td>
                     </tr>
@@ -41,7 +46,7 @@ function baseLayout(content: string): string {
                     <tr>
                         <td align="center" style="padding-top:32px;">
                             <p style="color:#64748b;font-size:13px;margin:0 0 8px 0;">
-                                You're receiving this because you have a booking with Uncharted Travel.
+                                You're receiving this because you have a booking with ${BRAND_NAME}.
                             </p>
                             <p style="color:#475569;font-size:12px;margin:0;">
                                 <a href="${SITE_URL}" style="color:#facc15;text-decoration:none;">unchartedtravel.in</a>
@@ -182,7 +187,7 @@ export function reachOutEmailTemplate(userName: string): string {
             </h1>
 
             <p style="color:#94a3b8;font-size:16px;text-align:center;margin:0 0 28px 0;line-height:1.6;">
-                We tried to reach you regarding your recent enquiry with Uncharted Travel, but couldn't get through.
+                We tried to reach you regarding your recent enquiry with ${BRAND_NAME}, but couldn't get through.
             </p>
 
             <!-- Highlight Box -->

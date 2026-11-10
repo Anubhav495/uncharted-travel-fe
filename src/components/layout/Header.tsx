@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { useAuth } from '../../context/AuthContext';
 
@@ -116,9 +117,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                             alt="UnchartedTravel Logo"
                             className="h-8 w-8 shrink-0 object-contain"
                         />
-                        <span className="font-display text-2xl tracking-tight text-white group-hover:text-white/90 transition-colors">
-                            UnchartedTravel
-                        </span>
+                        <BrandWordmark />
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -235,9 +234,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'default' }) => {
                                 alt="UnchartedTravel Logo"
                                 className="h-8 w-8 shrink-0 object-contain"
                             />
-                            <span className="font-display text-2xl tracking-tight text-white">
-                                UnchartedTravel
-                            </span>
+                            <BrandWordmark />
                         </Link>
 
                         <button

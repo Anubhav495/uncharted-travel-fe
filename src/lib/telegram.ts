@@ -1,3 +1,5 @@
+import { BRAND_NAME } from '@/lib/brand';
+
 interface BookingNotification {
     name: string;
     email: string;
@@ -18,7 +20,7 @@ export async function sendBookingNotification(booking: BookingNotification) {
     }
 
     const message = `
-🏔️ <b>New Booking Alert!</b>
+🏔️ <b>${BRAND_NAME} — New Booking Alert!</b>
 
 <b>Trek:</b> ${escapeHtml(booking.trekTitle)}
 <b>Name:</b> ${escapeHtml(booking.name)}

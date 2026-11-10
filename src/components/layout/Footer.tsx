@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import HowItWorksSection from '@/components/sections/home/HowItWorksSection';
 import FooterLandscape from '@/components/layout/FooterLandscape';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 
 const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({
     href,
@@ -113,9 +114,7 @@ const Footer: React.FC = () => {
                             alt="Uncharted Travel Logo"
                             className="h-8 w-8 shrink-0 object-contain"
                         />
-                        <span className="font-display text-2xl tracking-tight text-white">
-                            Uncharted <span className="text-yellow-400">Travel</span>
-                        </span>
+                        <BrandWordmark />
                     </Link>
                     <p className="text-xs font-sans text-slate-500 text-center sm:text-right">
                         &copy; {currentYear} Uncharted Travel. All rights reserved.
