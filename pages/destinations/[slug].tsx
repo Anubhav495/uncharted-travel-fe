@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd, BreadcrumbJsonLd } from 'next-seo';
 import TrekImage from '@/components/ui/TrekImage';
 import { MapPin, Clock, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { treks } from '@/data/treks';
+import type { Trek } from '@/types/trek';
 import GuideCard from '@/components/ui/GuideCard';
 import GalleryPreview from '@/components/ui/GalleryPreview';
 import TrekItinerary from '@/components/ui/TrekItinerary';
@@ -11,9 +13,22 @@ import BookingModal, { BookingFormData, BookingPreference } from '@/components/m
 import { useToast } from '@/context/ToastContext';
 import { useAuth } from '@/context/AuthContext';
 
-const TrekDetailsPage = () => {
+interface TrekDetailsPageProps {
+    trek: Trek;
+}
+
+export const getStaticPaths: GetStaticPaths = () => ({
+    paths: treks.map(trek => ({ params: { slug: trek.slug } })),
+    fallback: false,
+});
+
+export const getStaticProps: GetStaticProps<TrekDetailsPageProps, { slug: string }> = ({ params }) => {
+    const trek = treks.find(trek => trek.slug === params?.slug);
+    return trek ? { props: { trek } } : { notFound: true };
+};
+
+const TrekDetailsPage = ({ trek }: TrekDetailsPageProps) => {
     const router = useRouter();
-    const { slug } = router.query;
     const { showToast } = useToast();
     const { user } = useAuth();
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -22,8 +37,8 @@ const TrekDetailsPage = () => {
     const [guidePage, setGuidePage] = useState(1);
     const ITEMS_PER_PAGE = 4;
 
-    // Find the trek
-    const trek = treks.find(t => t.slug === slug);
+    const canonicalUrl = `https://unchartedtravel.in/destinations/${trek.slug}`;
+    const imageUrl = trek.image ? new URL(trek.image, 'https://unchartedtravel.in').href : undefined;
 
     // Pagination data
     const totalGuides = trek?.guides?.length || 0;
@@ -84,31 +99,11 @@ const TrekDetailsPage = () => {
         handleBookAction();
     }, [router, router.isReady, user, router.query, trek, showToast]);
 
-    if (!trek && router.isReady) {
-        return (
-            <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white px-6">
-                <div className="text-center max-w-md border border-slate-700 bg-slate-800/90 p-10 shadow-2xl rounded-none">
-                    <h1 className="font-display text-4xl font-normal mb-3 text-white">Route Not Found</h1>
-                    <p className="text-xs text-slate-400 font-sans mb-6">The requested Himalayan expedition route does not exist in our registry.</p>
-                    <button
-                        onClick={() => router.push('/destinations')}
-                        className="px-6 py-3 bg-yellow-400 text-slate-950 hover:bg-yellow-300 text-xs uppercase tracking-widest font-sans font-bold transition-all rounded-none cursor-pointer shadow-lg"
-                    >
-                        Browse Destinations
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (!trek) return null; // Loading state
-
     const handleRequestInfo = async (id?: string, name?: string) => {
         const type = id ? 'guide' : 'general';
         setBookingPreference({ id, name, type });
         if (!user) {
-            const currentSlug = trek?.slug || (router.query.slug as string);
-            let returnPath = `/destinations/${currentSlug}?action=book`;
+            let returnPath = `/destinations/${trek.slug}?action=book`;
             if (type !== 'general' && id) {
                 returnPath += `&providerType=${encodeURIComponent(type)}&providerId=${encodeURIComponent(id)}&providerName=${encodeURIComponent(name || '')}`;
             }
@@ -150,11 +145,12 @@ const TrekDetailsPage = () => {
             <NextSeo
                 title={trek.title}
                 description={trek.overview?.substring(0, 160) || `Experience the breathtaking ${trek.title} in ${trek.location}.`}
-                canonical={`https://unchartedtravel.in/destinations/${trek.slug}`}
+                canonical={canonicalUrl}
                 openGraph={{
-                    images: trek.image ? [
+                    url: canonicalUrl,
+                    images: imageUrl ? [
                         {
-                            url: `https://unchartedtravel.in${trek.image}`,
+                            url: imageUrl,
                             alt: trek.title,
                         }
                     ] : []
@@ -164,19 +160,19 @@ const TrekDetailsPage = () => {
                 itemListElements={[
                     { position: 1, name: 'Home', item: 'https://unchartedtravel.in/' },
                     { position: 2, name: 'Destinations', item: 'https://unchartedtravel.in/destinations' },
-                    { position: 3, name: trek.title, item: `https://unchartedtravel.in/destinations/${trek.slug}` }
+                    { position: 3, name: trek.title, item: canonicalUrl }
                 ]}
             />
             <ProductJsonLd
                 productName={trek.title}
-                images={trek.image ? [`https://unchartedtravel.in${trek.image}`] : undefined}
+                images={imageUrl ? [imageUrl] : undefined}
                 description={trek.overview}
                 brand="Uncharted Travel"
                 offers={{
                     price: trek.price.replace(/[^0-9.-]+/g,""),
                     priceCurrency: 'INR',
                     availability: 'https://schema.org/InStock',
-                    url: `https://unchartedtravel.in/destinations/${trek.slug}`,
+                    url: canonicalUrl,
                     seller: { name: 'Uncharted Travel' }
                 }}
             />
