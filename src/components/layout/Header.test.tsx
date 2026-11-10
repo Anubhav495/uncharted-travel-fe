@@ -1,9 +1,13 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import Header from './Header';
+import Footer from './Footer';
 import { useAuth } from '@/context/AuthContext';
 
 jest.mock('@/context/AuthContext', () => ({ useAuth: jest.fn() }));
+jest.mock('next/router', () => ({
+    useRouter: () => ({ pathname: '/', push: jest.fn() }),
+}));
 
 jest.mock('next/link', () => ({
     __esModule: true,
@@ -33,6 +37,22 @@ describe('Header mobile menu', () => {
             loginWithGoogle,
             signOut,
         });
+    });
+
+    it('matches the footer branding in the header and mobile menu', () => {
+        render(<><Header /><Footer /></>);
+        const header = screen.getByRole('banner');
+        const footer = screen.getByRole('contentinfo');
+        const menu = openMenu();
+
+        for (const region of [header, footer, menu]) {
+            const travel = within(region).getByText('Travel');
+            expect(travel).toHaveClass('text-yellow-400');
+            expect(travel.parentElement?.textContent).toBe('UnchartedTravel');
+            expect(travel.parentElement).toHaveClass('font-display', 'text-2xl', 'tracking-normal', 'text-white');
+        }
+        expect(within(footer).getByRole('heading', { name: 'Find Your Perfect Guide' }))
+            .toHaveClass('tracking-tight');
     });
 
     it('keeps the revamped menu outside the blurred header when opened after scrolling', () => {

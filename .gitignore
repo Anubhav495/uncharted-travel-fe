@@ -27,5 +27,9 @@ yarn-error.log*
 .netlify
 
 .next
+<<<<<<< HEAD
 .next-dev
+=======
+.next-dev/
+>>>>>>> f3fa2ebde7b89f8e5e36d2cc8071bc5342fb976e
 *.tsbuildinfo

@@ -6,7 +6,7 @@ export const hamptaPassTrek: Trek = {
     title: 'Hampta Pass Trek',
     guideName: 'Pritam Negi',
     guideAvatar: '/assets/pritam-photo-edited.png',
-    price: '₹9,500',
+    price: '₹8,000',
     duration: '5 Days / 4 Nights',
     difficulty: 'Moderate',
     maxAltitude: '14,100 ft',

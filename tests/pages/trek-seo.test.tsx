@@ -5,7 +5,11 @@ import path from 'path';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import SEO from '../../next-seo.config';
-import TrekDetailsPage from '../../pages/destinations/[slug]';
+import TrekDetailsPage, { getStaticPaths, getStaticProps } from '../../pages/destinations/[slug]';
+import GalleryPage, { getStaticPaths as getGalleryPaths, getStaticProps as getGalleryProps } from '../../pages/destinations/[slug]/gallery';
+import { treks } from '@/data/treks';
+import { hamptaPassTrek } from '@/data/treks/hampta-pass';
+import { baraadsarLakeTrek } from '@/data/treks/baraadsar-lake';
 import { useAuth } from '@/context/AuthContext';
 import { sarPassTrek } from '@/data/treks/sar-pass';
 
@@ -61,7 +65,7 @@ describe('trek page SEO', () => {
         const { container } = render(
             <>
                 <DefaultSeo {...SEO} />
-                <TrekDetailsPage />
+                <TrekDetailsPage trek={hamptaPassTrek} />
             </>
         );
 
@@ -87,11 +91,11 @@ describe('trek page SEO', () => {
             push: mockPush,
         } as unknown as ReturnType<typeof useRouter>);
 
-        const { container } = render(<TrekDetailsPage />);
+        const { container } = render(<TrekDetailsPage trek={baraadsarLakeTrek} />);
 
         expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Baraadsar Lake Trek');
         expect(screen.getByRole('heading', { name: 'Kailash Rawat' })).toBeInTheDocument();
-        expect(screen.getAllByText('₹15,999 / person')).not.toHaveLength(0);
+        expect(screen.getAllByText('₹17,500 / person')).not.toHaveLength(0);
         expect(screen.queryByRole('img', { name: 'Baraadsar Lake Trek: photos coming soon' })).not.toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Gallery' })).toBeInTheDocument();
         expect(screen.getByRole('link', { name: /View Full Gallery/ }))
@@ -105,7 +109,7 @@ describe('trek page SEO', () => {
         const product = Array.from(container.querySelectorAll('script[type="application/ld+json"]'))
             .map((script) => JSON.parse(script.textContent || '{}'))
             .find((data) => data['@type'] === 'Product');
-        expect(product.offers.price).toBe('15999');
+        expect(product.offers.price).toBe('17500');
         expect(product.image).toEqual(['https://unchartedtravel.in/assets/images/treks/baraadsar-lake/lake-cover.jpg']);
 
         fireEvent.click(screen.getByRole('button', { name: 'Request This Guide' }));
@@ -114,7 +118,7 @@ describe('trek page SEO', () => {
     });
 
     it('keeps the trek content without a FAQ section or FAQ structured data', () => {
-        const { container } = render(<TrekDetailsPage />);
+        const { container } = render(<TrekDetailsPage trek={hamptaPassTrek} />);
         const structuredData = Array.from(container.querySelectorAll('script[type="application/ld+json"]'))
             .map((script) => JSON.parse(script.textContent || '{}'));
 
@@ -126,6 +130,65 @@ describe('trek page SEO', () => {
         expect(screen.queryByRole('heading', { name: 'Inclusions & Exclusions' })).not.toBeInTheDocument();
         expect(screen.queryByText('Max Altitude')).not.toBeInTheDocument();
         expect(screen.queryByText('Best Time')).not.toBeInTheDocument();
+    });
+
+
+    it.each(treks)('renders $title and its metadata before router hydration', (trek) => {
+        jest.mocked(useRouter).mockReturnValue({
+            query: {},
+            isReady: false,
+            push: mockPush,
+        } as unknown as ReturnType<typeof useRouter>);
+
+        const { container } = render(<TrekDetailsPage trek={trek} />);
+        const url = `https://unchartedtravel.in/destinations/${trek.slug}`;
+        expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(trek.title);
+        expect(screen.getAllByText(trek.price).length).toBeGreaterThan(0);
+        expect(screen.getByText(trek.overview!)).toBeInTheDocument();
+        expect(container.querySelector('link[rel="canonical"]')).toHaveAttribute('href', url);
+        expect(container.querySelector('meta[property="og:url"]')).toHaveAttribute('content', url);
+        expect(container.querySelector('meta[name="description"]')).toHaveAttribute('content', trek.overview!.substring(0, 160));
+        expect(container.querySelector('meta[property="og:image"]')).toHaveAttribute(
+            'content', new URL(trek.image, 'https://unchartedtravel.in').href,
+        );
+        if (trek.itinerary?.length) {
+            expect(screen.getByRole('heading', { name: trek.itinerary[0].title })).toBeInTheDocument();
+        }
+        const product = Array.from(container.querySelectorAll('script[type="application/ld+json"]'))
+            .map(script => JSON.parse(script.textContent || '{}'))
+            .find(data => data['@type'] === 'Product');
+        expect(product.offers.price).toBe(trek.price.replace(/[^0-9.-]+/g, ''));
+    });
+
+    it.each(treks)('renders the $title gallery with its own canonical and sharing metadata', (trek) => {
+        const { container } = render(
+            <>
+                <DefaultSeo {...SEO} />
+                <GalleryPage trek={trek} />
+            </>,
+        );
+        const url = `https://unchartedtravel.in/destinations/${trek.slug}/gallery`;
+        expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(trek.title);
+        expect(container.querySelector('link[rel="canonical"]')).toHaveAttribute('href', url);
+        const ogUrls = container.querySelectorAll('meta[property="og:url"]');
+        expect(ogUrls[ogUrls.length - 1]).toHaveAttribute('content', url);
+        const titles = container.querySelectorAll('title');
+        expect(titles[titles.length - 1].textContent).toBe(`${trek.title} Gallery · Visual Archive | Uncharted Travel`);
+    });
+
+    it.each([
+        ['details', getStaticPaths, getStaticProps],
+        ['gallery', getGalleryPaths, getGalleryProps],
+    ] as const)('prerenders every %s route and rejects unknown slugs', async (_page, paths, props) => {
+        expect(await paths({})).toEqual({
+            paths: treks.map(trek => ({ params: { slug: trek.slug } })),
+            fallback: false,
+        });
+        for (const trek of treks) {
+            expect(await props({ params: { slug: trek.slug } })).toEqual({ props: { trek } });
+        }
+        expect(await props({ params: { slug: 'missing-trek' } })).toEqual({ notFound: true });
+        expect(await props({})).toEqual({ notFound: true });
     });
 
     it('uses an existing local image for the default sharing preview', () => {
@@ -144,7 +207,7 @@ describe('trek page SEO', () => {
             push: mockPush,
         } as unknown as ReturnType<typeof useRouter>);
 
-        render(<TrekDetailsPage />);
+        render(<TrekDetailsPage trek={sarPassTrek} />);
 
         expect(screen.getByRole('heading', { name: 'Local Guides' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: sarPassTrek.guides![0].name })).toBeInTheDocument();
@@ -179,7 +242,7 @@ describe('trek page SEO', () => {
         } as unknown as ReturnType<typeof useRouter>);
         global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => ({ hasEnquired: false }) });
 
-        render(<TrekDetailsPage />);
+        render(<TrekDetailsPage trek={sarPassTrek} />);
 
         const modal = within(await screen.findByRole('dialog'));
         expect(modal.getByRole('heading', { name: title })).toBeInTheDocument();
