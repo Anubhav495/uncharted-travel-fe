@@ -7,7 +7,7 @@ export const harKiDunTrek: Trek = {
     location: 'Sankri, Uttarakhand',
     duration: '5 Days',
     difficulty: 'Moderate',
-    price: '₹4,500',
+    price: '₹8,000',
     image: '/assets/har-ki-dun/6.jpg',
     imagePosition: 'center',
     guideName: 'Kapil Rawat',
