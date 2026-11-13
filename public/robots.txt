@@ -4,6 +4,7 @@ Allow: /
 Disallow: /login
 Disallow: /dashboard
 Disallow: /register/
+Disallow: /compare
 Disallow: /api/
 
 # GPTBot

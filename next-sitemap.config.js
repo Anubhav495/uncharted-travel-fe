@@ -16,7 +16,7 @@ const TREK_SLUGS = [
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://unchartedtravel.in',
   generateRobotsTxt: true,
-  exclude: ['/login', '/dashboard', '/register/*', '/api/*'],
+  exclude: ['/login', '/dashboard', '/register/*', '/compare', '/api/*'],
 
   additionalPaths: async (config) => {
     const result = [];
@@ -35,7 +35,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/login', '/dashboard', '/register/', '/api/'],
+        disallow: ['/login', '/dashboard', '/register/', '/compare', '/api/'],
       },
       // AI / GEO crawlers — explicitly allowed
       { userAgent: 'GPTBot', allow: '/' },
