@@ -16,6 +16,7 @@ const TREK_SLUGS = [
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://unchartedtravel.in',
   generateRobotsTxt: true,
+  generateIndexSitemap: false,
   exclude: ['/login', '/dashboard', '/register/*', '/api/*'],
 
   additionalPaths: async (config) => {
@@ -47,9 +48,6 @@ module.exports = {
       { userAgent: 'Google-Extended', allow: '/' },
       { userAgent: 'Applebot-Extended', allow: '/' },
       { userAgent: 'CCBot', allow: '/' },
-    ],
-    additionalSitemaps: [
-      'https://unchartedtravel.in/sitemap.xml',
     ],
   },
 };
